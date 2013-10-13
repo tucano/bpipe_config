@@ -9,7 +9,7 @@ Bpipe configuration and reporting.
 
 * Gradle templates: https://github.com/townsfolk/gradle-templates
 * JANSI tutorial: http://jameswilliams.be/blog/entry/240
-
+* CSV FILES: http://www.kellyrob99.com/blog/2010/07/01/groovy-and-csv-how-to-get-your-data-out/
 
 ### TEST JAR
 

@@ -17,8 +17,9 @@ import org.apache.commons.cli.Option
 
 class BpipeConfig 
 {
-	final static String version = System.getProperty("bpipeconfig.version")
-    final static String builddate = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
+	final static String sample_sheet_name    = "SampleSheet.csv"
+	final static String version              = System.getProperty("bpipeconfig.version")
+    final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
     final static String[] available_commands = ["config","pipe","info","report","recover"]
 
     // Options CliBuilder vars
@@ -38,6 +39,8 @@ class BpipeConfig
 
     // Pipelines
     public static def pipelines
+    // Samples
+    public static def samples
 
     /**
      * Main Entry Point
@@ -66,7 +69,7 @@ class BpipeConfig
 			h   longOpt: 'help'     , 'Usage Information', required: false
 			v   longOpt: 'verbose'  , 'Verbose mode', required: false
 			p   longOpt: 'pipelines', 'Print a list of available pipelines', required: false
-			'P' longOpt: 'project'  , 'Project name. If not provided will be extracted from SampleSheet in current directory or auto-generated', args: 1, required: false
+			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory or auto-generated', args: 1, required: false
 			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
 		}
 
@@ -76,6 +79,15 @@ class BpipeConfig
 
 		// GET MAP OF PIPELINES
 		pipelines = listPipelines(bpipe_gfu_pipelines_home)
+
+		// GET SampleSheet.csv		
+		samples = slurpSampleSheet("${working_dir}/${sample_sheet_name}")
+		// TODO FIXME FROM HERE
+		println "SAMPLE SHEET ${working_dir}/${sample_sheet_name}"
+		println samples
+
+		// GET OPTIONS: PROJECT NAME
+		project_name = opt.P ? opt.P : projectName()
 
 		// GET OPTIONS: PIPELINES
 		if (opt.p) {
@@ -166,6 +178,48 @@ class BpipeConfig
 	}
 
 	/*
+	 * SAMPLE SHEET
+	 * Return a map of samples or null
+	 * Check presence of SampleSheet and Populate Infos
+	 * FIXME NOW WORK FOR SINGLE FILE WITH HEADER AND SINGLE RAW
+	 */
+	static def slurpSampleSheet(String file_path)
+	{
+		def sample_file = new File(file_path)
+		if ( !sample_file.exists() ) return null
+
+		def samples = []
+
+		// load and split the file
+		List lines = sample_file.readLines()
+
+		// Store headers and remove line
+		String[] headers = lines.remove(0).split(",")
+		
+		
+		// Get samples
+		lines.each { line ->
+			def sample = line.split(",")
+			def sample_map = [:]
+			headers.eachWithIndex { header, i ->
+				sample_map.put(header, sample[i])
+			}
+			samples << sample_map
+		}
+
+		return samples
+	}
+
+	/*
+	 * PROJECT NAME
+	 * Fixme need tests
+	 */
+	static String projectName()
+	{
+		"DUMMY"
+	}
+
+	/*
 	 * LIST PIPELINES
 	 * Fixme need tests (only for null)
 	 */
@@ -213,6 +267,7 @@ class BpipeConfig
 		println()
 		print "\tCommand            = "; println green(command);
 		print "\tWorking Directory  = "; println green(working_dir);
+		print "\tProject Name       = "; println green(project_name);
 		print "\tUsername           = "; println green(user_name);
 		if (user_email)	{
 			print "\tUser email         = "; println green("$user_email");
