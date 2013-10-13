@@ -29,25 +29,29 @@ class BpipeConfig
 
 		//System.properties.each { k, v -> println("$k = $v") }
 		// Test ansi:
-		println printlnBold(versionInfo(version, builddate))
-		println()
+		print bold(versionInfo(version))
+		println "\t${buildInfo(builddate)}"
 	}
 
 
 	/* 
 	 * HELPERS
 	 */
-	static String versionInfo(String version, String builddate)
+	static String versionInfo(String version)
 	{
-		def date = builddate ? new Date(Long.parseLong(builddate)) : null
-		"BpipeConfig GFU Version ${version}. Built on $date"
+		"BpipeConfig GFU Version ${version}"
 	}
 
-	
+	static String buildInfo(String builddate)
+	{
+		def date = builddate ? new Date(Long.parseLong(builddate)) : null
+		"Built on $date"
+	}
+
 	/*
 	 * COLORIZERS
 	 */
-	static org.fusesource.jansi.Ansi printlnBold(String s)
+	static org.fusesource.jansi.Ansi bold(String s)
 	{
 		ansi().a(INTENSITY_BOLD).a(s).reset()
 	}
