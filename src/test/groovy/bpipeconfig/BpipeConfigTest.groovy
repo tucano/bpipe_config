@@ -64,4 +64,9 @@ class BpipeConfigTest
 	{
 		assertFalse(bpipeconfig.validateCommand(null))
 	}
+
+	@Test public void testListPipelinesNull()
+	{
+		assertTrue(bpipeconfig.listPipelines("") == null)
+	}
 }

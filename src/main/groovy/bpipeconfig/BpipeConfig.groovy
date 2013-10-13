@@ -34,6 +34,7 @@ class BpipeConfig
     public static String bpipe_home
     public static String bpipe_gfu_pipelines_home
     public static String java_runtime_version
+    public static String project_name
 
     // Pipelines
     public static def pipelines
@@ -58,14 +59,15 @@ class BpipeConfig
     		header: "\nAvailable options (use -h for help):\n",
     		footer: "\n${versionInfo(version)}, ${buildInfo(builddate)}\n",
     		posix:  true,
-    		width:  120
+    		width:  100
 		)
 
 		cli.with {
-			h longOpt: 'help'     , 'Usage Information', required: false
-			v longOpt: 'verbose'  , 'Verbose mode', required: false 
-			p longOpt: 'pipelines', 'Print a list of available pipelines', required: false
-			m longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
+			h   longOpt: 'help'     , 'Usage Information', required: false
+			v   longOpt: 'verbose'  , 'Verbose mode', required: false
+			p   longOpt: 'pipelines', 'Print a list of available pipelines', required: false
+			'P' longOpt: 'project'  , 'Project name. If not provided will be extracted from SampleSheet in current directory or auto-generated', args: 1, required: false
+			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
 		}
 
 		def opt = cli.parse(args)
@@ -127,23 +129,53 @@ class BpipeConfig
 
         // HEADER
         printVersionAndBuild()
-        // USER OPTIONS
+
+		// COMMAND SWITCH sending extra arguments
+		switch(command) {
+			case "config":
+				configCommand(extraArguments)
+			break
+			case "pipe":
+				
+			break
+			case "info":
+				
+			break
+			case "report":
+				
+			break
+			case "recover":
+				
+			break
+		}
+
+		// USER OPTIONS
         if (verbose) printUserOptions()
         println extraArguments
 
-		// COMMAND SWITCH
-		
 		//System.properties.each { k, v -> println("$k = $v") }
 	}
 
 	/*
-	 * LIST PIPELINES
+	 * COMMANDS
 	 * Fixme need tests
+	 */
+	static void configCommand(String[] args)
+	{
+
+	}
+
+	/*
+	 * LIST PIPELINES
+	 * Fixme need tests (only for null)
 	 */
 	static def listPipelines(String pipelines_root)
 	{
 		def pipelines_location = pipelines_root + "/pipelines"
 		def pipelines_dir = new File(pipelines_location)
+		
+		if (!pipelines_dir.exists()) return null
+
 		def list = []
 		def pattern_title = /about title:\s?"(.*)"/
 		pipelines_dir.eachDir() { dir -> 
