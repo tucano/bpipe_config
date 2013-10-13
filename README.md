@@ -8,6 +8,8 @@ Bpipe configuration and reporting.
 # DEVELOPMENT NOTES
 
 * Gradle templates: https://github.com/townsfolk/gradle-templates
+* JANSI tutorial: http://jameswilliams.be/blog/entry/240
+
 
 ### TEST JAR
 
