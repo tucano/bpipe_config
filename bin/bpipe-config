@@ -56,4 +56,5 @@ java -Xmx${MAX_JAVA_MEM} -classpath "$CP" \
 	-Dbpipeconfig.builddate="$BUILDDATE" \
 	-Dbpipeconfig.home="$BPIPE_CONFIG_HOME" \
 	-Dbpipe.home="$BPIPE_HOME" \
+	-Dbpipe_gfu_pipelines.home="$BPIPE_GFU_PIPELINES_HOME" \
 	bpipeconfig.BpipeConfig $*

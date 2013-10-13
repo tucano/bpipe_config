@@ -49,4 +49,19 @@ class BpipeConfigTest
 	{
 		assertFalse(bpipeconfig.validateEmail(null))
 	}
+
+	@Test public void testValidateCommand()
+	{
+		assertTrue(bpipeconfig.validateCommand("pipe"))
+	}
+
+	@Test public void testValidateCommandInvalid()
+	{
+		assertFalse(bpipeconfig.validateCommand("pipssse"))
+	}
+
+	@Test public void testValidateCommandNull()
+	{
+		assertFalse(bpipeconfig.validateCommand(null))
+	}
 }

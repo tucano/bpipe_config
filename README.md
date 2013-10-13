@@ -27,10 +27,16 @@ java  -cp /usr/local/groovy/embeddable/groovy-all-2.1.7.jar:build/libs/bpipe_con
 
 ### TEST BASH SCRIPT
 
-Stage:
+From devel root dir:
 
 ```
 export BPIPE_CONFIG_HOME=./build/stage/bpipeconfig-0.1 && ./build/stage/bpipeconfig-0.1/bin/bpipe-config
+```
+
+From data dir:
+
+```
+export BPIPE_CONFIG_HOME=../build/stage/bpipeconfig-0.1 && ../build/stage/bpipeconfig-0.1/bin/bpipe-config
 ```
 
 ### SUBLIME
