@@ -13,6 +13,9 @@ class BpipeConfig
 
 	public static void main(String[] args)
 	{
+
+		System.properties.each { k, v -> println("$k = $v") }
+
 		println this.greet(args[0])
 	}
 

@@ -28,18 +28,32 @@ BUILDDATE=0
 # build directory override the jar files. 
 #----------------------------------------------------------
 get_classpath() {
-
-	if [[ -z "$BPIPE_CONFIG_HOME" ]]
-	then
-		echo -e "BPIPE_CONFIG_HOME is unset"
-		exit 1
-	fi
-
 	LIB=lib
 	CP="$BPIPE_CONFIG_HOME"/$LIB/bpipe_config-"$VERSION".jar:"$BPIPE_CONFIG_HOME"/$LIB/groovy-all-2.1.7.jar
 }
 
+# I need this ENV VARS:
+if [[ -z "$BPIPE_CONFIG_HOME" ]]; then
+	echo -e "BPIPE_CONFIG_HOME is unset"
+	exit 1
+fi
+
+if [[ -z "$BPIPE_HOME" ]]; then
+	echo -e "BPIPE_HOME is unset"
+	exit 1	
+fi
+
+if [[ -z "$BPIPE_GFU_PIPELINES_HOME" ]]; then
+	echo -e "BPIPE_GFU_PIPELINES_HOME is unset"
+	exit 1	
+fi
+
 get_classpath
 
 # Runner with args passed ($*)
-java -Xmx${MAX_JAVA_MEM} -classpath "$CP" bpipeconfig.BpipeConfig $*
+java -Xmx${MAX_JAVA_MEM} -classpath "$CP" \
+	-Dbpipeconfig.version="$VERSION" \
+	-Dbpipeconfig.builddate="$BUILDDATE" \
+	-Dbpipeconfig.home="$BPIPE_CONFIG_HOME" \
+	-Dbpipe.home="$BPIPE_HOME" \
+	bpipeconfig.BpipeConfig $*
