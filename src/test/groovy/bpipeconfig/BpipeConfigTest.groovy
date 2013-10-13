@@ -1,3 +1,5 @@
+package bpipeconfig
+
 /***********************************************************************
  * @author      davide Rambaldi <rambaldi.davide@hsr.it>
  * @version     0.1
