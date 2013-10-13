@@ -9,7 +9,9 @@ Bpipe configuration and reporting.
 
 * Gradle templates: https://github.com/townsfolk/gradle-templates
 
-* test jaca compiled run with:
+### TEST JAR
+
+* test java compiled run with:
 
 ```
 java  -cp groovy-all:build/libs/jarfile bpipeconfig.BpipeConfig
@@ -18,7 +20,15 @@ java  -cp groovy-all:build/libs/jarfile bpipeconfig.BpipeConfig
 Example:
 
 ```
-java  -cp /usr/local/groovy/embeddable/groovy-all-2.1.7.jar:build/libs/bpipe-config-0.1.jar bpipeconfig.BpipeConfig
+java  -cp /usr/local/groovy/embeddable/groovy-all-2.1.7.jar:build/libs/bpipe_config.jar bpipeconfig.BpipeConfig
+```
+
+### TEST BASH SCRIPT
+
+Stage:
+
+```
+export BPIPE_CONFIG_HOME=./build/stage/bpipeconfig-0.1 && ./build/stage/bpipeconfig-0.1/bin/bpipe-config
 ```
 
 ### SUBLIME

@@ -1,0 +1,45 @@
+#!/bin/bash
+#----------------------------------------------------------
+#
+# BpipeConfig Runner Script
+#
+# Author:  Davide Rambaldi, rambaldi.davide@hsr.it
+#----------------------------------------------------------
+
+# Version of BpipeConfig - this should be 0.0.0 in the source tree,
+# it will be replaced by the build script at build time
+VERSION=0.0.0
+
+# Build date as an integer (unix epoch time)
+# This should be 0 in the source tree, 
+# it will be replaced by the build script at build time
+BUILDDATE=0
+
+# Default memory used
+# Mainly here to limit memory on systems with very large memory
+# as otherwise Java can default to extreme amounts (gigabytes)
+: ${MAX_JAVA_MEM:="256m"}
+
+#----------------------------------------------------------
+# Compute a classpath for running the Bpipe Java process
+# This path takes into account OS (so Cygwin gets a Windows
+# style path) and also recognizes when you are running in-situ
+# in the development tree so it will let classes from the
+# build directory override the jar files. 
+#----------------------------------------------------------
+get_classpath() {
+
+	if [[ -z "$BPIPE_CONFIG_HOME" ]]
+	then
+		echo -e "BPIPE_CONFIG_HOME is unset"
+		exit 1
+	fi
+
+	LIB=lib
+	CP="$BPIPE_CONFIG_HOME"/$LIB/bpipe_config-"$VERSION".jar:"$BPIPE_CONFIG_HOME"/$LIB/groovy-all-2.1.7.jar
+}
+
+get_classpath
+
+# Runner with args passed ($*)
+java -Xmx${MAX_JAVA_MEM} -classpath "$CP" bpipeconfig.BpipeConfig $*

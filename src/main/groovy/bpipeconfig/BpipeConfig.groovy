@@ -13,7 +13,7 @@ class BpipeConfig
 
 	public static void main(String[] args)
 	{
-		println this.greet()
+		println this.greet(args[0])
 	}
 
 	static String greet(String name)
