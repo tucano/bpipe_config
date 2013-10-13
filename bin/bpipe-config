@@ -29,7 +29,7 @@ BUILDDATE=0
 #----------------------------------------------------------
 get_classpath() {
 	LIB=lib
-	CP="$BPIPE_CONFIG_HOME"/$LIB/bpipe_config-"$VERSION".jar:"$BPIPE_CONFIG_HOME"/$LIB/groovy-all-2.1.7.jar
+	CP="$BPIPE_CONFIG_HOME"/$LIB/bpipe_config-"$VERSION".jar:"$BPIPE_CONFIG_HOME"/$LIB/groovy-all-2.1.7.jar:"$BPIPE_CONFIG_HOME"/$LIB/jansi-1.11.jar
 }
 
 # I need this ENV VARS:

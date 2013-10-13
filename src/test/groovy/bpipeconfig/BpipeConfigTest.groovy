@@ -15,13 +15,13 @@ class BpipeConfigTest
 {
 	final BpipeConfig bpipeconfig = new BpipeConfig()
 
-	@Test public void testGreet() 
+	@Test public void testVersionInfoNull()
 	{
-		assertEquals("Hello mrhaki. Greeting from Groovy.", bpipeconfig.greet("mrhaki"))
+		assertEquals("BpipeConfig GFU Version null. Built on null", bpipeconfig.versionInfo(null, null))	
 	}
 
-	@Test public void testGreetNull() 
+	@Test public void testVersionInfo()
 	{
-		assertEquals("Hello stranger. Greeting from Groovy.", bpipeconfig.greet(null))
+		assertEquals("BpipeConfig GFU Version 1.0. Built on Sun Oct 13 15:52:49 CEST 2013", bpipeconfig.versionInfo("1.0", "1381672369681"))	
 	}
 }
