@@ -57,7 +57,8 @@ class BpipeConfig
 			usage: "bpipe-config [options] [config|pipe|info|report|recover] [pipeline_name|*.groovy|dirs]",
     		header: "\nAvailable options (use -h for help):\n",
     		footer: "\n${versionInfo(version)}, ${buildInfo(builddate)}\n",
-    		posix:  true
+    		posix:  true,
+    		width:  120
 		)
 
 		cli.with {
