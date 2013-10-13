@@ -9,10 +9,14 @@ apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templat
  * 
  */
 
+version = "0.1"
+archivesBaseName = 'bpipe-config'
+
 repositories {
     mavenCentral()
 }
 
+// The script is all Groovy, so we make use of all methods and features.
 dependencies {
     compile 'org.codehaus.groovy:groovy-all:2.1.7'
     testCompile 'junit:junit:4.11'
