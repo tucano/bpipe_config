@@ -1,4 +1,6 @@
 apply plugin: 'groovy'
+apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templates/apply.groovy'
+
 /*
  * BPIPE CONFIG BUILD SCRIPT
  * 
@@ -7,6 +9,11 @@ apply plugin: 'groovy'
  * 
  */
 
-apply plugin: 'groovy'
-apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templates/apply.groovy'
+repositories {
+    mavenCentral()
+}
 
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.1.7'
+    testCompile 'junit:junit:4.11'
+}
