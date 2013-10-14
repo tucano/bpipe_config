@@ -3,6 +3,9 @@
 # PRIVATE FILES
 config/email_notifier.groovy
 
+# TEST dir
+data/
+
 # GRADLE: Output directories
 build/
 .gradle/
