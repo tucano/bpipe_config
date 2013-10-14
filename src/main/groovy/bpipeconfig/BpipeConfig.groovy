@@ -20,7 +20,7 @@ class BpipeConfig
 	final static String sample_sheet_name    = "SampleSheet.csv"
 	final static String version              = System.getProperty("bpipeconfig.version")
     final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
-    final static String[] available_commands = ["config","pipe","info","report","recover"]
+    final static String[] available_commands = ["config","pipe","info","clean","report","recover"]
 
     // Options CliBuilder vars
     public static String  user_email
@@ -68,7 +68,7 @@ class BpipeConfig
 		email_config = new ConfigSlurper().parse(config_email_file.text)
 
 		def cli = new CliBuilder(
-			usage: "bpipe-config [options] [config|pipe|info|report|recover] [pipeline_name|*.groovy|dirs]",
+			usage: "bpipe-config [options] [config|pipe|info|clean|report|recover] [pipeline_name|*.groovy|dirs]",
     		header: "\nAvailable options (use -h for help):\n",
     		footer: "\n${versionInfo(version)}, ${buildInfo(builddate)}\n",
     		posix:  true,
@@ -172,6 +172,9 @@ class BpipeConfig
 			break
 			case "info":
 				
+			break
+			case "clean":
+
 			break
 			case "report":
 				
@@ -488,11 +491,12 @@ class BpipeConfig
 	static void printHelpCommands()
 	{
 		println bold("\nAvailable Commands:\n")
-		print bold("config ");print "[dir1] [dir2] ...                 "; println green("\tConfigure current directory or directories in list (add bpipe.config file)");
-		print bold("pipe   ");print "<pipeline name> [dir1] [dir2]     "; println green("\tGenerate pipeline file in current directory or directories in list (pipeline.groovy)");
-		print bold("info   ");print "<pipeline name>                   "; println green("\tGet info on pipeline stages");
-		print bold("report ");print "<pipe1.groovy> <pipe2.groovy> ... "; println green("\tGenerate reports for pipeline.groovy files");
-		print bold("recover");print "                                  "; println green("\tRecover log files from .bpipe in current dir (jobs IDs and output file names)");
+		print bold("config ");print "[dir1] [dir2] ...                 "; println green("\tConfigure current directory or directories in list (add bpipe.config file).");
+		print bold("pipe   ");print "<pipeline name> [dir1] [dir2]     "; println green("\tGenerate pipeline file in current directory or directories in list (pipeline.groovy).");
+		print bold("info   ");print "<pipeline name>                   "; println green("\tGet info on pipeline stages.");
+		print bold("clean  ");print "                                  "; println green("\tClean all: intermediate files, bpipe.config file, gfu_environment files, bpipe directories.");
+		print bold("report ");print "<pipe1.groovy> <pipe2.groovy> ... "; println green("\tGenerate reports for pipeline.groovy files.");
+		print bold("recover");print "                                  "; println green("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).");
 		print "\nUse: "; print green("bpipe-config info <pipeline name>"); println " to get info on a pipeline."
 	}
 
