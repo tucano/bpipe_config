@@ -78,7 +78,7 @@ class BpipeConfigTest
 	@Test public void testListPipelines()
 	{
 		def pipelines_root = "~/Documents/Devel/Code/bpipe_gfu_pipelines/pipelines"
-		assertTrue(bpipeconfig.listPipelines(pipelines_root) == null)
+		assertTrue(bpipeconfig.listPipelines(pipelines_root) != null)
 	}
 
 	@Test public void testSlurpSampleSheet()
