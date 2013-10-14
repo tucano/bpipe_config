@@ -34,11 +34,16 @@ task stage(dependsOn: jar) << {
 	ant.mkdir(dir: "$project.STAGE/bin")
 	ant.mkdir(dir: "$project.STAGE/lib")
   ant.mkdir(dir: "$project.STAGE/templates")
+  ant.mkdir(dir: "$project.STAGE/config")
+
 	ant.copy(todir: "$project.STAGE/bin") {
     	ant.fileset(dir: 'bin', includes: "**")
   }
   ant.copy(todir: "$project.STAGE/templates") {
     ant.fileset(dir: 'templates', includes: "**")
+  }
+  ant.copy(todir: "$project.STAGE/config") {
+    ant.fileset(dir: 'config', includes: "**")
   }
 
 	new File(STAGE+'/bin/bpipe-config').text = 

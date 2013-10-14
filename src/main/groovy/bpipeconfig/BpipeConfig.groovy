@@ -12,8 +12,8 @@ import org.fusesource.jansi.AnsiConsole
 import static org.fusesource.jansi.Ansi.*
 import static org.fusesource.jansi.Ansi.Color.*
 import static org.fusesource.jansi.Ansi.Attribute.*
-
 import org.apache.commons.cli.Option
+import groovy.text.SimpleTemplateEngine
 
 class BpipeConfig 
 {
@@ -33,6 +33,7 @@ class BpipeConfig
     public static String user_name
     public static String working_dir
     public static String bpipe_home
+    public static String bpipe_config_home
     public static String bpipe_gfu_pipelines_home
     public static String java_runtime_version
     public static String project_name
@@ -41,6 +42,8 @@ class BpipeConfig
     public static def pipelines
     // Samples
     public static def samples
+    // Config
+    public static def email_config
 
     /**
      * Main Entry Point
@@ -54,8 +57,24 @@ class BpipeConfig
 		working_dir              = System.getProperty("user.dir")
 		user_name                = System.getProperty("user.name")
 		bpipe_home               = System.getProperty("bpipe.home")
+		bpipe_config_home        = System.getProperty("bpipeconfig.home")
 		bpipe_gfu_pipelines_home = System.getProperty("bpipe_gfu_pipelines.home")
 		java_runtime_version     = System.getProperty("java.runtime.version")
+
+		// LOAD CONFIG FILE
+		def config_email_file = new File("${bpipe_config_home}/config/email_notifier.groovy")
+
+		if (config_email_file.exists())
+		{
+			email_config = new ConfigSlurper().parse(config_email_file.text)	
+		}
+		else
+		{
+			printVersionAndBuild()
+			println()
+			println red("Can''t find email configuration file: ${config_email_file.getPath()} ")
+			System.exit(1)
+		}
 
 		def cli = new CliBuilder(
 			usage: "bpipe-config [options] [config|pipe|info|report|recover] [pipeline_name|*.groovy|dirs]",
@@ -143,6 +162,7 @@ class BpipeConfig
 
         // HEADER
         printVersionAndBuild()
+        println()
 
 		// COMMAND SWITCH sending extra arguments
 		switch(command) {
@@ -182,14 +202,63 @@ class BpipeConfig
 	 */
 	static void configCommand(def args)
 	{
+		// Load config template
+		def file = new File("${bpipe_config_home}/templates/bpipe.config.template")
+
+		if ( file.exists() == false )
+		{
+			println()
+			print red("Can't find config template file: $file.getPath() ")
+			System.exit(1)
+		}
+
+		def binding = [ 
+			"executor"                 : "pbspro", 
+			"username"                 : user_name,
+			"queue"                    : "workq",
+			"project_name"             : project_name,
+			"user_email"               : user_email,
+			"bpipe_notifier"           : email_config.bpipe_notifier,
+			"bpipe_notifier_password"  : email_config.bpipe_notifier_password
+		]
+
+		// make template
+		def engine = new SimpleTemplateEngine()
+		def template = engine.createTemplate(file.text).make(binding)
+
+		def write_config = { filename ->
+			File bpipe_config = new File(filename)
+			bpipe_config.write(template.toString())
+		}
+
+		println bold("bpipe.config: ")
+
+		// check if all args are directories
 		if (args)
 		{
-			println "Directories"
+			args.each { path ->
+				def dir = new File(path)
+				if (!dir.exists() || !dir.isDirectory()) {
+					println red("Argument $path is not a directory. Command config require directories or no extra arguments")
+					System.exit(1)
+				}
+			}
+			// we passed check, write configs
+			args.each { dir_path ->
+				write_config("${dir_path}/bpipe.config")
+				println green("Generated bpipe.config file in ${dir_path}")
+			}
 		}
+		// put bpipe.config in working directory
 		else
 		{
-			println "PWD"
+			println green("Generated bpipe.config file in ${working_dir}")
+			write_config("bpipe.config")
 		}
+
+		println bold("\nbpipe.config enviroment:\n")
+		print "executor: ".padLeft(20).padRight(40); println green("pbspro");
+		print "queue: ".padLeft(20).padRight(40); println green("workq");
 	}
 
 	/*
