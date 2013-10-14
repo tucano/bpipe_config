@@ -33,16 +33,21 @@ task stage(dependsOn: jar) << {
 	ant.mkdir(dir: project.STAGE)
 	ant.mkdir(dir: "$project.STAGE/bin")
 	ant.mkdir(dir: "$project.STAGE/lib")
+  ant.mkdir(dir: "$project.STAGE/templates")
 	ant.copy(todir: "$project.STAGE/bin") {
     	ant.fileset(dir: 'bin', includes: "**")
-  	}
-  	new File(STAGE+'/bin/bpipe-config').text = 
-          new File("bin/bpipe-config").text.replaceAll("VERSION=0.0.0","VERSION=$version").replaceAll("BUILDDATE=0","BUILDDATE="+String.valueOf(System.currentTimeMillis()))
+  }
+  ant.copy(todir: "$project.STAGE/templates") {
+    ant.fileset(dir: 'templates', includes: "**")
+  }
 
-    ant.copy(todir: "$project.STAGE/lib") {
-    	ant.fileset(dir: 'local-lib', includes: "*.jar")
-    	ant.fileset(dir: 'build/libs', includes: "bpipe_config-${version}.jar")
-    }  
-    // change permissions in bin
-    ant.chmod( dir: "$project.STAGE/bin", perm: "755", includes: "*")      
+	new File(STAGE+'/bin/bpipe-config').text = 
+        new File("bin/bpipe-config").text.replaceAll("VERSION=0.0.0","VERSION=$version").replaceAll("BUILDDATE=0","BUILDDATE="+String.valueOf(System.currentTimeMillis()))
+
+  ant.copy(todir: "$project.STAGE/lib") {
+  	ant.fileset(dir: 'local-lib', includes: "*.jar")
+  	ant.fileset(dir: 'build/libs', includes: "bpipe_config-${version}.jar")
+  }  
+  // change permissions in bin
+  ant.chmod( dir: "$project.STAGE/bin", perm: "755", includes: "*")      
 }

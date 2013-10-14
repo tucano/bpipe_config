@@ -1,5 +1,8 @@
 # see "https://github.com/github/gitignore"
 
+# PRIVATE FILES
+config/email_notifier.groovy
+
 # GRADLE: Output directories
 build/
 .gradle/

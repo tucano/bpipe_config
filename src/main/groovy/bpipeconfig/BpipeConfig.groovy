@@ -69,7 +69,7 @@ class BpipeConfig
 			h   longOpt: 'help'     , 'Usage Information', required: false
 			v   longOpt: 'verbose'  , 'Verbose mode', required: false
 			p   longOpt: 'pipelines', 'Print a list of available pipelines', required: false
-			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory or auto-generated', args: 1, required: false
+			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
 			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
 		}
 
@@ -82,12 +82,6 @@ class BpipeConfig
 
 		// GET SampleSheet.csv		
 		samples = slurpSampleSheet("${working_dir}/${sample_sheet_name}")
-		// TODO FIXME FROM HERE
-		println "SAMPLE SHEET ${working_dir}/${sample_sheet_name}"
-		println samples
-
-		// GET OPTIONS: PROJECT NAME
-		project_name = opt.P ? opt.P : projectName()
 
 		// GET OPTIONS: PIPELINES
 		if (opt.p) {
@@ -109,6 +103,14 @@ class BpipeConfig
         	println "\n"
         	System.exit(1)
         }
+        // GET OPTIONS: PROJECT NAME
+		if ( projectName(opt.P) == false )
+		{
+			printVersionAndBuild()
+			println()
+			print "Project name "; print red(project_name); println " is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka)"
+			System.exit(1)
+		}
 		// GET OPTIONS: MAIL
 		if (opt.m) {
 			if ( validateEmail(opt.m) ) {
@@ -162,9 +164,15 @@ class BpipeConfig
 		}
 
 		// USER OPTIONS
-        if (verbose) printUserOptions()
-        println extraArguments
+        if (verbose) {
+        	printUserOptions()
+        	printSamples()
+        }
 
+        // TODO FIXME FROM HERE
+        //println extraArguments
+		//println "SAMPLE SHEET ${working_dir}/${sample_sheet_name}"
+		//println samples
 		//System.properties.each { k, v -> println("$k = $v") }
 	}
 
@@ -172,9 +180,16 @@ class BpipeConfig
 	 * COMMANDS
 	 * Fixme need tests
 	 */
-	static void configCommand(String[] args)
+	static void configCommand(def args)
 	{
-
+		if (args)
+		{
+			println "Directories"
+		}
+		else
+		{
+			println "PWD"
+		}
 	}
 
 	/*
@@ -182,6 +197,7 @@ class BpipeConfig
 	 * Return a map of samples or null
 	 * Check presence of SampleSheet and Populate Infos
 	 * FIXME NOW WORK FOR SINGLE FILE WITH HEADER AND SINGLE RAW
+	 * FIXME: Need TESTING
 	 */
 	static def slurpSampleSheet(String file_path)
 	{
@@ -195,7 +211,6 @@ class BpipeConfig
 
 		// Store headers and remove line
 		String[] headers = lines.remove(0).split(",")
-		
 		
 		// Get samples
 		lines.each { line ->
@@ -212,11 +227,25 @@ class BpipeConfig
 
 	/*
 	 * PROJECT NAME
+	 * Get the project name from SampleSheet.csv or generate a random one
 	 * Fixme need tests
 	 */
-	static String projectName()
+	static boolean projectName(def opt)
 	{
-		"DUMMY"
+		def pattern = /([a-zA-Z]+)_([0-9]+)_([a-zA-Z]+)/
+		if (opt)
+		{
+			project_name = opt
+		}
+		else if (samples)
+		{
+			project_name = samples[0]["SampleProject"]
+		}
+		else
+		{
+			project_name = null
+		}
+		return project_name ==~ pattern
 	}
 
 	/*
@@ -258,6 +287,20 @@ class BpipeConfig
 	{
 		print bold(versionInfo(version))
 		println "\t${buildInfo(builddate)}"
+	}
+
+	static void printSamples()
+	{
+		println()
+		println bold("Samples Info: ")
+
+		samples.each { item ->
+			print "\tID: "; print bold("${item["SampleID"]}");
+			print "\tREFERENCE: "; print bold("${item["SampleRef"]}");
+			print "\tDESCRIPTION: "; print bold("${item["Description"]}");
+			print "\tRECIPE: "; print bold("${item["Recipe"]}");
+			println()
+		}
 	}
 
 	static void printUserOptions()

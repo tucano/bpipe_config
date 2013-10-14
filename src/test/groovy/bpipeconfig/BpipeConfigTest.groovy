@@ -69,4 +69,42 @@ class BpipeConfigTest
 	{
 		assertTrue(bpipeconfig.listPipelines("") == null)
 	}
+
+	@Test public void testListPipelinesNullBis()
+	{
+		assertTrue(bpipeconfig.listPipelines("pipes") == null)
+	}
+
+	@Test public void testListPipelines()
+	{
+		def pipelines_root = "~/Documents/Devel/Code/bpipe_gfu_pipelines/pipelines"
+		assertTrue(bpipeconfig.listPipelines(pipelines_root) == null)
+	}
+
+	@Test public void testSlurpSampleSheet()
+	{
+		def sample_sheet = "./data/SampleSheet.csv"
+		assertTrue(bpipeconfig.slurpSampleSheet(sample_sheet) != null)
+	}
+
+	@Test public void testSlurpSampleSheetNull()
+	{
+		def sample_sheet = ""
+		assertTrue(bpipeconfig.slurpSampleSheet(sample_sheet) == null)
+	}
+
+	@Test public void testProjectName()
+	{
+		assertTrue(bpipeconfig.projectName("Banfi_25_Medaka"))
+	}
+
+	@Test public void testProjectNameFalse()
+	{
+		assertFalse(bpipeconfig.projectName("25_Medaka"))
+	}
+
+	@Test public void testProjectNameNull()
+	{
+		assertFalse(bpipeconfig.projectName(null))
+	}
 }
