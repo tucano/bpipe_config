@@ -248,16 +248,9 @@ class BpipeConfig
 		String pipeline_text = new File(pipeline["file_path"]).text
 		String pipeline_filename = "${project_name}_${pipeline["file_name"]}"
 
-		// ADDING VARIABLES TO THE PIPELINE:
-		// 1. PROJECT NAME
-		def pattern = /(?m)PROJECT_NAME\s+=.*/
+		// Get usage info
+		def pattern = /(?m)\/{2}\s*USAGE:(.*)/
 		def matcher = (pipeline_text =~ pattern)
-		pipeline_text = matcher.replaceAll("PROJECT_NAME = \"$project_name\"")
-		// 2. Get usage info
-		pattern = /(?m)\/{2}\s*USAGE:(.*)/
-		matcher = (pipeline_text =~ pattern)
-
-		// GET USAGE
 		def usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'		
 		def binding_usage = [
 			"pipeline_filename" : pipeline_filename
@@ -271,12 +264,23 @@ class BpipeConfig
 		def file_gfu_env = new File("${bpipe_config_home}/templates/gfu_environment.sh.template")
 
 		def binding_gfu_env = [
-		    "project_name" : project_name
+		    "project_name"    : '"' + project_name + '"',
+		    "reference"       : '"' + samples[0]["SampleRef"] + '"',
+		    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
+		    "fcid"            : '"' + samples[0]["FCID"] + '"',
+		    "lane"            : '"' + samples[0]["Lane"] + '"',
+		    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
 		]
 
 		// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
 		def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env)
 		
+		// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
+		pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env.toString() )
+		// Replace reference genome with first sample reference
+		// FIXME What about multi reference in same project? possible?
+		pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
+
 		if (args && args.size > 0) checkDir(args)
 		
 		if ( ! createFile(template_gfu_env.toString(), "gfu_environment.sh", args) ) {
