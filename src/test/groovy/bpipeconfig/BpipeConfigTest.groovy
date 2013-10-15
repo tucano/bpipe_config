@@ -9,6 +9,7 @@ package bpipeconfig
  ***********************************************************************/
 
 import org.junit.Test
+import org.junit.Ignore
 import static org.junit.Assert.*
 
 class BpipeConfigTest
@@ -75,7 +76,7 @@ class BpipeConfigTest
 		assertTrue(bpipeconfig.listPipelines("pipes") == null)
 	}
 
-	@Test public void testListPipelines()
+	@Ignore("not ready yet") @Test public void testListPipelines()
 	{
 		def pipelines_root = "~/Documents/Devel/Code/bpipe_gfu_pipelines/pipelines"
 		assertTrue(bpipeconfig.listPipelines(pipelines_root) != null)
@@ -106,5 +107,55 @@ class BpipeConfigTest
 	@Test public void testProjectNameNull()
 	{
 		assertFalse(bpipeconfig.projectName(null))
+	}
+
+	@Test public void testWrapNull()
+	{
+		assertTrue(bpipeconfig.wrap(null) == null)
+	}
+
+	@Test public void testWrapEmpty()
+	{
+		assertTrue(bpipeconfig.wrap("") == "")
+	}
+
+	@Test public void testWrapSmall()
+	{
+		assertEquals("pippo", bpipeconfig.wrap("pippo"))
+	}
+
+	@Test public void testWrapBig()
+	{
+		assertEquals("I love to\ncode in\nGroovy!", bpipeconfig.wrap("I love to code in Groovy!", 10))	
+	}
+
+	@Test public void testWrapBigWord()
+	{
+		assertEquals("Supe\nrmeg\nalon\ngwor\nd", bpipeconfig.wrap("Supermegalongword", 4))	
+	}
+
+	@Test public void testCreateFileNull()
+	{
+		assertTrue( bpipeconfig.createFile(null, null, null) == false )
+	}
+
+	@Test public void testCreateFileEmpty()
+	{
+		assertTrue( bpipeconfig.createFile("", null, null) == false )
+	}
+
+	@Test public void testCreateFileNameEmpty()
+	{
+		assertTrue( bpipeconfig.createFile("pippo", null, null) == false )
+	}
+
+	@Test public void testCreateFileNameSuccess()
+	{
+		assertTrue( bpipeconfig.createFile("pippo", "pippo.txt", null) == true )
+	}
+
+	@Ignore("not ready yet") @Test public void testCreateFileNameDirectories()
+	{
+
 	}
 }

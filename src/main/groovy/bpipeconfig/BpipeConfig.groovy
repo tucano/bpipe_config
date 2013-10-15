@@ -46,6 +46,8 @@ class BpipeConfig
     public static def samples
     // Config
     public static def email_config
+    //TEMPLATE ENGINE
+    public static def engine = new SimpleTemplateEngine()
 
     /**
      * Main Entry Point
@@ -100,7 +102,7 @@ class BpipeConfig
 			println bold("\nListing Pipelines:\n")
 			// println pipelines simply formatted
 			pipelines.each { pipeline ->
-				print "${ bold(pipeline["name"]) }".padRight(40);println " --> ${ green(pipeline["about_title"]) }";
+				print "${ bold(pipeline["name"]) } ".padRight(40, "-");println "--> ${ green(pipeline["about_title"]) }";
 			}
 			println "\n\n"
 			printHelpCommands()
@@ -211,56 +213,12 @@ class BpipeConfig
 		]
 
 		// make templates
-		def engine = new SimpleTemplateEngine()
 		def template_config  = engine.createTemplate(file_config.text).make(binding_config)
 
-		def write_config = { file ->
-			file.write(template_config.toString())
-		}
+		if (args && args.size > 0) checkDir(args)
 
-		// check if all args are directories
-		if (args)
-		{
-			args.each { path ->
-				def dir = new File(path)
-				if (!dir.exists() || !dir.isDirectory()) {
-					println red("Argument $path is not a directory. Command config require directories or no extra arguments")
-					System.exit(1)
-				}
-			}
-			// we passed check, write configs in each sub dir
-			// check for existing files and overwirite or exit according to force
-			args.each { dir_path ->
-				// CONFIG FILE
-				def bpipe_config_file = new File("${dir_path}/bpipe.config")
-				if ( bpipe_config_file.exists() ) {
-					if (force) {
-						println red("File $bpipe_config_file already exists. Overwriting ...")
-						write_config(bpipe_config_file)
-					} else {
-						println red("File $bpipe_config_file already exists. Skipping ...")
-					}
-				} else {
-					write_config(bpipe_config_file)
-					println green("Created file: $bpipe_config_file")
-				}
-			}
-		}
-		// put bpipe.config in working dirs
-		else
-		{
-			def bpipe_config_file = new File("bpipe.config")
-			if ( bpipe_config_file.exists() ) {
-				if (force) {
-					println red("File $bpipe_config_file already exists. Overwriting ...")
-					write_config(bpipe_config_file)
-				} else {
-					println red("File $bpipe_config_file already exists. Skipping ...")
-				}
-			} else {
-				write_config(bpipe_config_file)
-				println green("Created file: $bpipe_config_file")
-			}
+		if ( ! createFile(template_config.toString(), "bpipe.config", args) ) {
+			println red("Problems creating bpipe.config files!")
 		}
 	}
 
@@ -288,79 +246,109 @@ class BpipeConfig
 
 		// SOURCING PIPELINE and make some changes
 		String pipeline_text = new File(pipeline["file_path"]).text
-		
-		// ADDING VARIABLES TO THE PIPELINE 
+		String pipeline_filename = "${project_name}_${pipeline["file_name"]}"
+
+		// ADDING VARIABLES TO THE PIPELINE:
+		// 1. PROJECT NAME
 		def pattern = /(?m)PROJECT_NAME\s+=.*/
 		def matcher = (pipeline_text =~ pattern)
 		pipeline_text = matcher.replaceAll("PROJECT_NAME = \"$project_name\"")
+		// 2. Get usage info
+		pattern = /(?m)\/{2}\s*USAGE:(.*)/
+		matcher = (pipeline_text =~ pattern)
+
+		def usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
+		
+		def binding_usage = [
+			"pipeline_filename" : pipeline_filename
+		]
+
+		usage = engine.createTemplate(usage).make(binding_usage)
 
 		// COPY PIPELINE AND GFU_ENVIRONMENT
 		def file_gfu_env = new File("${bpipe_config_home}/templates/gfu_environment.sh.template")
 
 		def binding_gfu_env = [
-		    "project_name"             : project_name
+		    "project_name" : project_name
 		]
 
 		// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
-		def engine = new SimpleTemplateEngine()
 		def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env)
-		def write_gfu_environment = { file ->
-    		file.write(template_gfu_env.toString())
+		
+		if (args && args.size > 0) checkDir(args)
+		
+		if ( ! createFile(template_gfu_env.toString(), "gfu_environment.sh", args) ) {
+			println red("Problems creating gfu_environment.sh files!")
 		}
 
-		// MULTIPLE DIRS if we have more args they must be directories
-		if (args.size > 0) {
-			args.each { path ->
-				def dir = new File(path)
-				if (!dir.exists() || !dir.isDirectory()) {
-					println red("Argument $path is not a directory. Command pipe requirea pipeline name and a list of directories or no extra arguments")
-					System.exit(1)
-				}
-			}
-			args.each { dir_path ->
-				// generate config if needed
-				if ( ! new File("${dir_path}/bpipe.config").exists() ) configCommand( [dir_path] )
-				def env_file = new File("${dir_path}/gfu_environment.sh")
-				if ( env_file.exists() ) {
-				    if (force) {
-				        println red("File $env_file already exists. Overwriting ...")
-				        write_gfu_environment(env_file)
-				    } else {
-				        println red("File $env_file already exists. Skipping ...")
-				    }
-				} else {
-				    write_gfu_environment(env_file)
-				    println green("Created file: $env_file")
-				}
-				new File("$dir_path/${project_name}_${pipeline["file_name"]}").write(pipeline_text)
-				println green("${pipeline["name"]} installed in dir ${dir_path}")
-			}
-			println greenbold("Now run: <pipeline command HERE> ")
+		if ( ! createFile(pipeline_text, pipeline_filename, args) ) {
+			println red("Problems creating pipeline file $pipeline_filename!")	
+		}
+
+		// DIRS are already checked here, then:
+		if (args) { 
+			// generate a convenience script in current directory
+			File runner = new File("runner.sh")
+			String content = """
+				for i in ${args.join(" ")}
+				do
+					cd \$i
+					$usage
+					cd ..
+				done
+			""".stripIndent().trim()
+			runner.write(content)
+			println "I create a runner script for your directories. Run with: "
+			println greenbold("bash runner.sh")			
 		} else {
-			// generate config if needed
-			if ( ! new File("bpipe.config").exists() ) configCommand(false)
-
-			new File("${project_name}_${pipeline["file_name"]}").write(pipeline_text)
-			println green("Pipeline ${pipeline["name"]} installed in dir ${working_dir}")
-
-			def env_file = new File("gfu_environment.sh")
-			if ( env_file.exists() ) {
-			    if (force) {
-			        println red("File $env_file already exists. Overwriting ...")
-			        write_gfu_environment(env_file)
-			    } else {
-			        println red("File $env_file already exists. Skipping ...")
-			    }
-			} else {
-			    write_gfu_environment(env_file)
-			    println green("Created file: $env_file")
-			}
-			println greenbold("Now run: <pipeline command HERE> ")
+			println "Now run: "
+			println greenbold("$usage") 
 		}
 	}
 
 	/*
-	 * SAMPLE SHEET
+	 * GENERATE N FILES FROM TEMPLATE
+	 */
+	static boolean createFile(String text, String filename, def args)
+	{
+		if (text == null || text.empty || filename == null) return false
+
+		// closure to write file
+		def write_file = { file ->
+			file.write(text)
+		}
+		// closure to check and write file
+		def check_and_write_file = { file ->
+			if ( file.exists() ) {
+				if (force) {
+					println red("File $file already exists. Overwriting ...")
+					write_file(file)
+				} else {
+					println red("File $file already exists. Skipping ...")
+				}
+			} else {
+				write_file(file)
+				println green("Created file: $file")
+			}
+		}
+		// DIRECTORIES
+		if (args) {
+			// we passed check, write configs in each sub dir
+			// check for existing files and overwirite or exit according to force
+			args.each { dir_path ->
+				def new_file = new File("${dir_path}/$filename")
+				check_and_write_file(new_file)
+			}
+		} else {
+			def new_file = new File("$filename")
+			check_and_write_file(new_file)
+		}
+		// If I am here, success
+		return true
+	}
+
+	/*
+	 * SLURP SAMPLE SHEET
 	 * Return a map of samples or null
 	 * Check presence of SampleSheet and Populate Infos
 	 * FIXME NOW WORK FOR SINGLE FILE WITH HEADER AND SINGLE RAW
@@ -490,14 +478,16 @@ class BpipeConfig
 
 	static void printHelpCommands()
 	{
-		println bold("\nAvailable Commands:\n")
-		print bold("config ");print "[dir1] [dir2] ...                 "; println green("\tConfigure current directory or directories in list (add bpipe.config file).");
-		print bold("pipe   ");print "<pipeline name> [dir1] [dir2]     "; println green("\tGenerate pipeline file in current directory or directories in list (pipeline.groovy).");
-		print bold("info   ");print "<pipeline name>                   "; println green("\tGet info on pipeline stages.");
-		print bold("clean  ");print "                                  "; println green("\tClean all: intermediate files, bpipe.config file, gfu_environment files, bpipe directories.");
-		print bold("report ");print "<pipe1.groovy> <pipe2.groovy> ... "; println green("\tGenerate reports for pipeline.groovy files.");
-		print bold("recover");print "                                  "; println green("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).");
-		print "\nUse: "; print green("bpipe-config info <pipeline name>"); println " to get info on a pipeline."
+		def out = new StringBuffer()
+		out << bold("\nAvailable Commands:\n")
+		out << bold("config".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) << green("\tConfigure current directory or directories in list (add bpipe.config file).") << "\n"
+		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40) << green("\tGenerate pipeline file in current directory or directories in list (pipeline.groovy)") << "\n"
+		out << bold("info".padRight(10)) << "<pipeline name> ... ".padLeft(15).padRight(40) << green("\tGet info on pipeline stages.") << "\n"
+		out << bold("clean".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) << green("\tClean all in current working directory or in directory list: intermediate files, bpipe.config file, gfu_environment files, bpipe directories.") << "\n"
+		out << bold("report".padRight(10)) << "<pipe1.groovy> <pipe2.groovy> ... ".padLeft(15).padRight(40) << green("\tGenerate reports for pipeline.groovy files.") << "\n"
+		out << bold("recover".padRight(10)) << " ".padLeft(15).padRight(40) << green("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).") << "\n"
+		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to get info on a pipeline.\n"
+		print out.toString()
 	}
 
 	/* 
@@ -525,6 +515,46 @@ class BpipeConfig
 		!available_commands.grep(command).empty
 	}
 
+	static String wrap(String text, int columns = 80)
+	{
+		if ( text == null ) return null
+		if ( text.empty ) return ""
+		String result = ""
+		String line = ""
+		text.split(" ").each { word ->
+			if (word.length() > columns) {
+				def part = word.substring(0, columns - line.length())
+				line += part
+				word = word.substring(part.length())
+			}
+			if (line.length() + word.length() > columns) {
+				result += line.trim() + "\n"
+				line = ""
+			}
+			while (word.length() > columns) {
+				result += word.substring(0, columns) + "\n"
+				word = word.substring(columns)
+			}
+			line += word + " "
+		}
+		result += line.trim()
+		result
+	}
+
+	static void checkDir(def args)
+	{
+		// check if all args are directories
+		if (args)
+		{
+			args.each { path ->
+				def dir = new File(path)
+				if (!dir.exists() || !dir.isDirectory()) {
+					println red("Argument $path is not a directory. Command config require directories or no extra arguments")
+					System.exit(1)
+				}
+			}
+		}
+	}
 	/*
 	 * COLORIZERS
 	 */

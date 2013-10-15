@@ -4,6 +4,9 @@
 config/email_notifier.groovy
 
 # DATA dir
+data/*.groovy
+data/*.sh
+data/*.config
 data/Sample_*/*.groovy
 data/Sample_*/*.sh
 data/Sample_*/*.config
