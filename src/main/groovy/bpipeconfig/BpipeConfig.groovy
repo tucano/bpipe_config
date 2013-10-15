@@ -257,13 +257,15 @@ class BpipeConfig
 		pattern = /(?m)\/{2}\s*USAGE:(.*)/
 		matcher = (pipeline_text =~ pattern)
 
-		def usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
-		
+		// GET USAGE
+		def usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'		
 		def binding_usage = [
 			"pipeline_filename" : pipeline_filename
 		]
-
 		usage = engine.createTemplate(usage).make(binding_usage)
+
+		// CHECK FOR CONFIG FILES (bpipe.config) and create if needed
+		checkBpipeConfig(args)
 
 		// COPY PIPELINE AND GFU_ENVIRONMENT
 		def file_gfu_env = new File("${bpipe_config_home}/templates/gfu_environment.sh.template")
@@ -345,6 +347,21 @@ class BpipeConfig
 		}
 		// If I am here, success
 		return true
+	}
+
+	/*
+	 * Check for bpipe config in dir
+	 */
+	static void checkBpipeConfig(def args)
+	{
+		// DIRECTORIES
+		if (args) {
+			args.each { dir_path ->
+				if (new File("${dir_path}/bpipe.config").exists() == false) configCommand([dir_path])
+			}
+		} else {
+			if (new File("bpipe.config").exists() == false) configCommand()
+		}
 	}
 
 	/*

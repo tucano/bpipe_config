@@ -149,7 +149,7 @@ class BpipeConfigTest
 		assertTrue( bpipeconfig.createFile("pippo", null, null) == false )
 	}
 
-	@Test public void testCreateFileNameSuccess()
+	@Ignore("not ready yet, this create file pollution") @Test public void testCreateFileNameSuccess()
 	{
 		assertTrue( bpipeconfig.createFile("pippo", "pippo.txt", null) == true )
 	}
