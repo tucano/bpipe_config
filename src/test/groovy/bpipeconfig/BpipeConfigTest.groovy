@@ -134,6 +134,11 @@ class BpipeConfigTest
 		assertEquals("Supe\nrmeg\nalon\ngwor\nd", bpipeconfig.wrap("Supermegalongword", 4))	
 	}
 
+	@Test public void testWrapBigWithPad()
+	{
+		assertEquals("I love to\n          code in\n          Groovy!", bpipeconfig.wrap("I love to code in Groovy!", 10, 10))	
+	}
+
 	@Test public void testCreateFileNull()
 	{
 		assertTrue( bpipeconfig.createFile(null, null, null) == false )

@@ -20,7 +20,7 @@ class BpipeConfig
 	final static String sample_sheet_name    = "SampleSheet.csv"
 	final static String version              = System.getProperty("bpipeconfig.version")
     final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
-    final static String[] available_commands = ["config","pipe","info","clean","report","recover"]
+    final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover"]
 
     // Options CliBuilder vars
     public static String  user_email
@@ -67,16 +67,20 @@ class BpipeConfig
 
 		// LOAD CONFIG FILE
 		def config_email_file = new File("${bpipe_config_home}/config/email_notifier.groovy")
-		email_config = new ConfigSlurper().parse(config_email_file.text)
+		if (config_email_file.exists()) {
+			email_config = new ConfigSlurper().parse(config_email_file.text)
+		} else {
+			println red("Cant' find ${bpipe_config_home}/config/email_notifier.groovy file!")
+		} 
 
+		// CLI
 		def cli = new CliBuilder(
-			usage: "bpipe-config [options] [config|pipe|info|clean|report|recover] [pipeline_name|*.groovy|dirs]",
+			usage: "bpipe-config [options] [config|sheet|pipe|info|clean|report|recover] [pipeline_name|*.groovy|dirs]",
     		header: "\nAvailable options (use -h for help):\n",
     		footer: "\n${versionInfo(version)}, ${buildInfo(builddate)}\n",
     		posix:  true,
     		width:  100
 		)
-
 		cli.with {
 			h   longOpt: 'help'     , 'Usage Information', required: false
 			v   longOpt: 'verbose'  , 'Verbose mode', required: false
@@ -85,17 +89,12 @@ class BpipeConfig
 			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
 			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
 		}
-
 		def opt = cli.parse(args)
-
 		if ( !opt ) System.exit(1)
 
 		// GET MAP OF PIPELINES
 		pipelines = listPipelines(bpipe_gfu_pipelines_home)
-
-		// GET SampleSheet.csv		
-		samples = slurpSampleSheet("${working_dir}/${sample_sheet_name}")
-
+		
 		// GET OPTIONS: PIPELINES
 		if (opt.p) {
 			printVersionAndBuild()
@@ -109,6 +108,7 @@ class BpipeConfig
 			println "\n"
 			System.exit(0)
 		}
+
 		// GET OPTIONS: HELP or USAGE (NO ARGUMENTS)
         if ( opt.h || !opt.arguments() ) {
         	cli.usage()
@@ -116,14 +116,7 @@ class BpipeConfig
         	println "\n"
         	System.exit(1)
         }
-        // GET OPTIONS: PROJECT NAME
-		if ( projectName(opt.P) == false )
-		{
-			printVersionAndBuild()
-			println()
-			print "Project name "; print red(project_name); println " is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka)"
-			System.exit(1)
-		}
+
 		// GET OPTIONS: MAIL
 		if (opt.m) {
 			if ( validateEmail(opt.m) ) {
@@ -145,7 +138,6 @@ class BpipeConfig
 		def extraArguments = opt.arguments()
 		command = extraArguments.remove(0)
 		
-
 		// Validate Command
 		if (!validateCommand(command)) {
 			printVersionAndBuild()
@@ -156,18 +148,39 @@ class BpipeConfig
 			System.exit(1)
 		}
 
+		// GET SampleSheet.csv	SKIP if command is sheet	
+		if (new File("${working_dir}/${sample_sheet_name}").exists() == false && command != "sheet") {
+			println red("Can't find SampleSheet.csv in $working_dir.")
+			print "You can generate a SampleSheet.csv with the command: "; println red("sheet")
+			System.exit(1)
+		}
+		
+		samples = slurpSampleSheet("${working_dir}/${sample_sheet_name}")
+		
+		// GET OPTIONS: PROJECT NAME, skip if command is sheet
+		if ( projectName(opt.P) == false && command != "sheet")
+		{
+			printVersionAndBuild()
+			println()
+			print "Project name "; print red(project_name); println " is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka)"
+			System.exit(1)
+		}
+
         // HEADER
         printVersionAndBuild()
         println()
 
         // USER OPTIONS
         printUserOptions()
-        printSamples()
+        if (command != "sheet") printSamples()
 
 		// COMMAND SWITCH sending extra arguments
 		switch(command) {
 			case "config":
 				configCommand(extraArguments)
+			break
+			case "sheet":
+				sheetCommand(extraArguments)
 			break
 			case "pipe":
 				pipeCommand(extraArguments)
@@ -208,8 +221,8 @@ class BpipeConfig
 			"queue"                    : "workq",
 			"project_name"             : project_name,
 			"user_email"               : user_email,
-			"bpipe_notifier"           : email_config.bpipe_notifier,
-			"bpipe_notifier_password"  : email_config.bpipe_notifier_password
+			"bpipe_notifier"           : email_config?.bpipe_notifier,
+			"bpipe_notifier_password"  : email_config?.bpipe_notifier_password
 		]
 
 		// make templates
@@ -221,6 +234,27 @@ class BpipeConfig
 			println red("Problems creating bpipe.config files!")
 		}
 	}
+
+	/*
+	 * SHEET COMMAND: create SampleSheet.csv
+	 */
+	static void sheetCommand(def args)
+	{
+		def info = []
+		def header = []
+		def sample_info = args.remove(0)
+		sample_info.split(",").each { item ->
+		    def terms = item.split("=")
+		    header.push terms[0]
+		    info.push terms[1]
+		}
+		def out = new StringBuffer()
+		out << header.join(",") << "\n" << info.join(",")
+
+		if ( ! createFile(out.toString(), "SampleSheet.csv", args) ) {
+			println red("Problems creating SampleSheet.csv files!")
+		}
+	} 
 
 	/*
 	 * COMMAND PIPE: create pipeline
@@ -501,13 +535,22 @@ class BpipeConfig
 	{
 		def out = new StringBuffer()
 		out << bold("\nAvailable Commands:\n")
-		out << bold("config".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) << green("\tConfigure current directory or directories in list (add bpipe.config file).") << "\n"
-		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40) << green("\tGenerate pipeline file in current directory or directories in list (pipeline.groovy)") << "\n"
-		out << bold("info".padRight(10)) << "<pipeline name> ... ".padLeft(15).padRight(40) << green("\tGet info on pipeline stages.") << "\n"
-		out << bold("clean".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) << green("\tClean all in current working directory or in directory list: intermediate files, bpipe.config file, gfu_environment files, bpipe directories.") << "\n"
-		out << bold("report".padRight(10)) << "<pipe1.groovy> <pipe2.groovy> ... ".padLeft(15).padRight(40) << green("\tGenerate reports for pipeline.groovy files.") << "\n"
-		out << bold("recover".padRight(10)) << " ".padLeft(15).padRight(40) << green("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).") << "\n"
+		out << bold("config".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) 
+		out	<< green(wrap("Configure current directory or directories in list (add bpipe.config file).", 60, 50)) << "\n"
+		out << bold("sheet".padRight(10)) << "<INFO> [dir1] [dir2] ... ".padLeft(15).padRight(40)
+		out	<< green(wrap("Generate a SampleSheet.csv file using the INFO string in current directory or directories in list.", 60, 50)) << "\n"
+		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40) 
+		out << green(wrap("Generate pipeline file in current directory or directories in list (pipeline.groovy)",60, 50)) << "\n"
+		out << bold("info".padRight(10)) << "<pipeline name> ... ".padLeft(15).padRight(40) 
+		out << green("Get info on pipeline stages.") << "\n"
+		out << bold("clean".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) 
+		out << green(wrap("Clean all in current working directory or in directory list: intermediate files, bpipe.config file, gfu_environment files, bpipe directories.", 60, 50)) << "\n"
+		out << bold("report".padRight(10)) << "<pipe1.groovy> <pipe2.groovy> ... ".padLeft(15).padRight(40) 
+		out << green("Generate reports for pipeline.groovy files.") << "\n"
+		out << bold("recover".padRight(10)) << " ".padLeft(15).padRight(40) 
+		out << green(wrap("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).", 60, 50)) << "\n"
 		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to get info on a pipeline.\n"
+		out << green("\nsheet command INFO argument format:\n") << "\tFCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_ID_name"
 		print out.toString()
 	}
 
@@ -536,12 +579,13 @@ class BpipeConfig
 		!available_commands.grep(command).empty
 	}
 
-	static String wrap(String text, int columns = 80)
+	static String wrap(String text, int columns = 80, int padLeft = 0)
 	{
 		if ( text == null ) return null
 		if ( text.empty ) return ""
 		String result = ""
 		String line = ""
+		def counter = 0
 		text.split(" ").each { word ->
 			if (word.length() > columns) {
 				def part = word.substring(0, columns - line.length())
@@ -549,16 +593,27 @@ class BpipeConfig
 				word = word.substring(part.length())
 			}
 			if (line.length() + word.length() > columns) {
-				result += line.trim() + "\n"
+				if (counter == 0) {
+					result += line.trim() + "\n"
+				} else {
+					result += line.trim().padLeft(padLeft + line.length() -1) + "\n"
+				}
+				counter++
 				line = ""
 			}
 			while (word.length() > columns) {
-				result += word.substring(0, columns) + "\n"
-				word = word.substring(columns)
+				if (counter == 0) {
+					result += word.substring(0, columns) + "\n"
+					word = word.substring(columns)
+				} else {
+					result += word.substring(0, columns).padLeft(padLeft + line.length() -1) + "\n"
+					word = word.substring(columns)
+				}
+				counter++			
 			}
 			line += word + " "
 		}
-		result += line.trim()
+		result += line.trim().padLeft(padLeft + line.length() -1)
 		result
 	}
 
