@@ -79,7 +79,7 @@ class BpipeConfig
     		header: "\nAvailable options (use -h for help):\n",
     		footer: "\n${versionInfo(version)}, ${buildInfo(builddate)}\n",
     		posix:  true,
-    		width:  100
+    		width:  120
 		)
 		cli.with {
 			h   longOpt: 'help'     , 'Usage Information', required: false
@@ -156,7 +156,7 @@ class BpipeConfig
 		}
 		
 		samples = slurpSampleSheet("${working_dir}/${sample_sheet_name}")
-		
+
 		// GET OPTIONS: PROJECT NAME, skip if command is sheet
 		if ( projectName(opt.P) == false && command != "sheet")
 		{
@@ -424,12 +424,15 @@ class BpipeConfig
 		
 		// Get samples
 		lines.each { line ->
-			def sample = line.split(",")
-			def sample_map = [:]
-			headers.eachWithIndex { header, i ->
-				sample_map.put(header, sample[i])
+			// skip empty lines
+			if (!line.trim().empty) {
+				def sample = line.split(",")
+				def sample_map = [:]
+				headers.eachWithIndex { header, i ->
+					sample_map.put(header, sample[i])
+				}
+				samples << sample_map
 			}
-			samples << sample_map
 		}
 
 		return samples

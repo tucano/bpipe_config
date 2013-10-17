@@ -58,4 +58,7 @@ commands {
     gatk {
         select_statement="select=1:ncpus=4:mem=32g"   
     }
+    fastqc {
+        select_statement="select=1:ncpus=4:mem=16g"    
+    }
 }
