@@ -59,8 +59,8 @@ task stage(dependsOn: jar) << {
         ant.fileset(dir: 'local-lib', includes: "*.jar")
         ant.fileset(dir: 'build/libs', includes: "bpipe_config-${version}.jar")
     }  
-// change permissions in bin
-ant.chmod( dir: "$project.STAGE/bin", perm: "755", includes: "*")      
+    // change permissions in bin
+    ant.chmod( dir: "$project.STAGE/bin", perm: "755", includes: "*")      
 }
 
 // DIST TASK
