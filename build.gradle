@@ -45,6 +45,12 @@ task stage(dependsOn: jar) << {
     ant.copy(todir: "$project.STAGE/config") {
         ant.fileset(dir: 'config', includes: "**")
     }
+    ant.copy(todir: "$project.STAGE/pipelines") {
+        ant.fileset(dir: 'pipelines', includes: "**")
+    }
+    ant.copy(todir: "$project.STAGE/modules") {
+        ant.fileset(dir: 'modules', includes: "**")
+    }
 
     new File(STAGE+'/bin/bpipe-config').text = 
     new File("bin/bpipe-config").text.replaceAll("VERSION=0.0.0","VERSION=$version").replaceAll("BUILDDATE=0","BUILDDATE="+String.valueOf(System.currentTimeMillis()))
@@ -63,6 +69,8 @@ task dist(dependsOn: stage) << {
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/lib/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/config/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/templates/**", excludes:"**/*.swp")
+        ant.fileset(dir: "build/stage", includes: "bpipeconfig/modules/**", excludes:"**/*.swp")
+        ant.fileset(dir: "build/stage", includes: "bpipeconfig/pipelines/**", excludes:"**/*.swp")
         ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/bin/**", excludes:"**/*.swp")        
     }
     ant.gzip(destfile:"build/bpipeconfig-${version}.tar.gz", src: "build/bpipeconfig-${version}.tar")
