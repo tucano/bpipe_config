@@ -17,20 +17,17 @@ import groovy.text.SimpleTemplateEngine
 
 class BpipeConfig 
 {
+	/**
+	 * PROPERTIES
+	 */
 	final static String sample_sheet_name    = "SampleSheet.csv"
 	final static String version              = System.getProperty("bpipeconfig.version")
     final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
     final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover"]
-
-    // Options CliBuilder vars
     public static String  user_email
     public static boolean verbose 
     public static boolean force
-
-    // Args var
     public static String command
-
-    // System Property vars
     public static String user_name
     public static String working_dir
     public static String bpipe_home
@@ -38,15 +35,10 @@ class BpipeConfig
     public static String bpipe_gfu_pipelines_home
     public static String java_runtime_version
     public static String project_name
-
-    // Pipelines
     public static def pipelines
     public static def pipeline
-    // Samples
     public static def samples
-    // Config
     public static def email_config
-    //TEMPLATE ENGINE
     public static def engine = new SimpleTemplateEngine()
 
     /**
