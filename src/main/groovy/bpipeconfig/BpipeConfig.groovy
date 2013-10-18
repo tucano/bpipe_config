@@ -32,7 +32,6 @@ class BpipeConfig
     public static String working_dir
     public static String bpipe_home
     public static String bpipe_config_home
-    public static String bpipe_gfu_pipelines_home
     public static String java_runtime_version
     public static String project_name
     public static def pipelines
@@ -54,7 +53,6 @@ class BpipeConfig
 		user_name                = System.getProperty("user.name")
 		bpipe_home               = System.getProperty("bpipe.home")
 		bpipe_config_home        = System.getProperty("bpipeconfig.home")
-		bpipe_gfu_pipelines_home = System.getProperty("bpipe_gfu_pipelines.home")
 		java_runtime_version     = System.getProperty("java.runtime.version")
 
 		// LOAD CONFIG FILE
@@ -85,7 +83,7 @@ class BpipeConfig
 		if ( !opt ) System.exit(1)
 
 		// GET MAP OF PIPELINES
-		pipelines = listPipelines(bpipe_gfu_pipelines_home)
+		pipelines = listPipelines(bpipe_config_home + "/pipelines")
 		
 		// GET OPTIONS: PIPELINES
 		if (opt.p) {
@@ -459,7 +457,7 @@ class BpipeConfig
 	 */
 	static def listPipelines(String pipelines_root)
 	{
-		def pipelines_location = pipelines_root + "/pipelines"
+		def pipelines_location = pipelines_root
 		def pipelines_dir = new File(pipelines_location)
 		
 		if (!pipelines_dir.exists()) return null
@@ -522,7 +520,6 @@ class BpipeConfig
 			print "\tUser email         = "; println green("$user_email");
 		}
 		print "\tBpipe Home         = "; println green(bpipe_home);
-		print "\tGfu pipelines home = "; println green(bpipe_gfu_pipelines_home);
 		print "\tJRE version        = "; println green(java_runtime_version);
 	}
 
