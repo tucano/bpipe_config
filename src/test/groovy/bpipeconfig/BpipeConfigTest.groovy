@@ -16,17 +16,20 @@ class BpipeConfigTest
 {
 	final BpipeConfig bpipeconfig = new BpipeConfig()
 
-	@Test public void testVersionInfoNull()
+	@Test 
+	public void testVersionInfoNull()
 	{
 		assertEquals("BpipeConfig GFU Version null", bpipeconfig.versionInfo(null))	
 	}
 
-	@Test public void testVersionInfo()
+	@Test 
+	public void testVersionInfo()
 	{
 		assertEquals("BpipeConfig GFU Version 1.0", bpipeconfig.versionInfo("1.0"))	
 	}
 
-	@Test public void testBuildInfo()
+	@Test 
+	public void testBuildInfo()
 	{
 		assertEquals("Built on Sun Oct 13 15:52:49 CEST 2013", bpipeconfig.buildInfo("1381672369681"))	
 	}
