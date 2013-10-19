@@ -11,18 +11,7 @@ import static org.junit.Assert.*
 class BpipeConfigTest
 {
 	final BpipeConfig bpipeconfig = new BpipeConfig()
-
 	
 
 	
-
-	
-
-	
-
-	@Ignore("not ready yet") @Test 
-	public void testCreateFileNameDirectories()
-	{
-
-	}
 }

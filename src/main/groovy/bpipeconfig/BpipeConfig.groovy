@@ -1,10 +1,16 @@
 package bpipeconfig
 
 /***********************************************************************
- * @author      davide Rambaldi <rambaldi.davide@hsr.it>
- * @version     0.1
- * @since       2013
+ * BPIPE-CONFIG
  * 
+ * BpipeConfig is a comman line applitation to handle bpipe runs.
+ * <p>
+ * 
+ * @param	args	command line arguments
+ * @return	A System.exit status
+ * @see     bpipe.Bpipe
+ * 
+ * @author	Davide Rambaldi <rambaldi.davide@hsr.it>
  *
  ***********************************************************************/
 

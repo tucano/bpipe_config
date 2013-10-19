@@ -8,11 +8,13 @@ import groovy.mock.interceptor.*
 
 class TestCreateFile extends GroovyTestCase
 {
-	private mock
+	private mock_file
+	private args
 
 	void setUp()
 	{
-		mock = new MockFor(File)
+		mock_file = new MockFor(File)
+		args = ["Sample_1","Sample_2","Sample_3","Sample_4"]
 	}
 
 	void testCreateFileNull()
@@ -30,29 +32,61 @@ class TestCreateFile extends GroovyTestCase
 		assert !BpipeConfig.createFile("pippo", null, false, null)
 	}
 
-	void testCreateFileNameSuccess()
+	void testCreateFileSuccess()
 	{
-		mock.demand.exists { false }
-		mock.demand.write { "From mock" }
-		mock.use { file ->
+		mock_file.demand.exists { false }
+		mock_file.demand.write { "From mock_file" }
+		mock_file.use { file ->
 			assert BpipeConfig.createFile("pippo", "pippo.txt", false, null)
 		}
 	}
 
 	void testFileExists()
 	{
-		mock.demand.exists { true }
-		mock.use { file ->
+		mock_file.demand.exists { true }
+		mock_file.use { file ->
 			assert BpipeConfig.createFile("pippo", "pippo.txt", false, null)
 		}
 	}
 
 	void testFileExistsForce()
 	{
-		mock.demand.exists { true }
-		mock.demand.write { "From mock" }
-		mock.use { file ->
+		mock_file.demand.exists { true }
+		mock_file.demand.write { "From mock_file" }
+		mock_file.use { file ->
 			assert BpipeConfig.createFile("pippo", "pippo.txt", true, null)
+		}
+	}
+
+	void testCreateFileInDirectories()
+	{
+		args.each {
+			mock_file.demand.exists { false }
+			mock_file.demand.write { "From mock_file" }	
+		}
+		mock_file.use { file ->
+			assert BpipeConfig.createFile("pippo", "pippo.txt", false, args)
+		}
+	}
+
+	void testCreateFileInDirectoriesExists()
+	{
+		args.each {
+			mock_file.demand.exists { true }
+		}
+		mock_file.use { file ->
+			assert BpipeConfig.createFile("pippo", "pippo.txt", false, args)
+		}
+	}
+
+	void testCreateFileInDirectoriesExistsForce()
+	{
+		args.each {
+			mock_file.demand.exists { true }
+			mock_file.demand.write { "From mock_file" }	
+		}
+		mock_file.use { file ->
+			assert BpipeConfig.createFile("pippo", "pippo.txt", true, args)
 		}
 	}
 }
