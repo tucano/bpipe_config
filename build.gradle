@@ -92,3 +92,15 @@ task dist(dependsOn: stage) << {
     }
     ant.gzip(destfile:"build/bpipeconfig-${version}.tar.gz", src: "build/bpipeconfig-${version}.tar")
 }
+
+// TEST FRAMEWORK SET
+test {
+    // LOGGER SETUP
+    testLogging {
+        // Show full assert exceptions
+        exceptionFormat = 'full'
+    }
+
+    // set JVM arguments for the test JVM(s)
+    jvmArgs '-XX:MaxPermSize=256m'
+}

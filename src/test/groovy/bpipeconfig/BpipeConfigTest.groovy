@@ -76,9 +76,9 @@ class BpipeConfigTest
 		assertTrue(bpipeconfig.listPipelines("pipes") == null)
 	}
 
-	@Ignore("not ready yet") @Test public void testListPipelines()
+	@Ignore("dont run") @Test public void testListPipelines()
 	{
-		def pipelines_root = "~/Documents/Devel/Code/bpipe_gfu_pipelines/pipelines"
+		def pipelines_root = "xxxdsadas"
 		assertTrue(bpipeconfig.listPipelines(pipelines_root) != null)
 	}
 
