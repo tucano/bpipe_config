@@ -1,18 +1,16 @@
 package bpipeconfig
 
-/***********************************************************************
+/**
  * BPIPE-CONFIG
- * 
- * BpipeConfig is a comman line applitation to handle bpipe runs.
  * <p>
  * 
- * @param	args	command line arguments
- * @return	A System.exit status
+ * BpipeConfig is a comman line application to handle bpipe runs. 
+ * 
  * @see     bpipe.Bpipe
  * 
  * @author	Davide Rambaldi <rambaldi.davide@hsr.it>
  *
- ***********************************************************************/
+ */
 
 import org.fusesource.jansi.AnsiConsole
 import static org.fusesource.jansi.Ansi.*
@@ -48,9 +46,11 @@ class BpipeConfig
 
     /**
      * Main Entry Point
-     *
+     * <p>
      * Use the CliBuilder to handle options And JANSI to colorize output
      *
+     * @param	args	command line arguments
+ 	 * @return	A System.exit status
      */        
 	public static void main(String[] args)
 	{
