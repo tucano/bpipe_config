@@ -20,6 +20,7 @@ import org.apache.commons.cli.Option
 import groovy.text.SimpleTemplateEngine
 
 import bpipeconfig.Commands
+import bpipeconfig.Logger
 
 class BpipeConfig 
 {
@@ -63,6 +64,8 @@ class BpipeConfig
 		bpipe_config_home        = System.getProperty("bpipeconfig.home")
 		java_runtime_version     = System.getProperty("java.runtime.version")
 
+		Logger.log("TEST LOGGER")
+		
 		// LOAD CONFIG FILE	
 		def config_email_file = new File("${bpipe_config_home}/config/email_notifier.groovy")
 		if (config_email_file.exists()) {
