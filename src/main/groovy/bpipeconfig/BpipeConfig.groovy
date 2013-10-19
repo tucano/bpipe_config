@@ -19,6 +19,8 @@ import static org.fusesource.jansi.Ansi.Attribute.*
 import org.apache.commons.cli.Option
 import groovy.text.SimpleTemplateEngine
 
+import bpipeconfig.Commands
+
 class BpipeConfig 
 {
 	/**
@@ -61,12 +63,12 @@ class BpipeConfig
 		bpipe_config_home        = System.getProperty("bpipeconfig.home")
 		java_runtime_version     = System.getProperty("java.runtime.version")
 
-		// LOAD CONFIG FILE
+		// LOAD CONFIG FILE	
 		def config_email_file = new File("${bpipe_config_home}/config/email_notifier.groovy")
 		if (config_email_file.exists()) {
 			email_config = new ConfigSlurper().parse(config_email_file.text)
 		} else {
-			println red("Cant' find ${bpipe_config_home}/config/email_notifier.groovy file!")
+			println red("No email configuration (${config_email_file})")
 		} 
 
 		// CLI
@@ -97,7 +99,8 @@ class BpipeConfig
 			println bold("\nListing Pipelines:\n")
 			// println pipelines simply formatted
 			pipelines.each { pipeline ->
-				print "${ bold(pipeline["name"]) } ".padRight(40, "-");println "--> ${ green(pipeline["about_title"]) }";
+				print "${ bold(pipeline["name"]) } ".padRight(40, "-")
+				println "--> ${ green(pipeline["about_title"]) }"
 			}
 			println "\n\n"
 			printHelpCommands()
@@ -148,7 +151,7 @@ class BpipeConfig
 		if (new File("${working_dir}/${sample_sheet_name}").exists() == false && command != "sheet") {
 			println red("Can't find SampleSheet.csv in $working_dir.")
 			print "You can generate a SampleSheet.csv with the command: "; println red("sheet")
-			System.exit(1)
+			//System.exit(1)
 		}
 		
 		samples = slurpSampleSheet("${working_dir}/${sample_sheet_name}")
@@ -159,7 +162,7 @@ class BpipeConfig
 			printVersionAndBuild()
 			println()
 			print "Project name "; print red(project_name); println " is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka)"
-			System.exit(1)
+			//System.exit(1)
 		}
 
         // HEADER
@@ -173,25 +176,25 @@ class BpipeConfig
 		// COMMAND SWITCH sending extra arguments
 		switch(command) {
 			case "config":
-				configCommand(extraArguments)
+				Commands.config(extraArguments)
 			break
 			case "sheet":
-				sheetCommand(extraArguments)
+				Commands.sheet(extraArguments)
 			break
 			case "pipe":
-				pipeCommand(extraArguments)
+				Commands.pipe(extraArguments)
 			break
 			case "info":
-				
+				Commands.info(extraArguments)
 			break
 			case "clean":
-
+				Commands.clean(extraArguments)
 			break
 			case "report":
-				
+				Commands.report(extraArguments)
 			break
 			case "recover":
-				
+				Commands.recover(extraArguments)
 			break
 		}
         
