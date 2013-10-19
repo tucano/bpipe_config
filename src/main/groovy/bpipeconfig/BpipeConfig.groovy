@@ -220,7 +220,7 @@ class BpipeConfig
 
 		if (args && args.size > 0) checkDir(args)
 
-		if ( ! createFile(template_config.toString(), "bpipe.config", args) ) {
+		if ( ! createFile(template_config.toString(), "bpipe.config", force, args) ) {
 			println red("Problems creating bpipe.config files!")
 		}
 	}
@@ -241,7 +241,7 @@ class BpipeConfig
 		def out = new StringBuffer()
 		out << header.join(",") << "\n" << info.join(",")
 
-		if ( ! createFile(out.toString(), "SampleSheet.csv", args) ) {
+		if ( ! createFile(out.toString(), "SampleSheet.csv", force, args) ) {
 			println red("Problems creating SampleSheet.csv files!")
 		}
 	} 
@@ -307,11 +307,11 @@ class BpipeConfig
 
 		if (args && args.size > 0) checkDir(args)
 		
-		if ( ! createFile(template_gfu_env.toString(), "gfu_environment.sh", args) ) {
+		if ( ! createFile(template_gfu_env.toString(), "gfu_environment.sh", force, args) ) {
 			println red("Problems creating gfu_environment.sh files!")
 		}
 
-		if ( ! createFile(pipeline_text, pipeline_filename, args) ) {
+		if ( ! createFile(pipeline_text, pipeline_filename, force, args) ) {
 			println red("Problems creating pipeline file $pipeline_filename!")	
 		}
 
@@ -339,7 +339,7 @@ class BpipeConfig
 	/*
 	 * GENERATE N FILES FROM TEMPLATE
 	 */
-	static boolean createFile(String text, String filename, def args)
+	static boolean createFile(String text, String filename, boolean force_overwrite, def args)
 	{
 		if (text == null || text.empty || filename == null) return false
 
@@ -350,7 +350,7 @@ class BpipeConfig
 		// closure to check and write file
 		def check_and_write_file = { file ->
 			if ( file.exists() ) {
-				if (force) {
+				if (force_overwrite) {
 					println red("File $file already exists. Overwriting ...")
 					write_file(file)
 				} else {
