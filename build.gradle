@@ -30,48 +30,65 @@ dependencies {
 
 // STAGE TASK
 task stage(dependsOn: jar) << {
+    // CREATE STAGE DIRECTORIES AND COPY FILES
     ant.mkdir(dir: project.STAGE)
+    
     ant.mkdir(dir: "$project.STAGE/bin")
-    ant.mkdir(dir: "$project.STAGE/lib")
-    ant.mkdir(dir: "$project.STAGE/templates")
-    ant.mkdir(dir: "$project.STAGE/config")
-
     ant.copy(todir: "$project.STAGE/bin") {
         ant.fileset(dir: 'bin', includes: "**")
     }
+
+    ant.mkdir(dir: "$project.STAGE/lib")
+    ant.copy(todir: "$project.STAGE/lib") {
+        ant.fileset(dir: 'local-lib', includes: "*.jar")
+        ant.fileset(dir: 'build/libs', includes: "bpipe_config-${version}.jar")
+    }
+
+    ant.mkdir(dir: "$project.STAGE/templates")
     ant.copy(todir: "$project.STAGE/templates") {
         ant.fileset(dir: 'templates', includes: "**")
     }
+
+    ant.mkdir(dir: "$project.STAGE/config")
     ant.copy(todir: "$project.STAGE/config") {
         ant.fileset(dir: 'config', includes: "**")
     }
+
+    ant.mkdir(dir: "$project.STAGE/pipelines")
     ant.copy(todir: "$project.STAGE/pipelines") {
         ant.fileset(dir: 'pipelines', includes: "**")
     }
+
+    ant.mkdir(dir: "$project.STAGE/modules")
     ant.copy(todir: "$project.STAGE/modules") {
         ant.fileset(dir: 'modules', includes: "**")
     }
 
-    new File(STAGE+'/bin/bpipe-config').text = 
-    new File("bin/bpipe-config").text.replaceAll("VERSION=0.0.0","VERSION=$version").replaceAll("BUILDDATE=0","BUILDDATE="+String.valueOf(System.currentTimeMillis()))
-
-    ant.copy(todir: "$project.STAGE/lib") {
-        ant.fileset(dir: 'local-lib', includes: "*.jar")
-        ant.fileset(dir: 'build/libs', includes: "bpipe_config-${version}.jar")
-    }  
-    // change permissions in bin
-    ant.chmod( dir: "$project.STAGE/bin", perm: "755", includes: "*")      
+    ant.mkdir(dir: "$project.STAGE/misc")
+    ant.copy(todir: "$project.STAGE/misc") {
+        ant.fileset(dir: 'misc', includes: "**")
+    }
+    // ADD VERSION AND BUILDDATE TO SH SCRIPT
+    new File(STAGE+'/bin/bpipe-config').text = new File(
+            "bin/bpipe-config").text.replaceAll(
+            "VERSION=0.0.0","VERSION=$version").replaceAll(
+            "BUILDDATE=0","BUILDDATE="+String.valueOf(System.currentTimeMillis()))
+  
+    // CHANGE PERMISSIONS IN BIN AND MISC 
+    ant.chmod( dir: "$project.STAGE/bin", perm: "755", includes: "*")
+    ant.chmod( dir: "$project.STAGE/misc", perm: "755", includes: "*")
 }
 
-// DIST TASK
+// DIST TASK: create a tar.gz in build dir
 task dist(dependsOn: stage) << {
     ant.tar(destfile: "build/bpipeconfig-${version}.tar") {
+        ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/bin/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/lib/**", excludes:"**/*.swp")
-        ant.fileset(dir: "build/stage", includes: "bpipeconfig/config/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/templates/**", excludes:"**/*.swp")
-        ant.fileset(dir: "build/stage", includes: "bpipeconfig/modules/**", excludes:"**/*.swp")
+        ant.fileset(dir: "build/stage", includes: "bpipeconfig/config/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/pipelines/**", excludes:"**/*.swp")
-        ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/bin/**", excludes:"**/*.swp")        
+        ant.fileset(dir: "build/stage", includes: "bpipeconfig/modules/**", excludes:"**/*.swp")
+        ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/misc/**", excludes:"**/*.swp")        
     }
     ant.gzip(destfile:"build/bpipeconfig-${version}.tar.gz", src: "build/bpipeconfig-${version}.tar")
 }
