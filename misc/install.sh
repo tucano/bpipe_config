@@ -12,15 +12,28 @@ fi
 
 echo -e "Appending BPIPE and BPIPE_CONFIG enviroment vars to $PROFILE"
 
-cat >> $PROFILE <<DELIM
-export BPIPE_CONFIG_HOME=/lustre1/tools/libexec/bpipeconfig
-export BPIPE_LIB=$BPIPE_CONFIG_HOME/modules
-export BPIPE_HOME=/lustre1/tools/libexec/bpipe
-export PATH=\$BPIPE_HOME/bin:\$BPIPE_CONFIG_HOME/bin:\$PATH
-DELIM
+if [[ ! -z $BPIPE_HOME ]]
+then
+	log "BPIPE_HOME already set to: $BPIPE_HOME skipping."
+else
+	echo -e "export BPIPE_HOME=/lustre1/tools/libexec/bpipe" >> $PROFILE
+	echo -e "export PATH=\$BPIPE_HOME/bin:\$PATH" >> $PROFILE
+fi
+
+if [[ ! -z $BPIPE_CONFIG_HOME ]]
+then
+	log "BPIPE_CONFIG_HOME already set to: $BPIPE_CONFIG_HOME skipping."
+else
+	echo -e "export BPIPE_CONFIG_HOME=/lustre1/tools/libexec/bpipeconfig" >> $PROFILE
+	echo -e "export BPIPE_LIB=\$BPIPE_CONFIG_HOME/modules" >> $PROFILE
+	echo -e "export PATH=\$BPIPE_CONFIG_HOME/bin:\$PATH" >> $PROFILE
+fi
 
 log "Sourcing ..."
-source $HOME/.profile
+if [[ -f $PROFILE ]]
+then
+	source $HOME/.profile
+fi
 
 which bpipe 1>/dev/null 2>&1 || fail "Can't find bpipe binary with which! Something goes wrong here..."
 
