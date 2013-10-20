@@ -27,12 +27,12 @@ class Logger {
 
 	public static warn(String msg)
 	{
-
+		magenta(msg)
 	}
 
 	public static error(String msg)
 	{
-		
+		red(msg)
 	}
 
 	/*
@@ -56,5 +56,10 @@ class Logger {
 	static org.fusesource.jansi.Ansi red(String s)
 	{
 		ansi().fg(RED).a(s).reset()
+	}
+
+	static org.fusesource.jansi.Ansi magenta(String s)
+	{
+		ansi().fg(MAGENTA).a(s).reset()
 	}
 }

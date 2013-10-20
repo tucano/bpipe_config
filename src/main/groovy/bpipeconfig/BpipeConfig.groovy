@@ -50,7 +50,9 @@ class BpipeConfig
     /**
      * Main Entry Point
      * <p>
-     * Use the CliBuilder to handle options And JANSI to colorize output
+     * Use the CliBuilder to handle options.
+     * Use bpipeconfig.Logger to send messages
+     * Use bpipeconfig.Commands to execute commands
      *
      * @param	args	command line arguments
  	 * @return	A System.exit status
@@ -64,14 +66,12 @@ class BpipeConfig
 		bpipe_config_home        = System.getProperty("bpipeconfig.home")
 		java_runtime_version     = System.getProperty("java.runtime.version")
 
-		Logger.log("TEST LOGGER")
-		
-		// LOAD CONFIG FILE	
+		// LOAD CONFIG FILES
 		def config_email_file = new File("${bpipe_config_home}/config/email_notifier.groovy")
 		if (config_email_file.exists()) {
 			email_config = new ConfigSlurper().parse(config_email_file.text)
 		} else {
-			println red("No email configuration (${config_email_file})")
+			println Logger.warn("No email configuration (${config_email_file})")
 		} 
 
 		// CLI
