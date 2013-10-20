@@ -12,7 +12,8 @@ import static org.fusesource.jansi.Ansi.Color.*
 import static org.fusesource.jansi.Ansi.Attribute.*
 
 @Log
-class Logger {
+class Logger 
+{
 
 
 	public static log(String msg)

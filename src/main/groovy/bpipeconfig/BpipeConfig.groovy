@@ -21,6 +21,7 @@ import groovy.text.SimpleTemplateEngine
 
 import bpipeconfig.Commands
 import bpipeconfig.Logger
+import bpipeconfig.Pipelines
 
 class BpipeConfig 
 {
@@ -94,7 +95,7 @@ class BpipeConfig
 		if ( !opt ) System.exit(1)
 
 		// GET MAP OF PIPELINES
-		pipelines = listPipelines(bpipe_config_home + "/pipelines")
+		pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
 		
 		// GET OPTIONS: PIPELINES
 		if (opt.p) {
@@ -461,38 +462,6 @@ class BpipeConfig
 			project_name = null
 		}
 		return project_name ==~ pattern
-	}
-
-	/*
-	 * LIST PIPELINES
-	 * Fixme need tests (only for null)
-	 */
-	static def listPipelines(String pipelines_root)
-	{
-		def pipelines_location = pipelines_root
-		def pipelines_dir = new File(pipelines_location)
-		
-		if (!pipelines_dir.exists()) return null
-
-		def list = []
-		def pattern_title = /about title:\s?"(.*)"/
-		pipelines_dir.eachDir() { dir -> 
-			dir.eachFileMatch( ~/.*.groovy/ ) { file ->
-				def about_title = ""
-				file.eachLine { line ->
-					def matcher = line =~ pattern_title
-					if (matcher.matches()) about_title = matcher[0][1]
-				}
-				// return file_name, name of pipiline and description (about_title)
-				list << [ 
-					file_name: file.name,
-					file_path: file.getPath(),
-					name: file.name.replaceFirst(~/\.[^\.]+$/, ''),
-					about_title: about_title
-				]
-			}
-		}
-		return list
 	} 
 
 	/*

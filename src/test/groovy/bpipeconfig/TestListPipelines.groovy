@@ -15,16 +15,16 @@ class TestListPipelines extends GroovyTestCase
 
 	void testListPipelinesNull()
 	{
-		assert BpipeConfig.listPipelines("") == null
+		assert Pipelines.listPipelines("") == null
 	}
 
 	void testListPipelinesNullBis()
 	{
-		assert BpipeConfig.listPipelines("pipes") == null
+		assert Pipelines.listPipelines("pipes") == null
 	}
 
 	void testListPipelines()
 	{
-		assert BpipeConfig.listPipelines(pipelines_root) != null
+		assert Pipelines.listPipelines(pipelines_root) != null
 	}
 }
