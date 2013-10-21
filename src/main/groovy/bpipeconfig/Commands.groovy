@@ -171,7 +171,7 @@ class Commands
 				// GENERATE USAGE INFO
 				def pattern = /(?m)\/{2}\s*USAGE:(.*)/
 				def matcher = (pipeline_text =~ pattern)
-				usage = matcher.hasGroup() ? matcher[0][1].trim() : '[bg-] bpipe run -r $pipeline_filename *'		
+				usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'		
 				def binding_usage = [
 					"pipeline_filename" : pipeline_filename
 				]
@@ -222,32 +222,49 @@ class Commands
 			checkDir(args)
 			args.each { dir ->
 				generate_pipeline(dir)
+				if (BpipeConfig.batch) {					
+					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute(null, new File(dir))
+					println Logger.message("BATCH MODE: Bpipe started in background in directory ${dir}")
+				}
 			}
-			Logger.printUserOptions()
-			Logger.printSamples(BpipeConfig.samples)
 
-			// generate a convenience script in current directory
-			File runner = new File("runner.sh")
-			String content = """
-				for i in ${args.join(" ")}
-				do
-					cd \$i
-					$usage
-					cd ..
-				done
-			""".stripIndent().trim()
-			runner.write(content)
-			println "I create a runner script for your directories. Run it with: "
-			println Logger.message("\tbash runner.sh")
+			if ( ! BpipeConfig.batch )
+			{
+				Logger.printUserOptions()
+				Logger.printSamples(BpipeConfig.samples)
+				// generate a convenience script in current directory
+				File runner = new File("runner.sh")
+				String content = """
+					for i in ${args.join(" ")}
+					do
+						cd \$i
+						$usage
+						cd ..
+					done
+				""".stripIndent().trim()
+				runner.write(content)
+				println "I create a runner script for your directories. Run it with: "
+				println Logger.message("\tbash runner.sh")
+			}
 		}
 		// PWD MODE
 		else
 		{
 			generate_pipeline(BpipeConfig.working_dir)
-			Logger.printUserOptions()
-			Logger.printSamples(BpipeConfig.samples)
-			println Logger.info("To run the pipeline:")
-			println Logger.message(usage.toString())
+
+			if (BpipeConfig.batch)
+			{
+				usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute()
+				println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
+				println Logger.message("Use 'bpipe log' to monitor execution.")
+			}
+			else 
+			{
+				Logger.printUserOptions()
+				Logger.printSamples(BpipeConfig.samples)
+				println Logger.info("To run the pipeline:")
+				println Logger.message(usage.toString())
+			}
 		}
 	}
 

@@ -59,6 +59,7 @@ class Logger
 		print out.toString()
 	}
 
+	//FIXME CHANGE TO BUFFER
 	static void printSamples(def samples)
 	{
 		println()
@@ -74,6 +75,7 @@ class Logger
 		println()
 	}
 
+	//FIXME CHANGE TO BUFFER
 	static void printUserOptions()
 	{
 		println()
