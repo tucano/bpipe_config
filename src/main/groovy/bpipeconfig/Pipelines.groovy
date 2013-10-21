@@ -11,9 +11,8 @@ class Pipelines
 	 */
 	static def listPipelines(String pipelines_root)
 	{
-		def pipelines_location = pipelines_root
-		def pipelines_dir = new File(pipelines_location)
-		
+		if (pipelines_root == null) return null
+		def pipelines_dir = new File(pipelines_root)	
 		if (!pipelines_dir.exists()) return null
 
 		def list = []
@@ -32,6 +31,27 @@ class Pipelines
 					name: file.name.replaceFirst(~/\.[^\.]+$/, ''),
 					about_title: about_title
 				]
+			}
+		}
+		return list
+	}
+
+	/**
+	 * LIST MODULES
+	 */
+	static def listModules(String modules_root)
+	{
+		if (modules_root == null) return null
+		def modules_dir = new File(modules_root)
+		if (!modules_dir.exists()) return null
+		GroovyShell shell = new GroovyShell()
+		def list = []
+		String source
+		modules_dir.eachFile { file ->
+			source = file.text.replaceAll(/(?s).*doc/,"[").replaceAll(/(?s)([^"]")[^,]?\n.*/,"\$1]").replaceAll(/(?s)\$/,"")
+			if (source != "")
+			{
+				list << [shell.evaluate(source)]
 			}
 		}
 		return list

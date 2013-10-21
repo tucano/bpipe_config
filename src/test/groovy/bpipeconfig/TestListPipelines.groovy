@@ -18,7 +18,7 @@ class TestListPipelines extends GroovyTestCase
 		assert Pipelines.listPipelines("") == null
 	}
 
-	void testListPipelinesNullBis()
+	void testListPipelinesDontExists()
 	{
 		assert Pipelines.listPipelines("pipes") == null
 	}

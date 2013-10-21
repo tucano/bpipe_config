@@ -8,6 +8,7 @@ sort_bam_by_name_gfu =
         desc: "Sort bam file by name",
         constrains: "...",
         author: "davide.rambaldi@gmail.com"
+    
     exec"""
          $SAMTOOLS sort -n $input.bam $output.prefix
     """

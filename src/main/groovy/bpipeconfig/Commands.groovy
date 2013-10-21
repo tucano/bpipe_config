@@ -13,6 +13,7 @@ class Commands
 	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover"]
 	public static def engine = new SimpleTemplateEngine()
 	public static def pipeline
+	public static def samples
 
 	public static config(def args)
 	{
@@ -32,8 +33,8 @@ class Commands
 			// check for local SampleSheet.csv
 			else if (sample_sheet.exists())
 			{
-				BpipeConfig.samples =  slurpSampleSheet(sample_sheet)
-				BpipeConfig.project_name = BpipeConfig.samples[0]["SampleProject"]
+				samples =  slurpSampleSheet(sample_sheet)
+				BpipeConfig.project_name = samples[0]["SampleProject"]
 				println Logger.info("using project name from SampleSheet.csv: ${BpipeConfig.project_name}")
 			}
 			else
@@ -165,8 +166,8 @@ class Commands
 			def sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
 			if (sample_sheet.exists())
 			{
-				BpipeConfig.samples =  slurpSampleSheet(sample_sheet)
-				if (!BpipeConfig.project_name) BpipeConfig.project_name = BpipeConfig.samples[0]["SampleProject"]
+				samples =  slurpSampleSheet(sample_sheet)
+				if (!BpipeConfig.project_name) BpipeConfig.project_name = samples[0]["SampleProject"]
 				String pipeline_filename = "${BpipeConfig.project_name}_${pipeline["file_name"]}"
 				// GENERATE USAGE INFO
 				def pattern = /(?m)\/{2}\s*USAGE:(.*)/
@@ -183,11 +184,11 @@ class Commands
 
 				def binding_gfu_env = [
 				    "project_name"    : '"' + BpipeConfig.project_name + '"',
-				    "reference"       : '"' + BpipeConfig.samples[0]["SampleRef"] + '"',
-				    "experiment_name" : '"' + BpipeConfig.samples[0]["FCID"] + "_" + BpipeConfig.samples[0]["SampleID"] + '"',
-				    "fcid"            : '"' + BpipeConfig.samples[0]["FCID"] + '"',
-				    "lane"            : '"' + BpipeConfig.samples[0]["Lane"] + '"',
-				    "sampleid"        : '"' + BpipeConfig.samples[0]["SampleID"] + '"'
+				    "reference"       : '"' + samples[0]["SampleRef"] + '"',
+				    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
+				    "fcid"            : '"' + samples[0]["FCID"] + '"',
+				    "lane"            : '"' + samples[0]["Lane"] + '"',
+				    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
 				]
 				// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
 				def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env)
@@ -195,7 +196,7 @@ class Commands
 				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
 				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env.toString() )
 				// Replace reference genome with first sample reference
-				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", BpipeConfig.samples[0]["SampleRef"])
+				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
 				
 				// CREATE gfu_environment.sh
 				if ( ! createFile(template_gfu_env.toString(), "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
@@ -231,7 +232,7 @@ class Commands
 			if ( ! BpipeConfig.batch )
 			{
 				Logger.printUserOptions()
-				Logger.printSamples(BpipeConfig.samples)
+				Logger.printSamples(samples)
 				// generate a convenience script in current directory
 				File runner = new File("runner.sh")
 				String content = """
@@ -261,7 +262,7 @@ class Commands
 			else 
 			{
 				Logger.printUserOptions()
-				Logger.printSamples(BpipeConfig.samples)
+				Logger.printSamples(samples)
 				println Logger.info("To run the pipeline:")
 				println Logger.message(usage.toString())
 			}

@@ -8,6 +8,7 @@ sort_and_convert_sam_gfu =
         desc: "This stage is used by htseq-count pipelines to reconvert the output reads sam file to bam file",
         constraints: "I take the headers from the last forwarded bam file (the input of htseq-count stage)",
         author: "davide.rambaldi@gmail.com"
+
     transform("_reads.sam") to("_reads_sorted.bam")
     {
         exec """

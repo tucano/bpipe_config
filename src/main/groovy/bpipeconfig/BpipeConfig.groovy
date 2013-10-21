@@ -39,7 +39,6 @@ class BpipeConfig
     public static String java_runtime_version
     public static String project_name
     public static def pipelines
-    public static def samples
     public static def email_config
 
     /**

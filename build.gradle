@@ -96,13 +96,21 @@ task dist(dependsOn: stage) << {
 // TEST FRAMEWORK SET
 test {
     // LOGGER SETUP
+    testLogging.exceptionFormat = 'full'
+
+    // set JVM arguments for the test JVM(s)
+    jvmArgs '-XX:MaxPermSize=256m'
+}
+
+task testDebug(type: Test, dependsOn: testClasses) {
+    // LOGGER SETUP
     testLogging {
         // Show full assert exceptions
         exceptionFormat = 'full'
         // show standard out and standard error of the test JVM(s) on the console
-        // testLogging.showStandardStreams = true
+        showStandardStreams = true
         // Show that tests are run in the command-line output
-        // events 'started', 'passed'
+        events 'started', 'passed'
     }
 
     // set JVM arguments for the test JVM(s)
