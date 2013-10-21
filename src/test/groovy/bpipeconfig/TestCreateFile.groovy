@@ -19,17 +19,17 @@ class TestCreateFile extends GroovyTestCase
 
 	void testCreateFileNull()
 	{
-		assert !BpipeConfig.createFile(null, null, false, null)
+		assert !Commands.createFile(null, null, false)
 	}
 
 	void testCreateFileEmpty()
 	{
-		assert !BpipeConfig.createFile("", null, false, null)
+		assert !Commands.createFile("", null, false)
 	}
 
 	void testCreateFileNameEmpty()
 	{
-		assert !BpipeConfig.createFile("pippo", null, false, null)
+		assert !Commands.createFile("pippo", null, false)
 	}
 
 	void testCreateFileSuccess()
@@ -37,7 +37,7 @@ class TestCreateFile extends GroovyTestCase
 		mock_file.demand.exists { false }
 		mock_file.demand.write { "From mock_file" }
 		mock_file.use { file ->
-			assert BpipeConfig.createFile("pippo", "pippo.txt", false, null)
+			assert Commands.createFile("pippo", "pippo.txt", false)
 		}
 	}
 
@@ -45,7 +45,7 @@ class TestCreateFile extends GroovyTestCase
 	{
 		mock_file.demand.exists { true }
 		mock_file.use { file ->
-			assert BpipeConfig.createFile("pippo", "pippo.txt", false, null)
+			assert Commands.createFile("pippo", "pippo.txt", false)
 		}
 	}
 
@@ -54,39 +54,7 @@ class TestCreateFile extends GroovyTestCase
 		mock_file.demand.exists { true }
 		mock_file.demand.write { "From mock_file" }
 		mock_file.use { file ->
-			assert BpipeConfig.createFile("pippo", "pippo.txt", true, null)
-		}
-	}
-
-	void testCreateFileInDirectories()
-	{
-		args.each {
-			mock_file.demand.exists { false }
-			mock_file.demand.write { "From mock_file" }	
-		}
-		mock_file.use { file ->
-			assert BpipeConfig.createFile("pippo", "pippo.txt", false, args)
-		}
-	}
-
-	void testCreateFileInDirectoriesExists()
-	{
-		args.each {
-			mock_file.demand.exists { true }
-		}
-		mock_file.use { file ->
-			assert BpipeConfig.createFile("pippo", "pippo.txt", false, args)
-		}
-	}
-
-	void testCreateFileInDirectoriesExistsForce()
-	{
-		args.each {
-			mock_file.demand.exists { true }
-			mock_file.demand.write { "From mock_file" }	
-		}
-		mock_file.use { file ->
-			assert BpipeConfig.createFile("pippo", "pippo.txt", true, args)
+			assert Commands.createFile("pippo", "pippo.txt", true)
 		}
 	}
 }

@@ -6,7 +6,7 @@ package bpipeconfig
  */
 class Pipelines 
 {
-	/*
+	/**
 	 * LIST PIPELINES
 	 */
 	static def listPipelines(String pipelines_root)

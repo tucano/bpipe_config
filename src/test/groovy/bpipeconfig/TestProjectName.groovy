@@ -8,16 +8,16 @@ class TestProjectName extends GroovyTestCase
 {
 	void testProjectName()
 	{
-		assert BpipeConfig.projectName("Banfi_25_Medaka")
+		assert Commands.validateProjectName("Banfi_25_Medaka")
 	}
 
 	void testProjectNameFalse()
 	{
-		assert !BpipeConfig.projectName("25_Medaka")
+		assert !Commands.validateProjectName("25_Medaka")
 	}
 
 	void testProjectNameNull()
 	{
-		assert !BpipeConfig.projectName(null)
+		assert !Commands.validateProjectName(null)
 	}
 }

@@ -8,16 +8,16 @@ class TestMailValidation extends GroovyTestCase
 {
 	void testValidateEmail()
 	{
-		assert BpipeConfig.validateEmail("pippo@pippo.com")
+		assert Commands.validateEmail("pippo@pippo.com")
 	}
 
 	void testValidateEmailBad()
 	{
-		assert !BpipeConfig.validateEmail("pippopippo.com")
+		assert !Commands.validateEmail("pippopippo.com")
 	}
 
 	void testValidateEmailNull()
 	{
-		assert !BpipeConfig.validateEmail(null)
+		assert !Commands.validateEmail(null)
 	}
 }

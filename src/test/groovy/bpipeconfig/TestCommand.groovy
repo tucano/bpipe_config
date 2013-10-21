@@ -8,16 +8,16 @@ class TestCommand extends GroovyTestCase
 {
 	void testValidateCommand()
 	{
-		assert BpipeConfig.validateCommand("pipe")
+		assert Commands.validateCommand("pipe")
 	}
 
 	void testValidateCommandInvalid()
 	{
-		assert !BpipeConfig.validateCommand("pipssse")
+		assert !Commands.validateCommand("pipssse")
 	}
 
 	void testValidateCommandNullToFalse()
 	{
-		assert !BpipeConfig.validateCommand(null)
+		assert !Commands.validateCommand(null)
 	}
 }
