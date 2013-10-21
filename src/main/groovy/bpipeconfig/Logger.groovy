@@ -14,8 +14,26 @@ import static org.fusesource.jansi.Ansi.Attribute.*
 @Log
 class Logger 
 {
+	// PRINTERS (NO TESTS)
+	static void printVersionAndBuild(String version, String builddate)
+	{
+		print bold(versionInfo(version))
+		println "\t${buildInfo(builddate)}"
+	}
 
+	static void printPipelines(def pipelines)
+	{
+		def out = new StringBuffer()
+		out << bold("\nListing Pipelines:\n")
+		pipelines.each { pipeline ->
+			out << "${ bold(pipeline["name"]) } ".padRight(40, "-")
+			out << "--> ${ green(pipeline["about_title"]) }\n"
+		}
+		out << "\n"
+		print out.toString()
+	}
 
+	// MESSAGES (NO TESTS)
 	public static log(String msg)
 	{
 		log.info msg
@@ -23,7 +41,7 @@ class Logger
 
 	public static info(String msg)
 	{
-		
+		yellow(msg)
 	}
 
 	public static warn(String msg)
@@ -35,10 +53,20 @@ class Logger
 	{
 		red(msg)
 	}
+	
+	// HELPERS
+	static String versionInfo(String version)
+	{
+		"BpipeConfig GFU Version ${version}"
+	}
 
-	/*
-	 * COLORIZERS
-	 */
+	static String buildInfo(String builddate)
+	{
+		def date = builddate ? new Date(Long.parseLong(builddate)) : null
+		"Built on $date"
+	}
+
+	// COLORS (NO TESTS)
 	static org.fusesource.jansi.Ansi bold(String s)
 	{
 		ansi().a(INTENSITY_BOLD).a(s).reset()
@@ -62,5 +90,10 @@ class Logger
 	static org.fusesource.jansi.Ansi magenta(String s)
 	{
 		ansi().fg(MAGENTA).a(s).reset()
+	}
+
+	static org.fusesource.jansi.Ansi yellow(String s)
+	{
+		ansi().fg(YELLOW).a(s).reset()
 	}
 }

@@ -75,21 +75,23 @@ class BpipeConfig
 			println Logger.warn("No email configuration (${config_email_file})")
 		} 
 
-		// CLI
+		// CLI BUILDER
 		def cli = new CliBuilder(
 			usage: "bpipe-config [options] [config|sheet|pipe|info|clean|report|recover] [pipeline_name|*.groovy|dirs]",
     		header: "\nAvailable options (use -h for help):\n",
-    		footer: "\n${versionInfo(version)}, ${buildInfo(builddate)}\n",
+    		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
     		posix:  true,
     		width:  120
 		)
 		cli.with {
-			h   longOpt: 'help'     , 'Usage Information', required: false
-			v   longOpt: 'verbose'  , 'Verbose mode', required: false
+			b	longOpt: 'batch'    , 'Automatically execute bpipe in background (bg-bpipe)', required: false
+			c   longOpt: 'commands' , 'Print a list of available commands', required: false
 			f   longOpt: 'force'    , 'Force files overwrite when needed (default=FALSE).', required: false
+			h   longOpt: 'help'     , 'Usage Information', required: false
+			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
 			p   longOpt: 'pipelines', 'Print a list of available pipelines', required: false
 			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
-			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
+			v   longOpt: 'verbose'  , 'Verbose mode', required: false
 		}
 		def opt = cli.parse(args)
 		if ( !opt ) System.exit(1)
@@ -97,36 +99,36 @@ class BpipeConfig
 		// GET MAP OF PIPELINES
 		pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
 		
-		// GET OPTIONS: PIPELINES
-		if (opt.p) {
-			printVersionAndBuild()
-			println bold("\nListing Pipelines:\n")
-			// println pipelines simply formatted
-			pipelines.each { pipeline ->
-				print "${ bold(pipeline["name"]) } ".padRight(40, "-")
-				println "--> ${ green(pipeline["about_title"]) }"
-			}
-			println "\n\n"
-			printHelpCommands()
-			println "\n"
-			System.exit(0)
-		}
+		// PRINT VERSION AND BUILD
+		Logger.printVersionAndBuild(version, builddate)
 
-		// GET OPTIONS: HELP or USAGE (NO ARGUMENTS)
-        if ( opt.h || !opt.arguments() ) {
+		// GET HELP OPTIONS
+		def help_mode = false
+		if ( opt.h ) {
         	cli.usage()
-        	printHelpCommands()
-        	println "\n"
-        	System.exit(1)
+        	help_mode = true
         }
+		if (opt.p) {
+			Logger.printPipelines(pipelines)
+			help_mode = true
+		}
+		if (opt.c) {
+			printHelpCommands()
+			help_mode = true
+		}
+		if (help_mode) System.exit(1)
+
+		// USAGE with no arguments and no help
+		if ( !opt.arguments() ) {
+			cli.usage()
+			System.exit(1)
+		}
 
 		// GET OPTIONS: MAIL
 		if (opt.m) {
 			if ( validateEmail(opt.m) ) {
 				user_email = opt.m
 			} else {
-				printVersionAndBuild()
-				println()		
 				print bold(opt.m)
 				print red(" is not a valid email address\n")
 				System.exit(1)
@@ -143,8 +145,6 @@ class BpipeConfig
 		
 		// Validate Command
 		if (!validateCommand(command)) {
-			printVersionAndBuild()
-			println()
 			print bold(command)
 			print red(" is not a valid command\n")
 			printHelpCommands()
@@ -163,15 +163,9 @@ class BpipeConfig
 		// GET OPTIONS: PROJECT NAME, skip if command is sheet
 		if ( projectName(opt.P) == false && command != "sheet")
 		{
-			printVersionAndBuild()
-			println()
 			print "Project name "; print red(project_name); println " is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka)"
 			//System.exit(1)
 		}
-
-        // HEADER
-        printVersionAndBuild()
-        println()
 
         // USER OPTIONS
         printUserOptions()
@@ -462,15 +456,6 @@ class BpipeConfig
 			project_name = null
 		}
 		return project_name ==~ pattern
-	} 
-
-	/*
-	 * PRINTERS
-	 */
-	static void printVersionAndBuild()
-	{
-		print bold(versionInfo(version))
-		println "\t${buildInfo(builddate)}"
 	}
 
 	static void printSamples()
@@ -525,20 +510,6 @@ class BpipeConfig
 		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to get info on a pipeline.\n"
 		out << green("\nsheet command INFO argument format:\n") << "\tFCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_ID_name"
 		print out.toString()
-	}
-
-	/* 
-	 * HELPERS
-	 */
-	static String versionInfo(String version)
-	{
-		"BpipeConfig GFU Version ${version}"
-	}
-
-	static String buildInfo(String builddate)
-	{
-		def date = builddate ? new Date(Long.parseLong(builddate)) : null
-		"Built on $date"
 	}
 
 	static boolean validateEmail(String email)
