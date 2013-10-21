@@ -158,7 +158,7 @@ class Commands
 		def usage
 
 		def check_bpipe_config = { dir ->
-			if ( ! new File("${dir}/bpipe.config").exists() ) config(dir)
+			if ( ! new File("${dir}/bpipe.config").exists() ) { config([dir]) }
 		}
 
 		def generate_pipeline = { dir ->
@@ -176,18 +176,18 @@ class Commands
 					"pipeline_filename" : pipeline_filename
 				]
 				usage = engine.createTemplate(usage).make(binding_usage)
-				check_bpipe_config([dir])
+				check_bpipe_config(dir)
 				
 				// COPY PIPELINE AND GFU_ENVIRONMENT
-				def file_gfu_env = new File("${bpipe_config_home}/templates/gfu_environment.sh.template")
+				def file_gfu_env = new File("${BpipeConfig.bpipe_config_home}/templates/gfu_environment.sh.template")
 
 				def binding_gfu_env = [
-				    "project_name"    : '"' + project_name + '"',
-				    "reference"       : '"' + samples[0]["SampleRef"] + '"',
-				    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
-				    "fcid"            : '"' + samples[0]["FCID"] + '"',
-				    "lane"            : '"' + samples[0]["Lane"] + '"',
-				    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
+				    "project_name"    : '"' + BpipeConfig.project_name + '"',
+				    "reference"       : '"' + BpipeConfig.samples[0]["SampleRef"] + '"',
+				    "experiment_name" : '"' + BpipeConfig.samples[0]["FCID"] + "_" + BpipeConfig.samples[0]["SampleID"] + '"',
+				    "fcid"            : '"' + BpipeConfig.samples[0]["FCID"] + '"',
+				    "lane"            : '"' + BpipeConfig.samples[0]["Lane"] + '"',
+				    "sampleid"        : '"' + BpipeConfig.samples[0]["SampleID"] + '"'
 				]
 				// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
 				def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env)
@@ -195,15 +195,15 @@ class Commands
 				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
 				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env.toString() )
 				// Replace reference genome with first sample reference
-				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
+				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", BpipeConfig.samples[0]["SampleRef"])
 				
 				// CREATE gfu_environment.sh
-				if ( ! createFile(template_gfu_env.toString(), "gfu_environment.sh", BpipeConfig.force) ) {
+				if ( ! createFile(template_gfu_env.toString(), "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
 					println Logger.error("Problems creating gfu_environment.sh file!")
 				}
 
 				// CREATE pipeline
-				if ( ! createFile(pipeline_text, pipeline_filename, BpipeConfig.force) ) {
+				if ( ! createFile(pipeline_text, "${dir}/$pipeline_filename", BpipeConfig.force) ) {
 					println Logger.error("Problems creating pipeline file $pipeline_filename!")	
 				}
 			}
@@ -223,6 +223,9 @@ class Commands
 			args.each { dir ->
 				generate_pipeline(dir)
 			}
+			Logger.printUserOptions()
+			Logger.printSamples(BpipeConfig.samples)
+
 			// generate a convenience script in current directory
 			File runner = new File("runner.sh")
 			String content = """
@@ -241,8 +244,10 @@ class Commands
 		else
 		{
 			generate_pipeline(BpipeConfig.working_dir)
+			Logger.printUserOptions()
+			Logger.printSamples(BpipeConfig.samples)
 			println Logger.info("To run the pipeline:")
-			println Logger.message(usage)
+			println Logger.message(usage.toString())
 		}
 	}
 
