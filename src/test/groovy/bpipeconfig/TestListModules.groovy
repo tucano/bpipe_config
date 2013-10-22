@@ -27,5 +27,10 @@ class TestListModules extends GroovyTestCase
 	void testListModules()
 	{
 		assert Pipelines.listModules(modules_root) != null
-	}	
+	}
+
+	void testListModulesIsAList()
+	{
+		assert Pipelines.listModules(modules_root) instanceof LinkedHashMap
+	}
 }

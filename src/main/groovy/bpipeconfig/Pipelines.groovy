@@ -47,11 +47,13 @@ class Pipelines
 		GroovyShell shell = new GroovyShell()
 		def list = []
 		String source
+		String name
 		modules_dir.eachFile { file ->
+			name = file.name
 			source = file.text.replaceAll(/(?s).*doc/,"[").replaceAll(/(?s)([^"]")[^,]?\n.*/,"\$1]").replaceAll(/(?s)\$/,"")
 			if (source != "")
 			{
-				list << [shell.evaluate(source)]
+				list << shell.evaluate(source)
 			}
 		}
 		return list
