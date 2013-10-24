@@ -1,36 +1,43 @@
 apply plugin: 'groovy'
-//apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templates/apply.groovy'
+apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templates/apply.groovy'
 
-/*
-* BPIPE CONFIG BUILD SCRIPT
-* 
-* use groovy templates: https://github.com/townsfolk/gradle-templates
-* based on: http://www.gradle.org/docs/current/userguide/tutorial_groovy_projects.html
-* Use STAGE to make a libexec like dir.
-*
-*/
+/**
+ * 
+ * BPIPE CONFIG BUILD SCRIPT
+ * 
+ * use groovy templates: https://github.com/townsfolk/gradle-templates
+ * based on: http://www.gradle.org/docs/current/userguide/tutorial_groovy_projects.html
+ * Use STAGE to make a libexec like dir.
+ */
 
-version = "0.1"
+
+version = "0.2"
 
 project.ext {
-    STAGE="build/stage/bpipeconfig"	
+    STAGE="build/stage/bpipeconfig"
 }
 
-// Repos
 repositories {
     mavenCentral()
 }
 
-// The script is all Groovy, so we make use of all methods and features.
 dependencies {
     compile group: 'org.codehaus.groovy', name: 'groovy', version: '2.1.7'
     compile files(fileTree(dir:'local-lib', includes:['*.jar']))
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }
 
-// STAGE TASK
-task stage(dependsOn: jar) << {
-    // CREATE STAGE DIRECTORIES AND COPY FILES
+test {
+    // LOGGER SETUP
+    testLogging.exceptionFormat = 'full'
+
+    // set JVM arguments for the test JVM(s)
+    jvmArgs '-XX:MaxPermSize=256m'
+}
+
+task stage(dependsOn: jar, 
+    group: 'Build', description:"Stage project in ${project.STAGE} directory") << {
+
     ant.mkdir(dir: project.STAGE)
     
     ant.mkdir(dir: "$project.STAGE/bin")
@@ -80,7 +87,8 @@ task stage(dependsOn: jar) << {
 }
 
 // DIST TASK: create a tar.gz in build dir
-task dist(dependsOn: stage) << {
+task dist(dependsOn: stage, 
+    group: 'Build', description: "Create tar.gz file in build dir") << {
     ant.tar(destfile: "build/bpipeconfig-${version}.tar") {
         ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/bin/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/lib/**", excludes:"**/*.swp")
@@ -93,26 +101,13 @@ task dist(dependsOn: stage) << {
     ant.gzip(destfile:"build/bpipeconfig-${version}.tar.gz", src: "build/bpipeconfig-${version}.tar")
 }
 
-// TEST FRAMEWORK SET
-test {
-    // LOGGER SETUP
-    testLogging.exceptionFormat = 'full'
-
-    // set JVM arguments for the test JVM(s)
-    jvmArgs '-XX:MaxPermSize=256m'
-}
-
-task testDebug(type: Test, dependsOn: testClasses) {
+task testDebug(type: Test, dependsOn: testClasses, 
+    group: 'Verification', description: "Run the unit test with custom output") {
     // LOGGER SETUP
     testLogging {
-        // Show full assert exceptions
-        exceptionFormat = 'full'
         // show standard out and standard error of the test JVM(s) on the console
         showStandardStreams = true
         // Show that tests are run in the command-line output
         events 'started', 'passed'
     }
-
-    // set JVM arguments for the test JVM(s)
-    jvmArgs '-XX:MaxPermSize=256m'
 }
