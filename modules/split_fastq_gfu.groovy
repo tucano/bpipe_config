@@ -19,15 +19,15 @@ split_fastq_gfu =
             if (paired) {
                 exec"""
                     echo -e "[split_fastq_gfu]: splitting fastq.gz pair $input1 and $input2 on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
-                    zcat $input1 | split -l $n_lines -d -a 4 - read1_;
+                    zcat $input1.gz | split -l $n_lines -d -a 4 - read1_;
                     for file in read1_*; do mv "$file" "${file}.fastq"; done;
-                    zcat $input2 | split -l $n_lines -d -a 4 - read2_;
+                    zcat $input2.gz | split -l $n_lines -d -a 4 - read2_;
                     for file in read2_*; do mv "$file" "${file}.fastq"; done;
                 """
             } else {
                 exec"""
                     echo -e "[split_fastq_gfu]: splitting fastq.gz file on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
-                    zcat $input1 | split -l $n_lines -d -a 4 - read_;
+                    zcat $input1.gz | split -l $n_lines -d -a 4 - read_;
                     for file in read_*; do mv "$file" "${file}.fastq"; done;
                 """
             }
@@ -35,15 +35,15 @@ split_fastq_gfu =
             if (paired) {
                 exec"""
                     echo -e "[split_fastq_gfu]: splitting fastq pair on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
-                    split -l $n_lines -d -a 4 $input1 read1_;
-                    split -l $n_lines -d -a 4 $input2 read2_;
+                    split -l $n_lines -d -a 4 $input1.fastq read1_;
+                    split -l $n_lines -d -a 4 $input2.fastq read2_;
                     for file in read1_*; do mv "$file" "${file}.fastq"; done;
                     for file in read2_*; do mv "$file" "${file}.fastq"; done;
                 """
             } else {
                 exec"""
                     echo -e "[split_fastq_gfu]: splitting fastq pair on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
-                    split -l $n_lines -d -a 4 $input1 read_;
+                    split -l $n_lines -d -a 4 $input1.fastq read_;
                     for file in read_*; do mv "$file" "${file}.fastq"; done;
                 """
             }

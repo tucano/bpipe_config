@@ -2,6 +2,12 @@
 
 Bpipe configuration and reporting.
 
+# TODO PIPELINES
+
+* Fix htseq_count with annotation.gtf as VAR not input
+* Add test_pipelines dir
+* Complete pipelines with SCHEDE PROCESSO: https://www.dropbox.com/sh/9jcpq42dt17hi6n/im5IQYZQQf
+
 
 
 

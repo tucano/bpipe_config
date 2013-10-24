@@ -20,4 +20,5 @@ set_stripe_gfu =
             $LSF getstripe . 1> $output 2>&1 || true;
         """
     }
+    forward input
 }

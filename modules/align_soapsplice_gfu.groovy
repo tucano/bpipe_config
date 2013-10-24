@@ -83,7 +83,7 @@ align_soapsplice_gfu =
                     TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                     TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
                     echo -e "[align_soapsplice_gfu]: soapsplice alignment (single) on node $HOSTNAME with TMP_SCRATCH: $TMP_SCRATCH and header: ${input.prefix}.header" >&2;                    
-                    $SSPLICE -d $REFERENCE_GENOME -1 $input -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
+                    $SSPLICE -d $REFERENCE_GENOME -1 $input.fastq -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
                     cat ${input.prefix}.header ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
                     mv ${TMP_OUTPUT_PREFIX}.bam $output.bam;
                     for F in ${TMP_SCRATCH}/*.junc; do
