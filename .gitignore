@@ -2,6 +2,7 @@
 
 # BPIPE
 .bpipe
+commandlog.txt
 
 # PRIVATE FILES
 config/email_notifier.groovy

@@ -7,6 +7,8 @@ align_bwa_gfu =
     // use -I for base64 Illumina quality
     // use -q for trim quality (Es: -q 30)
     var BWAOPT_ALN : ""
+    var bwa_threads: 2
+    var test       : false
 
     // INFO
     doc title: "GFU: align DNA reads with bwa",
@@ -15,19 +17,27 @@ align_bwa_gfu =
         author: "davide.rambaldi@gmail.com"
 
     // TWO VERSIONS: Compressed and NOT compressed.
-    if (input.endsWith(".gz")) {
-        from("fastq.gz") produce(input.prefix - ".fastq" + ".sai") {
+    if (input.endsWith(".gz")) { from("fastq.gz") produce(input.prefix - ".fastq" + ".sai") {
+        if (test) {
+            println "INPUT:  $input.gz"
+            println "OUTPUT: $output.sai"
+            exec "touch $output.sai"
+        } else {
             exec """
                 echo -e "[align_bwa_gfu]: bwa aln on node $HOSTNAME with input (compressed) $input.gz and output $output.sai" >&2;
-                $BWA aln -t 2 $BWAOPT_ALN $REFERENCE_GENOME $input.gz > $output.sai
+                $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.gz > $output.sai
             ""","bwa_aln"
         }
-    } else {
-        from("fastq") produce(input.prefix - ".fastq" + ".sai") {
+    }} else { from("fastq") produce(input.prefix - ".fastq" + ".sai") {
+        if (test) {
+            println "INPUT:  $input.fastq"
+            println "OUTPUT: $output.sai"
+            exec "touch $output.sai"
+        } else {
             exec """
                 echo -e "[align_bwa_gfu]: bwa aln on node $HOSTNAME with input (not compressed) $input.fastq and output $output.sai" >&2;
-                $BWA aln -t 2 $BWAOPT_ALN $REFERENCE_GENOME $input.fastq > $output.sai
+                $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.fastq > $output.sai
             ""","bwa_aln"
         }
-    }
+    }}
 }
