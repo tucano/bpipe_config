@@ -13,26 +13,29 @@ align_bwa_gfu =
     // INFO
     doc title: "GFU: align DNA reads with bwa",
         desc: "Use bwa aln to align reads on the reference genome. Bwa options: $BWAOPT_ALN",
-        constraints: "Work with fastq and fastq.gz files.",
+        constraints: "Work with fastq and fastq.gz single files.",
         author: "davide.rambaldi@gmail.com"
 
+
     // TWO VERSIONS: Compressed and NOT compressed.
-    if (input.endsWith(".gz")) { from("fastq.gz") produce(input.prefix - ".fastq" + ".sai") {
+    if (input.endsWith(".gz")) { 
+        transform('.fastq.gz') to('.sai') {
         if (test) {
-            println "INPUT:  $input.gz"
-            println "OUTPUT: $output.sai"
-            exec "touch $output.sai"
+            println "INPUT:  $input"
+            println "OUTPUT: $output"
+            exec "touch $output"
         } else {
             exec """
                 echo -e "[align_bwa_gfu]: bwa aln on node $HOSTNAME with input (compressed) $input.gz and output $output.sai" >&2;
                 $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.gz > $output.sai
             ""","bwa_aln"
         }
-    }} else { from("fastq") produce(input.prefix - ".fastq" + ".sai") {
+    }} else { 
+        from("fastq") produce(input.prefix - ".fastq" + ".sai") {
         if (test) {
-            println "INPUT:  $input.fastq"
-            println "OUTPUT: $output.sai"
-            exec "touch $output.sai"
+            println "INPUT:  $input"
+            println "OUTPUT: $output"
+            exec "touch $output"
         } else {
             exec """
                 echo -e "[align_bwa_gfu]: bwa aln on node $HOSTNAME with input (not compressed) $input.fastq and output $output.sai" >&2;
