@@ -16,30 +16,22 @@ align_bwa_gfu =
         constraints: "Work with fastq and fastq.gz single files.",
         author: "davide.rambaldi@gmail.com"
 
-    // TWO VERSIONS: Compressed and NOT compressed.
-    if (input.endsWith(".gz")) {
-        transform('.fastq.gz') to('.sai') {
+    def input_extension = input.endsWith(".gz") ? '.fastq.gz' : '.fastq'
+
+    transform(input_extension) to('.sai') {
+
+        def command = """
+            echo -e "[align_bwa_gfu]: bwa aln on node $HOSTNAME with input (compressed) $input and output $output.sai" >&2;
+            $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input > $output.sai
+        """.stripIndent()
+
         if (test) {
             println "INPUT:  $input"
             println "OUTPUT: $output"
-            exec "touch $output"
-        } else {
-            exec """
-                echo -e "[align_bwa_gfu]: bwa aln on node $HOSTNAME with input (compressed) $input.gz and output $output.sai" >&2;
-                $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.gz > $output.sai
-            ""","bwa_aln"
+            println "COMMAND:\n$command"
+            command = "touch $output"
         }
-    }} else {
-        transform('.fastq') to('.sai') {
-        if (test) {
-            println "INPUT:  $input"
-            println "OUTPUT: $output"
-            exec "touch $output"
-        } else {
-            exec """
-                echo -e "[align_bwa_gfu]: bwa aln on node $HOSTNAME with input (not compressed) $input.fastq and output $output.sai" >&2;
-                $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.fastq > $output.sai
-            ""","bwa_aln"
-        }
-    }}
+
+        exec command
+    }
 }
