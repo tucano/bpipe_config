@@ -16,9 +16,8 @@ align_bwa_gfu =
         constraints: "Work with fastq and fastq.gz single files.",
         author: "davide.rambaldi@gmail.com"
 
-
     // TWO VERSIONS: Compressed and NOT compressed.
-    if (input.endsWith(".gz")) { 
+    if (input.endsWith(".gz")) {
         transform('.fastq.gz') to('.sai') {
         if (test) {
             println "INPUT:  $input"
@@ -30,8 +29,8 @@ align_bwa_gfu =
                 $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.gz > $output.sai
             ""","bwa_aln"
         }
-    }} else { 
-        from("fastq") produce(input.prefix - ".fastq" + ".sai") {
+    }} else {
+        transform('.fastq') to('.sai') {
         if (test) {
             println "INPUT:  $input"
             println "OUTPUT: $output"
