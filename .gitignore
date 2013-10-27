@@ -18,6 +18,7 @@ data/Sample_*/*.config
 # GRADLE: Output directories
 build/
 .gradle/
+.gradletasknamecache
 
 # Java class files
 *.class
