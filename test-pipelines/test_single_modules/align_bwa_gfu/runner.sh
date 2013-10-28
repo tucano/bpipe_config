@@ -23,7 +23,7 @@ fi
 ./cleaner.sh
 
 # SINGLE FASTQ.GZ
-bpipe run test.groovy $INPUTTWO
+bpipe run test_compressed.groovy $INPUTTWO
 if [[ ! -f $OUTPUTTWO ]]; then
 	echo "Error for $OUTPUTTWO"
 	exit 1
@@ -54,7 +54,7 @@ fi
 ./cleaner.sh
 
 # MULTIPLE FASTQ.GZ
-bpipe run test.groovy ../../data/*.fastq.gz
+bpipe run test_compressed.groovy ../../data/*.fastq.gz
 # I expecd 4 files
 RES=`ls *.sai | wc | awk {'print $1'}`
 if [[ $RES != 4 ]]; then

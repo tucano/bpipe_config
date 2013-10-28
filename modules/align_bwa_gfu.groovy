@@ -9,6 +9,7 @@ align_bwa_gfu =
     var BWAOPT_ALN : ""
     var bwa_threads: 2
     var test       : false
+    var compressed : true
 
     // INFO
     doc title: "GFU: align DNA reads with bwa",
@@ -16,7 +17,7 @@ align_bwa_gfu =
         constraints: "Work with fastq and fastq.gz single files.",
         author: "davide.rambaldi@gmail.com"
 
-    def input_extension = input.endsWith(".gz") ? '.fastq.gz' : '.fastq'
+    def input_extension = compressed ? '.fastq.gz' : '.fastq'
 
     transform(input_extension) to('.sai') {
 
@@ -32,6 +33,6 @@ align_bwa_gfu =
             command = "touch $output"
         }
 
-        exec command
+        exec command, "bwa"
     }
 }

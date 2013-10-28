@@ -2,7 +2,7 @@
 SSPLICE="/lustre1/tools/bin/soapsplice"
 
 @intermediate
-soapsplice_prepare_headers_gfu = 
+soapsplice_prepare_headers_gfu =
 {
     // INFO
     doc title: "GFU: prepare header file for alignment with soapsplice",
