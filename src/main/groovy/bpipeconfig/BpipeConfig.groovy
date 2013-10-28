@@ -3,11 +3,11 @@ package bpipeconfig
 /**
  * BPIPE-CONFIG
  * <p>
- * 
- * BpipeConfig is a comman line application to handle bpipe runs. 
- * 
+ *
+ * BpipeConfig is a comman line application to handle bpipe runs.
+ *
  * @see     bpipe.Bpipe
- * 
+ *
  * @author	Davide Rambaldi <rambaldi.davide@hsr.it>
  *
  */
@@ -18,7 +18,7 @@ import bpipeconfig.Commands
 import bpipeconfig.Logger
 import bpipeconfig.Pipelines
 
-class BpipeConfig 
+class BpipeConfig
 {
 	/**
 	 * PROPERTIES
@@ -26,9 +26,9 @@ class BpipeConfig
 	final static String sample_sheet_name    = "SampleSheet.csv"
 	final static String version              = System.getProperty("bpipeconfig.version")
     final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
-  
+
     public static String  user_email
-    public static boolean verbose 
+    public static boolean verbose
     public static boolean force
     public static boolean batch
     public static String command
@@ -50,7 +50,7 @@ class BpipeConfig
      *
      * @param	args	command line arguments
  	 * @return	A System.exit status
-     */        
+     */
 	public static void main(String[] args)
 	{
 		// GET ENVIRONMENT INFO
@@ -66,7 +66,7 @@ class BpipeConfig
 			email_config = new ConfigSlurper().parse(config_email_file.text)
 		} else {
 			println Logger.warn("No email configuration (${config_email_file})")
-		} 
+		}
 
 		// CLI BUILDER
 		def cli = new CliBuilder(
@@ -91,7 +91,7 @@ class BpipeConfig
 
 		// GET MAP OF PIPELINES
 		pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
-		
+
 		// PRINT VERSION AND BUILD
 		Logger.printVersionAndBuild(version, builddate)
 
@@ -132,7 +132,7 @@ class BpipeConfig
 				project_name = opt.P
 			} else {
 				print Logger.error(
-					"Project name: ${opt.P}", 
+					"Project name: ${opt.P}",
 					" is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka or Banfi_1B_medaka)"
 				)
 			}
@@ -146,7 +146,7 @@ class BpipeConfig
 		// GET command (first non options argument) and remove it from list
 		def extraArguments = opt.arguments()
 		command = extraArguments.remove(0)
-		
+
 		// Validate Command
 		if (!Commands.validateCommand(command)) {
 			print Logger.error(command, " is not a valid command\n")
@@ -179,4 +179,4 @@ class BpipeConfig
 			break
 		}
 	}
-}	
+}

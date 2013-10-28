@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_align_bwa_gfu_module"
+SCRIPT_NAME="test_align_soaplice_gfu_module"
 INPUTONE="../../data/testinput_R1_001.fastq"
 INPUTHEADER="../../data/testinput_R1_001.header"
 INPUTTWO="../../data/testinput_R1_002.fastq.gz"
@@ -98,7 +98,6 @@ if [[ $RESULT > 0 ]]; then
     exit 1
 fi
 ./cleaner.sh
-
 
 echo "SUCCESS"
 exit 0

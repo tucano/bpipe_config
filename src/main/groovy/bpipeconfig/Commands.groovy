@@ -8,7 +8,7 @@ package bpipeconfig
 import groovy.text.SimpleTemplateEngine
 import bpipeconfig.Logger
 
-class Commands 
+class Commands
 {
 	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover"]
 	public static def engine = new SimpleTemplateEngine()
@@ -26,10 +26,10 @@ class Commands
 		def check_project_name = { dir ->
 			sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
 			// check for defined global project name
-			if (BpipeConfig.project_name) 
+			if (BpipeConfig.project_name)
 			{
 				println Logger.info("using project name: ${BpipeConfig.project_name}")
-			} 
+			}
 			// check for local SampleSheet.csv
 			else if (sample_sheet.exists())
 			{
@@ -48,8 +48,8 @@ class Commands
 		// GENERATE CONFIG FILE
 		def generate_config = { dir ->
 			// GENERATE SINGLE CONFIG
-			binding_config = [ 
-				"executor"                 : "pbspro", 
+			binding_config = [
+				"executor"                 : "pbspro",
 				"username"                 : BpipeConfig.user_name,
 				"queue"                    : "workq",
 				"project_name"             : BpipeConfig.project_name,
@@ -64,18 +64,18 @@ class Commands
 		}
 
 		// DIR MODE
-		if ( args && args.size > 0 ) 
+		if ( args && args.size > 0 )
 		{
 			// check if args are dirs
 			checkDir(args)
 			// loop in dirs
-			args.each { dir ->				
+			args.each { dir ->
 				check_project_name(dir)
 				generate_config(dir)
 			}
-		} 
+		}
 		// PWD MODE
-		else 
+		else
 		{
 			check_project_name(BpipeConfig.working_dir)
 			generate_config(BpipeConfig.working_dir)
@@ -91,9 +91,9 @@ class Commands
 		}
 
 		String sample_info = args.remove(0)
-		
+
 		def info = []
-		def header = [] 
+		def header = []
 		StringBuffer out
 
 		if (validateSampleinfo(sample_info) )
@@ -113,14 +113,14 @@ class Commands
 			System.exit(1)
 		}
 
-		def create_sample_sheet = { dir -> 
+		def create_sample_sheet = { dir ->
 			if ( ! createFile(out.toString(), "${dir}/SampleSheet.csv",  BpipeConfig.force) ) {
 				println Logger.error("Problems creating SampleSheet.csv in dir $dir")
 			}
 		}
 
 		// DIR MODE
-		if ( args && args.size > 0 ) 
+		if ( args && args.size > 0 )
 		{
 			checkDir(args)
 			// Loops in dirs
@@ -172,13 +172,13 @@ class Commands
 				// GENERATE USAGE INFO
 				def pattern = /(?m)\/{2}\s*USAGE:(.*)/
 				def matcher = (pipeline_text =~ pattern)
-				usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'		
+				usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
 				def binding_usage = [
 					"pipeline_filename" : pipeline_filename
 				]
 				usage = engine.createTemplate(usage).make(binding_usage)
 				check_bpipe_config(dir)
-				
+
 				// COPY PIPELINE AND GFU_ENVIRONMENT
 				def file_gfu_env = new File("${BpipeConfig.bpipe_config_home}/templates/gfu_environment.sh.template")
 
@@ -192,12 +192,12 @@ class Commands
 				]
 				// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
 				def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env)
-				
+
 				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
 				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env.toString() )
 				// Replace reference genome with first sample reference
 				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
-				
+
 				// CREATE gfu_environment.sh
 				if ( ! createFile(template_gfu_env.toString(), "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
 					println Logger.error("Problems creating gfu_environment.sh file!")
@@ -205,7 +205,7 @@ class Commands
 
 				// CREATE pipeline
 				if ( ! createFile(pipeline_text, "${dir}/$pipeline_filename", BpipeConfig.force) ) {
-					println Logger.error("Problems creating pipeline file $pipeline_filename!")	
+					println Logger.error("Problems creating pipeline file $pipeline_filename!")
 				}
 			}
 			else
@@ -217,13 +217,13 @@ class Commands
 		}
 
 		// DIR MODE
-		if ( args && args.size > 0 ) 
+		if ( args && args.size > 0 )
 		{
 			// check if args are dirs
 			checkDir(args)
 			args.each { dir ->
 				generate_pipeline(dir)
-				if (BpipeConfig.batch) {					
+				if (BpipeConfig.batch) {
 					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute(null, new File(dir))
 					println Logger.message("BATCH MODE: Bpipe started in background in directory ${dir}")
 				}
@@ -259,7 +259,7 @@ class Commands
 				println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
 				println Logger.message("Use 'bpipe log' to monitor execution.")
 			}
-			else 
+			else
 			{
 				Logger.printUserOptions()
 				Logger.printSamples(samples)
@@ -340,7 +340,7 @@ class Commands
 
 		// Store headers and remove line
 		String[] headers = lines.remove(0).split(",")
-		
+
 		// Get samples
 		lines.each { line ->
 			// skip empty lines
@@ -378,10 +378,10 @@ class Commands
 				println Logger.message("Created file: $file")
 			}
 		}
-		
+
 		def new_file = new File("$filename")
 		check_and_write_file(new_file)
-		
+
 		// If I am here, success
 		return true
 	}
