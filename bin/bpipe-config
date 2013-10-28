@@ -1,9 +1,9 @@
 #!/bin/bash
 #----------------------------------------------------------
 #
-#  _ ) _ \_ _| _ \__|     __|  _ \  \ | __|_ _|  __| 
-#  _ \ __/  |  __/_|____|(    (   |.  | _|   |  (_ | 
-# ___/_|  ___|_| ___|   \___|\___/_|\_|_|  ___|\___| 
+#  _ ) _ \_ _| _ \__|     __|  _ \  \ | __|_ _|  __|
+#  _ \ __/  |  __/_|____|(    (   |.  | _|   |  (_ |
+# ___/_|  ___|_| ___|   \___|\___/_|\_|_|  ___|\___|
 #
 # BpipeConfig Runner Script
 #
@@ -15,7 +15,7 @@
 VERSION=0.0.0
 
 # Build date as an integer (unix epoch time)
-# This should be 0 in the source tree, 
+# This should be 0 in the source tree,
 # it will be replaced by the build script at build time
 BUILDDATE=0
 
@@ -29,7 +29,7 @@ BUILDDATE=0
 # This path takes into account OS (so Cygwin gets a Windows
 # style path) and also recognizes when you are running in-situ
 # in the development tree so it will let classes from the
-# build directory override the jar files. 
+# build directory override the jar files.
 #----------------------------------------------------------
 get_classpath() {
 	LIB=lib
@@ -44,7 +44,7 @@ fi
 
 if [[ -z "$BPIPE_HOME" ]]; then
 	echo -e "BPIPE_HOME is unset"
-	exit 1	
+	exit 1
 fi
 
 get_classpath
