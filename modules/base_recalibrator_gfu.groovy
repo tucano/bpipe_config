@@ -1,7 +1,7 @@
 // MODULE BASE RECALIBRATOR GFU
 GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
-@Transform("grp")
+@intermediate
 base_recalibrator_gfu = {
     // stage vars
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
@@ -12,7 +12,8 @@ base_recalibrator_gfu = {
         desc: "Base recalibration with GATK tool: BaseRecalibrator",
         author: "davide.rambaldi@gmail.com"
 
-    exec"""
+    transform("grp") {
+      def command = """
         ulimit -l unlimited;
         ulimit -s unlimited;
         $GATK -R $ref_genome_fasta
@@ -27,6 +28,14 @@ base_recalibrator_gfu = {
               --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
               -nct 64
               -o $output.grp
-      ""","gatk"
-      forward input.bam
+      """
+
+        if (test) {
+            println "INPUT $input, OUTPUT: $ouptut"
+            println "COMMAND: $command"
+            command = "touch $output"
+        }
+        exec command, "gatk"
+    }
+    forward input.bam
 }
