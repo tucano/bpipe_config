@@ -2,9 +2,9 @@ apply plugin: 'groovy'
 apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templates/apply.groovy'
 
 /**
- * 
+ *
  * BPIPE CONFIG BUILD SCRIPT
- * 
+ *
  * use groovy templates: https://github.com/townsfolk/gradle-templates
  * based on: http://www.gradle.org/docs/current/userguide/tutorial_groovy_projects.html
  * Use STAGE to make a libexec like dir.
@@ -35,11 +35,11 @@ test {
     jvmArgs '-XX:MaxPermSize=256m'
 }
 
-task stage(dependsOn: jar, 
+task stage(dependsOn: jar,
     group: 'Build', description:"Stage project in ${project.STAGE} directory") << {
 
     ant.mkdir(dir: project.STAGE)
-    
+
     ant.mkdir(dir: "$project.STAGE/bin")
     ant.copy(todir: "$project.STAGE/bin") {
         ant.fileset(dir: 'bin', includes: "**")
@@ -80,14 +80,14 @@ task stage(dependsOn: jar,
             "bin/bpipe-config").text.replaceAll(
             "VERSION=0.0.0","VERSION=$version").replaceAll(
             "BUILDDATE=0","BUILDDATE="+String.valueOf(System.currentTimeMillis()))
-  
-    // CHANGE PERMISSIONS IN BIN AND MISC 
+
+    // CHANGE PERMISSIONS IN BIN AND MISC
     ant.chmod( dir: "$project.STAGE/bin", perm: "755", includes: "*")
     ant.chmod( dir: "$project.STAGE/misc", perm: "755", includes: "*")
 }
 
 // DIST TASK: create a tar.gz in build dir
-task dist(dependsOn: stage, 
+task dist(dependsOn: stage,
     group: 'Build', description: "Create tar.gz file in build dir") << {
     ant.tar(destfile: "build/bpipeconfig-${version}.tar") {
         ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/bin/**", excludes:"**/*.swp")
@@ -96,12 +96,12 @@ task dist(dependsOn: stage,
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/config/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/pipelines/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/modules/**", excludes:"**/*.swp")
-        ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/misc/**", excludes:"**/*.swp")        
+        ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/misc/**", excludes:"**/*.swp")
     }
     ant.gzip(destfile:"build/bpipeconfig-${version}.tar.gz", src: "build/bpipeconfig-${version}.tar")
 }
 
-task testDebug(type: Test, dependsOn: testClasses, 
+task testDebug(type: Test, dependsOn: testClasses,
     group: 'Verification', description: "Run the unit test with custom output") {
     // LOGGER SETUP
     testLogging {

@@ -12,13 +12,13 @@ realiagner_target_creator_gfu = {
         desc: "Find small intervals that should be realigned",
         constrains: "Require the index bai file for bam: $input",
         author: "davide.rambaldi@gmail.com"
-        
+
     exec"""
         ulimit -l unlimited;
         ulimit -s unlimited;
-        $GATK -I $input.bam 
+        $GATK -I $input.bam
               -R $ref_genome_fasta
-              -T RealignerTargetCreator 
+              -T RealignerTargetCreator
               -L $truseq
               -o $output.intervals
               --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
