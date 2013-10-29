@@ -23,7 +23,7 @@ sam_bwa_gfu =
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
 
     if (paired) {
-        def custom_output = input.replaceFirst(/.*\//,"") - input_extension + ".bam"
+        def custom_output = input.prefix.replaceFirst(/.*\//,"") + ".bam"
         from ("sai","sai",input_extension, input_extension) produce(custom_output) {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
