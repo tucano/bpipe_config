@@ -20,7 +20,7 @@ align_soapsplice_gfu =
     if (paired) {
         def custom_output = input.replaceFirst(/.*\//,"") - input_extension + ".bam"
         from(input_extension, input_extension, '.header') produce(custom_output) {
-            command = """
+            def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
                 echo -e "[align_soapsplice_gfu]: soapsplice alignment on node $HOSTNAME";
@@ -46,7 +46,7 @@ align_soapsplice_gfu =
         }
     } else {
         transform(input_extension, '.header') to('.bam') {
-            command = """
+            def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
                 echo -e "[align_soapsplice_gfu]: soapsplice alignment on node $HOSTNAME";
