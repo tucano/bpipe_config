@@ -37,5 +37,4 @@ base_recalibrator_gfu = {
         }
         exec command, "gatk"
     }
-    forward input.bam
 }

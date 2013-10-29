@@ -1,7 +1,7 @@
 // MODULE INDEL REALIGNER GFU
 GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
-@Filter("indel_realigned")
+@intermediate
 indel_realigner_gfu = {
     // stage vars
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
@@ -12,18 +12,24 @@ indel_realigner_gfu = {
         desc: "Realign small intervals marked by GATK: RealignerTargetCreator",
         author: "davide.rambaldi@gmail.com"
 
-    exec"""
-        ulimit -l unlimited;
-        ulimit -s unlimited;
-        $GATK -I $input.bam
-              -R $ref_genome_fasta
-              -T IndelRealigner
-              -L $truseq
-              -targetIntervals $input.intervals
-              -o $output.bam
-              --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
-              -known $dbsnp;
-      ""","gatk"
-
-    forward input.bam
+    filter("indel_realigned") {
+        def command = """
+            ulimit -l unlimited;
+            ulimit -s unlimited;
+            $GATK -I $input.bam
+                  -R $ref_genome_fasta
+                  -T IndelRealigner
+                  -L $truseq
+                  -targetIntervals $input.intervals
+                  -o $output.bam
+                  --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
+                  -known $dbsnp;
+        """
+        if (test) {
+            println "INPUT $input, OUTPUT: $ouptut"
+            println "COMMAND: $command"
+            command = "touch $output"
+        }
+        exec command,"gatk"
+    }
 }
