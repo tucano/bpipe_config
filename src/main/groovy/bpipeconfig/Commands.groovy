@@ -11,9 +11,9 @@ import bpipeconfig.Logger
 class Commands
 {
 	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover"]
-	public static def engine = new SimpleTemplateEngine()
 	public static def pipeline
 	public static def samples
+	public static def engine = new SimpleTemplateEngine()
 
 	public static config(def args)
 	{
@@ -153,17 +153,15 @@ class Commands
 			System.exit(1)
 		}
 
-		// SOURCING PIPELINE and make some changes
-		String pipeline_text = new File(pipeline["file_path"]).text
-		// TO store usage string
-		def usage
-
 		def check_bpipe_config = { dir ->
 			if ( ! new File("${dir}/bpipe.config").exists() ) { config([dir]) }
 		}
 
+		// CAN BE DEFINED HERE BECAUSE IS THE SAMPE USAGE FOR EACH DIR DON'T CARE FOR OVERWRITE
+		def usage = ""
 		def generate_pipeline = { dir ->
 			def sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
+			String pipeline_text = new File(pipeline["file_path"]).text
 			if (sample_sheet.exists())
 			{
 				samples =  slurpSampleSheet(sample_sheet)
@@ -191,17 +189,18 @@ class Commands
 				    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
 				]
 				// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
-				def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env)
-
-				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
-				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env.toString() )
-				// Replace reference genome with first sample reference
-				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
+				def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
 
 				// CREATE gfu_environment.sh
-				if ( ! createFile(template_gfu_env.toString(), "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
+				if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
 					println Logger.error("Problems creating gfu_environment.sh file!")
 				}
+
+				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
+				pipeline_text = pipeline_text.replaceAll( "//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env )
+
+				// Replace reference genome with first sample reference
+				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
 
 				// CREATE pipeline
 				if ( ! createFile(pipeline_text, "${dir}/$pipeline_filename", BpipeConfig.force) ) {
@@ -239,7 +238,7 @@ class Commands
 					for i in ${args.join(" ")}
 					do
 						cd \$i
-						$usage
+						bg-${usage}
 						cd ..
 					done
 				""".stripIndent().trim()
