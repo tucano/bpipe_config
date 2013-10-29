@@ -6,17 +6,17 @@ htseq_count_gfu =
 {
     var stranded : "no"
     var mode    : "union"
-    var id_attribute : "gene_name"  
+    var id_attribute : "gene_name"
     var feature_type : "exon"
 
     doc title: "GFU: htseq-count on bam file with GTF annotation file",
         desc: """
             Run htseq-count on sorted BAM file and check output consistency with awk in file $output.txt
-            Inputs: a gtf annotation file ($input.gtf) and a bam file ($input.bam). 
+            Inputs: a gtf annotation file ($input.gtf) and a bam file ($input.bam).
             Outputs: sam files of reads ($output.sam) and reads count ($output.txt).
         """,
         constraints: """
-            Generate a $output.sam file without Headers. 
+            Generate a $output.sam file without Headers.
             Check the var id_attribute, feature_type, mode and stranded before launch.
             This stage forward the last bam file to create headers in sort_and_convert_sam_gfu
         """,

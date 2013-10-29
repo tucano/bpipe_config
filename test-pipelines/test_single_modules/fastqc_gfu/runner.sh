@@ -1,12 +1,11 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_base_recalibrator_module"
-INPUTBAM="../../data/testinput_one.bam"
-OUTPUTONE="testinput_one.grp"
-
+SCRIPT_NAME="test_fastqc_module"
+INPUT="../../data/testinput_R1_002.fastq.gz"
+OUTPUTONE="testinput_R1_002_fastqc.zip"
 ./cleaner.sh
 
-bpipe run test.groovy $INPUTBAM
+bpipe run test.groovy $INPUT
 if [[ ! -f $OUTPUTONE ]]; then
     echo "Error for $OUTPUTONE"
     exit 1
