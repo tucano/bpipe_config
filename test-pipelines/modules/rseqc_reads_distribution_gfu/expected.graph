@@ -1,0 +1,11 @@
+
+Dependency graph is: 
+
+../../data/testinput_one.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_two.bam => 
+                               testinput_one.reads_distribution.log
+                               testinput_R1_001.reads_distribution.log
+                               testinput_R1_002.reads_distribution.log
+                               testinput_two.reads_distribution.log

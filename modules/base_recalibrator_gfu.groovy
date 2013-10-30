@@ -7,6 +7,7 @@ base_recalibrator_gfu = {
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
     var dbsnp            : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
     var truseq           : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
+    var test             : false
 
     doc title: "GFU Base recalibration with GATK",
         desc: "Base recalibration with GATK tool: BaseRecalibrator",
@@ -31,7 +32,7 @@ base_recalibrator_gfu = {
       """
 
         if (test) {
-            println "INPUT $input, OUTPUT: $ouptut"
+            println "INPUT $input, OUTPUT: $output"
             println "COMMAND: $command"
             command = "touch $output"
         }

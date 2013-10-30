@@ -1,0 +1,27 @@
+
+Dependency graph is: 
+
+../../data/testinput_one.bam
+../../data/testinput_one.bam
+../../data/testinput_one.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_two.bam
+../../data/testinput_two.bam
+../../data/testinput_two.bam => 
+                               testinput_one.geneBodyCoverage.pdf
+                               testinput_one.geneBodyCoverage.txt
+                               testinput_one.geneBodyCoverage_plot.r
+                               testinput_R1_001.geneBodyCoverage.pdf
+                               testinput_R1_001.geneBodyCoverage.txt
+                               testinput_R1_001.geneBodyCoverage_plot.r
+                               testinput_R1_002.geneBodyCoverage.pdf
+                               testinput_R1_002.geneBodyCoverage.txt
+                               testinput_R1_002.geneBodyCoverage_plot.r
+                               testinput_two.geneBodyCoverage.pdf
+                               testinput_two.geneBodyCoverage.txt
+                               testinput_two.geneBodyCoverage_plot.r

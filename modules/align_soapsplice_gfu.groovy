@@ -9,6 +9,7 @@ align_soapsplice_gfu =
     var paired : true
     var SSPLICEOPT_ALN : "-p 4 -f 2 -q 1 -j 0"
     var compressed : true
+    var test : false
 
     doc title: "GFU: Soapsplice alignment task",
         desc: "Align with soapsplice. Generate temporary files in /dev/shm on the node",

@@ -5,7 +5,7 @@ PICMERGE="/usr/local/cluster/bin/MergeSamFiles.jar"
 merge_bam_gfu =
 {
     var rename : false
-    var test : true
+    var test : false
 
     doc title: "GFU: merge bam files with $PICMERGE",
         desc: "Merge bam files with $PICMERGE",

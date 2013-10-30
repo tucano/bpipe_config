@@ -1,0 +1,27 @@
+
+Dependency graph is: 
+
+../../data/testinput_one.bam
+../../data/testinput_one.bam
+../../data/testinput_one.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_two.bam
+../../data/testinput_two.bam
+../../data/testinput_two.bam => 
+                               testinput_one.NVC.xls
+                               testinput_one.NVC_plot.pdf
+                               testinput_one.NVC_plot.r
+                               testinput_R1_001.NVC.xls
+                               testinput_R1_001.NVC_plot.pdf
+                               testinput_R1_001.NVC_plot.r
+                               testinput_R1_002.NVC.xls
+                               testinput_R1_002.NVC_plot.pdf
+                               testinput_R1_002.NVC_plot.r
+                               testinput_two.NVC.xls
+                               testinput_two.NVC_plot.pdf
+                               testinput_two.NVC_plot.r

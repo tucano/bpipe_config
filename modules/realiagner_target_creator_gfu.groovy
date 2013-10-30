@@ -7,6 +7,7 @@ realiagner_target_creator_gfu = {
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
     var truseq : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
     var dbsnp : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
+    var test : false
 
     doc title: "GFU find small intervals with GATK toolkit: RealignerTargetCreator",
         desc: "Find small intervals that should be realigned",
@@ -26,7 +27,7 @@ realiagner_target_creator_gfu = {
                   --known $dbsnp;
         """
         if (test) {
-            println "INPUT $input, OUTPUT: $ouptut"
+            println "INPUT $input, OUTPUT: $output"
             println "COMMAND: $command"
             command = "touch $output"
         }

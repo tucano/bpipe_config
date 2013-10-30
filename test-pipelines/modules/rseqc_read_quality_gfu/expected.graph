@@ -1,0 +1,19 @@
+
+Dependency graph is: 
+
+../../data/testinput_one.bam
+../../data/testinput_one.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_001.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_R1_002.bam
+../../data/testinput_two.bam
+../../data/testinput_two.bam => 
+                               testinput_one.qual.boxplot.pdf
+                               testinput_one.qual.r
+                               testinput_R1_001.qual.boxplot.pdf
+                               testinput_R1_001.qual.r
+                               testinput_R1_002.qual.boxplot.pdf
+                               testinput_R1_002.qual.r
+                               testinput_two.qual.boxplot.pdf
+                               testinput_two.qual.r

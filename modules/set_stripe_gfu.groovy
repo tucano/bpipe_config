@@ -23,7 +23,7 @@ set_stripe_gfu =
         """
 
         if (test) {
-            println "INPUT $input, OUTPUT: $ouptut"
+            println "INPUT $input, OUTPUT: $output"
             println "COMMAND: $command"
             command = "touch $output"
         }

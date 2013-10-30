@@ -27,7 +27,7 @@ SAMPLEID="B1"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    "*" * [realiagner_target_creator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq: TRUSEQ, dbsnp: DBSNP, test: true) +
+    "%" * [realiagner_target_creator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq: TRUSEQ, dbsnp: DBSNP, test: true) +
            indel_realigner_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP, test: true) +
            base_recalibrator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP, test: true) +
            base_print_reads_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, test: true)]

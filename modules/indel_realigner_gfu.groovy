@@ -26,7 +26,7 @@ indel_realigner_gfu = {
                   -known $dbsnp;
         """
         if (test) {
-            println "INPUT $input, OUTPUT: $ouptut"
+            println "INPUT $input, OUTPUT: $output"
             println "COMMAND: $command"
             command = "touch $output"
         }
