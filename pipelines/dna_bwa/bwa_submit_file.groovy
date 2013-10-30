@@ -18,10 +18,11 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * PIPELINE NOTES:
  * Use -q INT to trim quality of reads (example -q 30)
  * Use -I for base64 Illumina quality
- */ 
+ */
 Bpipe.run {
-    set_stripe_gfu + "*" * [split_fastq_gfu.using(SPLIT_READS_SIZE: 2000000, paired: false)] +
-    "_%.fastq" * [align_bwa_gfu.using(BWAOPT_ALN: "")] +
-    "_%.sai" * [sam_bwa_gfu.using(BWAOPT_SE: "", paired: false, compressed : true)] +
-     merge_bam_gfu.using(rename: true) + verify_bam_gfu + mark_duplicates_gfu + bam_flagstat_gfu
+    set_stripe_gfu.using(test: true) +
+    "%_R*" * [split_fastq_gfu.using(SPLIT_READS_SIZE: 2000000, paired: false)] +
+    "_%.fastq" * [align_bwa_gfu.using(BWAOPT_ALN: "-q 30", paired: false)] +
+    merge_bam_gfu.using(rename: true) + verify_bam_gfu +
+    mark_duplicates_gfu + bam_flagstat_gfu
 }
