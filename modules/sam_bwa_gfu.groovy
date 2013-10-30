@@ -36,7 +36,7 @@ sam_bwa_gfu =
                 rm -rf ${TMP_SCRATCH};
             """
             if (test) {
-                println "INPUTS: $input1, $input2, $input4, $input4"
+                println "INPUTS: $input1, $input2, $input3, $input4"
                 println "OUTPUT: $output"
                 command = "touch $output"
             }
