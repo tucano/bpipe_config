@@ -21,7 +21,6 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * Use -I for base64 Illumina quality
  */
 Bpipe.run {
-    set_stripe_gfu + "%.fastq.gz" * [align_bwa_gfu.using(BWAOPT_ALN: "-q 30")] +
-    "_R*_%.sai" * [sam_bwa_gfu.using(BWAOPT_PE: "", paired: true, compressed : true)] +
-    merge_bam_gfu.using(rename: false) + verify_bam_gfu +  mark_duplicates_gfu + bam_flagstat_gfu
+    set_stripe_gfu + "_R*_%.fastq.gz" * [align_bwa_gfu.using(BWAOPT_ALN: "-q 30", paired: true)] +
+    merge_bam_gfu.using(rename: true) + verify_bam_gfu + mark_duplicates_gfu + bam_flagstat_gfu
 }

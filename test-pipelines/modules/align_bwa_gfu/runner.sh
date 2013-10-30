@@ -42,7 +42,16 @@ bpipe run test_compressed.groovy ../../data/*.fastq.gz
 bpipe query > test.graph
 RESULT=`diff expected_multi_gz.graph test.graph`
 if [[ $RESULT > 0 ]]; then
-    echo "Error for multi input.gz, dependency graph"
+    echo "Error for multi input gz, dependency graph"
+    exit 1
+fi
+./cleaner.sh
+
+bpipe run test_compressed_paired.groovy ../../data/*.fastq.gz
+bpipe query > test.graph
+RESULT=`diff expected_multi_gz_paired.graph test.graph`
+if [[ $RESULT > 0 ]]; then
+    echo "Error for multi paired input gz, dependency graph"
     exit 1
 fi
 ./cleaner.sh

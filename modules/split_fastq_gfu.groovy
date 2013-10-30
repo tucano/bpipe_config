@@ -13,11 +13,11 @@ split_fastq_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def n_lines = SPLIT_READS_SIZE * 4
-
+    def command = ""
     produce("*.fastq") {
         if (input.endsWith(".gz")) {
             if (paired) {
-                exec"""
+                command = """
                     echo -e "[split_fastq_gfu]: splitting fastq.gz pair $input1 and $input2 on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
                     zcat $input1.gz | split -l $n_lines -d -a 4 - read1_;
                     for file in read1_*; do mv "$file" "${file}.fastq"; done;
@@ -25,7 +25,7 @@ split_fastq_gfu =
                     for file in read2_*; do mv "$file" "${file}.fastq"; done;
                 """
             } else {
-                exec"""
+                command = """
                     echo -e "[split_fastq_gfu]: splitting fastq.gz file on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
                     zcat $input1.gz | split -l $n_lines -d -a 4 - read_;
                     for file in read_*; do mv "$file" "${file}.fastq"; done;
@@ -33,7 +33,7 @@ split_fastq_gfu =
             }
         } else {
             if (paired) {
-                exec"""
+                command = """
                     echo -e "[split_fastq_gfu]: splitting fastq pair on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
                     split -l $n_lines -d -a 4 $input1.fastq read1_;
                     split -l $n_lines -d -a 4 $input2.fastq read2_;
@@ -41,12 +41,21 @@ split_fastq_gfu =
                     for file in read2_*; do mv "$file" "${file}.fastq"; done;
                 """
             } else {
-                exec"""
+                command = """
                     echo -e "[split_fastq_gfu]: splitting fastq pair on node $HOSTNAME in $n_lines ($SPLIT_READS_SIZE reads) per file" >&2;
                     split -l $n_lines -d -a 4 $input1.fastq read_;
                     for file in read_*; do mv "$file" "${file}.fastq"; done;
                 """
             }
         }
+        if (test) {
+            println "COMMAND: $command"
+            if (paired) {
+                command = "touch read1_1.fastq read2_1.fastq"
+            } else {
+                command = "touch read_1.fastq"
+            }
+        }
+        exec command
     }
 }
