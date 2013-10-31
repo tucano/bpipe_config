@@ -29,9 +29,9 @@ else
 	echo -e "export PATH=\$BPIPE_CONFIG_HOME/bin:\$PATH" >> $PROFILE
 fi
 
-log "Sourcing ..."
 if [[ -f $PROFILE ]]
 then
+	log "Sourcing ..."
 	source $HOME/.profile
 fi
 
