@@ -1,7 +1,7 @@
 about title: "RNA-seq complete pipeline for lane: IOS GFU 009 + IOS GFU 007."
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.fastq.gz annotation.gtf
+// USAGE: bpipe run -r $pipeline_filename *.fastq.gz
 
 // PROJECT VARS will be added by bpipe-config
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
@@ -17,6 +17,8 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 BED12_ANNOTATION = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.ensGene.bed"
 
 //--BPIPE_ENVIRONMENT_HERE--
+
+ANNOTATION_GFF_FILE    = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.ensGene_withGeneName.gtf"
 
 /*
  * PIPELINE NOTES:

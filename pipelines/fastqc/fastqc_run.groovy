@@ -1,4 +1,4 @@
-about title: "FASTQC: quality control of fastq files in run: IOS XXX"
+about title: "FASTQC: quality control of fastq files in run: IOS XXX - UNDER CONSTRUCTION"
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename </lustre2/raw_data/RUN/Project_A/Sample_*>
@@ -18,10 +18,10 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * project=`tail -1 SampleSheet.csv | cut -d',' -f10`
  * rundir=`basename ${PWD%%Project_$project/Sample_$name}`
  *
- * I add a var local : true 
+ * I add a var local : true
  * set to false in order to launch the pipe over fastq.gz files in:
  * /lustre2/raw_data/RUN_NAME/PROJECT_NAME/SAMPLE
- */ 
+ */
  Bpipe.run {
     set_stripe_gfu + fastqc_gfu.using(local: false)
  }

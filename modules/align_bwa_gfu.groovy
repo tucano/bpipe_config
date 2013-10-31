@@ -39,7 +39,7 @@ align_bwa_gfu =
                 command_one = "touch $output1"
                 command_two = "touch $output2"
             }
-            multi command_one, command_two
+            multi "$command_one", "$command_two"
 
             // Step 2 - bwa sampe
             def command = """
@@ -64,9 +64,9 @@ align_bwa_gfu =
         transform("sai","bam") {
             // Step 1 - run bwa aln command
             def command = """
-                $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input > $output1
+                $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input > $output1;
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
+                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
                 echo -e "[sam_bwa_gfu]: bwa samse on node $HOSTNAME with TMP_SCRATCH: $TMP_SCRATCH" >&2;
                 echo -e "[sam_bwa_gfu]: header is $header" >&2;
                 $BWA samse $BWAOPT_SE -r \"$header\" $REFERENCE_GENOME $output1 $input1 > ${TMP_OUTPUT_PREFIX}.sam;

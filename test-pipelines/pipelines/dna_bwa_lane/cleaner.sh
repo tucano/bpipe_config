@@ -1,4 +1,4 @@
 #!/bin/bash
 
 bpipe cleanup -y
-rm -rf commandlog.txt test.graph .bpipe *.bam *.bai *.metrics *.log doc
+rm -rf commandlog.txt test.graph .bpipe *.sai *.bam *.bai *.metrics *.log doc
