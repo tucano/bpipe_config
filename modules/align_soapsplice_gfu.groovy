@@ -46,7 +46,7 @@ align_soapsplice_gfu =
             }
         }
     } else {
-        transform(input_extension, '.header') to('.bam') {
+        from("$input_extension", '.header') produce(input.header.prefix + '.bam') {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
@@ -54,7 +54,7 @@ align_soapsplice_gfu =
                 echo -e "[align_soapsplice_gfu]: TMP_SCRATCH: $TMP_SCRATCH and header: ${input.header}" >&2;
                 $SSPLICE -d $REFERENCE_GENOME -1 ${input1} -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
                 cat ${input2} ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
-                mv ${TMP_OUTPUT_PREFIX}.bam $output.bam;
+                mv ${TMP_OUTPUT_PREFIX}.bam $output;
                 for F in ${TMP_SCRATCH}/*.junc; do
                     if [[ -e $F ]]; then
                         mv $F .;

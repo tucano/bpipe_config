@@ -10,10 +10,16 @@ samtools_index_gfu =
         author: "davide.rambaldi@gmail.com"
 
     transform("bai") {
-        exec"""
+        def command = """
             $SAMTOOLS index $input.bam;
             ln -s ${input}.bai $output;
         """
+        if (test) {
+            println "INPUT $input, OUTPUT: $output"
+            println "COMMAND: $command"
+            command = "touch $output"
+        }
+        exec command
     }
     forward input.bam
 }

@@ -3,6 +3,7 @@
 SCRIPT_NAME="test_align_soaplice_gfu_module"
 INPUTONE="../../data/testinput_R1_001.fastq"
 INPUTHEADER="../../data/testinput_R1_001.header"
+INPUTHEADERTWO="../../data/testinput_R1_002.header"
 INPUTTWO="../../data/testinput_R1_002.fastq.gz"
 OUTPUTONE="testinput_R1_001.bam"
 OUTPUTTWO="testinput_R1_002.bam"
@@ -24,7 +25,7 @@ fi
 ./cleaner.sh
 
 # SINGLE FASTQ.GZ
-bpipe run test_single_compressed.groovy $INPUTTWO $INPUTHEADER
+bpipe run test_single_compressed.groovy $INPUTTWO $INPUTHEADERTWO
 if [[ ! -f $OUTPUTTWO ]]; then
     echo "Error for $OUTPUTTWO"
     exit 1

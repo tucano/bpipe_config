@@ -34,7 +34,6 @@ Bpipe.run {
         id_attribute: "gene_name",
         feature_type: "exon") +
     sort_and_convert_sam_gfu + verify_bam_gfu + samtools_index_gfu +
-    rseqc_bam_stat_gfu + rseqc_gene_coverage_gfu + samtools_idxstats_gfu +
-    rseqc_reads_distribution_gfu + rseqc_read_GC_gfu +
-    rseqc_read_quality_gfu + rseqc_read_NVC_gfu
+    "%.bam" * [rseqc_bam_stat_gfu, rseqc_gene_coverage_gfu, samtools_idxstats_gfu,
+    rseqc_reads_distribution_gfu, rseqc_read_GC_gfu, rseqc_read_quality_gfu, rseqc_read_NVC_gfu]
 }
