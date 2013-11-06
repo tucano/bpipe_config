@@ -12,7 +12,7 @@ How to install and use bpipe and bpipe-config
 This will add some environment vars to your __.profile__ file
 
 ```
-/lustre1/tools/libexec/bpipeconfig/misc/install.sh
+source /lustre1/tools/libexec/bpipeconfig/misc/install.sh
 ```
 
 ### 2. List pipelines
