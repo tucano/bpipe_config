@@ -7,6 +7,8 @@ READS_DISTRIBUTION = """
 @preserve
 rseqc_reads_distribution_gfu =
 {
+    var test : false
+
     doc title: "GFU: rseqc quality control of bam files: reads_distribution",
         desc: """
            Provided a BAM/SAM file and reference gene model, this module will calculate

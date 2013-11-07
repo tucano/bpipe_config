@@ -5,6 +5,10 @@ MARKDUP="/usr/local/cluster/bin/MarkDuplicates.jar"
 mark_duplicates_gfu =
 {
     var test : false
+    var remove_duplicates : false
+    var create_index : true
+    var validation_stringency : "SILENT"
+    var assumed_sorted : true
 
     doc title: "GFU: mark duplicates in bam files with $MARKDUP : IOS GFU 0019",
         desc: "Mark duplicates in bam files with $MARKDUP",
@@ -28,10 +32,10 @@ mark_duplicates_gfu =
             java -Djava.io.tmpdir=/lustre2/scratch -Xmx32g -jar $MARKDUP
                 I=$input.bam
                 O=$output_bam
-                CREATE_INDEX=true
-                VALIDATION_STRINGENCY=SILENT
-                REMOVE_DUPLICATES=false
-                ASSUME_SORTED=true
+                CREATE_INDEX=$create_index
+                VALIDATION_STRINGENCY=$validation_stringency
+                REMOVE_DUPLICATES=$remove_duplicates
+                ASSUME_SORTED=$assumed_sorted
                 METRICS_FILE=$output_metrics
         """
         if (test) {

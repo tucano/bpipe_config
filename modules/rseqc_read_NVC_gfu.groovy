@@ -7,6 +7,8 @@ READNVC = """
 @preserve
 rseqc_read_NVC_gfu =
 {
+    var test : false
+
     doc title: "GFU: rseqc quality control of bam files: read_quality",
         desc: """
             This module is used to check the nucleotide composition bias.

@@ -1,11 +1,11 @@
 // MODULE SPLIT FASTQ FILE
-GFU_SPLIT_FASTQ  = "/home/drambaldi/bpipe_gfu_pipelines/bin/split_fastq.sh"
 
 @intermediate
 split_fastq_gfu =
 {
     var SPLIT_READS_SIZE : 2000000
     var paired : true
+    var test : false
 
     doc title: "GFU: split fastq.gz files in $SPLIT_READS_SIZE reads/file",
         desc: "Use split to subdivide a fastq pair (R1 and R2) in chunks (paired: true) or a single file (paired: false)",

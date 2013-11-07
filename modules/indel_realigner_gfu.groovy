@@ -7,6 +7,7 @@ indel_realigner_gfu = {
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
     var truseq : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
     var dbsnp : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
+    var test : false
 
     doc title: "GFU Realign reads marked by stage realiagner_target_creator_gfu with GATK toolkit: IndelRealigner",
         desc: "Realign small intervals marked by GATK: RealignerTargetCreator",
