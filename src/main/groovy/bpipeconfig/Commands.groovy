@@ -230,8 +230,8 @@ class Commands
 
 			if ( ! BpipeConfig.batch )
 			{
-				Logger.printUserOptions()
-				Logger.printSamples(samples)
+				println Logger.printUserOptions()
+				println Logger.printSamples(samples)
 				// generate a convenience script in current directory
 				File runner = new File("runner.sh")
 				String content = """
@@ -260,8 +260,8 @@ class Commands
 			}
 			else
 			{
-				Logger.printUserOptions()
-				Logger.printSamples(samples)
+				println Logger.printUserOptions()
+				println Logger.printSamples(samples)
 				println Logger.info("To run the pipeline:")
 				println Logger.message(usage.toString())
 			}

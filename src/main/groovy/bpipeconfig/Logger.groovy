@@ -12,19 +12,20 @@ import static org.fusesource.jansi.Ansi.Color.*
 import static org.fusesource.jansi.Ansi.Attribute.*
 
 @Log
-class Logger 
+class Logger
 {
 
 	private static StringBuffer out
 
-	// PRINTERS (NO TESTS)
-	static void printVersionAndBuild(String version, String builddate)
+	static String printVersionAndBuild(String version, String builddate)
 	{
-		print bold(versionInfo(version))
-		println "\t${buildInfo(builddate)}"
+		out = new StringBuffer()
+		out << bold(versionInfo(version))
+		out << "\t${buildInfo(builddate)}"
+		return out.toString()
 	}
 
-	static void printPipelines(def pipelines)
+	static String printPipelines(def pipelines)
 	{
 		out = new StringBuffer()
 		out << bold("\nListing Pipelines:\n")
@@ -33,99 +34,97 @@ class Logger
 			out << "--> ${ green(pipeline["about_title"]) }\n"
 		}
 		out << "\n"
-		print out.toString()
+		return out.toString()
 	}
 
-	static void printHelpCommands()
+	static String printHelpCommands()
 	{
 		out = new StringBuffer()
 		out << bold("\nAvailable Commands:\n")
-		out << bold("config".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) 
+		out << bold("config".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out	<< green(wrap("Configure current directory or directories in list (add bpipe.config file).", 60, 50)) << "\n"
 		out << bold("sheet".padRight(10)) << "<INFO> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out	<< green(wrap("Generate a SampleSheet.csv file using the INFO string in current directory or directories in list. SampleProject format: <PI_name>_<ProjectID>_<ProjectName>", 60, 50)) << "\n"
-		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40) 
+		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out << green(wrap("Generate pipeline file in current directory or directories in list (pipeline.groovy)",60, 50)) << "\n"
-		out << bold("info".padRight(10)) << "<pipeline name> ... ".padLeft(15).padRight(40) 
+		out << bold("info".padRight(10)) << "<pipeline name> ... ".padLeft(15).padRight(40)
 		out << green("Get info on pipeline stages.") << "\n"
-		out << bold("clean".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40) 
+		out << bold("clean".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out << green(wrap("Clean all in current working directory or in directory list: intermediate files, bpipe.config file, gfu_environment files, bpipe directories.", 60, 50)) << "\n"
-		out << bold("report".padRight(10)) << "<pipe1.groovy> <pipe2.groovy> ... ".padLeft(15).padRight(40) 
+		out << bold("report".padRight(10)) << "<pipe1.groovy> <pipe2.groovy> ... ".padLeft(15).padRight(40)
 		out << green("Generate reports for pipeline.groovy files.") << "\n"
-		out << bold("recover".padRight(10)) << " ".padLeft(15).padRight(40) 
+		out << bold("recover".padRight(10)) << " ".padLeft(15).padRight(40)
 		out << green(wrap("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).", 60, 50)) << "\n"
 		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to get info on a pipeline.\n"
 		out << green("\nsheet command INFO argument format:\n") << "\tFCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name" << "\n"
-		print out.toString()
+		return out.toString()
 	}
 
-	//FIXME CHANGE TO BUFFER
-	static void printSamples(def samples)
+	static String printSamples(def samples)
 	{
-		println()
-		println bold("Samples Info: ")
-
+		out = new StringBuffer()
+		out << "\n" << bold("Samples Info: ")
 		samples.each { item ->
-			print "\tID: "; print bold("${item["SampleID"]}");
-			print "\tREFERENCE: "; print bold("${item["SampleRef"]}");
-			print "\tDESCRIPTION: "; print bold("${item["Description"]}");
-			print "\tRECIPE: "; print bold("${item["Recipe"]}");
-			println()
+			out << "\tID: "; print bold("${item["SampleID"]}");
+			out << "\tREFERENCE: "; print bold("${item["SampleRef"]}");
+			out << "\tDESCRIPTION: "; print bold("${item["Description"]}");
+			out << "\tRECIPE: "; print bold("${item["Recipe"]}");
+			out << "\n"
 		}
-		println()
+		return out.toString()
 	}
 
-	//FIXME CHANGE TO BUFFER
-	static void printUserOptions()
+	static String printUserOptions()
 	{
-		println()
-		println bold("Configuration:")
-		println()
-		print "\tCommand            = "; println green(BpipeConfig.command);
-		print "\tWorking Directory  = "; println green(BpipeConfig.working_dir);
-		print "\tProject Name       = "; println green(BpipeConfig.project_name);
-		print "\tUsername           = "; println green(BpipeConfig.user_name);
+		out = new StringBuffer()
+		out << "\n" << bold("Configuration:") << "\n"
+		out << "\tCommand            = " << green(BpipeConfig.command) << "\n"
+		out << "\tWorking Directory  = " << green(BpipeConfig.working_dir) << "\n"
+		out << "\tProject Name       = " << green(BpipeConfig.project_name) << "\n"
+		out << "\tUsername           = " << green(BpipeConfig.user_name) << "\n"
+
 		if (BpipeConfig.user_email)	{
-			print "\tUser email         = "; println green("${BpipeConfig.user_email}");
+			out << "\tUser email         = " << green("${BpipeConfig.user_email}") << "\n"
 		}
-		print "\tBpipe Home         = "; println green(BpipeConfig.bpipe_home);
-		print "\tJRE version        = "; println green(BpipeConfig.java_runtime_version);
+		out << "\tBpipe Home         = " << green(BpipeConfig.bpipe_home) << "\n"
+		out << "\tJRE version        = " << green(BpipeConfig.java_runtime_version) << "\n"
+		return out.toString()
 	}
 
 	// MESSAGES (NO TESTS)
-	public static log(String msg)
+	static String log(String msg)
 	{
 		log.info msg
 	}
-	
-	public static message(String msg)
+
+	static String message(String msg)
 	{
 		green(msg)
 	}
 
-	public static info(String msg)
+	static String info(String msg)
 	{
 		msg
 	}
 
-	public static warn(String msg)
+	static String warn(String msg)
 	{
 		magenta(msg)
 	}
 
-	public static error(String msg)
+	static String error(String msg)
 	{
 		red(msg)
 	}
 
-	public static error(String key, String msg)
+	static String error(String key, String msg)
 	{
 
 		out = new StringBuffer()
 		out << redbold(key) << red(msg)
 		out.toString()
 	}
-	
+
 	// HELPERS
 	static String wrap(String text, int columns = 80, int padLeft = 0)
 	{
@@ -157,7 +156,7 @@ class Logger
 					result += word.substring(0, columns).padLeft(padLeft + line.length() -1) + "\n"
 					word = word.substring(columns)
 				}
-				counter++			
+				counter++
 			}
 			line += word + " "
 		}

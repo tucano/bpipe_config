@@ -93,7 +93,7 @@ class BpipeConfig
 		pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
 
 		// PRINT VERSION AND BUILD
-		Logger.printVersionAndBuild(version, builddate)
+		println Logger.printVersionAndBuild(version, builddate)
 
 		// GET HELP OPTIONS
 		def help_mode = false
@@ -102,11 +102,11 @@ class BpipeConfig
         	help_mode = true
         }
 		if ( opt.p ) {
-			Logger.printPipelines(pipelines)
+			println Logger.printPipelines(pipelines)
 			help_mode = true
 		}
 		if ( opt.c ) {
-			Logger.printHelpCommands()
+			println Logger.printHelpCommands()
 			help_mode = true
 		}
 		if ( help_mode ) System.exit(1)
@@ -149,8 +149,8 @@ class BpipeConfig
 
 		// Validate Command
 		if (!Commands.validateCommand(command)) {
-			print Logger.error(command, " is not a valid command\n")
-			Logger.printHelpCommands()
+			println Logger.error(command, " is not a valid command")
+			println Logger.printHelpCommands()
 			System.exit(1)
 		}
 

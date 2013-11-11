@@ -7,17 +7,17 @@ package bpipeconfig
 class TestSampleSheet extends GroovyTestCase
 {
 	private sample_sheet
-	private def expected_sample_list = 
+	private def expected_sample_list =
 	[[
-		"FCID":"D2A8DACXX", 
-		"Lane": "3", 
-		"SampleID":"B1", 
-		"SampleRef":"hg19", 
-		"Index":"TTAGGC", 
-		"Description":"niguarda", 
-		"Control":"N", 
-		"Recipe":"MeDIP", 
-		"Operator":"FG", 
+		"FCID":"D2A8DACXX",
+		"Lane": "3",
+		"SampleID":"B1",
+		"SampleRef":"hg19",
+		"Index":"TTAGGC",
+		"Description":"niguarda",
+		"Control":"N",
+		"Recipe":"MeDIP",
+		"Operator":"FG",
 		"SampleProject":"Martinelli_10_Test"
 	]]
 
@@ -75,4 +75,4 @@ class TestSampleSheet extends GroovyTestCase
 	{
 		assert Commands.validateSampleinfo("FCID=,Lane=,SampleID=,SampleRef=hg19,Index=,Description=,Control=,Recipe=,Operator=,SampleProject=PI_1A_name")
 	}
-}	
+}
