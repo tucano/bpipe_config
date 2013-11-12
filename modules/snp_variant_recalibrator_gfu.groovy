@@ -24,16 +24,16 @@ snp_variant_recalibrator_gfu =
             $GATK -T VariantRecalibrator
                   -R $REFERENCE_GENOME_FASTA
                   -input $input.vcf
-                                  --maxGaussians $max_gaussian
-                                  -percentBad $percent_bad
-                                  -minNumBad $min_num_bad
+                  --maxGaussians $max_gaussian
+                  -percentBad $percent_bad
+                  -minNumBad $min_num_bad
                   -resource:hapmap,VCF,known=false,training=true,truth=true,prior=15.0 $HAPMAP
                   -resource:1000G,VCF,known=false,training=true,truth=false,prior=10.0 $ONETH_GENOMES
                   -resource:omni,VCF,known=false,training=true,truth=false,prior=12.0 $ONEKG_OMNI
                   -resource:dbsnp,VCF,known=true,training=false,truth=false,prior=2.0 $DBSNP
                   -an QD
                   -an HaplotypeScore
-                                  -an MQRankSum
+                  -an MQRankSum
                   -an ReadPosRankSum
                   -an FS
                   -mode SNP
