@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SCRIPT_NAME="test_base_recalibrator_module"
-OUTPUTONE="testinput_one.merge.bam"
-OUTPUTTWO="testinput_one.merge.bai"
+OUTPUTONE="testinput.merge.bam"
+OUTPUTTWO="testinput.merge.bai"
 
 ./cleaner.sh
 
@@ -13,12 +13,6 @@ if [[ ! -f $OUTPUTONE ]]; then
 fi
 if [[ ! -f $OUTPUTONE ]]; then
     echo "Error for $OUTPUTTWO"
-    exit 1
-fi
-bpipe query > test.graph
-RESULT=`diff expected.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-    echo "Error for $OUTPUTONE , dependency graph"
     exit 1
 fi
 ./cleaner.sh
@@ -32,12 +26,6 @@ if [[ ! -f $OUTPUTONE ]]; then
 fi
 if [[ ! -f $OUTPUTONE ]]; then
     echo "Error for $OUTPUTTWO"
-    exit 1
-fi
-bpipe query > test.graph
-RESULT=`diff expected_rename.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-    echo "Error for $OUTPUTONE , dependency graph"
     exit 1
 fi
 ./cleaner.sh

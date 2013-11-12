@@ -26,5 +26,9 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    chr(1..22,'X','Y') * [ generate_truseq_intervals_gfu + unified_genotyper_by_chromosome_gfu ] + vcf_concat_gfu
+    chr(1..22,'X','Y') * [ generate_truseq_intervals_gfu + unified_genotyper_by_chromosome_gfu ] + vcf_concat_gfu +
+    "%.vcf" * [
+        snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
+        indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
+    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_gfu
 }
