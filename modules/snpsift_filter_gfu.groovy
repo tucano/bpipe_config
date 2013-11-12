@@ -1,7 +1,6 @@
 // MODULE SNPSIFT GFU
 SNPSIFT = "java -Xmx16g -jar /lustre1/tools/bin/SnpSift.jar"
 
-@intermediate
 snpsift_filter_gfu =
 {
     var test : false
@@ -14,7 +13,7 @@ snpsift_filter_gfu =
 
     filter("dedup") {
         def command = """
-            $SNPSIFT -f $input "((exists VQSLOD))" > $output
+            $SNPSIFT filter -f $input "((exists VQSLOD))" > $output;
             if [ -f ${output}.idx ]; then rm ${output}.idx; fi;
         """
         if (test) {

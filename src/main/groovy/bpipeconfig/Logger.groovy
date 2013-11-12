@@ -28,10 +28,14 @@ class Logger
 	static String printPipelines(def pipelines)
 	{
 		out = new StringBuffer()
-		out << bold("\nListing Pipelines:\n")
-		pipelines.each { pipeline ->
-			out << "${ bold(pipeline["name"]) } ".padRight(40, "-")
-			out << "--> ${ green(pipeline["about_title"]) }\n"
+		out << "\n"
+		pipelines.each { category, list ->
+			out << "${bold(category)}" << "\n"
+			list.each { pipeline ->
+				out << "${ pipeline["name"] } ".padRight(40, "-")
+				out << "--> ${ green(pipeline["about_title"]) }\n"
+			}
+			out << "\n"
 		}
 		out << "\n"
 		return out.toString()

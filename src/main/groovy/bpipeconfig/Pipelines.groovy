@@ -15,7 +15,7 @@ class Pipelines
 		def pipelines_dir = new File(pipelines_root)
 		if (!pipelines_dir.exists()) return null
 
-		def list = []
+		def list = [:]
 		def pattern_title = /about title:\s?"(.*)"/
 		pipelines_dir.eachDir() { dir ->
 			dir.eachFileMatch( ~/.*.groovy/ ) { file ->
@@ -24,13 +24,14 @@ class Pipelines
 					def matcher = line =~ pattern_title
 					if (matcher.matches()) about_title = matcher[0][1]
 				}
+				if (! list.containsKey( dir.getName() ) ) { list[dir.getName()] = [] }
 				// return file_name, name of pipiline and description (about_title)
-				list << [
+				list[dir.getName()].push ([
 					file_name: file.name,
 					file_path: file.getPath(),
 					name: file.name.replaceFirst(~/\.[^\.]+$/, ''),
 					about_title: about_title
-				]
+				])
 			}
 		}
 		return list
