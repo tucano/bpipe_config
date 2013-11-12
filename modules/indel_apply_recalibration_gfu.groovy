@@ -26,7 +26,7 @@ indel_apply_recalibration_gfu =
         """
 
         if (test) {
-            println "INPUT: $input.vcf OUTPUTS: $output1, $output2, $output3"
+            println "INPUT: $input.vcf $input.tranches $input.csv OUTPUT: $output"
             println "COMMAND: $command"
             command = "touch $output"
         }

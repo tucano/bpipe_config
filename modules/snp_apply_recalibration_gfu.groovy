@@ -26,7 +26,7 @@ snp_apply_recalibration_gfu =
         """
 
         if (test) {
-            println "INPUT: $input.vcf OUTPUTS: $output1, $output2, $output3"
+            println "INPUTS: $input.vcf $input.tranches $input.csv OUTPUTS: $output"
             println "COMMAND: $command"
             command = "touch $output"
         }

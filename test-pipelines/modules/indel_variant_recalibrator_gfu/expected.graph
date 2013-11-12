@@ -1,0 +1,9 @@
+
+Dependency graph is: 
+
+../../data/testinput_R1_001.chr1.vcf
+../../data/testinput_R1_001.chr1.vcf
+../../data/testinput_R1_001.chr1.vcf => 
+                                    testinput_R1_001.chr1.indel.plot.R
+                                    testinput_R1_001.chr1.indel.recal.csv
+                                    testinput_R1_001.chr1.indel.tranches
