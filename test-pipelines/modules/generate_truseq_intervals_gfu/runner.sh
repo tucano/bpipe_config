@@ -8,8 +8,8 @@ bpipe run test.groovy ../../data/*.bam
 # I expect 24 files
 RES=`ls *.intervals | wc | awk {'print $1'}`
 if [[ $RES != 24 ]]; then
-	    exit 1
-	fi
+    exit 1
+fi
 
 ./cleaner.sh
 
