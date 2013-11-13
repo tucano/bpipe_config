@@ -25,7 +25,7 @@ class Pipelines
 					if (matcher.matches()) about_title = matcher[0][1]
 				}
 				if (! list.containsKey( dir.getName() ) ) { list[dir.getName()] = [] }
-				// return file_name, name of pipiline and description (about_title)
+				// return file_name, name of pipeline and description (about_title)
 				list[dir.getName()].push ([
 					file_name: file.name,
 					file_path: file.getPath(),
