@@ -8,6 +8,7 @@
 2. Fastqc for RUNS and single samples
 3. Change module align_bwa_gfu to use MEM bwa command
 4. Add triggers for quality (fail pipeline if quality is low)
+5. Fix SampleSheet parser
 
 #### 0.4
 
