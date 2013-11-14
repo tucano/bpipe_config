@@ -16,5 +16,5 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * PIPELINE NOTES
  */
  Bpipe.run {
-    set_stripe_gfu + "*.fastq.gz" * [fastqc_lane_gfu]
+    set_stripe_gfu + "%" * [ fastqc_sample_gfu ]
  }
