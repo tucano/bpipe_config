@@ -13,9 +13,11 @@ fastqc_sample_gfu = {
         """,
         constraints: """
             If there is only one pair of fastq.gz files (001) fastq don't remove the casava notation.
-            I produce the fastqc zip file in sample dir and move it with rename.
+            I produce the fastqc zip file in sample dir and move it with rename to sample name.
         """,
         author: "davide.rambaldi@gmail.com"
+
+    def command
 
     if (paired) {
         produce("${input}_R1_fastqc.zip","${input}_R2_fastqc.zip") {
