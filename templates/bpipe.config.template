@@ -55,6 +55,9 @@ commands {
     bwa_samse {
         select_statement="select=1:ncpus=2:mem=24g"
     }
+    bwa_mem {
+        select_statement="select=1:ncpus=2:mem=24g"
+    }
     gatk {
         select_statement="select=1:ncpus=4:mem=32g"
     }
