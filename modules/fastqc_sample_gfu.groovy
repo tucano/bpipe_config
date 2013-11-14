@@ -23,9 +23,9 @@ fastqc_sample_gfu = {
                 $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . ${input}/*.fastq.gz;
                 RES=`ls $input/*.fastq.gz | wc | awk {'print \$1'}`;
                 if [[ $RES == 2 ]];
-                then;
-                    for i in ${input}_*.zip; do;
-                        mv $i `echo $i | sed -e 's/001_//'`
+                then
+                    for i in ${input}_*.zip; do
+                        mv $i `echo $i | sed -e 's/001_//'`;
                     done;
                 fi;
             """
@@ -41,8 +41,8 @@ fastqc_sample_gfu = {
                 $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . ${input}/*.fastq.gz;
                 RES=`ls $input/*.fastq.gz | wc | awk {'print \$1'}`;
                 if [[ $RES == 1 ]];
-                then;
-                    for i in ${input}_*.zip; do;
+                then
+                    for i in ${input}_*.zip; do
                         mv $i `echo $i | sed -e 's/001_//'`
                     done;
                 fi;
