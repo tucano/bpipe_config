@@ -148,7 +148,7 @@ class Commands
 		def pipeline
 		BpipeConfig.pipelines.each { category, pipes ->
 			pipes.each { pipe ->
-				if (pipe["name"] == "rna_seq_lane") {
+				if (pipe["name"] == pipeline_name) {
 					pipeline = pipe
 				}
 			}
