@@ -1,7 +1,7 @@
-about title: "FASTQC: quality control of fastq files (lane) - IOS XXX"
+about title: "FASTQC: quality control of fastq files (project) - IOS XXX"
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename Sample_*
+// USAGE: bpipe run -r $pipeline_filename *.fastq.gz
 
 // PROJECT VARS will be added by bpipe-config
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
@@ -16,5 +16,5 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * PIPELINE NOTES
  */
  Bpipe.run {
-    set_stripe_gfu + "%" * [ fastqc_sample_gfu.using(test:true) ]
+    set_stripe_gfu + "*.fastq.gz" * [fastqc_lane_gfu]
  }
