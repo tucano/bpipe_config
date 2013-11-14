@@ -46,7 +46,7 @@ class TestListPipelines extends GroovyTestCase
 
 	void testShouldContainsKey()
 	{
-		assert Pipelines.listPipelines(pipelines_root)["rseqc"] != null
+		assert Pipelines.listPipelines(pipelines_root)["rna_seq"] != null
 	}
 
 	void testMockPipelines()
