@@ -145,9 +145,15 @@ class Commands
 		String pipeline_name = args.remove(0)
 
 		// Validate pipeline
-		pipeline = BpipeConfig.pipelines.find {
-			it["name"] == pipeline_name
+		def pipeline
+		BpipeConfig.pipelines.each { category, pipes ->
+			pipes.each { pipe ->
+				if (pipe["name"] == "rna_seq_lane") {
+					pipeline = pipe
+				}
+			}
 		}
+
 		if (pipeline == null) {
 			println Logger.error("can't find pipeline $pipeline_name in pipelines.")
 			System.exit(1)

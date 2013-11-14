@@ -44,9 +44,24 @@ class TestListPipelines extends GroovyTestCase
 		assert Pipelines.listPipelines(pipelines_root) instanceof java.util.LinkedHashMap
 	}
 
-	void testShouldContainsKey()
+	void testShouldContainsCategoryKey()
 	{
 		assert Pipelines.listPipelines(pipelines_root)["rna_seq"] != null
+	}
+
+	void testShouldFindAPipeline()
+	{
+		def pipelines = Pipelines.listPipelines(pipelines_root)
+		def pipeline
+		pipelines.each { category, pipes ->
+			pipes.each { pipe ->
+				if (pipe["name"] == "rna_seq_lane") {
+					pipeline = pipe
+				}
+			}
+		}
+		assert pipeline != null
+		assert pipeline["name"] == "rna_seq_lane"
 	}
 
 	void testMockPipelines()
