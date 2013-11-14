@@ -20,7 +20,7 @@ fastqc_sample_gfu = {
     if (paired) {
         produce("${input}_R1_fastqc.zip","${input}_R2_fastqc.zip") {
             command = """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . ${input}/*.fastq.gz
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . ${input}/*.fastq.gz;
                 RES=`ls $input/*.fastq.gz | wc | awk {'print \$1'}`;
                 if [[ $RES == 2 ]];
                 then;
@@ -38,7 +38,7 @@ fastqc_sample_gfu = {
     } else {
         produce("${input}_fastqc.zip") {
             command = """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . ${input}/*.fastq.gz
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . ${input}/*.fastq.gz;
                 RES=`ls $input/*.fastq.gz | wc | awk {'print \$1'}`;
                 if [[ $RES == 1 ]];
                 then;
