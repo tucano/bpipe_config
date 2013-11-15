@@ -231,6 +231,7 @@ class Commands
 				if (BpipeConfig.batch) {
 					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute(null, new File(dir))
 					println Logger.message("BATCH MODE: Bpipe started in background in directory ${dir}")
+					println Logger.message("Use 'bpipe log' to monitor execution.")
 				}
 			}
 
@@ -239,15 +240,14 @@ class Commands
 				println Logger.printUserOptions()
 				println Logger.printSamples(samples)
 				// generate a convenience script in current directory
+				File runner_template = new File("${BpipeConfig.bpipe_config_home}/templates/runner.sh.template")
 				File runner = new File("runner.sh")
-				String content = """
-					for i in ${args.join(" ")}
-					do
-						cd \$i
-						bg-${usage}
-						cd ..
-					done
-				""".stripIndent().trim()
+				def binding_runner = [
+					"VERSION" : "${BpipeConfig.version} ${BpipeConfig.builddate}",
+					"args"    : args,
+					"usage"   : usage.toString().replaceFirst(/bpipe/,"bg-bpipe")
+				]
+				String content = engine.createTemplate(runner_template.text).make(binding_runner).toString()
 				runner.write(content)
 				println "I create a runner script for your directories. Run it with: "
 				println Logger.message("\tbash runner.sh")
