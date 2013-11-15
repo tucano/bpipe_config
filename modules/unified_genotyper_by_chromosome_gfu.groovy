@@ -41,7 +41,7 @@ unified_genotyper_by_chromosome_gfu = {
               -stand_call_conf $call_conf
               -glm $glm
               -U $unsafe
-              --interval_merging OVERLAPPING_ONLY;
+              --interval_merging OVERLAPPING_ONLY
     """.stripIndent().trim()
 
     produce("${input.prefix}.${chr}.vcf") {
