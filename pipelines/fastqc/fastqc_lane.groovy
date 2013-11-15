@@ -1,7 +1,7 @@
 about title: "FASTQC: quality control of fastq files (lane) - IOS XXX"
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename Sample_*
+// USAGE: bpipe run -r $pipeline_filename *.fastq.gz
 
 // PROJECT VARS will be added by bpipe-config
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS

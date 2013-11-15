@@ -19,14 +19,14 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 // STAGE HELLO
 hello = {
     exec"""
-        echo -e "Hello!" > $output
+        echo -e "Hello" > $output
     """
 }
 // STAGE WORLD
 world = {
     exec"""
-        echo -e "World!" > $output
-    """   
+        echo -e "World" > $output
+    """
 }
 // RUNNER
 Bpipe.run {
