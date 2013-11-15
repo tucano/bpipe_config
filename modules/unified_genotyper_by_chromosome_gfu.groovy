@@ -91,7 +91,7 @@ unified_genotyper_by_chromosome_gfu = {
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[5]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_5.vcf ${commands[2]};
+                $command_gatk -o ${input.prefix}.${chr}.group_5.vcf ${commands[5]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[6]}";
