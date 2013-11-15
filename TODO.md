@@ -4,11 +4,11 @@
 
 #### 0.3
 
-1. VARIANTS CALLING PIPELINE (under testing now)
-2. Fastqc for RUNS and single samples
-3. Change module align_bwa_gfu to use MEM bwa command
+1. VARIANTS CALLING PIPELINE (under testing now)          [OK]
+2. Fastqc for RUNS and single samples                     [OK]
+3. Change module align_bwa_gfu to use MEM bwa command     [OK]
 4. Add triggers for quality (fail pipeline if quality is low)
-5. Fix SampleSheet parser
+5. Fix SampleSheet parser                                 [OK]
 
 #### 0.4
 

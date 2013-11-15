@@ -7,6 +7,7 @@ package bpipeconfig
 class TestSampleSheet extends GroovyTestCase
 {
 	private sample_sheet
+	private multi_sample_sheet
 	private def expected_sample_list =
 	[[
 		"FCID":"D2A8DACXX",
@@ -21,9 +22,24 @@ class TestSampleSheet extends GroovyTestCase
 		"SampleProject":"Martinelli_10_Test"
 	]]
 
+	private def multi_expected_sample_list =
+	[
+		"FCID":"D2A8DACXX",
+		"Lane": "3",
+		"SampleID":"Sample_test_1",
+		"SampleRef":"hg19",
+		"Index":"TTAGGC",
+		"Description":"niguarda",
+		"Control":"N",
+		"Recipe":"MeDIP",
+		"Operator":"FG",
+		"SampleProject":"PI_1A_name"
+	]
+
 	void setUp()
 	{
 		sample_sheet = new File(TestSampleSheet.class.getResource('/SampleSheet.csv').getPath())
+		multi_sample_sheet = new File(TestSampleSheet.class.getResource('/MultiSampleSheet.csv').getPath())
 	}
 
 	void testSlurpSampleSheet()
@@ -34,6 +50,40 @@ class TestSampleSheet extends GroovyTestCase
 	void testSlurpSampleSheetNull()
 	{
 		assert Commands.slurpSampleSheet(null) == null
+	}
+
+	void testMultiSamplesSheetNotNull()
+	{
+		assert Commands.slurpSampleSheet(multi_sample_sheet) != null
+	}
+
+	void testMultiSamplesSheetSize()
+	{
+		assert Commands.slurpSampleSheet(multi_sample_sheet).size == 20
+	}
+
+	void testMultiSamplesSheetFirstEntry()
+	{
+		assert Commands.slurpSampleSheet(multi_sample_sheet)[0] == multi_expected_sample_list
+	}
+
+	void testMultiSamplesSheetClass()
+	{
+		assert Commands.slurpSampleSheet(multi_sample_sheet) instanceof java.util.ArrayList
+	}
+
+	void testLoopInSamples()
+	{
+		Commands.slurpSampleSheet(multi_sample_sheet).each { sample ->
+			assert sample instanceof java.util.Map
+		}
+	}
+
+	void testRecoverSampleRef()
+	{
+		Commands.slurpSampleSheet(multi_sample_sheet).each { sample ->
+			assert sample["SampleRef"] == "hg19"
+		}
 	}
 
 	void testValidateSampleInfoNull()

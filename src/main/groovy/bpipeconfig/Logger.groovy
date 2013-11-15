@@ -67,12 +67,12 @@ class Logger
 	static String printSamples(def samples)
 	{
 		out = new StringBuffer()
-		out << "\n" << bold("Samples Info: ")
+		out << "\n" << bold("Samples Info: ") << "\n"
 		samples.each { item ->
-			out << "\tID: "; print bold("${item["SampleID"]}");
-			out << "\tREFERENCE: "; print bold("${item["SampleRef"]}");
-			out << "\tDESCRIPTION: "; print bold("${item["Description"]}");
-			out << "\tRECIPE: "; print bold("${item["Recipe"]}");
+			out << "\tID: " << bold("${item["SampleID"]}");
+			out << "\tREFERENCE: " << bold("${item["SampleRef"]}");
+			out << "\tDESCRIPTION: " << bold("${item["Description"]}");
+			out << "\tRECIPE: " << bold("${item["Recipe"]}");
 			out << "\n"
 		}
 		return out.toString()
