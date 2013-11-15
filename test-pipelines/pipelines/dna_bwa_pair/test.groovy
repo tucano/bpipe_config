@@ -26,7 +26,7 @@ SAMPLEID="B1"
  */
 Bpipe.run {
     set_stripe_gfu.using(test: true) + "%_R*" * [split_fastq_gfu.using(SPLIT_READS_SIZE: 2000000, paired: true, test: true)] +
-    "read*_%.fastq" * [align_bwa_gfu.using(BWAOPT_ALN: "-q 30", test: true, paired: true)] +
-    "*.bam" * [merge_bam_gfu.using(rename: true, test: true)] + verify_bam_gfu.using(test: true) +
+    "read*_%.fastq" * [mem_bwa_gfu.using(paired:true, compressed:false, test:true)] +
+    "*.bam" * [merge_bam_gfu.using(rename:true, test:true)] + verify_bam_gfu.using(test: true) +
     mark_duplicates_gfu.using(test: true) + bam_flagstat_gfu.using(test: true)
 }
