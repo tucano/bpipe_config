@@ -11,7 +11,7 @@ apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templat
  */
 
 
-version = "0.2.1"
+version = "0.2.2"
 
 project.ext {
     STAGE="build/stage/bpipeconfig"
