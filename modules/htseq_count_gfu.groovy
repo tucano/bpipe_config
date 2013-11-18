@@ -1,5 +1,5 @@
 // MODULE HTSEQ COUNT GFU
-HTSEQ_COUNT="export LD_LIBRARY_PATH=$LD_LIBRARY_PATH/usr/local/cluster/python2.7/lib/ && /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python2.7/bin/htseq-count"
+HTSEQ_COUNT="export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/usr/local/cluster/python2.7/lib/ && /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python2.7/bin/htseq-count"
 SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve

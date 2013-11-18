@@ -13,11 +13,10 @@ generate_truseq_intervals_gfu = {
             grep "${chr}:" $TRUSEQ > $output
         """
         if (test) {
-            println "INPUT $input, OUTPUT: $output, CHROMOSOME: $chr"
+            println "INPUT $inputs, OUTPUT: $output, CHROMOSOME: $chr"
             println "COMMAND: $command"
             command = "touch $output"
         }
         exec command
     }
-    forward input.bam
 }

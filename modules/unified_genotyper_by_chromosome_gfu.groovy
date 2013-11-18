@@ -15,16 +15,16 @@ unified_genotyper_by_chromosome_gfu = {
 
     def configuration = """
         [unified_genotyper_gfu]: UnifiedGenotyper configuration. Running with multi for single intervals.
-        Inputs: ${input.bam}, ${input.intervals}
-        Output: ${input.prefix}.${chr}.vcf
+        Inputs: ${inputs}, ${input.intervals}
+        Output: ${input.bam.prefix}.${chr}.vcf
         CONFIGURATION:
             Reference       = $REFERENCE_GENOME_FASTA
-            Input           = $input.bam
+            Inputs          = $inputs.bam
             DBSNP           = $DBSNP
             nct             = $nct
             stand_call_conf = $call_conf
             glm             = $glm
-            Output          = ${input.prefix}.${chr}.vcf
+            Output          = ${input.bam.prefix}.${chr}.vcf
             region set      = ${input.intervals}
             Unsafe          = $unsafe
     """.stripIndent()
@@ -35,7 +35,7 @@ unified_genotyper_by_chromosome_gfu = {
         ulimit -l unlimited;
         ulimit -s unlimited;
         $GATK -R $REFERENCE_GENOME_FASTA
-              -I $input.bam
+              ${inputs.bam.collect{ "-I $it" }.join(" ")}
               -T UnifiedGenotyper
               -nct $nct
               -stand_call_conf $call_conf
@@ -44,7 +44,7 @@ unified_genotyper_by_chromosome_gfu = {
               --interval_merging OVERLAPPING_ONLY
     """.stripIndent().trim()
 
-    produce("${input.prefix}.${chr}.vcf") {
+    produce("${input.bam.prefix}.${chr}.vcf") {
         // generate a fixed number (10+1) of ranges with collate
         def ranges    = new File(input.intervals).text.split("\n").toList()
         def intervals = Math.floor(ranges.size / 10) as int
@@ -66,56 +66,57 @@ unified_genotyper_by_chromosome_gfu = {
             println "INPUT: $input.bam"
             println "TEST MODE FOR CHROMOSOME $chr  [multi steps]"
             println "FINAL OUTPUT: $output"
+            println "EXAMPLE COMMAND:\n$command_gatk -o ${input.bam.prefix}.${chr}.group_0.vcf ${commands[0]};"
             exec "touch $output"
         } else {
             // this weird things is because I can't generate multi in a loop
             multi """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[0]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_0.vcf ${commands[0]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_0.vcf ${commands[0]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[1]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_1.vcf ${commands[1]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_1.vcf ${commands[1]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[2]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_2.vcf ${commands[2]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_2.vcf ${commands[2]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[3]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_3.vcf ${commands[3]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_3.vcf ${commands[3]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[4]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_4.vcf ${commands[4]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_4.vcf ${commands[4]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[5]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_5.vcf ${commands[5]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_5.vcf ${commands[5]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[6]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_6.vcf ${commands[6]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_6.vcf ${commands[6]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[7]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_7.vcf ${commands[7]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_7.vcf ${commands[7]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[8]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_8.vcf ${commands[8]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_8.vcf ${commands[8]};
             """,
             """
                 echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[9]}";
-                $command_gatk -o ${input.prefix}.${chr}.group_9.vcf ${commands[9]};
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_9.vcf ${commands[9]};
             """
 
             // CONCAT VCF FILES AND SORT
             // exec "touch ${input.prefix}.${chr}.vcf ${input.prefix}.${chr}.vcf.idx","gatk"
             exec """
-                $VCFCONCAT ${input.prefix}.${chr}.group_*.vcf | vcf-sort > ${input.prefix}.${chr}.vcf;
-                rm ${input.prefix}.${chr}.group_*.vcf;
-                rm ${input.prefix}.${chr}.group_*.vcf.idx;
+                $VCFCONCAT ${input.bam.prefix}.${chr}.group_*.vcf | vcf-sort > ${input.bam.prefix}.${chr}.vcf;
+                rm ${input.bam.prefix}.${chr}.group_*.vcf;
+                rm ${input.bam.prefix}.${chr}.group_*.vcf.idx;
             ""","gatk"
         }
     }
