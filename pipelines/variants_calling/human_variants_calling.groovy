@@ -1,4 +1,4 @@
-about title: "Human variants calling: IOS 005 - UNDER CONSTRUCTION"
+about title: "Human variants calling: IOS 005"
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam

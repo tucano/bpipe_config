@@ -1,10 +1,11 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_dna_bwa_lane_pipeline"
-
 ./cleaner.sh
+bpipe-config pipe soapsplice_submit_lane
+rm bpipe.config
 
-BPIPE_LIB="../../../modules/" && bpipe run test.groovy ../../data/*.fastq.gz
+BPIPE_LIB="../../../modules/" && bpipe run -p test=true PI_1A_name_soapsplice_submit_lane.groovy ../../data/*.fastq.gz
+
 # I expect 4 files
 RES=`ls *.merge.dedup.* | wc | awk {'print $1'}`
 if [[ $RES != 4 ]]; then

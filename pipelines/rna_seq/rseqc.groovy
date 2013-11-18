@@ -22,7 +22,7 @@ BED12_ANNOTATION = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REF
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    "*" * [rseqc_bam_stat_gfu , rseqc_gene_coverage_gfu , samtools_idxstats_gfu ,
+    "%" * [rseqc_bam_stat_gfu , rseqc_gene_coverage_gfu , samtools_idxstats_gfu ,
         rseqc_reads_distribution_gfu , rseqc_read_GC_gfu ,
         rseqc_read_quality_gfu , rseqc_read_NVC_gfu]
 }

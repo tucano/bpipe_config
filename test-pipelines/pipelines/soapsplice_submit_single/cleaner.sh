@@ -1,4 +1,4 @@
 #!/bin/bash
 
 bpipe cleanup -y
-rm -rf commandlog.txt test.graph .bpipe *.bam *.bai *.metrics *.log doc *.junc
+rm -rf commandlog.txt test.graph .bpipe gfu_environment.sh *.groovy *.dedup.* *.log *.junc
