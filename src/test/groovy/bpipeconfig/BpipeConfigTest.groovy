@@ -11,7 +11,4 @@ import static org.junit.Assert.*
 class BpipeConfigTest
 {
 	final BpipeConfig bpipeconfig = new BpipeConfig()
-	
-
-	
 }

@@ -159,6 +159,7 @@ class Commands
 			System.exit(1)
 		}
 
+		// check for bpipe.config and create it
 		def check_bpipe_config = { dir ->
 			if ( ! new File("${dir}/bpipe.config").exists() ) { config([dir]) }
 		}
@@ -167,90 +168,120 @@ class Commands
 		def usage = ""
 		def generate_pipeline = { dir ->
 			def sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
-			String pipeline_text = new File(pipeline["file_path"]).text
-			if (sample_sheet.exists())
-			{
-				samples =  slurpSampleSheet(sample_sheet)
-				if (!BpipeConfig.project_name) BpipeConfig.project_name = samples[0]["SampleProject"]
-				String pipeline_filename = "${BpipeConfig.project_name}_${pipeline["file_name"]}"
-				// GENERATE USAGE INFO
-				def pattern = /(?m)\/{2}\s*USAGE:(.*)/
-				def matcher = (pipeline_text =~ pattern)
-				usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
-				def binding_usage = [
-					"pipeline_filename" : pipeline_filename
-				]
-				usage = engine.createTemplate(usage).make(binding_usage)
-				check_bpipe_config(dir)
 
-				// COPY PIPELINE AND GFU_ENVIRONMENT
-				def file_gfu_env = new File("${BpipeConfig.bpipe_config_home}/templates/gfu_environment.sh.template")
-
-				def binding_gfu_env = [
-				    "project_name"    : '"' + BpipeConfig.project_name + '"',
-				    "reference"       : '"' + samples[0]["SampleRef"] + '"',
-				    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
-				    "fcid"            : '"' + samples[0]["FCID"] + '"',
-				    "lane"            : '"' + samples[0]["Lane"] + '"',
-				    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
-				]
-				// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
-				def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
-
-				// CREATE gfu_environment.sh
-				if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
-					println Logger.error("Problems creating gfu_environment.sh file!")
+			// PROJECT SCOPE: no sample sheet needed!
+			if (pipeline["project_pipeline"]) {
+				// Loop in Sample dirs
+				samples = []
+				args.each { sample_dir ->
+					def subsample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
+					if ( subsample_sheet.exists() ) {
+						samples << slurpSampleSheet(subsample_sheet)
+					} else {
+						println Logger.error("No SampleSheet.csv in dir $sample_dir! Aborting ...")
+						println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+						System.exit(1)
+					}
 				}
-
-				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
-				pipeline_text = pipeline_text.replaceAll( "//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env )
-
-				// Replace reference genome with first sample reference
-				pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
-
-				// CREATE pipeline
-				if ( ! createFile(pipeline_text, "${dir}/$pipeline_filename", BpipeConfig.force) ) {
-					println Logger.error("Problems creating pipeline file $pipeline_filename!")
+				if (BpipeConfig.project_name) {
+					println Logger.info("Using project name: ${BpipeConfig.project_name}")
+				} else {
+					BpipeConfig.project_name = samples[0]["SampleProject"]
+				}
+			} else {
+				if ( sample_sheet.exists() ) {
+					samples =  slurpSampleSheet(sample_sheet)
+					if (BpipeConfig.project_name) {
+						println Logger.info("Using project name: ${BpipeConfig.project_name}")
+					} else {
+						BpipeConfig.project_name = samples[0]["SampleProject"]
+					}
+				} else {
+					println Logger.error("No SampleSheet.csv in dir $dir! Aborting ...")
+					println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+					System.exit(1)
 				}
 			}
-			else
-			{
-				println Logger.error("No SampleSheet.csv in dir $dir! Aborting ...")
-				println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
-				System.exit(1)
+
+			String pipeline_text = new File(pipeline["file_path"]).text
+			String pipeline_filename = "${BpipeConfig.project_name}_${pipeline["file_name"]}"
+
+			// GENERATE USAGE INFO
+			def pattern = /(?m)\/{2}\s*USAGE:(.*)/
+			def matcher = (pipeline_text =~ pattern)
+			usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
+			def binding_usage = [ "pipeline_filename" : pipeline_filename ]
+			usage = engine.createTemplate(usage).make(binding_usage)
+			check_bpipe_config(dir)
+
+			// COPY PIPELINE AND GFU_ENVIRONMENT
+			def file_gfu_env = new File("${BpipeConfig.bpipe_config_home}/templates/gfu_environment.sh.template")
+
+			def binding_gfu_env = [
+			    "project_name"    : '"' + BpipeConfig.project_name + '"',
+			    "reference"       : '"' + samples[0]["SampleRef"] + '"',
+			    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
+			    "fcid"            : '"' + samples[0]["FCID"] + '"',
+			    "lane"            : '"' + samples[0]["Lane"] + '"',
+			    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
+			]
+			// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
+			def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
+
+			// CREATE gfu_environment.sh
+			if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
+				println Logger.error("Problems creating gfu_environment.sh file!")
+			}
+
+			// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
+			pipeline_text = pipeline_text.replaceAll( "//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env )
+
+			// Replace reference genome with first sample reference
+			pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])
+
+			// CREATE pipeline
+			if ( ! createFile(pipeline_text, "${dir}/$pipeline_filename", BpipeConfig.force) ) {
+				println Logger.error("Problems creating pipeline file $pipeline_filename!")
 			}
 		}
 
 		// DIR MODE
 		if ( args && args.size > 0 )
 		{
-			// check if args are dirs
+			// check if args are all dirs
 			checkDir(args)
-			args.each { dir ->
-				generate_pipeline(dir)
-				if (BpipeConfig.batch) {
-					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute(null, new File(dir))
-					println Logger.message("BATCH MODE: Bpipe started in background in directory ${dir}")
-					println Logger.message("Use 'bpipe log' to monitor execution.")
+			// In case of project pipelines treat args as a list of samples
+			if (pipeline["project_pipeline"]) {
+				generate_pipeline(BpipeConfig.working_dir)
+			} else {
+				// else recursively create pipelines in subdirs
+				args.each { dir ->
+					generate_pipeline(dir)
+					if (BpipeConfig.batch) {
+						usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute(null, new File(dir))
+						println Logger.message("BATCH MODE: Bpipe started in background in directory ${dir}")
+						println Logger.message("Use 'bpipe log' to monitor execution.")
+					}
 				}
-			}
-
-			if ( ! BpipeConfig.batch )
-			{
-				println Logger.printUserOptions()
-				println Logger.printSamples(samples)
-				// generate a convenience script in current directory
-				File runner_template = new File("${BpipeConfig.bpipe_config_home}/templates/runner.sh.template")
-				File runner = new File("runner.sh")
-				def binding_runner = [
-					"VERSION" : "${BpipeConfig.version} ${BpipeConfig.builddate}",
-					"args"    : args,
-					"usage"   : usage.toString().replaceFirst(/bpipe/,"bg-bpipe")
-				]
-				String content = engine.createTemplate(runner_template.text).make(binding_runner).toString()
-				runner.write(content)
-				println "I create a runner script for your directories. Run it with: "
-				println Logger.message("\tbash runner.sh")
+				// runner.sh
+				if ( ! BpipeConfig.batch )
+				{
+					println Logger.printUserOptions()
+					println Logger.printSamples(samples)
+					// generate a convenience script in current directory
+					File runner_template = new File("${BpipeConfig.bpipe_config_home}/templates/runner.sh.template")
+					File runner = new File("runner.sh")
+					def binding_runner = [
+						"VERSION" : "${BpipeConfig.version} ${BpipeConfig.builddate}",
+						"args"    : args,
+						"usage"   : usage.toString().replaceFirst(/bpipe/,"bg-bpipe")
+					]
+					String content = engine.createTemplate(runner_template.text).make(binding_runner).toString()
+					runner.write(content)
+					"chmod 755 runner.sh".execute()
+					println "I create a runner script for your directories. Run it with: "
+					println Logger.message("\t./runner.sh")
+				}
 			}
 		}
 		// PWD MODE
@@ -303,7 +334,7 @@ class Commands
 			args.each { path ->
 				def dir = new File(path)
 				if (!dir.exists() || !dir.isDirectory()) {
-					println Logger.error("Argument $path is not a directory. Command config require directories or no extra arguments")
+					println Logger.error("Argument $path is not a directory. THis command require directories or no extra arguments")
 					System.exit(1)
 				}
 			}

@@ -1,4 +1,4 @@
-about title: "FASTQC: quality control of fastq files (project) - IOS XXX"
+about title: "FASTQC: quality control of fastq files (project pipeline) - IOS XXX"
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename Sample_*

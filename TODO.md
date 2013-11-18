@@ -9,6 +9,8 @@
 3. Change module align_bwa_gfu to use MEM bwa command     [OK]
 4. Add triggers for quality (fail pipeline if quality is low)
 5. Fix SampleSheet parser                                 [OK]
+6. Variants recalibration on all samples
+
 
 #### 0.4
 

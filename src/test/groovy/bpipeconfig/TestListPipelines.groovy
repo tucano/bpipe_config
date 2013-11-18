@@ -10,10 +10,11 @@ class TestListPipelines extends GroovyTestCase
 	private mock_pipelines_root
 
 	private def expected_pipe = [
-		file_name   : "dummy_pipeline.groovy",
-		file_path   : null,
-		name        : "dummy_pipeline",
-		about_title : "Dummy"
+		file_name        : "dummy_pipeline.groovy",
+		file_path        : null,
+		name             : "dummy_pipeline",
+		about_title      : "Dummy",
+		project_pipeline : false
 	]
 
 
@@ -82,5 +83,20 @@ class TestListPipelines extends GroovyTestCase
 	void testMockSinglePipelineExpected()
 	{
 		assert Pipelines.listPipelines(mock_pipelines_root)["dummy_category"][0] == expected_pipe
+	}
+
+	void testPipelineShouldHaveAProjectField()
+	{
+		assert Pipelines.listPipelines(mock_pipelines_root)["dummy_category"][0]["project_pipeline"] != null
+	}
+
+	void testPipelineFastqcProjectShouldHaveProjectTrue()
+	{
+		assert Pipelines.listPipelines(pipelines_root)["fastqc"][1]["project_pipeline"] == true
+	}
+
+	void testPipelineFastqcLaneShouldHaveProjectFalse()
+	{
+		assert Pipelines.listPipelines(pipelines_root)["fastqc"][0]["project_pipeline"] == false
 	}
 }
