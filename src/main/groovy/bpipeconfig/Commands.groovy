@@ -317,7 +317,29 @@ class Commands
 
 	public static info(def args)
 	{
-		println "INFO"
+		if (args.empty) {
+			println Logger.error("Command info need a pipeline name as first argument.")
+			println Logger.info("Use: bpipe-config -p to get a list of avaliable pipelines")
+			System.exit(1)
+		}
+		String pipeline_name = args.remove(0)
+
+		// Validate pipeline
+		def pipeline
+		BpipeConfig.pipelines.each { category, pipes ->
+			pipes.each { pipe ->
+				if (pipe["name"] == pipeline_name) {
+					pipeline = pipe
+				}
+			}
+		}
+
+		if (pipeline == null) {
+			println Logger.error("can't find pipeline $pipeline_name in pipelines.")
+			System.exit(1)
+		}
+
+		def pipeline_info = Pipelines.pipelineInfo(pipeline)
 	}
 
 	public static clean(def args)

@@ -39,6 +39,7 @@ class BpipeConfig
     public static String java_runtime_version
     public static String project_name
     public static def pipelines
+    public static def modules
     public static def email_config
 
     /**
@@ -89,8 +90,9 @@ class BpipeConfig
 		def opt = cli.parse(args)
 		if ( !opt ) System.exit(1)
 
-		// GET MAP OF PIPELINES
+		// GET MAP OF PIPELINES and MODULES
 		pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 
 		// PRINT VERSION AND BUILD
 		println Logger.printVersionAndBuild(version, builddate)

@@ -61,4 +61,30 @@ class Pipelines
 		}
 		return list
 	}
+
+	/**
+	 * PIPELINE INFO
+	 */
+	static def pipelineInfo(def pipeline, def modules)
+	{
+		def collect_stages = { pipe_text ->
+			def stages = [:]
+			(pipe_text =~ /[A-Za-z_]*_gfu/).collect().each { module_name ->
+				stages["$module_name"] = modules["$module_name"]
+			}
+			return stages
+		}
+
+		// pipeline is already validated (it exists)
+		String pipeline_text = new File(pipeline["file_path"]).text
+		String pipe_code = pipeline_text.replaceAll(/(?s).*Bpipe.run \{/,"").replaceAll(/\}/,"")
+
+		def pipeline_info = [
+			"title"     : pipeline["about_title"],
+			"pipe_code" : pipe_code,
+			"stages"    : collect_stages(pipe_code)
+		]
+
+		return pipeline_info
+	}
 }
