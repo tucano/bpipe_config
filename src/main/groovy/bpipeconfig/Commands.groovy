@@ -176,7 +176,7 @@ class Commands
 				args.each { sample_dir ->
 					def subsample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
 					if ( subsample_sheet.exists() ) {
-						samples << slurpSampleSheet(subsample_sheet)
+						samples = (samples << slurpSampleSheet(subsample_sheet)).flatten()
 					} else {
 						println Logger.error("No SampleSheet.csv in dir $sample_dir! Aborting ...")
 						println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
@@ -253,6 +253,16 @@ class Commands
 			// In case of project pipelines treat args as a list of samples
 			if (pipeline["project_pipeline"]) {
 				generate_pipeline(BpipeConfig.working_dir)
+				println Logger.printUserOptions()
+				println Logger.printSamples(samples)
+				if ( ! BpipeConfig.batch) {
+					println Logger.info("To run the pipeline:")
+					println Logger.message(usage.toString())
+				} else {
+					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute()
+					println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
+					println Logger.message("Use 'bpipe log' to monitor execution.")
+				}
 			} else {
 				// else recursively create pipelines in subdirs
 				args.each { dir ->
