@@ -75,4 +75,39 @@ class TestListModules extends GroovyTestCase
 	{
 		assert Pipelines.listModules(mock_module_root)["mock_module"]["description"] == expected_module_desc["description"]
 	}
+
+	void testAllModulesHaveKeyName()
+	{
+		Pipelines.listModules(modules_root).each { module, values ->
+			assert module != ""
+		}
+	}
+
+	void testAllModulesHaveATitle()
+	{
+		Pipelines.listModules(modules_root).each { module, values ->
+			assert values["title"] != ""
+		}
+	}
+
+	void testAllModulesHaveADescription()
+	{
+		Pipelines.listModules(modules_root).each { module, values ->
+			assert values["description"] != ""
+		}
+	}
+
+	void testAllModulesHaveConstraints()
+	{
+		Pipelines.listModules(modules_root).each { module, values ->
+			assert values["constrains"] != ""
+		}
+	}
+
+	void testAllModulesHaveAuthor()
+	{
+		Pipelines.listModules(modules_root).each { module, values ->
+			assert values["author"] != ""
+		}
+	}
 }

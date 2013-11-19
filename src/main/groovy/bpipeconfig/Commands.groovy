@@ -354,7 +354,7 @@ class Commands
 	public static boolean validateSampleinfo(String info)
 	{
 		if (!info) return false
-		def pattern = /^FCID=.*,Lane=.*,SampleID=.*,SampleRef=.+,Index=.*,Description=.*,Control=.*,Recipe=.*,Operator=.*,SampleProject=([a-zA-Z]+)_([0-9]+[a-zA-Z]{0,1})_([a-zA-Z]+)$/
+		def pattern = /^FCID=.*,Lane=.*,SampleID=.+,SampleRef=.+,Index=.*,Description=.*,Control=.*,Recipe=.*,Operator=.*,SampleProject=([a-zA-Z]+)_([0-9]+[a-zA-Z]{0,1})_([a-zA-Z]+)$/
 		info ==~ pattern
 	}
 
