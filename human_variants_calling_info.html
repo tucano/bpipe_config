@@ -1,0 +1,70 @@
+<html>
+<body>
+    <h1>PIPELINE NAME: human_variants_calling</h1>
+    <h3>Human variants calling: IOS 005</h3>
+
+    <p><code>
+    
+    set_stripe_gfu + chr(1..22,'X','Y') * [ generate_truseq_intervals_gfu + unified_genotyper_by_chromosome_gfu ] + vcf_concat_gfu +
+    "%.vcf" * [
+        snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
+        indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
+    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_gfu
+
+
+    </code></p>
+
+    <h3>Stages:</h3>
+    
+            <h5>GFU: Set lustre options for working directory</h5>
+            <p>
+            Lustre options:
+                -c -1 : a stripe_count of -1 means to stripe over all available OSTs.
+                -i -1 : a start_ost_index of -1 allows the MDS to choose the starting index and it is strongly recommended, as this allows space and load balancing to be done by the MDS as needed.
+                -s 2M : Stripsize 2 megabytes
+        </p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GFU: generate per chromosome intervals from TruSeq file</h5>
+            <p>I use a per chromosome for intervals to reduce granularity</p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GATK: Unified Genotyper</h5>
+            <p>Produce a VCF file with SNP calls and INDELs. Parallelized: 10 jobs for chromosome</p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GFU: vcf concat</h5>
+            <p>Sort and concatenate VCF files</p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GFU: SNP Variants recalibration</h5>
+            <p> ... </p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GFU: SNP Apply recalibration</h5>
+            <p> ... </p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GFU: INDEL Variants recalibration</h5>
+            <p> ... </p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GFU: INDEL Apply recalibration</h5>
+            <p> ... </p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+            <h5>GFU: SNP SIFT</h5>
+            <p> ... </p>
+            <p>null</p>
+            <p>davide.rambaldi@gmail.com</p>
+        
+</body>
+</html>

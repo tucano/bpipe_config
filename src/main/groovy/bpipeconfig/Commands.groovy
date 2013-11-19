@@ -339,7 +339,21 @@ class Commands
 			System.exit(1)
 		}
 
-		def pipeline_info = Pipelines.pipelineInfo(pipeline)
+		def pipeline_info = Pipelines.pipelineInfo(pipeline, BpipeConfig.modules)
+		def pipeline_info_template = new File("${BpipeConfig.bpipe_config_home}/templates/pipeline_report.html.template")
+
+		def binding_pipeline = [
+			"name"           : pipeline["name"],
+			"title"          : pipeline["about_title"],
+			"pipeline_code"  : pipeline_info["pipe_code"],
+			"stages"         : pipeline_info["stages"]
+		]
+		def template_pipeinfo = engine.createTemplate(pipeline_info_template.text).make(binding_pipeline)
+
+		if ( ! createFile(template_pipeinfo.toString(), "${pipeline["name"]}_info.html", BpipeConfig.force )) {
+			println Logger.error("Problems creating pipeline info report in current directory")
+		}
+
 	}
 
 	public static clean(def args)

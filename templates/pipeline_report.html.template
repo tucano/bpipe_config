@@ -1,0 +1,20 @@
+<html>
+<body>
+    <h1>PIPELINE NAME: $name</h1>
+    <h3>$title</h3>
+
+    <p><code>
+    $pipeline_code
+    </code></p>
+
+    <h3>Stages:</h3>
+    <%
+        stages.each { key, value -> %>
+            <h5>${value["title"]}</h5>
+            <p>${value["desc"]}</p>
+            <p>${value["constrains"]}</p>
+            <p>${value["author"]}</p>
+        <%  }
+    %>
+</body>
+</html>
