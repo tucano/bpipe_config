@@ -9,12 +9,12 @@
 3. Change module align_bwa_gfu to use MEM bwa command     [OK]
 4. Add triggers for quality (fail pipeline if quality is low)
 5. Fix SampleSheet parser                                 [OK]
-6. Variants recalibration on all samples
+6. Variants recalibration on all samples                  [OK]
 
 
 #### 0.4
 
-1. bpipe-config command info: info on current pipeline (info on single modules in a html template)
+1. bpipe-config command info: info on current pipeline (info on single modules in a html template) [OK]
 2. bpipe-config command clean: Clean all in current working directory or in directory list: intermediate files, bpipe.config file, .bpipe directory, etc …
 
 #### 0.5
