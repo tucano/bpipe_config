@@ -4,7 +4,7 @@ verify_bam_gfu =
 {
     var test : false
 
-    doc title: "GFU: verify BAM file",
+    doc title: "Verify BAM file",
         desc: "Use a function to verify BAM file using the EOF (copied by Davide Cittaro bashrc)",
         constraints: "Ask to Davide Cittaro",
         author: "davide.rambaldi@gmail.com"

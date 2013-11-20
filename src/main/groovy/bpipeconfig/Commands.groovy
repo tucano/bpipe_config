@@ -343,17 +343,16 @@ class Commands
 		def pipeline_info_template = new File("${BpipeConfig.bpipe_config_home}/templates/pipeline_report.html.template")
 
 		def binding_pipeline = [
-			"name"           : pipeline["name"],
+			"name"           : pipeline["name"].replaceAll(/_/," "),
 			"title"          : pipeline["about_title"],
 			"pipeline_code"  : pipeline_info["pipe_code"],
 			"stages"         : pipeline_info["stages"]
 		]
 		def template_pipeinfo = engine.createTemplate(pipeline_info_template.text).make(binding_pipeline)
-
-		if ( ! createFile(template_pipeinfo.toString(), "${pipeline["name"]}_info.html", BpipeConfig.force )) {
-			println Logger.error("Problems creating pipeline info report in current directory")
-		}
-
+		new File("doc").mkdir()
+		def fileinfo = new File("doc/${pipeline["name"]}_info.html")
+		fileinfo.write(template_pipeinfo.toString())
+		println Logger.message("Pipeline info file: ${fileinfo.getPath()}")
 	}
 
 	public static clean(def args)

@@ -7,7 +7,7 @@ merge_bam_gfu =
     var rename : false
     var test : false
 
-    doc title: "GFU: merge bam files with $PICMERGE",
+    doc title: "Merge bam files with $PICMERGE",
         desc: "Merge bam files with $PICMERGE",
         constraints: "If file came from split (es: read_0000) you should set rename: true. The output will be renamed with the variable EXPERIMENT_NAME (${EXPERIMENT_NAME})",
         author: "davide.rambaldi@gmail.com"

@@ -9,7 +9,7 @@ rseqc_read_GC_gfu =
 {
     var test : false
 
-    doc title: "GFU: rseqc quality control of bam files: read_GC",
+    doc title: "Rseqc quality control of bam files: read_GC",
         desc: """
             Read GC content.
         """,

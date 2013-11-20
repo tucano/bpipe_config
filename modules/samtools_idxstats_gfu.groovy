@@ -6,7 +6,7 @@ samtools_idxstats_gfu =
 {
     var test : false
 
-    doc title: "GFU: samtools idxstats on bam file (index)",
+    doc title: "Samtools idxstats on bam file (index)",
         desc: """
             Retrieve and print stats in the index file.
             The output is TAB delimited with each line consisting of reference sequence name,

@@ -6,7 +6,7 @@ indel_apply_recalibration_gfu =
     var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
 
     // INFO
-    doc title: "GFU: INDEL Apply recalibration",
+    doc title: "INDEL Apply recalibration",
         desc: " ... ",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"

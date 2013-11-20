@@ -7,7 +7,7 @@ split_fastq_gfu =
     var paired : true
     var test : false
 
-    doc title: "GFU: split fastq.gz files in $SPLIT_READS_SIZE reads/file",
+    doc title: "Split fastq.gz files in $SPLIT_READS_SIZE reads/file",
         desc: "Use split to subdivide a fastq pair (R1 and R2) in chunks (paired: true) or a single file (paired: false)",
         constraints: "Work with fastq.gz and fastq files",
         author: "davide.rambaldi@gmail.com"

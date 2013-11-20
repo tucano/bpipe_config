@@ -9,7 +9,7 @@ indel_realigner_gfu = {
     var dbsnp : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
     var test : false
 
-    doc title: "GFU Realign reads marked by stage realiagner_target_creator_gfu with GATK toolkit: IndelRealigner",
+    doc title: "Realign reads marked by stage realiagner_target_creator_gfu with GATK toolkit: IndelRealigner",
         desc: "Realign small intervals marked by GATK: RealignerTargetCreator",
         author: "davide.rambaldi@gmail.com"
 

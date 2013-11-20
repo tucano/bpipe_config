@@ -10,7 +10,7 @@ mark_duplicates_gfu =
     var validation_stringency : "SILENT"
     var assumed_sorted : true
 
-    doc title: "GFU: mark duplicates in bam files with $MARKDUP : IOS GFU 0019",
+    doc title: "Mark duplicates in bam files with $MARKDUP : IOS GFU 0019",
         desc: "Mark duplicates in bam files with $MARKDUP",
         constrains: """
             Require a BAM sorted by coordinate (ASSUME_SORTED=true).

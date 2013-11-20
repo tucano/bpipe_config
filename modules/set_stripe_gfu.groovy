@@ -6,7 +6,7 @@ set_stripe_gfu =
 {
     var test : false
 
-    doc title: "GFU: Set lustre options for working directory",
+    doc title: "Set lustre options for working directory",
         desc: """
             Lustre options:
                 -c -1 : a stripe_count of -1 means to stripe over all available OSTs.

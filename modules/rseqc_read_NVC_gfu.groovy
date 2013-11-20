@@ -9,7 +9,7 @@ rseqc_read_NVC_gfu =
 {
     var test : false
 
-    doc title: "GFU: rseqc quality control of bam files: read_quality",
+    doc title: "Rseqc quality control of bam files: read_quality",
         desc: """
             This module is used to check the nucleotide composition bias.
             Due to random priming, certain patterns are over represented at the beginning (5’end) of reads.

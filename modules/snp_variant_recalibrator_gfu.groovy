@@ -11,7 +11,7 @@ snp_variant_recalibrator_gfu =
     var min_num_bad     : 1000
 
     // INFO
-    doc title: "GFU: SNP Variants recalibration",
+    doc title: "SNP Variants recalibration",
         desc: " ... ",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"

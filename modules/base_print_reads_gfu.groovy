@@ -8,7 +8,7 @@ base_print_reads_gfu = {
     var truseq : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
     var test : false
 
-    doc title: "GFU Base recalibration with GATK: generate a new recalibrated BAM file",
+    doc title: "Base recalibration with GATK: generate a new recalibrated BAM file",
         desc: "Generate BAM file after recalibration with PrintReads",
         author: "davide.rambaldi@gmail.com"
 

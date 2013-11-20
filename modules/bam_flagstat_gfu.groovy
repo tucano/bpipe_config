@@ -6,7 +6,7 @@ bam_flagstat_gfu =
 {
     var test : false
 
-    doc title: "GFU: falgstat on BAM file",
+    doc title: "Flagstat on BAM file",
         desc: "Launch $SAMTOOLS flagstat on the final (merged) bam file, produce a log file $output",
         constraints: "Generate a LOG file and forward input to next stage",
         author: "davide.rambaldi@gmail.com"

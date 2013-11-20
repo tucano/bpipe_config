@@ -7,7 +7,7 @@ READQUALITY = """
 @preserve
 rseqc_read_quality_gfu = {
     var test : false
-    doc title: "GFU: rseqc quality control of bam files: read_quality",
+    doc title: "Rseqc quality control of bam files: read_quality",
         desc: """
             According to SAM specification, if Q is the character to
             represent “base calling quality” in SAM file, then

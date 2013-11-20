@@ -9,7 +9,7 @@ realiagner_target_creator_gfu = {
     var dbsnp : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
     var test : false
 
-    doc title: "GFU find small intervals with GATK toolkit: RealignerTargetCreator",
+    doc title: "Find small intervals with GATK toolkit: RealignerTargetCreator",
         desc: "Find small intervals that should be realigned",
         constrains: "Require the index bai file for bam: $input",
         author: "davide.rambaldi@gmail.com"

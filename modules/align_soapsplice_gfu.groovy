@@ -11,7 +11,7 @@ align_soapsplice_gfu =
     var compressed : true
     var test : false
 
-    doc title: "GFU: Soapsplice alignment task",
+    doc title: "Soapsplice alignment task",
         desc: "Align with soapsplice. Generate temporary files in /dev/shm on the node",
         constrains: "...",
         author: "davide.rambaldi@gmail.com"

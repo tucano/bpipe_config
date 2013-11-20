@@ -6,7 +6,7 @@ snpsift_filter_gfu =
     var test : false
 
     // INFO
-    doc title: "GFU: SNP SIFT",
+    doc title: "SNP SIFT",
         desc: " ... ",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"

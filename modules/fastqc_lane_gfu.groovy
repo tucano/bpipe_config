@@ -7,7 +7,7 @@ fastqc_lane_gfu = {
     var paired : true
     var test   : false
 
-    doc title: "GFU: fastqc on fastq.gz files in the current directory",
+    doc title: "Fastqc on fastq.gz files in the current directory",
         desc: """
             This module is for current working directory,
             use fastqc_sample_gfu for multiple samples (see also fastqc_project pipeline).

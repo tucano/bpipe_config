@@ -5,7 +5,7 @@ merge_junc_gfu =
 {
     var test : false
 
-    doc title: "GFU: merge junc files",
+    doc title: "Merge junc files",
         desc: "Merge junc files",
         constraints: "Should be placed after merge_bam_gfu in order to forward $input.bam to the next stage",
         author: "davide.rambaldi@gmail.com"

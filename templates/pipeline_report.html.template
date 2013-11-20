@@ -1,20 +1,90 @@
-<html>
-<body>
-    <h1>PIPELINE NAME: $name</h1>
-    <h3>$title</h3>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Bpipe Config pipeline info reprt">
+    <meta name="author" content="Davide Rambaldi">
+    <title>PIPELINE: $name</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap.min.css">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/css/bootstrap-theme.min.css">
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body style="padding-top: 70px;">
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">Pipeline Info</a>
+            </div>
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li class="active"><a href="#">Pipeline</a></li>
+                    <li><a href="#code">Code</a></li>
+                    <li><a href="#stages">Stages</a></li>
+                </ul>
+            </div>
+            <!--/.nav-collapse -->
+        </div>
+    </div>
 
-    <p><code>
-    $pipeline_code
-    </code></p>
+    <div class="container">
 
-    <h3>Stages:</h3>
-    <%
-        stages.each { key, value -> %>
-            <h5>${value["title"]}</h5>
-            <p>${value["desc"]}</p>
-            <p>${value["constrains"]}</p>
-            <p>${value["author"]}</p>
-        <%  }
-    %>
+        <div class="jumbotron">
+            <h1>PIPELINE:<br/>$name</h1>
+            <p>$title</p>
+        </div>
+
+        <div class="page-header">
+            <h1>Pipeline code:</h1>
+        </div>
+        <div class="row">
+            <section id="code">
+                <pre class="prettyprint" style="padding-top: 30px; padding-bottom: 10px;">
+                    $pipeline_code
+                </pre>
+            </section>
+        </div>
+
+        <section id="stages">
+            <div class="page-header">
+                <h1>Stages Info:</h1>
+            </div>
+            <%
+                stages.each { key, value -> %>
+                    <div style="background-color:#eee; border: 1px solid #888; border-radius:3px; margin-bottom: 20px; padding: 10px;">
+                        <h1>${key.replaceAll(/_/," ")}</h1>
+                        <table class="table table-stripped">
+                            <tr><td>Title</td><td>${value["title"]}</td></tr>
+                            <tr><td>Description</td><td>${value["desc"]}</td></tr>
+                            <tr><td>Constrains</td><td>${value["constrains"]}</td></tr>
+                            <tr><td>Author</td><td>${value["author"]}</td></tr>
+                        </table>
+                    </div>
+                <%  }
+            %>
+        </section>
+    </div>
+    <!-- END CONTAINER -->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://code.jquery.com/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.2/js/bootstrap.min.js"></script>
+    <!-- CODE PRETTYPRINT -->
+    <script src="https://google-code-prettify.googlecode.com/svn/loader/run_prettify.js"></script>
 </body>
 </html>

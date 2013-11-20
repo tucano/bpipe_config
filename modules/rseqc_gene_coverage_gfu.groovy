@@ -9,7 +9,7 @@ rseqc_gene_coverage_gfu =
 {
     var test : false
 
-    doc title: "GFU: rseqc quality control of bam files: gene_coverage",
+    doc title: "Rseqc quality control of bam files: gene_coverage",
         desc: """
             Read coverage over gene body.
             This module is used to check if reads coverage is uniform and if there is any 5’/3’ bias.

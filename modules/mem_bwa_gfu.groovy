@@ -14,7 +14,7 @@ mem_bwa_gfu =
     var compressed  : true
 
     // INFO
-    doc title: "GFU: align DNA reads with bwa using mem",
+    doc title: "Align DNA reads with bwa using mem",
         desc: """
             Use bwa aln to align reads (fastq.gz) on the reference genome. Bwa options: $BWAOPT_MEM
             Align 70bp-1Mbp query sequences with the BWA-MEM algorithm. Briefly, the algorithm works by seeding

@@ -6,7 +6,7 @@ vcf_concat_gfu = {
     var test : false
     var with_suffix : ""
 
-    doc title: "GFU: vcf concat",
+    doc title: "Vcf concat stage",
         desc: "Sort and concatenate VCF files",
         constraints: "...",
         author: "davide.rambaldi@gmail.com"

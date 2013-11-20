@@ -9,7 +9,7 @@ base_recalibrator_gfu = {
     var truseq           : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
     var test             : false
 
-    doc title: "GFU Base recalibration with GATK",
+    doc title: "Base recalibration with GATK",
         desc: "Base recalibration with GATK tool: BaseRecalibrator",
         author: "davide.rambaldi@gmail.com"
 

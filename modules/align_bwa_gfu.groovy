@@ -13,7 +13,7 @@ align_bwa_gfu =
     var paired     : true
 
     // INFO
-    doc title: "GFU: align DNA reads with bwa",
+    doc title: "Align DNA reads with bwa",
         desc: """
             Use bwa aln to align reads on the reference genome. Bwa options: $BWAOPT_ALN
             Generate alignments in the SAM format given paired-end reads (repetitive read pairs will be placed randomly).

@@ -8,7 +8,7 @@ BAMSTAT="""
 rseqc_bam_stat_gfu =
 {
     var test : false
-    doc title: "GFU: rseqc quality control of bam files: bam_stat",
+    doc title: "Rseqc quality control of bam files: bam_stat",
         desc: """
             This program is used to calculate reads mapping statistics from provided BAM file.
             This script determines “uniquely mapped reads” from mapping quality, which quality

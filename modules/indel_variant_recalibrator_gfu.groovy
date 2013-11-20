@@ -11,7 +11,7 @@ indel_variant_recalibrator_gfu =
     var inbreeding_coef : false  // FOR MORE THAN 10 SAMPLES
 
     // INFO
-    doc title: "GFU: INDEL Variants recalibration",
+    doc title: "INDEL Variants recalibration",
         desc: " ... ",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"

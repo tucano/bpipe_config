@@ -11,7 +11,7 @@ sam_bwa_gfu =
     var compressed : true
     var test : false
 
-    doc title: "GFU: sampe/samse bwa: merge paired ends with sampe or single end with samse",
+    doc title: "Sampe/Samse bwa: merge paired ends with sampe or single end with samse",
         desc: """
             Generate alignments in the SAM format given paired-end reads (repetitive read pairs will be placed randomly).
             Sort by coordinates and generate a bam file.

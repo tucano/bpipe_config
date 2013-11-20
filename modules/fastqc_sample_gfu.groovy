@@ -6,7 +6,7 @@ fastqc_sample_gfu = {
     var test   : false
     var paired : true
 
-    doc title: "GFU: fastqc on fastq.gz files in a sample directory",
+    doc title: "Fastqc on fastq.gz files in a sample directory",
         desc: """
             This module is for Illumina project structure,
             use fastqc_lane_gfu for single sample

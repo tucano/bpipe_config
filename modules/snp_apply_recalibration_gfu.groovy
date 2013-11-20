@@ -6,7 +6,7 @@ snp_apply_recalibration_gfu =
     var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
 
     // INFO
-    doc title: "GFU: SNP Apply recalibration",
+    doc title: "SNP Apply recalibration",
         desc: " ... ",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"

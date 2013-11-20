@@ -11,7 +11,7 @@ htseq_count_gfu =
     var id_attribute : "gene_name"
     var feature_type : "exon"
 
-    doc title: "GFU: htseq-count on bam file with GTF annotation file",
+    doc title: "Htseq-count on bam file with GTF annotation file",
         desc: """
             Run htseq-count on sorted BAM file and check output consistency with awk in file $output.txt
             Inputs: a gtf annotation file ($GENE_GFF_FILE) and a bam file ($input.bam).

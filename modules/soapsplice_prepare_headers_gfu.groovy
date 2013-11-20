@@ -7,7 +7,7 @@ soapsplice_prepare_headers_gfu =
     var test : false
 
     // INFO
-    doc title: "GFU: prepare header file for alignment with soapsplice",
+    doc title: "Prepare header file for alignment with soapsplice",
         desc: "Generate a header file for alignment with soapsplice",
         constraints: "...",
         author: "davide.rambaldi@gmail.com"

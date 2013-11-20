@@ -6,7 +6,7 @@ rmdup_gfu = {
     var test   : false
     var paired : true
 
-    doc title: "GFU: remove duplicates in bam files with SAMTOOLS rmdup",
+    doc title: "Remove duplicates in bam files with SAMTOOLS rmdup",
         desc: "REmove duplicates in bam files with samtools. This is an alternative to Picard MarkDuplicates",
         constrains: "Remove duplicates (can't mark)",
         author: "davide.rambaldi@gmail.com"
