@@ -90,9 +90,15 @@ class TestListPipelines extends GroovyTestCase
 		assert Pipelines.listPipelines(mock_pipelines_root)["dummy_category"][0]["project_pipeline"] != null
 	}
 
-	void testPipelineFastqcProjectShouldHaveProjectTrue()
+	void testPipelineFastqcProjectShouldHaveProject()
 	{
-		assert Pipelines.listPipelines(pipelines_root)["fastqc"][1]["project_pipeline"] == true
+		Pipelines.listPipelines(pipelines_root)["fastqc"].each { pipeline ->
+			if (pipeline["name"] == "fastqc_lane") {
+				assert pipeline["project_pipeline"] == false
+			} else if (pipeline["name"] == "fastqc_sample") {
+				assert pipeline["project_pipeline"] == true
+			}
+		}
 	}
 
 	void testPipelineFastqcLaneShouldHaveProjectFalse()
