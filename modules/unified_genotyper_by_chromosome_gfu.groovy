@@ -57,59 +57,28 @@ unified_genotyper_by_chromosome_gfu = {
                 ranges = ranges.drop(intervals)
             }
         }
+
         def commands = []
-        jobs.each { group ->
-            commands << group.collect { "-L $it"}.join(" ")
+        jobs.eachWithIndex() { group, i ->
+            def chr_intervals = group.collect { "-L $it"}.join(" ")
+            commands << """
+                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with chromosome $chr and ${group.size} regions";
+                $command_gatk -o ${input.bam.prefix}.${chr}.group_${i}.vcf ${chr_intervals}
+            """
         }
 
         if (test) {
             println "INPUT: $input.bam"
             println "TEST MODE FOR CHROMOSOME $chr  [multi steps]"
             println "FINAL OUTPUT: $output"
-            println "EXAMPLE COMMAND:\n$command_gatk -o ${input.bam.prefix}.${chr}.group_0.vcf ${commands[0]};"
+            println "COMMAND LIST:"
+            commands.each { com ->
+                println "COMMAND: $com"
+            }
             exec "touch $output"
         } else {
-            // this weird things is because I can't generate multi in a loop
-            multi """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[0]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_0.vcf ${commands[0]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[1]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_1.vcf ${commands[1]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[2]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_2.vcf ${commands[2]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[3]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_3.vcf ${commands[3]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[4]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_4.vcf ${commands[4]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[5]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_5.vcf ${commands[5]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[6]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_6.vcf ${commands[6]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[7]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_7.vcf ${commands[7]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[8]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_8.vcf ${commands[8]};
-            """,
-            """
-                echo -e "[unified_genotyper_by_chromosome_gfu]: running UnifiedGenotyper of node $HOSTNAME with regions: ${commands[9]}";
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_9.vcf ${commands[9]};
-            """
+            // fixed with https://groups.google.com/forum/#!msg/bpipe-discuss/GQGTsrrAuDU/FSNcFTEYXosJ
+            multiExec(commands)
 
             // CONCAT VCF FILES AND SORT
             // exec "touch ${input.prefix}.${chr}.vcf ${input.prefix}.${chr}.vcf.idx","gatk"
