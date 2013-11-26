@@ -15,5 +15,6 @@ do
     echo -e "BATCH MODE: Bpipe started in background in directory \$i"
     echo -e "Use: bpipe log to monitor execution in \$i"
     cd ..
+    sleep 5
 done
 

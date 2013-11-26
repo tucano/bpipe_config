@@ -38,11 +38,11 @@ mem_bwa_gfu =
         """
         if (paired) {
             command += """
-                $BWA mem -R \"$header\" -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 > ${TMP_OUTPUT_PREFIX}.sam;
+                $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 > ${TMP_OUTPUT_PREFIX}.sam;
             """
         } else {
             command += """
-                $BWA mem -R \"$header\" -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input > ${TMP_OUTPUT_PREFIX}.sam;
+                $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input > ${TMP_OUTPUT_PREFIX}.sam;
             """
         }
         command += """
