@@ -1,9 +1,9 @@
-// MODULE FASTQC
+// MODULE FASTQC SAMPLE
 FASTQC="/lustre1/tools/bin/fastqc"
 
 @intermediate
-fastqc_sample_gfu = {
-    var test   : false
+fastqc_sample_gfu =
+{
     var paired : true
 
     doc title: "Fastqc on fastq.gz files in a sample directory",
@@ -11,39 +11,46 @@ fastqc_sample_gfu = {
             This module is for Illumina project structure,
             use fastqc_lane_gfu for single sample
         """,
-        constraints: """
-            If there is only one pair of fastq.gz files (001) fastq don't remove the casava notation.
-            I produce the fastqc zip file in sample dir and move it with rename to sample name.
-        """,
+        constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    def command
 
-    if (paired) {
-        produce("${input}_R1_fastqc.zip","${input}_R2_fastqc.zip") {
-            command = """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${input}/*.fastq.gz;
-                mv ${input}/*R1*_fastqc.zip ${input}_R1_fastqc.zip;
-                mv ${input}/*R2*_fastqc.zip ${input}_R2_fastqc.zip;
-            """
-            if (test) {
-                println "INPUTS: $inputs OUTPUTS: $outputs"
-                println "COMMAND: $command"
-                command = "touch $output1 $output2"
-            }
-        }
-    } else {
-        produce("${input}_fastqc.zip") {
-            command = """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${input}/*.fastq.gz;
-                mv ${input}/*_fastqc.zip ${input}_fastqc.zip
-            """
-            if (test) {
-                println "INPUTS: $inputs OUTPUTS: $output"
-                println "COMMAND: $command"
-                command = "touch $output"
-            }
+    output.dir = input
+    def data_dir = input.replaceAll("_report","")
+    def input_files = []
+    def dir = new File(data_dir)
+    dir.eachFile { file ->
+        if (file.name.endsWith('fastq.gz')) {
+            input_files << file.name
         }
     }
-    exec command, "fastqc"
+
+    def output_prefix
+    if (paired) {
+        if (input_files.size <= 2) {
+            output_prefix = input_files*.replaceAll(".fastq.gz","")
+        } else {
+            output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
+        }
+    } else {
+        if (input_files.size == 1) {
+            output_prefix = input_files*.replaceAll(".fastq.gz","").unique()
+        } else {
+            output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
+        }
+    }
+
+    println "INPUT DATA IN DIR: $data_dir INPUT REPORT DIR: $input INPUT FILES: $input_files OUTPUT PREFIX: ${output_prefix}"
+    if (paired) {
+        produce("${output_prefix[0]}_fastqc.zip","${output_prefix[1]}_fastqc.zip") {
+            println "OUTPUTS $outputs"
+        }
+    } else {
+        produce("${output_prefix}_fastqc.zip") {
+            println "OUTPUT $output"
+        }
+    }
+
+    exec "$FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;"
+    forward input
 }
