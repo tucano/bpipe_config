@@ -247,7 +247,7 @@ class Commands
 
 		// FAIL for project  pipelines with o args
 		if (pipeline["project_pipeline"] && args.size == 0) {
-			println Logget.error("A project pipeline require a list of samples (subdirs) as arguments after the pipeline name")
+			println Logger.error("A project pipeline require a list of samples (subdirs) as arguments after the pipeline name")
 			System.exit(1)
 		}
 
