@@ -16,6 +16,7 @@
 
 1. bpipe-config command info: info on current pipeline (info on single modules in a html template) [OK]
 2. bpipe-config command clean: Clean all in current working directory or in directory list: intermediate files, bpipe.config file, .bpipe directory, etc …
+3. Valiation of sheet command arguments (X=Y,W=Z, etc ...)
 
 #### 0.5
 
