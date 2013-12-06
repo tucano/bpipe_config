@@ -14,28 +14,39 @@ base_recalibrator_gfu = {
         author: "davide.rambaldi@gmail.com"
 
     transform("grp") {
-      def command = """
-        ulimit -l unlimited;
-        ulimit -s unlimited;
-        $GATK -R $ref_genome_fasta
-              -knownSites $dbsnp
-              -I $input.bam
-              -L $truseq
-              -T BaseRecalibrator
-              --covariate QualityScoreCovariate
-              --covariate CycleCovariate
-              --covariate ContextCovariate
-              --covariate ReadGroupCovariate
-              --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
-              -nct 64
-              -o $output.grp
-      """
+        def custom_output
+        println "${inputs.toList()}"
+        if (inputs.toList().size > 1) {
+            custom_output = "${PROJECTNAME}.grp"
+            println "Renanimng GRP file with project name: "
+        } else {
+            custom_output = "$output.grp"
+        }
+
+        def command = """
+            ulimit -l unlimited;
+            ulimit -s unlimited;
+            $GATK -R $ref_genome_fasta
+                  -knownSites $dbsnp
+                  ${inputs.bam.collect{ "-I $it" }.join(" ")}
+                  -L $truseq
+                  -T BaseRecalibrator
+                  --covariate QualityScoreCovariate
+                  --covariate CycleCovariate
+                  --covariate ContextCovariate
+                  --covariate ReadGroupCovariate
+                  --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
+                  -nct 64
+                  -o $custom_output
+        """
 
         if (test) {
             println "INPUT $input, OUTPUT: $output"
             println "COMMAND: $command"
-            command = "touch $output"
+            command = "touch $custom_output"
         }
+
         exec command, "gatk"
+        forward custom_output
     }
 }
