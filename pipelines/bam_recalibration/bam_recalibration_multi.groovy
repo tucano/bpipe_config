@@ -23,8 +23,7 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  */
 Bpipe.run {
     "%" * [ realiagner_target_creator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq: TRUSEQ, dbsnp: DBSNP) +
-            indel_realigner_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP) ]
-    // "*.bam" * [base_recalibrator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP)] +
-            // base_recalibrator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP) +
-            // base_print_reads_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ) ]
+            indel_realigner_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP) ] +
+    "*.bam" * [base_recalibrator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP)] +
+    "%.bam" * [base_print_reads_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ) ]
 }

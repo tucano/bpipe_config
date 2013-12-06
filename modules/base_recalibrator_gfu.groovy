@@ -13,16 +13,15 @@ base_recalibrator_gfu = {
         desc: "Base recalibration with GATK tool: BaseRecalibrator",
         author: "davide.rambaldi@gmail.com"
 
-    transform("grp") {
-        def custom_output
-        println "${inputs.toList()}"
-        if (inputs.toList().size > 1) {
-            custom_output = "${PROJECTNAME}.grp"
-            println "Renanimng GRP file with project name: "
-        } else {
-            custom_output = "$output.grp"
-        }
+    def outputs
+    if (inputs.toList().size > 1) {
+        outputs = ["${PROJECTNAME}.grp"]
+        println "Renanimng GRP file with project name: $PROJECTNAME"
+    } else {
+        outputs = "${input.prefix}.grp"
+    }
 
+    produce(outputs) {
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
@@ -37,16 +36,16 @@ base_recalibrator_gfu = {
                   --covariate ReadGroupCovariate
                   --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
                   -nct 64
-                  -o $custom_output
+                  -o $output.grp
         """
 
         if (test) {
             println "INPUT $input, OUTPUT: $output"
             println "COMMAND: $command"
-            command = "touch $custom_output"
+            command = "touch $output.grp"
         }
 
         exec command, "gatk"
-        forward custom_output
+        forward outputs
     }
 }
