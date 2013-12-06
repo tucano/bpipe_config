@@ -10,14 +10,13 @@
 4. Fix SampleSheet parser
 5. Variants recalibration on all samples
 6. BAM Recalibration on multi bams
-
+7. bpipe-config command info: info on current pipeline (info on single modules in a html template)
 
 #### 0.4
 
-1. bpipe-config command info: info on current pipeline (info on single modules in a html template) [OK]
-2. bpipe-config command clean: Clean all in current working directory or in directory list: intermediate files, bpipe.config file, .bpipe directory, etc …
-3. Valiation of sheet command arguments (X=Y,W=Z, etc ...)
-4. Add triggers for quality (fail pipeline if quality is low)
+1. bpipe-config command clean: Clean all in current working directory or in directory list: intermediate files, bpipe.config file, .bpipe directory, etc …
+2. Valiation of sheet command arguments (X=Y,W=Z, etc ...)
+3. Add triggers for quality (fail pipeline if quality is low)
 
 #### 0.5
 
