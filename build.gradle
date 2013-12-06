@@ -10,7 +10,6 @@ apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templat
  * Use STAGE to make a libexec like dir.
  */
 
-
 version = "0.2.3"
 
 project.ext {
@@ -35,6 +34,7 @@ test {
     jvmArgs '-XX:MaxPermSize=256m'
 }
 
+// STAGE TASK
 task stage(dependsOn: jar,
     group: 'Build', description:"Stage project in ${project.STAGE} directory") << {
 
@@ -75,6 +75,11 @@ task stage(dependsOn: jar,
     ant.copy(todir: "$project.STAGE/misc") {
         ant.fileset(dir: 'misc', includes: "**")
     }
+
+    // CREATE A DOC DIR AND FILL: TODO
+    ant.mkdir(dir:"$project.STAGE/doc")
+
+
     // ADD VERSION AND BUILDDATE TO SH SCRIPT
     new File(STAGE+'/bin/bpipe-config').text = new File(
             "bin/bpipe-config").text.replaceAll(
@@ -97,6 +102,7 @@ task dist(dependsOn: stage,
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/pipelines/**", excludes:"**/*.swp")
         ant.fileset(dir: "build/stage", includes: "bpipeconfig/modules/**", excludes:"**/*.swp")
         ant.tarfileset(dir: "build/stage", filemode:"755", includes: "bpipeconfig/misc/**", excludes:"**/*.swp")
+        ant.fileset(dir: "build/stage", includes: "bpipeconfig/doc/**", excludes:"**/*.swp")
     }
     ant.gzip(destfile:"build/bpipeconfig-${version}.tar.gz", src: "build/bpipeconfig-${version}.tar")
 }
