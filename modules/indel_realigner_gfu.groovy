@@ -1,5 +1,5 @@
 // MODULE INDEL REALIGNER GFU
-GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
+GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK-2.8-1.jar"
 
 @intermediate
 indel_realigner_gfu = {
