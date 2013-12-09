@@ -1,5 +1,5 @@
 // MODULE MARK DUPLICATES IN BAM FILE
-MARKDUP="/usr/local/cluster/bin/MarkDuplicates.jar"
+MARKDUP="/lustre1/tools/bin/MarkDuplicates.jar"
 
 @preserve
 mark_duplicates_gfu =
