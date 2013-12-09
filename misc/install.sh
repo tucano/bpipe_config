@@ -29,6 +29,14 @@ else
 	echo -e "export PATH=\$BPIPE_CONFIG_HOME/bin:\$PATH" >> $PROFILE
 fi
 
+if [[ ! -z $BPIPE_CONFIG_HOME ]]
+then
+	log "JAVA_HOME already set to: $JAVA_HOME skipping."
+else
+	echo -e "export JAVA_HOME=/lustre1/tools/libexec/jre1.7.0_25" >> $PROFILE
+	echo -e "export PATH=\$JAVA_HOME/bin:\$PATH" >> $PROFILE
+fi
+
 if [[ -f $PROFILE ]]
 then
 	log "Sourcing ..."
