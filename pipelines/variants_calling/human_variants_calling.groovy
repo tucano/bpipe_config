@@ -7,8 +7,6 @@ about title: "Human variants calling: IOS 005"
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
 // Don't change my keywords in source!
 
-GATK                   = "java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
-VCFCONCAT              = "export PERL5LIB=/lustre1/tools/libexec/vcftools_0.1.9/perl/ && vcf-concat"
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 TRUSEQ                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/TruSeq_10k.intervals"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-137.chr.vcf"
