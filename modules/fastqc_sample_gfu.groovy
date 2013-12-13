@@ -46,7 +46,7 @@ fastqc_sample_gfu =
             println "OUTPUTS $outputs"
         }
     } else {
-        produce("${output_prefix}_fastqc.zip") {
+        produce("${output_prefix[0]}_fastqc.zip") {
             println "OUTPUT $output"
         }
     }
