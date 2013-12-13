@@ -8,6 +8,7 @@ base_recalibrator_gfu = {
     var dbsnp            : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
     var truseq           : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
     var test             : false
+    var nct              : 4
 
     doc title: "Base recalibration with GATK",
         desc: "Base recalibration with GATK tool: BaseRecalibrator",
@@ -35,7 +36,7 @@ base_recalibrator_gfu = {
                   --covariate ContextCovariate
                   --covariate ReadGroupCovariate
                   --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
-                  -nct 64
+                  -nct $nct
                   -o $output.grp
         """
 
