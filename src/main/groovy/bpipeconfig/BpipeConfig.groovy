@@ -71,7 +71,7 @@ class BpipeConfig
 
 		// CLI BUILDER
 		def cli = new CliBuilder(
-			usage: "bpipe-config [options] [config|sheet|pipe|info|clean|report|recover] [pipeline_name|*.groovy|dirs]",
+			usage: "bpipe-config [options] [config|sheet|pipe|info|clean|report|recover|jvm] [pipeline_name|*.groovy|dirs]",
     		header: "\nAvailable options (use -h for help):\n",
     		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
     		posix:  true,
@@ -179,6 +179,9 @@ class BpipeConfig
 			case "recover":
 				Commands.recover(extraArguments)
 			break
+            case "jvm":
+                Commands.jvm(extraArguments)
+            break
 		}
 	}
 }

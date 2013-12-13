@@ -10,6 +10,8 @@ import org.fusesource.jansi.AnsiConsole
 import static org.fusesource.jansi.Ansi.*
 import static org.fusesource.jansi.Ansi.Color.*
 import static org.fusesource.jansi.Ansi.Attribute.*
+// to get JVM info
+import java.lang.management.*
 
 @Log
 class Logger
@@ -59,6 +61,8 @@ class Logger
 		out << green("Generate reports for pipeline.groovy files.") << "\n"
 		out << bold("recover".padRight(10)) << " ".padLeft(15).padRight(40)
 		out << green(wrap("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).", 60, 50)) << "\n"
+		out << bold("jvm".padRight(10)) << " ".padLeft(15).padRight(40)
+		out << green("Get info on the JVM configuration") << "\n"
 		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to get info on a pipeline.\n"
 		out << green("\nsheet command INFO argument format:\n") << "\tFCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name" << "\n"
 		return out.toString()
@@ -92,6 +96,88 @@ class Logger
 		}
 		out << "\tBpipe Home         = " << green(BpipeConfig.bpipe_home) << "\n"
 		out << "\tJRE version        = " << green(BpipeConfig.java_runtime_version) << "\n"
+		return out.toString()
+	}
+
+	static String printJVMInfo()
+	{
+		def os 	 = ManagementFactory.operatingSystemMXBean
+		def rt   = ManagementFactory.runtimeMXBean
+		def cl   = ManagementFactory.classLoadingMXBean
+		def comp = ManagementFactory.compilationMXBean
+		def mem  = ManagementFactory.memoryMXBean
+		def td   = ManagementFactory.threadMXBean
+		def heapUsage    = mem.heapMemoryUsage
+		def nonHeapUsage = mem.nonHeapMemoryUsage
+		def pad_right  = 30
+		def pad_left   = 60
+		def pad_center = 90
+
+		out = new StringBuffer()
+		out << green("JVM Configuration:".center(pad_center,"-")) << "\n"
+		out << bold("OPERATING SYSTEM:\n")
+		out << "architecture:".padRight(pad_right) << "${os.arch}".padLeft(pad_left) << "\n"
+		out << "name:".padRight(pad_right) << "${os.name}".padLeft(pad_left) << "\n"
+		out << "version:".padRight(pad_right) << "${os.version}".padLeft(pad_left) << "\n"
+		out << "processors:".padRight(pad_right) << "${os.availableProcessors}".padLeft(pad_left) << "\n"
+		out << "\n"
+		out << bold("RUNTIME:\n")
+		out << "name:".padRight(pad_right) << "${rt.name}".padLeft(pad_left) << "\n"
+		out << "spec name:".padRight(pad_right) << "${rt.specName}".padLeft(pad_left) << "\n"
+		out << "vendor:".padRight(pad_right) << "${rt.specVendor}".padLeft(pad_left) << "\n"
+		out << "spec version:".padRight(pad_right) << "${rt.specVersion}".padLeft(pad_left) << "\n"
+		out << "managment spec version:".padRight(pad_right) << "${rt.managementSpecVersion}".padLeft(pad_left) << "\n"
+		out << "\n"
+		out << bold("CLASS LOADING SYSTEM:\n")
+		out << "isVerbose:".padRight(pad_right) << "${cl.isVerbose()}".padLeft(pad_left) << "\n"
+		out << "loadedClassCount:".padRight(pad_right) << "${cl.loadedClassCount}".padLeft(pad_left) << "\n"
+		out << "totalLoadedClassCount:".padRight(pad_right) <<"${cl.totalLoadedClassCount}".padLeft(pad_left) << "\n"
+		out << "unloadedClassCount:".padRight(pad_right) <<"${cl.unloadedClassCount}".padLeft(pad_left) << "\n"
+		out << "\n"
+		out << bold("COMPILATION:\n")
+		out << "totalCompilationTime:".padRight(pad_right) << "${comp.totalCompilationTime}".padLeft(pad_left) << "\n"
+		out << "\n"
+		out << bold("MEMORY HEAP STORAGE:\n")
+		out << "committed:".padRight(pad_right) << "${heapUsage.committed}".padLeft(pad_left) << "\n"
+		out << "init:".padRight(pad_right) << "${heapUsage.init}".padLeft(pad_left) << "\n"
+		out << "max:".padRight(pad_right) << "${heapUsage.max}".padLeft(pad_left) << "\n"
+		out << "used:".padRight(pad_right) << "${heapUsage.used}".padLeft(pad_left) << "\n"
+		out << "\n"
+		out << bold("MEMORY NON-HEAP STORAGE:\n")
+		out << "committed:".padRight(pad_right) << "${nonHeapUsage.committed}".padLeft(pad_left) << "\n"
+		out << "init:".padRight(pad_right) << "${nonHeapUsage.init}".padLeft(pad_left) << "\n"
+		out << "max:".padRight(pad_right) << "${nonHeapUsage.max}".padLeft(pad_left) << "\n"
+		out << "used:".padRight(pad_right) << "${nonHeapUsage.used}".padLeft(pad_left) << "\n"
+		out << "\n"
+		out << bold("MEMORY MANAGMENT:\n\n")
+		ManagementFactory.memoryPoolMXBeans.each{ mp ->
+		    out << green("${mp.name}: ") << "\n\t"
+		    String[] mmnames = mp.memoryManagerNames
+		    mmnames.each{ mmname ->
+		        out << "$mmname "
+		    }
+		    out << "\n"
+		    out << "\tmtype = $mp.type\n"
+		    out << "\tUsage threshold supported = " << mp.isUsageThresholdSupported() << "\n"
+		}
+		out << "\n"
+		out << bold("THREADS:\n")
+		td.allThreadIds.each { tid ->
+		    out << "\t${td.getThreadInfo(tid).threadName}\n"
+		}
+		out << "\n"
+		out << bold("GARBAGE COLLECTION:\n\n")
+		ManagementFactory.garbageCollectorMXBeans.each { gc ->
+		    out << green("$gc.name\n")
+		    out << "\tcollection count = $gc.collectionCount\n"
+		    out << "\tcollection time = $gc.collectionTime\n"
+		    String[] mpoolNames = gc.memoryPoolNames
+		    mpoolNames.each { mpoolName ->
+		        out << "\tmpool name = $mpoolName\n"
+		    }
+		}
+		out << "\n"
+		out << green("END Configuration:".center(pad_center,"-")) << "\n"
 		return out.toString()
 	}
 

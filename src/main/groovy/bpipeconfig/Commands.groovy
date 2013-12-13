@@ -10,7 +10,7 @@ import bpipeconfig.Logger
 
 class Commands
 {
-	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover"]
+	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover","jvm"]
 	public static def pipeline
 	public static def samples
 	public static def engine = new SimpleTemplateEngine()
@@ -374,6 +374,11 @@ class Commands
 	public static recover(def args)
 	{
 		println "RECOVER"
+	}
+
+	public static jvm(def args)
+	{
+		println Logger.printJVMInfo()
 	}
 
 	// VALIDATORS
