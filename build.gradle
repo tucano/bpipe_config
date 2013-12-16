@@ -31,7 +31,7 @@ test {
     testLogging.exceptionFormat = 'full'
 
     // set JVM arguments for the test JVM(s)
-    jvmArgs '-XX:MaxPermSize=256m'
+    // jvmArgs '-XX:MaxPermSize=256m'
 }
 
 // STAGE TASK
