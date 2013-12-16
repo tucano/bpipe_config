@@ -1,5 +1,5 @@
 // MODULE HTSEQ COUNT GFU
-HTSEQ_COUNT="export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/usr/local/cluster/python2.7/lib/ && /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python2.7/bin/htseq-count"
+HTSEQ_COUNT="/usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python2.7/bin/htseq-count"
 SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve
@@ -26,6 +26,7 @@ htseq_count_gfu =
 
     transform("reads.txt","reads.sam") {
         def command = """
+            export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/usr/local/cluster/python2.7/lib/;
             $SAMTOOLS view $input | $HTSEQ_COUNT -m $mode -s $stranded -i $id_attribute -o $output.sam - $ANNOTATION_GFF_FILE > $output.txt;
             test \$(awk '{sum += \$2} END {print sum}' $output.txt) -gt 0;
         """
