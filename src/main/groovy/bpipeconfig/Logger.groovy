@@ -12,6 +12,7 @@ import static org.fusesource.jansi.Ansi.Color.*
 import static org.fusesource.jansi.Ansi.Attribute.*
 // to get JVM info
 import java.lang.management.*
+import groovy.time.*
 
 @Log
 class Logger
@@ -115,12 +116,14 @@ class Logger
 
 		out = new StringBuffer()
 		out << green("JVM Configuration:".center(pad_center,"-")) << "\n"
+
 		out << bold("OPERATING SYSTEM:\n")
 		out << "architecture:".padRight(pad_right) << "${os.arch}".padLeft(pad_left) << "\n"
 		out << "name:".padRight(pad_right) << "${os.name}".padLeft(pad_left) << "\n"
 		out << "version:".padRight(pad_right) << "${os.version}".padLeft(pad_left) << "\n"
 		out << "processors:".padRight(pad_right) << "${os.availableProcessors}".padLeft(pad_left) << "\n"
 		out << "\n"
+
 		out << bold("RUNTIME:\n")
 		out << "name:".padRight(pad_right) << "${rt.name}".padLeft(pad_left) << "\n"
 		out << "spec name:".padRight(pad_right) << "${rt.specName}".padLeft(pad_left) << "\n"
@@ -128,27 +131,43 @@ class Logger
 		out << "spec version:".padRight(pad_right) << "${rt.specVersion}".padLeft(pad_left) << "\n"
 		out << "managment spec version:".padRight(pad_right) << "${rt.managementSpecVersion}".padLeft(pad_left) << "\n"
 		out << "\n"
+
 		out << bold("CLASS LOADING SYSTEM:\n")
 		out << "isVerbose:".padRight(pad_right) << "${cl.isVerbose()}".padLeft(pad_left) << "\n"
 		out << "loadedClassCount:".padRight(pad_right) << "${cl.loadedClassCount}".padLeft(pad_left) << "\n"
 		out << "totalLoadedClassCount:".padRight(pad_right) <<"${cl.totalLoadedClassCount}".padLeft(pad_left) << "\n"
 		out << "unloadedClassCount:".padRight(pad_right) <<"${cl.unloadedClassCount}".padLeft(pad_left) << "\n"
 		out << "\n"
+
+		def comp_time = new TimeDuration(0,0,0,comp.totalCompilationTime.toInteger())
 		out << bold("COMPILATION:\n")
-		out << "totalCompilationTime:".padRight(pad_right) << "${comp.totalCompilationTime}".padLeft(pad_left) << "\n"
+		out << "totalCompilationTime:".padRight(pad_right) << "${comp_time.toString()}".padLeft(pad_left) << "\n"
 		out << "\n"
+
+		def committed = humanReadableByteCount(heapUsage.committed.toLong(), false)
+		def init      = humanReadableByteCount(heapUsage.init.toLong(), false)
+		def max       = humanReadableByteCount(heapUsage.max.toLong(), false)
+		def used      = humanReadableByteCount(heapUsage.used.toLong(), false)
+
 		out << bold("MEMORY HEAP STORAGE:\n")
-		out << "committed:".padRight(pad_right) << "${heapUsage.committed}".padLeft(pad_left) << "\n"
-		out << "init:".padRight(pad_right) << "${heapUsage.init}".padLeft(pad_left) << "\n"
-		out << "max:".padRight(pad_right) << "${heapUsage.max}".padLeft(pad_left) << "\n"
-		out << "used:".padRight(pad_right) << "${heapUsage.used}".padLeft(pad_left) << "\n"
+		out << "committed:".padRight(pad_right) << "${committed}".padLeft(pad_left) << "\n"
+		out << "init:".padRight(pad_right) << "${init}".padLeft(pad_left) << "\n"
+		out << "max:".padRight(pad_right) << "${max}".padLeft(pad_left) << "\n"
+		out << "used:".padRight(pad_right) << "${used}".padLeft(pad_left) << "\n"
 		out << "\n"
+
+		committed = humanReadableByteCount(nonHeapUsage.committed.toLong(), false)
+		init      = humanReadableByteCount(nonHeapUsage.init.toLong(), false)
+		max       = humanReadableByteCount(nonHeapUsage.max.toLong(), false)
+		used      = humanReadableByteCount(nonHeapUsage.used.toLong(), false)
+
 		out << bold("MEMORY NON-HEAP STORAGE:\n")
-		out << "committed:".padRight(pad_right) << "${nonHeapUsage.committed}".padLeft(pad_left) << "\n"
-		out << "init:".padRight(pad_right) << "${nonHeapUsage.init}".padLeft(pad_left) << "\n"
-		out << "max:".padRight(pad_right) << "${nonHeapUsage.max}".padLeft(pad_left) << "\n"
-		out << "used:".padRight(pad_right) << "${nonHeapUsage.used}".padLeft(pad_left) << "\n"
+		out << "committed:".padRight(pad_right) << "${committed}".padLeft(pad_left) << "\n"
+		out << "init:".padRight(pad_right) << "${init}".padLeft(pad_left) << "\n"
+		out << "max:".padRight(pad_right) << "${max}".padLeft(pad_left) << "\n"
+		out << "used:".padRight(pad_right) << "${used}".padLeft(pad_left) << "\n"
 		out << "\n"
+
 		out << bold("MEMORY MANAGMENT:\n\n")
 		ManagementFactory.memoryPoolMXBeans.each{ mp ->
 		    out << green("${mp.name}: ") << "\n\t"
@@ -161,16 +180,19 @@ class Logger
 		    out << "\tUsage threshold supported = " << mp.isUsageThresholdSupported() << "\n"
 		}
 		out << "\n"
+
 		out << bold("THREADS:\n")
 		td.allThreadIds.each { tid ->
 		    out << "\t${td.getThreadInfo(tid).threadName}\n"
 		}
 		out << "\n"
+
 		out << bold("GARBAGE COLLECTION:\n\n")
 		ManagementFactory.garbageCollectorMXBeans.each { gc ->
+		    def gc_time = new TimeDuration(0,0,0,gc.collectionTime.toInteger())
 		    out << green("$gc.name\n")
-		    out << "\tcollection count = $gc.collectionCount\n"
-		    out << "\tcollection time = $gc.collectionTime\n"
+		    out << "\tcollection count = ${gc.collectionCount}\n"
+		    out << "\tcollection time = ${gc_time.toString()}\n"
 		    String[] mpoolNames = gc.memoryPoolNames
 		    mpoolNames.each { mpoolName ->
 		        out << "\tmpool name = $mpoolName\n"
@@ -179,6 +201,16 @@ class Logger
 		out << "\n"
 		out << green("END Configuration:".center(pad_center,"-")) << "\n"
 		return out.toString()
+	}
+
+	// HUMAN READABLE BYTES
+	public static String humanReadableByteCount(long bytes, boolean si)
+	{
+	    int unit = si ? 1000 : 1024
+	    if (bytes < unit) return bytes + " B"
+	    int exp = (int) (Math.log(bytes) / Math.log(unit))
+	    String pre = (si ? "kMGTPE" : "KMGTPE").charAt(exp-1).toString() + (si ? "" : "i")
+	    return String.format("%.1f %sB", bytes / Math.pow(unit, exp), pre)
 	}
 
 	// MESSAGES (NO TESTS)
