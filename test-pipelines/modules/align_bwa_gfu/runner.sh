@@ -1,30 +1,34 @@
 #!/bin/bash
 
 SCRIPT_NAME="test_align_bwa_gfu_module"
-INPUTONE="../../data/testinput_R1_001.fastq"
-INPUTTWO="../../data/testinput_R1_002.fastq.gz"
+
 
 ./cleaner.sh
 
 # SINGLE FASTQ
-bpipe run test.groovy $INPUTONE
-bpipe query > test.graph
-RESULT=`diff expected_one.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-	echo "Error for dependency graph"
-	exit 1
+bpipe run test.groovy testinput_R1_001.fastq > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
+    exit 1
 fi
 ./cleaner.sh
 
 # SINGLE FASTQ.GZ
-bpipe run test_compressed.groovy $INPUTTWO
-bpipe query > test.graph
-RESULT=`diff expected_two.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-	echo "Error for dependency graph"
-	exit 1
+bpipe run test_compressed.groovy testinput_R1_001.fastq.gz > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
+    exit 1
 fi
 ./cleaner.sh
 
+# PAIRED FASTQ.GZ
+bpipe run test_compressed.groovy testinput_R*_001.fastq.gz > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
+    exit 1
+fi
 echo "SUCCESS"
 exit 0

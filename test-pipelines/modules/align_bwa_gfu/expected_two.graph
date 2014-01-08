@@ -1,7 +1,0 @@
-
-Dependency graph is: 
-
-../../data/testinput_R1_002.fastq.gz
-../../data/testinput_R1_002.fastq.gz => 
-                                    testinput_R1_002.fastq.bam
-                                    testinput_R1_002.fastq.sai
