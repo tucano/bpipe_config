@@ -1,7 +1,0 @@
-
-Dependency graph is: 
-
-../../data/testinput_one.bam
-../../data/testinput_one.bam => 
-                            testinput_one.reads.sam
-                            testinput_one.reads.txt
