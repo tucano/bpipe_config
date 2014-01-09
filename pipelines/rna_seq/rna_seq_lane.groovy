@@ -36,9 +36,9 @@ Bpipe.run {
     "_R*_%.fastq.gz" * [align_soapsplice_gfu.using(paired: true)] +
     merge_bam_gfu.using(rename: false) + merge_junc_gfu + verify_bam_gfu + bam_flagstat_gfu +
 
-    // an alternative to mark_duplicates_gfu is rmdup: comment this line and uncomment the rmdup_gfu stage to use it
-    mark_duplicates_gfu +
-    // rmdup_gfu +
+    // an alternative to mark_duplicates_gfu is rmdup (we use it as a standard for soapsplice)
+    // mark_duplicates_gfu +
+    rmdup_gfu +
 
     bam_flagstat_gfu + sort_bam_by_name_gfu + htseq_count_gfu.using(
         stranded: "no",

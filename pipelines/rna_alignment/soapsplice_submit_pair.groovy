@@ -31,8 +31,8 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
     "%.fastq" * [soapsplice_prepare_headers_gfu] +
     "read*_%.fastq" * [align_soapsplice_gfu.using(paired: true, compressed: false) ] +
     merge_bam_gfu.using(rename: true) + verify_bam_gfu + merge_junc_gfu + bam_flagstat_gfu +
-    // an alternative to mark_duplicates_gfu is rmdup: comment this line and uncomment the rmdup_gfu stage to use it
-    mark_duplicates_gfu +
-    // rmdup_gfu +
+    // an alternative to mark_duplicates_gfu is rmdup (we use it as a standard for soapsplice)
+    // mark_duplicates_gfu +
+    rmdup_gfu +
     bam_flagstat_gfu
  }
