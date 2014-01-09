@@ -30,5 +30,7 @@ if [[ $? == 0 ]]; then
     echo "FAIL"
     exit 1
 fi
+./cleaner.sh
+
 echo "SUCCESS"
 exit 0
