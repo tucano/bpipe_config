@@ -1,4 +1,4 @@
 #!/bin/bash
 
-bpipe cleanup -y
-rm -rf commandlog.txt test.graph .bpipe *.junc
+bpipe cleanup -y > /dev/null 2>&1
+rm -rf commandlog.txt test.out .bpipe *.junc
