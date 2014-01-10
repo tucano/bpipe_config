@@ -164,7 +164,6 @@ class Commands
 			if ( ! new File("${dir}/bpipe.config").exists() ) { config([dir]) }
 		}
 
-		// CAN BE DEFINED HERE BECAUSE IS THE SAMPE USAGE FOR EACH DIR DON'T CARE FOR OVERWRITE
 		def usage = ""
 		def generate_pipeline = { dir ->
 			def sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
@@ -204,7 +203,7 @@ class Commands
 			}
 
 			String pipeline_text = new File(pipeline["file_path"]).text
-			String pipeline_filename = "${BpipeConfig.project_name}_${pipeline["file_name"]}"
+			String pipeline_filename = "${pipeline["file_name"]}"
 
 			// GENERATE USAGE INFO
 			def pattern = /(?m)\/{2}\s*USAGE:(.*)/
