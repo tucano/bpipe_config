@@ -1,4 +1,4 @@
 #!/bin/bash
 
-bpipe cleanup -y
-rm -rf commandlog.txt test.graph .bpipe *.bam
+bpipe cleanup -y > /dev/null 2>&1
+rm -rf commandlog.txt test.out .bpipe *.reads_sorted.bam

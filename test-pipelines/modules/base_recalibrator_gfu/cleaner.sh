@@ -1,4 +1,4 @@
 #!/bin/bash
 
 bpipe cleanup -y > /dev/null 2>&1
-rm -rf commandlog.txt test.graph .bpipe *.grp
+rm -rf commandlog.txt .bpipe *.grp test.out

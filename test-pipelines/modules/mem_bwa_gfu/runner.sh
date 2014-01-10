@@ -3,20 +3,18 @@
 ./cleaner.sh
 
 # SINGLE FASTQ
-bpipe run test.groovy ../../data/*.fastq.gz
-bpipe query > test.graph
-RESULT=`diff expected.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-	echo "Error for dependency graph"
-	exit 1
+bpipe run test.groovy *.fastq.gz > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
+    exit 1
 fi
 ./cleaner.sh
 
-bpipe run test_paired.groovy ../../data/*.fastq.gz
-bpipe query > test.graph
-RESULT=`diff expected_paired.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-    echo "Error for dependency graph"
+bpipe run test_paired.groovy *.fastq.gz  > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
     exit 1
 fi
 ./cleaner.sh

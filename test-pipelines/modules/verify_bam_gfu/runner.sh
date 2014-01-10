@@ -1,16 +1,13 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_verify_bam_module"
-
 ./cleaner.sh
 
-bpipe run test.groovy ../../data/*.bam
-
-if [[ $? > 0 ]]; then
-    echo "Error for $SCRIPT_NAME"
+bpipe run test.groovy *.bam > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
     exit 1
 fi
-
 ./cleaner.sh
 
 echo "SUCCESS"

@@ -1,7 +1,5 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_align_soaplice_gfu_module"
-
 ./cleaner.sh
 
 # SINGLE FASTQ

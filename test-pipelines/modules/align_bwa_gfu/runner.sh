@@ -1,8 +1,5 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_align_bwa_gfu_module"
-
-
 ./cleaner.sh
 
 # SINGLE FASTQ

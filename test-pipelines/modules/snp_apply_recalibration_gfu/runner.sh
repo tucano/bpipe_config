@@ -1,14 +1,11 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_vcf_concat_module"
-
 ./cleaner.sh
 
-bpipe run test.groovy ../../data/testinput_R1_001.chr1.vcf input.tranches input.csv
-bpipe query > test.graph
-RESULT=`diff expected.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-    echo "Error for dependency graph"
+bpipe run test.groovy testinput_R1_001.chr1.vcf input.tranches input.csv > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
     exit 1
 fi
 ./cleaner.sh

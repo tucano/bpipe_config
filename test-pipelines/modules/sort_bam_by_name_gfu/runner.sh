@@ -1,14 +1,11 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_sort_bam_by_name_module"
-
 ./cleaner.sh
 
-bpipe run test.groovy ../../data/testinput_one.bam
-bpipe query > test.graph
-RESULT=`diff expected.graph test.graph`
-if [[ $RESULT > 0 ]]; then
-    echo "Error for $OUTPUTONE , dependency graph"
+bpipe run test.groovy testinput_one.bam > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
     exit 1
 fi
 ./cleaner.sh

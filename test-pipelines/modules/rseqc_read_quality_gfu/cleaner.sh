@@ -1,4 +1,4 @@
 #!/bin/bash
 
-bpipe cleanup -y
-rm -rf commandlog.txt test.graph .bpipe *.pdf *.txt *.r
+bpipe cleanup -y > /dev/null 2>&1
+rm -rf commandlog.txt test.out .bpipe *.pdf *.txt *.r *.xls
