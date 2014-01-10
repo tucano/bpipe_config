@@ -21,14 +21,14 @@ indel_apply_recalibration_gfu =
                   -tranchesFile $input.tranches
                   -recalFile $input.csv
                   --mode INDEL
-                  -o $output
+                  -o $output.vcf
                   -U $unsafe
         """
 
         if (test) {
-            println "INPUT: $input.vcf $input.tranches $input.csv OUTPUT: $output"
+            println "INPUT: $input.vcf $input.tranches $input.csv OUTPUT: $output.vcf"
             println "COMMAND: $command"
-            command = "touch $output"
+            command = "touch $output.vcf"
         }
 
         exec command, "gatk"
