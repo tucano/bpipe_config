@@ -21,14 +21,14 @@ snp_apply_recalibration_gfu =
                   -tranchesFile $input.tranches
                   -recalFile $input.csv
                   --mode SNP
-                  -o $output
+                  -o $output.csv
                   -U $unsafe
         """
 
         if (test) {
             println "INPUTS: $input.vcf $input.tranches $input.csv OUTPUTS: $output"
             println "COMMAND: $command"
-            command = "touch $output"
+            command = "touch $output.csv"
         }
 
         exec command, "gatk"

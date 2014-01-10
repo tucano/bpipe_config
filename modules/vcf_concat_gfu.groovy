@@ -15,10 +15,10 @@ vcf_concat_gfu = {
     if (with_suffix != "") {
         produce("${input.bam.prefix}.${with_suffix}.vcf") {
             def command = """
-                $VCFCONCAT $inputs | $VCFSORT > $output
+                $VCFCONCAT $inputs.vcf | $VCFSORT > $output
             """
             if (test) {
-                println "INPUT $input, OUTPUT: $output"
+                println "INPUTS $inputs\nVCF: $inputs.vcf\nOUTPUT: $output"
                 println "COMMAND: $command"
                 command = "touch $output"
             }
@@ -27,10 +27,10 @@ vcf_concat_gfu = {
     } else {
         produce("${input.bam.prefix}.vcf") {
             def command = """
-                $VCFCONCAT $inputs | $VCFSORT > $output
+                $VCFCONCAT $inputs.vcf | $VCFSORT > $output
             """
             if (test) {
-                println "INPUT $input, OUTPUT: $output"
+                println "INPUTS $inputs\nVCF: $inputs.vcf\nOUTPUT: $output"
                 println "COMMAND: $command"
                 command = "touch $output"
             }
