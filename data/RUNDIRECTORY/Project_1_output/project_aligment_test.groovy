@@ -70,7 +70,7 @@ merge_test = {
     }
 }
 
-@preserve
+@intermediate
 mark_test = {
     output.dir = input.replaceFirst(/\/.*/,"")
     filter("dedup") {
@@ -80,11 +80,33 @@ mark_test = {
     }
 }
 
+@intermediate
+flagstat_test = {
+    output.dir = input.replaceFirst(/\/.*/,"")
+    transform("log") {
+        exec """
+            echo "Input $input" > $output
+        """
+    }
+    forward input.bam
+}
+
+@preserve
+move_results = {
+    //println "INPUTS: $inputs"
+    def output_dir = "BAM"
+    output.dir = output_dir
+    exec """
+        mkdir -p $output_dir;
+        for i in $inputs; do mv $i $output_dir; done;
+    """
+}
+
 Bpipe.run {
     "%" * [
         sample_dir_gfu +
         "_R*_%.fastq.gz" * [ align_test ] +
         "*.bam" * [merge_test] +
-        mark_test
-    ]
+        mark_test + flagstat_test
+    ] + "*.bam" * [move_results]
 }
