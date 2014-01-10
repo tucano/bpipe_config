@@ -1,25 +1,22 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_base_recalibrator_module"
-OUTPUTONE="testinput.merge.bam"
-OUTPUTTWO="testinput.merge.bai"
-
 ./cleaner.sh
-
-bpipe run test.groovy ../../data/*.bam
-if [[ ! -f $OUTPUTONE ]]; then
-    echo "Error for $OUTPUTONE"
-    exit 1
-fi
-if [[ ! -f $OUTPUTONE ]]; then
-    echo "Error for $OUTPUTTWO"
+bpipe run test.groovy *.bam > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
     exit 1
 fi
 ./cleaner.sh
 
 OUTPUTONE="TEST.merge.bam"
 OUTPUTTWO="TEST.merge.bai"
-bpipe run test_rename.groovy ../../data/*.bam
+bpipe run test_rename.groovy *.bam > test.out
+grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
+if [[ $? == 0 ]]; then
+    echo "FAIL"
+    exit 1
+fi
 if [[ ! -f $OUTPUTONE ]]; then
     echo "Error for $OUTPUTONE"
     exit 1

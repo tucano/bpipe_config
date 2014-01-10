@@ -1,9 +1,0 @@
-
-Dependency graph is: 
-
-../../data/testinput_one.bam
-../../data/testinput_one.bam
-../../data/testinput_one.bam => 
-                            testinput_one.dedup.bai
-                            testinput_one.dedup.bam
-                            testinput_one.dedup.metrics
