@@ -29,9 +29,6 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 Bpipe.run {
     set_stripe_gfu + "%.fastq.gz" * [soapsplice_prepare_headers_gfu] +
     "_R*_%.fastq.gz" * [align_soapsplice_gfu.using(paired: true)] +
-    merge_bam_gfu.using(rename: false) + merge_junc_gfu + verify_bam_gfu + bam_flagstat_gfu +
-    // an alternative to mark_duplicates_gfu is rmdup (we use it as a standard for soapsplice)
-    // mark_duplicates_gfu +
-    rmdup_gfu +
+    merge_bam_gfu.using(rename: false) + merge_junc_gfu + verify_bam_gfu +
     bam_flagstat_gfu
 }
