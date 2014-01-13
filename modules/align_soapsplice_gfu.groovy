@@ -5,22 +5,40 @@ SAMTOOLS="/usr/local/cluster/bin/samtools"
 @intermediate
 align_soapsplice_gfu =
 {
-    // var to define if the sample is paired or not
-    var paired : true
+    // SoapSplice VARS
     var SSPLICEOPT_ALN : "-p 4 -f 2 -q 1 -j 0"
-    var compressed : true
-    var test : false
+    var pretend        : false
+    var compressed     : true
+    var paired         : true
 
-    doc title: "Soapsplice alignment task",
-        desc: "Align with soapsplice. Generate temporary files in /dev/shm on the node",
-        constrains: "...",
+    doc title: "Align RNA reads with soapsplice",
+        desc: """
+            Align with soapsplice.
+
+            Main options with default value:
+                pretend    : $pretend
+                paired     : $paired
+                compressed : $compressed
+
+            soaplsplice options: ${SSPLICEOPT_ALN}.
+            Generate temporary files in /dev/shm on the node.
+            Merge the pregenerated header and the output sam file in a bam file sorted by coordinates.
+        """,
+        constraints: """
+            Work with fastq and fastq.gz, single and paired files.
+            For paired files assume the presence of _R1_ and _R2_ tags
+        """,
         author: "davide.rambaldi@gmail.com"
+
 
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
 
-    if (paired) {
-        def custom_output = input.replaceFirst(/.*\//,"") - input_extension + ".bam"
-        from(input_extension, input_extension, '.header') produce(custom_output) {
+    if (paired) 
+    {
+        def custom_output = "$input1".replaceFirst("_R1_","_") - input_extension + ".bam"
+        
+        from(input_extension, input_extension, '.header') produce(custom_output) 
+        {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
@@ -36,22 +54,30 @@ align_soapsplice_gfu =
                 done;
                 rm -rf ${TMP_SCRATCH};
             """
-            if (test) {
-                println "INPUTS:  $input1 and $input2, HEADER: $input3, OUTPUT: $custom_output"
-                println "COMMAND:"
-                println "$command"
-                exec "touch $custom_output"
-            } else {
-                exec command.stripIndent().trim(), "soapsplice"
+            if (pretend) 
+            {
+                println """
+                    HEADER:       $input3
+                    INPUT FASTQ:  $input1 $input2
+                    OUTPUT:       $output
+                    COMMAND:
+                        $command
+                """
+                command = """
+                    echo "INPUTS: $input1 $input2" > $output
+                """
             }
+
+            exec command, "soapsplice"
         }
-    } else {
-        from("$input_extension", '.header') produce(input.header.prefix + '.bam') {
+    } 
+    else 
+    {
+        from("$input_extension", '.header') produce(input.header.prefix + '.bam') 
+        {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
-                echo -e "[align_soapsplice_gfu]: soapsplice alignment on node $HOSTNAME";
-                echo -e "[align_soapsplice_gfu]: TMP_SCRATCH: $TMP_SCRATCH and header: ${input.header}" >&2;
                 $SSPLICE -d $REFERENCE_GENOME -1 ${input1} -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
                 cat ${input2} ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
                 mv ${TMP_OUTPUT_PREFIX}.bam $output;
@@ -63,14 +89,20 @@ align_soapsplice_gfu =
                 rm -rf ${TMP_SCRATCH};
             """
 
-            if (test) {
-                println "INPUT FASTQ:  ${input1}, INPUT HEADER: ${input2}, OUTPUT: $output"
-                println "COMMAND:"
-                println "$command"
-                exec "touch $output"
-            } else {
-                exec command.stripIndent().trim(), "soapsplice"
+            if (pretend) 
+            {
+                println """
+                    HEADER:       $input2
+                    INPUT FASTQ:  $input1
+                    OUTPUT:       $output
+                    COMMAND:
+                        $command
+                """
+                command = """
+                    echo "INPUTS: $input1 $input2" > $output
+                """
             }
+            exec command, "soapsplice"
         }
     }
 }
