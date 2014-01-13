@@ -18,7 +18,7 @@ align_bwa_gfu =
         desc: """
             Use bwa aln to align reads on the reference genome.
 
-            Main options with default value:
+            Main options with value:
                 pretend    : $pretend
                 paired     : $paired
                 compressed : $compressed
@@ -76,14 +76,14 @@ align_bwa_gfu =
                     COMMANDS ALN: 
                         $command_alnone
                         $command_alntwo
-                    COMAND SAMPE:
+                    COMMAND SAMPE:
                         $command_sampe
                 """
 
                 command_alnone = "echo INPUT: $input1 > $output1"
                 command_alntwo = "echo INPUT: $input2 > $output2"
                 command_sampe  = """
-                    echo "INPUTS: $inputs $output1 $output2" > $output3
+                    echo "INPUTS: $inputs $output1 $output2" > $output3;
                 """
             }
 
@@ -125,10 +125,11 @@ align_bwa_gfu =
                         $command
                 """
                 command = """
-                    echo "INPUT: $input" > $output1
-                    echo "INPUTS: $input $output1" > $output2
+                    echo "INPUT: $input" > $output1;
+                    echo "INPUTS: $input $output1" > $output2;
                 """
             }
+            
             exec command, "bwa_samse"
         }
     }

@@ -15,7 +15,7 @@ align_soapsplice_gfu =
         desc: """
             Align with soapsplice.
 
-            Main options with default value:
+            Main options with value:
                 pretend    : $pretend
                 paired     : $paired
                 compressed : $compressed
@@ -26,7 +26,8 @@ align_soapsplice_gfu =
         """,
         constraints: """
             Work with fastq and fastq.gz, single and paired files.
-            For paired files assume the presence of _R1_ and _R2_ tags
+            For paired files assume the presence of _R1_ and _R2_ tags.
+            Don't support MarkDuplicates stages.
         """,
         author: "davide.rambaldi@gmail.com"
 
@@ -64,7 +65,7 @@ align_soapsplice_gfu =
                         $command
                 """
                 command = """
-                    echo "INPUTS: $input1 $input2" > $output
+                    echo "INPUTS: $input1 $input2" > $output;
                 """
             }
 
@@ -99,7 +100,7 @@ align_soapsplice_gfu =
                         $command
                 """
                 command = """
-                    echo "INPUTS: $input1 $input2" > $output
+                    echo "INPUTS: $input1 $input2" > $output;
                 """
             }
             exec command, "soapsplice"

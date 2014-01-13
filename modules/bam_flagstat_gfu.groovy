@@ -9,7 +9,7 @@ bam_flagstat_gfu =
     doc title: "samtools flagstat on BAM file",
         desc: """
             Launch $SAMTOOLS flagstat on ${input.bam}, produce a log file: $output.
-            Main options with default value:
+            Main options with value:
                 pretend    : $pretend
 
             Generate a .log file and forward ${input.bam} to next stage.
@@ -32,7 +32,7 @@ bam_flagstat_gfu =
                     $command
             """
             command = """
-                echo "INPUT: $input" > $output
+                echo "INPUT: $input" > $output;
             """
         }
         exec command

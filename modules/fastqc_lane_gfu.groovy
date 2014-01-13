@@ -2,47 +2,76 @@
 FASTQC="/lustre1/tools/bin/fastqc"
 
 @preserve
-fastqc_lane_gfu = {
-
-    var paired : true
-    var test   : false
+fastqc_lane_gfu = 
+{
+    // stage vars
+    var paired    : true
+    var pretend   : false
 
     doc title: "Fastqc on fastq.gz files in the current directory",
         desc: """
             This module is for current working directory,
             use fastqc_sample_gfu for multiple samples (see also fastqc_project pipeline).
             Produce a zip files with fastqc quality control.
+            Main options with value:
+            pretend          : $pretend
+            paired           : $paired
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    def output_name
-    def command
+    if (paired) 
+    {
+        def output_name = input.prefix.replaceAll(/_R[1-2]_[0-9]*.fastq/,"")
+        
+        from("*.fastq.gz") produce("${output_name}_R1_fastqc.zip","${output_name}_R2_fastqc.zip") 
+        {
+            def command = """
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . $inputs
+            """
+            
+            if (pretend) 
+            {
+                println """
+                    INPUTS:  $inputs
+                    OUTPUT:  $outputs
+                    COMMAND:
+                        $command
+                """
+                command = """
+                    echo "INPUTS: $inputs" > $output1;
+                    echo "INPUTS: $inputs" > $output2;
+                """
+            }
 
-    if (paired) {
-        output_name = input.prefix.replaceAll(/_R[1-2]_[0-9]*.fastq/,"")
-        from("*.fastq.gz") produce("${output_name}_R1_fastqc.zip","${output_name}_R2_fastqc.zip") {
-            command = """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . $inputs
-            """
-            if (test) {
-                println "INPUTS: $inputs OUTPUTS: $outputs"
-                println "COMMAND: $command"
-                command = "touch $output1 $output2"
-            }
+            exec command, "fastqc"
         }
-    } else {
-        output_name = input.prefix.replaceAll(/_[0-9]*.fastq/,"")
-        from("*.fastq.gz") produce("${output_name}_fastqc.zip") {
-            command = """
+    } 
+    else 
+    {
+        def output_name = input.prefix.replaceAll(/_[0-9]*.fastq/,"")
+        
+        from("*.fastq.gz") produce("${output_name}_fastqc.zip") 
+        {
+            
+            def command = """
                 $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . $inputs
             """
-            if (test) {
-                println "INPUTS: $inputs OUTPUT: $output"
-                println "COMMAND: $command"
-                command = "touch $output"
+            
+            if (pretend) 
+            {
+                println """
+                    INPUTS:  $inputs
+                    OUTPUT:  $output
+                    COMMAND:
+                        $command
+                """
+                command = """
+                    echo "INPUTS: $inputs" > $output
+                """
             }
+
+            exec command, "fastqc"
         }
     }
-    exec command, "fastqc"
 }
