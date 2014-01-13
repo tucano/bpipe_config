@@ -7,42 +7,56 @@ align_bwa_gfu =
 {
     // use -I for base64 Illumina quality
     // use -q for trim quality (Es: -q 30)
-    var BWAOPT_ALN : ""
-    var bwa_threads: 2
-    var test       : false
-    var paired     : true
+    var BWAOPT_ALN  : ""
+    var bwa_threads : 2
+    var pretend     : false
+    var paired      : true
+    var compressed  : true
 
     // INFO
     doc title: "Align DNA reads with bwa",
         desc: """
-            Use bwa aln to align reads on the reference genome. Bwa options: $BWAOPT_ALN
-            Generate alignments in the SAM format given paired-end reads (repetitive read pairs will be placed randomly).
-            Sort by coordinates and generate a bam file.
+            Use bwa aln to align reads on the reference genome.
+
+            Main options with default value:
+                pretend    : $pretend
+                paired     : $paired
+                compressed : $compressed
+
+            bwa options: ${BWAOPT_ALN}.
+            bwa threads: ${bwa_threads}.
+
+            First step: bwa aln on single or paired files.
+            Second step: bwa samse/sampe.
+            Generate alignments in the SAM format (repetitive read pairs will be placed randomly).
+            Then sort by coordinates and generate a bam file.
         """,
-        constraints: "Work with fastq and fastq.gz single files.",
+        constraints: """
+            Work with fastq and fastq.gz, single and paired files.
+            For paired files assume the presence of _R1_ and _R2_ tags
+        """,
         author: "davide.rambaldi@gmail.com"
 
+
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
+    String input_extension = compressed ? '.fastq.gz' : '.fastq'
 
-    if (paired) {
-         // We are going to transform FASTQ into two .sai files and a .bam file
-        transform("sai","sai","bam") {
+    // config for multi stages 
+    // see https://groups.google.com/forum/#!searchin/bpipe-discuss/multi$20config/bpipe-discuss/6jq6GiHz7oE/uBG32j4VU1oJ
+    
+    if (paired)
+    {
+        def outputs = [
+            ("$input1" - input_extension + '.sai'),
+            ("$input2" - input_extension + '.sai'),
+            ("$input1".replaceFirst("_R1_","_") - input_extension + '.bam')
+        ]
 
-            // Step 1 - run both bwa aln commands in parallel
-            command_one = "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input1 > $output1"
-            command_two = "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input2 > $output2"
-
-            if (test) {
-                println "INPUTS:  $input1 and $input2"
-                println "OUTPUTS: $output1 and $output2"
-                println "COMMAND:\n$command_one\n$command_two"
-                command_one = "touch $output1"
-                command_two = "touch $output2"
-            }
-            multi "$command_one", "$command_two"
-
-            // Step 2 - bwa sampe
-            def command = """
+        produce(outputs)
+        {
+            def command_alnone = "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input1 > $output1"
+            def command_alntwo = "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input2 > $output2"
+            def command_sampe = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
                 echo -e "[sam_bwa_gfu]: bwa sampe on node $HOSTNAME with TMP_SCRATCH: $TMP_SCRATCH" >&2;
@@ -52,17 +66,43 @@ align_bwa_gfu =
                 mv ${TMP_SCRATCH}/$output.bam $output.bam;
                 rm -rf ${TMP_SCRATCH};
             """
-            if (test) {
-                println "INPUTS: $input1, $input2"
-                println "OUTPUT: $output1, $output2, $output.bam"
-                println "COMMAND: $command"
-                command = "touch $output.bam"
+
+            if (pretend) 
+            {
+                println """
+                    HEADER:  $header
+                    INPUTS:  $inputs
+                    OUTPUTS: $outputs
+                    COMMANDS ALN: 
+                        $command_alnone
+                        $command_alntwo
+                    COMAND SAMPE:
+                        $command_sampe
+                """
+
+                command_alnone = "echo INPUT: $input1 > $output1"
+                command_alntwo = "echo INPUT: $input2 > $output2"
+                command_sampe  = """
+                    echo "INPUTS: $inputs $output1 $output2" > $output3
+                """
             }
-            exec command, "bwa_sampe"
+
+            config("bwa_aln") 
+            {
+                multi "$command_alnone", "$command_alntwo"
+            }
+            exec command_sampe, "bwa_sampe"
         }
-    } else {
-        transform("sai","bam") {
-            // Step 1 - run bwa aln command
+    } 
+    else 
+    {
+        def outputs = [
+            ("$input1" - input_extension + '.sai'),
+            ("$input1" - input_extension + '.bam')
+        ]
+
+        produce(outputs) 
+        {
             def command = """
                 $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input > $output1;
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
@@ -74,11 +114,20 @@ align_bwa_gfu =
                 mv ${TMP_SCRATCH}/$output.bam $output.bam;
                 rm -rf ${TMP_SCRATCH};
             """
-            if (test) {
-                println "INPUTS: $input1"
-                println "OUTPUTS: $output1, $output.bam"
-                println "COMMAND:\n$command"
-                command = "touch $output.bam $output.sai"
+
+            if (pretend)
+            {
+                println """
+                    HEADER:  $header
+                    INPUTS:  $input
+                    OUTPUTS: $outputs
+                    COMMAND: 
+                        $command
+                """
+                command = """
+                    echo "INPUT: $input" > $output1
+                    echo "INPUTS: $input $output1" > $output2
+                """
             }
             exec command, "bwa_samse"
         }

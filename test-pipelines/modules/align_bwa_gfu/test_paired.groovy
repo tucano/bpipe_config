@@ -8,6 +8,6 @@ EXPERIMENT_NAME="test1"
 SAMPLEID="S1"
 CENTER="GFU"
 
-Bpipe.run {
-	"%.fastq.gz" * [align_bwa_gfu.using(pretend:true,paired:false,compressed:true)]
+run {
+	"_R*_%.fastq" * [align_bwa_gfu.using(pretend:true, paired:true, compressed:false)]
 }

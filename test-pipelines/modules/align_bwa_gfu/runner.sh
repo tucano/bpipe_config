@@ -1,33 +1,33 @@
 #!/bin/bash
 
+source ../../testsupport.sh
+
 ./cleaner.sh
 
-# SINGLE FASTQ
-bpipe run test.groovy testinput_R1_001.fastq > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+# SINGLE
+OUTPUTS=(testinput_R1_001.sai testinput_R1_001.bam testinput_R2_001.bam testinput_R2_001.sai)
+
+run test.groovy *.fastq
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-# SINGLE FASTQ.GZ
-bpipe run test_compressed.groovy testinput_R1_001.fastq.gz > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+run test_compressed.groovy *.fastq.gz
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-# PAIRED FASTQ.GZ
-bpipe run test_compressed.groovy testinput_R*_001.fastq.gz > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+# PAIRED
+OUTPUTS=(testinput_R1_001.sai testinput_R2_001.sai testinput_001.bam)
+
+run test_paired.groovy testinput_R*_001.fastq
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+run test_compressed_paired.groovy testinput_R*_001.fastq.gz
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+success
