@@ -4,35 +4,66 @@ PICMERGE="/usr/local/cluster/bin/MergeSamFiles.jar"
 @intermediate
 merge_bam_gfu =
 {
-    var rename : false
-    var test : false
+    var rename  : false
+    var pretend : false
 
     doc title: "Merge bam files with $PICMERGE",
-        desc: "Merge bam files with $PICMERGE",
-        constraints: "If file came from split (es: read_0000) you should set rename: true. The output will be renamed with the variable EXPERIMENT_NAME (${EXPERIMENT_NAME})",
+        desc: """
+            Reads a SAM or BAM file and combines the output to one file
+            If file came from split_fastq_gfu (es: read_0001.bam) you should set rename: true.
+            The output will be renamed with the variable SAMPLEID (${SAMPLEID}).
+            For Illumina default runs set rename to FALSE, this stage will automatically remove casava groups notation.
+            stage options:
+                rename  : $rename
+                pretend : $pretend
+        """,
+        constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    def output_prefix  = input.prefix.replaceFirst(/.*\//,"").replaceFirst(/_R.*/,"")
-    if (rename) output_prefix = EXPERIMENT_NAME
-    def output_bam = output_prefix + ".merge.bam"
-    def output_bai = output_prefix + ".merge.bai"
-    input_strings = inputs.collect() { return "I=" + it}.join(" ")
+    def output_prefix
+    if (rename) 
+    {
+        output_prefix = SAMPLEID
+    }
+    else
+    {
+        // remove CASAVA groups
+        output_prefix = input.prefix.replaceFirst(/_[0-9]+$/,"")
+    }
 
-    produce(output_bam, output_bai)
+    def outputs = [
+        ("${output_prefix}" + ".merge.bam"),
+        ("${output_prefix}" + ".merge.bai")
+    ]
+
+    // collect input bams
+    def input_strings = inputs.collect() { return "I=" + it}.join(" ")
+    
+
+    produce (outputs) 
     {
         def command = """
-            echo -e "[merge_bam_gfu]: Merging BAM files $inputs in output file $output_bam with index $output_bai" >&2;
-            java -jar $PICMERGE $input_strings O=$output_bam
+            java -jar $PICMERGE 
+                $input_strings 
+                O=$output1
                 VALIDATION_STRINGENCY=SILENT
                 CREATE_INDEX=true
                 MSD=true
                 ASSUME_SORTED=true
                 USE_THREADING=true
         """
-        if (test) {
-            println "INPUT $input, OUTPUT: $output_bam"
-            println "COMMAND: $command"
-            command = "touch $output_bam $output_bai"
+
+        if (pretend) 
+        {
+            println """
+                INPUTS: $inputs
+                OUTPUT: $output
+                COMMAND: $command
+            """
+            command = """
+                echo "INPUTS: $inputs" > $output1;
+                echo "INPUTS: $inputs" > $output2;
+            """
         }
 
         exec command,"merge_bam_files"

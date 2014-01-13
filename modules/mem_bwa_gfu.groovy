@@ -5,58 +5,99 @@ SAMTOOLS="/usr/local/cluster/bin/samtools"
 @intermediate
 mem_bwa_gfu =
 {
-    // use -I for base64 Illumina quality
-    // use -q for trim quality (Es: -q 30)
+    // stage vars
     var BWAOPT_MEM  : ""
     var bwa_threads : 2
-    var test        : false
+    var pretend     : false
     var paired      : true
     var compressed  : true
 
     // INFO
     doc title: "Align DNA reads with bwa using mem",
         desc: """
-            Use bwa aln to align reads (fastq.gz) on the reference genome. Bwa options: $BWAOPT_MEM
+            Use bwa aln to align reads (fastq.gz) on the reference genome.
             Align 70bp-1Mbp query sequences with the BWA-MEM algorithm. Briefly, the algorithm works by seeding
             alignments with maximal exact matches (MEMs) and then extending seeds with the affine-gap Smith-Waterman
             algorithm (SW).
             Sort by coordinates and generate a bam file.
+            
+            Bwa options: $BWAOPT_MEM
+            bwa threads: $bwa_threads
+
+            Main options with value:
+                pretend    : $pretend
+                paired     : $paired
+                compressed : $compressed
         """,
-        constraints: "Work with fastq and fastq.gz single files.",
+        constraints: """
+            Work with fastq and fastq.gz, single and paired files.
+            For paired files assume the presence of _R1_ and _R2_ tags
+        """,
         author: "davide.rambaldi@gmail.com"
 
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
-    def custom_output = input.replaceFirst(/.*\//,"") - input_extension + ".bam"
 
-    produce(custom_output) {
-        def command = """
-            TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-            TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-            echo -e "[mem_bwa_gfu] bwa mem on node $HOSTNAME with TMP_SCRATCH: $TMP_SCRATCH" >&2;
-            echo -e "[mem_bwa_gfu]: header is $header" >&2;
-        """
-        if (paired) {
-            command += """
+    if (paired) 
+    {
+        def outputs = [ 
+            ("$input1".replaceFirst("_R1_","_") - input_extension + '.bam') 
+        ]
+
+        produce(outputs) 
+        {
+            def command = """
+                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
+                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
                 $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 > ${TMP_OUTPUT_PREFIX}.sam;
+                $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
+                mv ${TMP_SCRATCH}/$output.bam $output.bam;
+                rm -rf ${TMP_SCRATCH};
             """
-        } else {
-            command += """
+
+            if (pretend)
+            {
+                println """
+                    INPUTS: $inputs
+                    OUTPUT: $output
+                    COMMAND: $command
+                """
+                command = """
+                    echo "INPUTS $inputs" > $output
+                """
+            }
+            exec command, "bwa_mem"
+        }
+    }
+    else
+    {
+        def outputs = [ 
+            "$input" - input_extension + '.bam'
+        ]
+
+        produce(outputs) 
+        {
+            def command = """
+                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
+                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
                 $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input > ${TMP_OUTPUT_PREFIX}.sam;
+                $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
+                mv ${TMP_SCRATCH}/$output.bam $output.bam;
+                rm -rf ${TMP_SCRATCH};
             """
-        }
-        command += """
-            $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
-            mv ${TMP_SCRATCH}/$output.bam $output.bam;
-            rm -rf ${TMP_SCRATCH};
-        """
 
-        if (test) {
-            println "INPUTS: $inputs OUTPUT: $output"
-            println "COMMAND: $command"
-            command = "touch $output.bam"
+            if (pretend)
+            {
+                println """
+                    INPUT:  $input
+                    OUTPUT: $output
+                    COMMAND: $command
+                """
+                command = """
+                    echo "INPUT $input" > $output
+                """
+            }
+            exec command, "bwa_mem"
         }
-
-        exec command, "bwa_mem"
     }
 }

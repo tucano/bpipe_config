@@ -5,8 +5,8 @@ FASTQC="/lustre1/tools/bin/fastqc"
 fastqc_lane_gfu = 
 {
     // stage vars
-    var paired    : true
-    var pretend   : false
+    var paired  : true
+    var pretend : false
 
     doc title: "Fastqc on fastq.gz files in the current directory",
         desc: """

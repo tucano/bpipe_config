@@ -1,4 +1,6 @@
 // MODULE  GENERATE REPORT DIR
+
+@preserve
 make_report_dir_gfu =
 {
     doc title: "Simply create a report dir and copy SampleSheet.csv in it",
@@ -6,12 +8,15 @@ make_report_dir_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    def custom_output = "${input.replaceAll(/\/$/,"")}_report"
-    produce("$custom_output") {
-        println "INPUT: $input, OUTPUT: $output, Making dir $custom_output"
+    def outputs = [
+        (input.replaceAll(/\/$/,"") + "_report")
+    ]
+    
+    produce(outputs) 
+    {
         exec """
-            mkdir -p $custom_output;
-            cp ${input}/SampleSheet.csv ${custom_output}/;
+            mkdir -p $output;
+            cp ${input}/SampleSheet.csv ${output}/;
         """
     }
 }

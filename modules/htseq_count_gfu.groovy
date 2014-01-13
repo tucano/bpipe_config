@@ -5,7 +5,7 @@ SAMTOOLS="/usr/local/cluster/bin/samtools"
 @preserve
 htseq_count_gfu =
 {
-    var test         : false
+    var pretend         : false
     var stranded     : "no"
     var mode         : "union"
     var id_attribute : "gene_name"
@@ -13,9 +13,16 @@ htseq_count_gfu =
 
     doc title: "Htseq-count on bam file with GTF annotation file",
         desc: """
-            Run htseq-count on sorted BAM file and check output consistency with awk in file $output.txt
-            Inputs: a gtf annotation file ($GENE_GFF_FILE) and a bam file ($input.bam).
-            Outputs: sam files of reads ($output.sam) and reads count ($output.txt).
+            Run htseq-count on a sorted BAM file and check output consistency with awk in output file ${output.txt}.
+            Inputs: a gtf annotation file (${ANNOTATION_GFF_FILE}) and a bam file (${input.bam}).
+            Outputs: sam files of reads ($output.sam) and reads count (${output.txt}).
+
+            htseq_count options with value:
+            pretend          : $pretend
+            stranded         : $stranded
+            mode             : $mode
+            id_attribute     : $id_attribute
+            feature_type     : $feature_type
         """,
         constraints: """
             Generate a SAM file without Headers.
@@ -24,16 +31,26 @@ htseq_count_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    transform("reads.txt","reads.sam") {
+    transform("reads.txt","reads.sam") 
+    {
+        
         def command = """
             export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/usr/local/cluster/python2.7/lib/;
             $SAMTOOLS view $input | $HTSEQ_COUNT -m $mode -s $stranded -i $id_attribute -o $output.sam - $ANNOTATION_GFF_FILE > $output.txt;
             test \$(awk '{sum += \$2} END {print sum}' $output.txt) -gt 0;
         """
-        if (test) {
-            println "INPUT $input, OUTPUTS: $output.sam $output.txt"
-            println "COMMAND: $command"
-            command = "touch $output.sam $output.txt"
+
+        if (pretend) 
+        {
+            println """
+                INPUT $input
+                OUTPUTS: $output.sam $output.txt
+                COMMAND: $command
+            """
+            command = """
+                echo "INPUT: $input" > $output.sam;
+                echo "INPUT: $input" > $output.txt;
+            """
         }
         exec command, "htseq_count"
     }

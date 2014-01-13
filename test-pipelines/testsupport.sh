@@ -4,7 +4,7 @@
 function err() {
 	TESTNAME=`pwd | sed -e 's/.*\///'`
 	echo
-	echo "${TESTNAME}\t[ERROR] : $1"
+	echo -e "${TESTNAME}\t[ERROR] : $1"
 	echo
 	exit 1
 }

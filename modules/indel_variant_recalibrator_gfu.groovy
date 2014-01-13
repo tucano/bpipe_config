@@ -1,9 +1,11 @@
-// MODULE UNIFIED INDEL VARIANT RECALIBRATOR
+// MODULE INDEL VARIANT RECALIBRATOR
+GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
+
 @intermediate
 indel_variant_recalibrator_gfu =
 {
 
-    var test            : false
+    var pretend         : false
     var unsafe          : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
     var max_gaussian    : 4
     var percent_bad     : 0.01
@@ -11,13 +13,29 @@ indel_variant_recalibrator_gfu =
     var inbreeding_coef : false  // FOR MORE THAN 10 SAMPLES
 
     // INFO
-    doc title: "INDEL Variants recalibration",
-        desc: " ... ",
+    doc title: "GATK VariantRecalibration",
+        desc: """
+            Create a Gaussian mixture model by looking at the annotations values 
+            over a high quality subset of the input call set and then evaluate all input variants.
+            Outputs:
+                A recalibration table file in VCF format that is used by the ApplyRecalibration walker.
+                A tranches file which shows various metrics of the recalibration callset as a function 
+                of making several slices through the data.
+                An R plot script.
+
+            stage options with value:
+                pretend          : $pretend
+                unsafe           : $unsafe
+                max_gaussian     : $max_gaussian
+                percent_bad      : $percent_bad
+                min_num_bad      : $min_num_bad
+                inbreeding_coef  : $inbreeding_coef
+        """,
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
-    // we transform a VCF into a set of files
-    transform("indel.recal.csv","indel.tranches","indel.plot.R") {
+    transform("indel.recal.csv","indel.tranches","indel.plot.R") 
+    {
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
@@ -39,10 +57,18 @@ indel_variant_recalibrator_gfu =
                   -U $unsafe ${ inbreeding_coef ? "-an InbreedingCoeff" : ""};
         """
 
-        if (test) {
-            println "INPUT: $input.vcf OUTPUTS: $output1, $output2, $output3"
-            println "COMMAND: $command"
-            command = "touch $output1 $output2 $output3"
+        if (pretend) 
+        {
+            println """
+                INPUT: $input.vcf 
+                OUTPUTS: $output1, $output2, $output3
+                COMMAND: $command
+            """
+            command = """
+                echo "INPUT: $input" > $output1; 
+                echo "INPUT: $input" > $output2;
+                echo "INPUT: $input" > $output3;
+            """
         }
 
         exec command, "gatk"

@@ -4,44 +4,57 @@ MARKDUP="/lustre1/tools/bin/MarkDuplicates.jar"
 @preserve
 mark_duplicates_gfu =
 {
-    var test : false
+    var pretend : false
     var remove_duplicates : false
-    var create_index : true
     var validation_stringency : "SILENT"
-    var assumed_sorted : true
 
     doc title: "Mark duplicates in bam files with $MARKDUP : IOS GFU 0019",
-        desc: "Mark duplicates in bam files with $MARKDUP",
+        desc: """
+            Mark duplicates in bam files with ${MARKDUP}.
+            stage options:
+                pretend               : $pretend
+                remove_duplicates     : $remove_duplicates
+                validation_stringency : $validation_stringency
+        """,
         constrains: """
             Require a BAM sorted by coordinate (ASSUME_SORTED=true).
-            I decide to make all in current directory.
         """,
         author: "davide.rambaldi@gmail.com"
 
-    def output_prefix  = input.prefix.replaceFirst(/.*\//,"").replaceFirst(/_R.*/,"")
-    def output_bam     = output_prefix + ".dedup.bam"
-    def output_bai = output_prefix + ".dedup.bai"
-    def output_metrics = output_prefix + ".dedup.metrics"
 
-    from("$input") produce(output_bam, output_bai, output_metrics)
+    def outputs = [
+        (input.prefix + ".dedup.bam"),
+        (input.prefix + ".dedup.bai"),
+        (input.prefix + ".dedup.metrics")
+    ]
+
+    produce(outputs) 
     {
         def command = """
-            echo -e "[mark_duplicates_gfu]: Marking duplicates in $input.bam, output file: $output_bam with index $output_bai" >&2;
             ulimit -l unlimited;
             ulimit -s unlimited;
             java -Djava.io.tmpdir=/lustre2/scratch -Xmx32g -jar $MARKDUP
                 I=$input.bam
-                O=$output_bam
-                CREATE_INDEX=$create_index
+                O=$output.bam
+                CREATE_INDEX=true
                 VALIDATION_STRINGENCY=$validation_stringency
                 REMOVE_DUPLICATES=$remove_duplicates
-                ASSUME_SORTED=$assumed_sorted
+                ASSUME_SORTED=true
                 METRICS_FILE=$output_metrics
         """
-        if (test) {
-            println "INPUT $input, OUTPUT: $output_bam"
-            println "COMMAND: $command"
-            command = "touch $output_bam $output_bai $output_metrics"
+
+        if (pretend) 
+        {
+            println """
+                INPUT $input
+                OUTPUTS: $outputs
+                COMMAND: $command
+            """
+            command = """
+                echo "INPUT: $input" > $output1;
+                echo "INPUT: $input" > $output2;
+                echo "INPUT: $input" > $output3;
+            """
         }
         exec command, "mark_duplicates"
     }

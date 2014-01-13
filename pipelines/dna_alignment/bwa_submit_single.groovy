@@ -32,6 +32,6 @@ Bpipe.run {
     "*.bam" * [merge_bam_gfu.using(rename: true)] + verify_bam_gfu + bam_flagstat_gfu +
     // an alternative to mark_duplicates_gfu is rmdup: comment this line and uncomment the rmdup_gfu stage to use it
     mark_duplicates_gfu +
-    // rmdup_gfu +
+    // rmdup_gfu.using(paired:false) +
     bam_flagstat_gfu
 }

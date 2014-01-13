@@ -1,17 +1,28 @@
 // MODULE UNIFIED INDEL APPLY RECALIBRATION
+GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
+
 @intermediate
 indel_apply_recalibration_gfu =
 {
-    var test      : false
+    var pretend   : false
     var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
 
     // INFO
-    doc title: "INDEL Apply recalibration",
-        desc: " ... ",
+    doc title: "GATK ApplyRecalibration",
+        desc: """
+            Applies cuts to the input vcf file (by adding filter lines) 
+            to achieve the desired novel truth sensitivity levels 
+            which were specified during VariantRecalibration
+
+            stage options with value:
+            pretend          : $pretend
+            unsafe flags     : $unsafe
+        """,
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
-    filter("indel_recalibrated") {
+    filter("indel_recalibrated") 
+    {
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
@@ -25,10 +36,16 @@ indel_apply_recalibration_gfu =
                   -U $unsafe
         """
 
-        if (test) {
-            println "INPUT: $input.vcf $input.tranches $input.csv OUTPUT: $output.vcf"
-            println "COMMAND: $command"
-            command = "touch $output.vcf"
+        if (pretend) 
+        {
+            println """
+                INPUTS: $input.vcf $input.tranches $input.csv 
+                OUTPUT: $output.vcf
+                COMMAND: $command
+            """
+            command = """
+                echo "INPUTS: $inputs" > $output.vcf
+            """
         }
 
         exec command, "gatk"

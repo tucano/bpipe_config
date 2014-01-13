@@ -3,16 +3,16 @@
 @preserve
 merge_junc_gfu =
 {
-    var test : false
+    var pretend : false
 
     doc title: "Merge junc files",
         desc: "Merge junc files",
         constraints: "Should be placed after merge_bam_gfu in order to forward $input.bam to the next stage",
         author: "davide.rambaldi@gmail.com"
 
-    transform("junc") {
+    transform("junc") 
+    {
         def command = """
-            echo -e "[merge_junc_gfu]: Merging junc files in $output" >&2;
             JUNC=\$(ls *.junc 2>/dev/null);
             touch $output;
             for F in $JUNC; do
@@ -21,9 +21,14 @@ merge_junc_gfu =
                 fi;
             done;
         """
-        if (test) {
-            println "INPUT $input, OUTPUT: $output"
-            println "COMMAND: $command"
+
+        if (pretend) 
+        {
+            println """
+                INPUT $input
+                OUTPUT: $output
+                COMMAND: $command
+            """
             command = "touch $output"
         }
         exec command

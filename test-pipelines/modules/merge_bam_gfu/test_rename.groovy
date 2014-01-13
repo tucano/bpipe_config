@@ -1,7 +1,7 @@
 load "../../../modules/merge_bam_gfu.groovy"
 
-EXPERIMENT_NAME="TEST"
+SAMPLEID="TEST"
 
 Bpipe.run {
-    "*" * [merge_bam_gfu.using(test:true, rename: true)]
+    "*" * [merge_bam_gfu.using(pretend:true,rename:true)]
 }
