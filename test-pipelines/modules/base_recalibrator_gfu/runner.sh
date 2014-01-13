@@ -1,14 +1,18 @@
 #!/bin/bash
+source ../../testsupport.sh
 
 ./cleaner.sh
 
-bpipe run test.groovy testinput_one.bam > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+OUTPUTS=(testinput_one.grp)
+run test.groovy testinput_one.bam
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+OUTPUTS=(TEST_1_TEST.grp)
+run test.groovy *.bam > test.out
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+success

@@ -10,5 +10,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-	"*.fastq.gz" * [fastqc_lane_gfu.using(pretend:true,paired:false)]
+	"*.fastq.gz" * [fastqc_lane_gfu.using(pretend:true,paired:true)]
 }

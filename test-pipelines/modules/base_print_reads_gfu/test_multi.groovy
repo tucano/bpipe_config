@@ -1,4 +1,4 @@
-load "../../../modules/fastqc_lane_gfu.groovy"
+load "../../../modules/base_print_reads_gfu.groovy"
 
 REFERENCE_GENOME="/test/reference/pippo.fa"
 EXPERIMENT_NAME="test"
@@ -10,5 +10,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-	"*.fastq.gz" * [fastqc_lane_gfu.using(pretend:true,paired:false)]
+    "%.*" * [base_print_reads_gfu.using(pretend:true)]
 }
