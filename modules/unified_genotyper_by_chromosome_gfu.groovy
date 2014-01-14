@@ -4,15 +4,16 @@ VCFCONCAT = "export PERL5LIB=/lustre1/tools/libexec/vcftools_0.1.9/perl/ && /usr
 VCFSORT   = "/usr/local/cluster/bin/vcf-sort-mod -t /lustre2/scratch"
 
 @intermediate
-unified_genotyper_by_chromosome_gfu = {
-    var test      : false
+unified_genotyper_by_chromosome_gfu =
+{
+    var pretend      : false
     var call_conf : 20.0
     var nct       : 4
     var glm       : "BOTH"
     var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
 
     doc title: "GATK: Unified Genotyper",
-        desc: "Produce a VCF file with SNP calls and INDELs. Parallelized: 10 jobs for chromosome",
+        desc: "Produce a VCF file with SNP calls and INDELs. Parallelized in 10 jobs for chromosome",
         author: "davide.rambaldi@gmail.com"
 
     def configuration = """
@@ -31,8 +32,6 @@ unified_genotyper_by_chromosome_gfu = {
             Unsafe          = $unsafe
     """.stripIndent()
 
-    println configuration
-
     def command_gatk = """
         ulimit -l unlimited;
         ulimit -s unlimited;
@@ -44,9 +43,10 @@ unified_genotyper_by_chromosome_gfu = {
               -glm $glm
               -U $unsafe
               --interval_merging OVERLAPPING_ONLY
-    """.stripIndent().trim()
+    """
 
-    produce("${input.bam.prefix}.${chr}.vcf") {
+    produce("${input.bam.prefix}.${chr}.vcf")
+    {
         // generate a fixed number (10+1) of ranges with collate
         def ranges    = new File(input.intervals).text.split("\n").toList()
         def intervals = Math.floor(ranges.size / 10) as int
@@ -69,7 +69,8 @@ unified_genotyper_by_chromosome_gfu = {
             """
         }
 
-        if (test) {
+        if (pretend)
+        {
             println "INPUT: $input.bam"
             println "TEST MODE FOR CHROMOSOME $chr  [multi steps]"
             println "FINAL OUTPUT: $output"
@@ -78,12 +79,13 @@ unified_genotyper_by_chromosome_gfu = {
                 println "COMMAND: $com"
             }
             exec "touch $output"
-        } else {
+        }
+        else
+        {
             // fixed with https://groups.google.com/forum/#!msg/bpipe-discuss/GQGTsrrAuDU/FSNcFTEYXosJ
             multiExec(commands)
 
             // CONCAT VCF FILES AND SORT
-            // exec "touch ${input.prefix}.${chr}.vcf ${input.prefix}.${chr}.vcf.idx","gatk"
             exec """
                 $VCFCONCAT ${input.bam.prefix}.${chr}.group_*.vcf | $VCFSORT > ${input.bam.prefix}.${chr}.vcf;
                 rm ${input.bam.prefix}.${chr}.group_*.vcf;

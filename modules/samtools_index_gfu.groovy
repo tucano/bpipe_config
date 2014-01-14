@@ -4,22 +4,31 @@ SAMTOOLS="/usr/local/cluster/bin/samtools"
 @preserve
 samtools_index_gfu =
 {
-    var test : false
+    var pretend : false
 
-    doc title: "Create BAi file from BAM file",
+    doc title: "Create BAI index file from BAM file",
         desc: "Launch $SAMTOOLS index on $input.bam. Create link from bam.bai to .bai",
-        constraints: "Generate a LOG file and forward input to next stage",
+        constraints: "Forward input bam to next stage",
         author: "davide.rambaldi@gmail.com"
 
-    transform("bai") {
+    transform("bai")
+    {
         def command = """
             $SAMTOOLS index $input.bam;
             ln -s ${input}.bai $output;
         """
-        if (test) {
-            println "INPUT $input, OUTPUT: $output"
-            println "COMMAND: $command"
-            command = "touch $output"
+
+        if (pretend)
+        {
+            println """
+                INPUT:   $input
+                OUTPUT:  $output
+                COMMAND: $command
+            """
+
+            command = """
+                echo "INPUT: $input" > $output
+            """
         }
         exec command
     }

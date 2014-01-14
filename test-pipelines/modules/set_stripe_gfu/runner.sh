@@ -1,14 +1,12 @@
 #!/bin/bash
+source ../../testsupport.sh
 
 ./cleaner.sh
 
-bpipe run test.groovy *.fastq.gz > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+OUTPUTS=(setstripe.log)
+run test.groovy *.fastq.gz
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+success

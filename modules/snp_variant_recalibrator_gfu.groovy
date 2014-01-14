@@ -3,7 +3,7 @@
 snp_variant_recalibrator_gfu =
 {
 
-    var test            : false
+    var pretend         : false
     var inbreeding_coef : false  // FOR MORE THAN 10 SAMPLES
     var unsafe          : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
     var max_gaussian    : 4
@@ -12,12 +12,13 @@ snp_variant_recalibrator_gfu =
 
     // INFO
     doc title: "SNP Variants recalibration",
-        desc: " ... ",
+        desc: "Create a Gaussian mixture model by looking at the annotations values over a high quality subset of the input call set and then evaluate all input variants.",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
     // we transform a VCF into a set of files
-    transform("snp.recal.csv","snp.tranches","snp.plot.R") {
+    transform("snp.recal.csv","snp.tranches","snp.plot.R")
+    {
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
@@ -43,10 +44,19 @@ snp_variant_recalibrator_gfu =
                   -U $unsafe ${ inbreeding_coef ? "-an InbreedingCoeff" : ""};
         """
 
-        if (test) {
-            println "INPUT: $input.vcf OUTPUTS: $output1, $output2, $output3"
-            println "COMMAND: $command"
-            command = "touch $output1 $output2 $output3"
+        if (pretend)
+        {
+            println """
+              INPUT: $input.vcf
+              OUTPUTS: $output1, $output2, $output3
+              COMMAND: $command
+            """
+
+            command = """
+                echo "INPUTS: $inputs" > $output1;
+                echo "INPUTS: $inputs" > $output2;
+                echo "INPUTS: $inputs" > $output3;
+            """
         }
 
         exec command,"gatk"

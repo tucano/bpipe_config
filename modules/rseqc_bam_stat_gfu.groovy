@@ -7,27 +7,38 @@ BAMSTAT="""
 @preserve
 rseqc_bam_stat_gfu =
 {
-    var test : false
+    var pretend : false
+
     doc title: "Rseqc quality control of bam files: bam_stat",
         desc: """
             This program is used to calculate reads mapping statistics from provided BAM file.
             This script determines “uniquely mapped reads” from mapping quality, which quality
             the probability that a read is misplaced (Do NOT confused with sequence quality,
-            sequence quality measures the probability that a base-calling was wrong) .
+            sequence quality measures the probability that a base-calling was wrong).
+
+            stage options:
+                pretend               : $pretend
         """,
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
 
-    transform("bam_stat.log") {
+
+    transform("bam_stat.log")
+    {
         def command = """
-            echo -e "[bam_stat_gfu]: bam stats on file $input.bam";
             $BAMSTAT -i $input.bam 2> $output;
         """
 
-        if (test) {
-            println "INPUT $input, OUTPUT: $output"
-            println "COMMAND: $command"
-            command = "touch $output"
+        if (pretend)
+        {
+            println """
+                INPUT $input
+                OUTPUT: $output
+                COMMAND: $command
+            """
+            command = """
+                echo "INPUT: $input" > $output
+            """
         }
         exec command
     }

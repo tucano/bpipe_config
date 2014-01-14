@@ -7,7 +7,7 @@ READS_DISTRIBUTION = """
 @preserve
 rseqc_reads_distribution_gfu =
 {
-    var test : false
+    var pretend : false
 
     doc title: "Rseqc quality control of bam files: reads_distribution",
         desc: """
@@ -18,15 +18,23 @@ rseqc_reads_distribution_gfu =
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
 
-    transform("reads_distribution.log") {
+    transform("reads_distribution.log")
+    {
         def command = """
             echo -e "[rseqc_reads_distribution]: input file $input.bam";
             $READS_DISTRIBUTION -i $input.bam -r $BED12_ANNOTATION 1> $output
         """
-        if (test) {
-            println "INPUT $input, OUTPUTS: $output"
-            println "COMMAND: $command"
-            command = "touch $output"
+        if (pretend)
+        {
+            println """
+                INPUT $input
+                OUTPUTS: $output
+                COMMAND: $command
+            """
+
+            command = """
+                echo "INPUT: $input" > $output
+            """
         }
         exec command
     }

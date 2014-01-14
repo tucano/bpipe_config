@@ -389,7 +389,7 @@ class Commands
 			args.each { path ->
 				def dir = new File(path)
 				if (!dir.exists() || !dir.isDirectory()) {
-					println Logger.error("Argument $path is not a directory. THis command require directories or no extra arguments")
+					println Logger.error("Argument $path is not a directory. This command require directories or no extra arguments")
 					System.exit(1)
 				}
 			}

@@ -2,16 +2,17 @@
 @intermediate
 snp_apply_recalibration_gfu =
 {
-    var test      : false
-    var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
+    var pretend      : false
+    var unsafe       : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
 
     // INFO
     doc title: "SNP Apply recalibration",
-        desc: " ... ",
+        desc: "Applies cuts to the input vcf file (by adding filter lines) to achieve the desired novel truth sensitivity levels which were specified during VariantRecalibration",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
-    filter("snp_recalibrated") {
+    filter("snp_recalibrated")
+    {
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
@@ -25,10 +26,17 @@ snp_apply_recalibration_gfu =
                   -U $unsafe
         """
 
-        if (test) {
-            println "INPUTS: $input.vcf $input.tranches $input.csv OUTPUTS: $output"
-            println "COMMAND: $command"
-            command = "touch $output.csv"
+        if (pretend)
+        {
+            println """
+                INPUTS: $input.vcf $input.tranches $input.csv
+                OUTPUTS: $output
+                COMMAND: $command
+            """
+
+            command = """
+                echo "INPUTS: $inputs" > $output.csv
+            """
         }
 
         exec command, "gatk"

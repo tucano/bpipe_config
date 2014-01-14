@@ -1,14 +1,14 @@
 #!/bin/bash
 
+source ../../testsupport.sh
+
 ./cleaner.sh
 
-bpipe run test.groovy *.bam > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+OUTPUTS=(testinput_one.NVC.xls testinput_one.NVC_plot.pdf testinput_one.NVC_plot.r testinput_two.NVC.xls testinput_two.NVC_plot.pdf testinput_two.NVC_plot.r)
+
+run test.groovy *.bam
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+success

@@ -2,7 +2,7 @@
 
 verify_bam_gfu =
 {
-    var test : false
+    var pretend : false
 
     doc title: "Verify BAM file",
         desc: "Use a function to verify BAM file using the EOF (copied by Davide Cittaro bashrc)",
@@ -13,17 +13,19 @@ verify_bam_gfu =
 
 
     def command = """
-        echo -e "[verify_bam_gfu]: with input $input" >&2;
         size=\$(stat -c "%s" $input);
         seek=\$(( $size - 28 ));
         BAM_EOF=`hexdump -e  '4/1 "%02X"' -s $seek $input`;
         test $BAM_EOF == $BGZF_EOF
     """
-    if (test) {
+
+    if (pretend)
+    {
         println "INPUT $input"
         println "COMMAND: $command"
         command = "true"
     }
+
     exec command
     forward input
 }

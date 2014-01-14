@@ -41,9 +41,9 @@ align_bwa_gfu =
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
 
-    // config for multi stages 
+    // config for multi stages
     // see https://groups.google.com/forum/#!searchin/bpipe-discuss/multi$20config/bpipe-discuss/6jq6GiHz7oE/uBG32j4VU1oJ
-    
+
     if (paired)
     {
         def outputs = [
@@ -67,13 +67,13 @@ align_bwa_gfu =
                 rm -rf ${TMP_SCRATCH};
             """
 
-            if (pretend) 
+            if (pretend)
             {
                 println """
                     HEADER:  $header
                     INPUTS:  $inputs
                     OUTPUTS: $outputs
-                    COMMANDS ALN: 
+                    COMMANDS ALN:
                         $command_alnone
                         $command_alntwo
                     COMMAND SAMPE:
@@ -87,21 +87,21 @@ align_bwa_gfu =
                 """
             }
 
-            config("bwa_aln") 
+            config("bwa_aln")
             {
                 multi "$command_alnone", "$command_alntwo"
             }
             exec command_sampe, "bwa_sampe"
         }
-    } 
-    else 
+    }
+    else
     {
         def outputs = [
             ("$input1" - input_extension + '.sai'),
             ("$input1" - input_extension + '.bam')
         ]
 
-        produce(outputs) 
+        produce(outputs)
         {
             def command = """
                 $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input > $output1;
@@ -121,7 +121,7 @@ align_bwa_gfu =
                     HEADER:  $header
                     INPUTS:  $input
                     OUTPUTS: $outputs
-                    COMMAND: 
+                    COMMAND:
                         $command
                 """
                 command = """
@@ -129,7 +129,7 @@ align_bwa_gfu =
                     echo "INPUTS: $input $output1" > $output2;
                 """
             }
-            
+
             exec command, "bwa_samse"
         }
     }

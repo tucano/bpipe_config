@@ -1,34 +1,17 @@
 #!/bin/bash
-
-
+source ../../testsupport.sh
 ./cleaner.sh
 
-bpipe run test_single.groovy *.sai *.fastq > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
-RES=`ls *.bam | wc | awk {'print $1'}`
-if [[ $RES != 4 ]]; then
-    echo "Error for For multiple input fastq I expect 4 output files"
-    exit 1
-fi
+OUTPUTS=(testinput_R1_001.bam testinput_R1_002.bam testinput_R2_002.bam testinput_R2_001.bam)
+run test_single.groovy *.sai *.fastq
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-bpipe run test_paired.groovy *.sai *.fastq > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
-RES=`ls *.bam | wc | awk {'print $1'}`
-if [[ $RES != 2 ]]; then
-    echo "Error for For multiple input fastq I expect 4 output files"
-    exit 1
-fi
+OUTPUTS=(testinput_001.bam testinput_002.bam)
+run test_paired.groovy *.sai *.fastq
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-
-echo "SUCCESS"
-exit 0
+success

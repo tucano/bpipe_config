@@ -13,5 +13,5 @@ LANE="3"
 SAMPLEID="B1"
 
 Bpipe.run {
-    "R*_%.*" * [sam_bwa_gfu.using(test:true, paired: true, compressed: false)]
+    "R*_%.*" * [sam_bwa_gfu.using(pretend:true,paired:true,compressed:false)]
 }

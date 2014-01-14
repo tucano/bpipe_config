@@ -1,16 +1,13 @@
 #!/bin/bash
 
-SCRIPT_NAME="test_rseqc_bam_stat_module"
+source ../../testsupport.sh
 
 ./cleaner.sh
 
-bpipe run test.groovy *.fastq.gz > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+OUTPUTS=(testinput_R1_001.fastq.header testinput_R1_002.fastq.header testinput_R2_001.fastq.header testinput_R2_002.fastq.header)
+run test.groovy *.fastq.gz
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+success

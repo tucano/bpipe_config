@@ -7,7 +7,7 @@ READNVC = """
 @preserve
 rseqc_read_NVC_gfu =
 {
-    var test : false
+    var pretend : false
 
     doc title: "Rseqc quality control of bam files: read_quality",
         desc: """
@@ -22,15 +22,25 @@ rseqc_read_NVC_gfu =
         constrains: "I am forcing export of site-packages to get qcmodule.",
         author: "davide.rambaldi@gmail.com"
 
-    transform("NVC_plot.pdf","NVC_plot.r","NVC.xls") {
+    transform("NVC_plot.pdf","NVC_plot.r","NVC.xls")
+    {
         def command = """
-            echo -e "[rseqc_read_NVC]: NVC bias on $input.bam";
             $READNVC -i $input.bam -o $input.prefix;
         """
-        if (test) {
-            println "INPUT $input, OUTPUTS: $output1 $output2 $output3"
-            println "COMMAND: $command"
-            command = "touch $output1 $output2 $output3"
+
+        if (pretend)
+        {
+            println """
+                INPUT:   $input
+                OUTPUTS: $output1 $output2 $output3
+                COMMAND: $command
+            """
+
+            command = """
+                echo "INPUT: $input" > $output1;
+                echo "INPUT: $input" > $output2;
+                echo "INPUT: $input" > $output3;
+            """
         }
         exec command
     }

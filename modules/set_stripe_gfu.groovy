@@ -4,7 +4,7 @@ LSF="/usr/bin/lfs"
 @intermediate
 set_stripe_gfu =
 {
-    var test : false
+    var pretend : false
 
     doc title: "Set lustre options for working directory",
         desc: """
@@ -16,14 +16,15 @@ set_stripe_gfu =
         constraints: "It is a non blocking stage (Fails in non lustre fs, but will return always true).",
         author: "davide.rambaldi@gmail.com"
 
-    produce("setstripe.log") {
+    produce("setstripe.log")
+    {
         def command = """
             $LSF setstripe -c -1 -i -1 -s 2M . 1>/dev/null 2>&1 || true;
             $LSF getstripe . 1> $output 2>&1 || true;
         """
 
-        if (test) {
-            println "INPUTS $inputs, OUTPUT: $output"
+        if (pretend)
+        {
             println "COMMAND: $command"
             command = "touch $output"
         }

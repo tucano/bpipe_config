@@ -5,8 +5,9 @@ READQUALITY = """
 """.stripIndent().trim()
 
 @preserve
-rseqc_read_quality_gfu = {
-    var test : false
+rseqc_read_quality_gfu =
+{
+    var pretend : false
     doc title: "Rseqc quality control of bam files: read_quality",
         desc: """
             According to SAM specification, if Q is the character to
@@ -31,15 +32,25 @@ rseqc_read_quality_gfu = {
         """,
         author: "davide.rambaldi@gmail.com"
 
-    transform("qual.boxplot.pdf","qual.r") {
+    transform("qual.boxplot.pdf","qual.r")
+    {
         def command = """
-            echo -e "[rseqc_read_quality]: read Quality for file  $input.bam";
             $READQUALITY -i $input.bam -o $input.prefix
         """
-        if (test) {
-            println "INPUT $input, OUTPUTS: $output1 $output2"
-            println "COMMAND: $command"
-            command = "touch $output1 $output2"
+
+        if (pretend)
+        {
+             println """
+                INPUT:   $input
+                OUTPUTS: $output1 $output2 $output3
+                COMMAND: $command
+            """
+
+            command = """
+                echo "INPUT: $input" > $output1;
+                echo "INPUT: $input" > $output2;
+                echo "INPUT: $input" > $output3;
+            """
         }
         exec command
     }

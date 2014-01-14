@@ -4,7 +4,7 @@ SAMTOOLS="/usr/local/cluster/bin/samtools"
 @preserve
 samtools_idxstats_gfu =
 {
-    var test : false
+    var pretend : false
 
     doc title: "Samtools idxstats on bam file (index)",
         desc: """
@@ -15,14 +15,23 @@ samtools_idxstats_gfu =
         constrains: "BAM file $input.bam must be indexed",
         author: "davide.rambaldi@gmail.com"
 
-    transform("idxstats.log") {
+    transform("idxstats.log")
+    {
         def command = """
             $SAMTOOLS idxstats $input.bam > $output
         """
-        if (test) {
-            println "INPUT $input, OUTPUT: $output"
-            println "COMMAND: $command"
-            command = "touch $output"
+
+        if (pretend)
+        {
+            println """
+                INPUT $input
+                OUTPUTS: $output
+                COMMAND: $command
+            """
+
+            command = """
+                echo "INPUT: $input" > $output
+            """
         }
         exec command
     }

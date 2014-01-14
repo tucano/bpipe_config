@@ -1,14 +1,11 @@
 #!/bin/bash
+source ../../testsupport.sh
 
 ./cleaner.sh
-
-bpipe run test.groovy testinput_R1_001.chr1.vcf input.tranches input.csv > test.out
-grep 'Pipeline failed!' test.out 1>/dev/null 2>&1
-if [[ $? == 0 ]]; then
-    echo "FAIL"
-    exit 1
-fi
+OUTPUTS=(input.snp_recalibrated.csv)
+run test.groovy testinput_R1_001.chr1.vcf input.tranches input.csv
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+success

@@ -21,7 +21,7 @@ merge_bam_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def output_prefix
-    if (rename) 
+    if (rename)
     {
         output_prefix = SAMPLEID
     }
@@ -38,13 +38,13 @@ merge_bam_gfu =
 
     // collect input bams
     def input_strings = inputs.collect() { return "I=" + it}.join(" ")
-    
 
-    produce (outputs) 
+
+    produce (outputs)
     {
         def command = """
-            java -jar $PICMERGE 
-                $input_strings 
+            java -jar $PICMERGE
+                $input_strings
                 O=$output1
                 VALIDATION_STRINGENCY=SILENT
                 CREATE_INDEX=true
@@ -53,7 +53,7 @@ merge_bam_gfu =
                 USE_THREADING=true
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
                 INPUTS: $inputs
