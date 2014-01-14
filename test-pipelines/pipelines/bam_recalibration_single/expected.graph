@@ -1,9 +1,0 @@
-
-Dependency graph is: 
-
-../../data/testinput_one.bam => 
-                            testinput_one.intervals => 
-                                                   testinput_one.indel_realigned.bam => 
-                                                                                    testinput_one.indel_realigned.grp => 
-                                                                                                                     testinput_one.indel_realigned.recalibrated.bam
-                                                                                    testinput_one.indel_realigned.recalibrated.bam

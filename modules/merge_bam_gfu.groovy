@@ -1,7 +1,7 @@
 // MODULE MERGE BAM FILES
 PICMERGE="/usr/local/cluster/bin/MergeSamFiles.jar"
 
-@intermediate
+@preserve
 merge_bam_gfu =
 {
     var rename  : false

@@ -1,19 +1,14 @@
 #!/bin/bash
-
-./cleaner.sh
-bpipe-config pipe human_variants_calling
-rm bpipe.config
-
-BPIPE_LIB="../../../modules/" && bpipe run -p test=true PI_1A_name_human_variants_calling.groovy *.bam
-
-# I expect 4 files
-RES=`ls *.vcf | wc | awk {'print $1'}`
-if [[ $RES != 29 ]]; then
-    exit 1
-fi
+source ../../testsupport.sh
 
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+OUTPUTS=(testinput_one.vcf_merged_and_recalibrated.dedup.vcf)
 
+config human_variants_calling
+runPipeLine human_variants_calling.groovy *.bam
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+success

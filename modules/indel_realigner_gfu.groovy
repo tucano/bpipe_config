@@ -2,7 +2,7 @@
 GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
 @intermediate
-indel_realigner_gfu = 
+indel_realigner_gfu =
 {
     // stage vars
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
@@ -24,7 +24,7 @@ indel_realigner_gfu =
         author: "davide.rambaldi@gmail.com"
 
 
-    filter("indel_realigned") 
+    filter("indel_realigned")
     {
         def command = """
             ulimit -l unlimited;
@@ -39,15 +39,15 @@ indel_realigner_gfu =
                   -known $dbsnp;
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
                 INPUT $input
                 OUTPUT: $output
                 COMMAND: $command
             """
-            
-            command = """ 
+
+            command = """
                 echo "INPUT: $input" > $output
             """
         }

@@ -1,17 +1,14 @@
 #!/bin/bash
+source ../../testsupport.sh
 
 ./cleaner.sh
-bpipe-config pipe bwa_submit_single
-rm bpipe.config
 
-BPIPE_LIB="../../../modules/" && bpipe run  -p test=true PI_1A_name_bwa_submit_single.groovy ../../data/testinput_R1_001.fastq.gz
+OUTPUTS=(Sample_test_1.merge.dedup.bai Sample_test_1.merge.dedup.bam Sample_test_1.merge.dedup.log Sample_test_1.merge.dedup.metrics )
 
-# I expect 4 files
-RES=`ls *.merge.dedup.* | wc | awk {'print $1'}`
-if [[ $RES != 4 ]]; then
-    exit 1
-fi
+config bwa_submit_single
+runPipeLine bwa_submit_single.groovy testinput_R1_001.fastq.gz
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+success

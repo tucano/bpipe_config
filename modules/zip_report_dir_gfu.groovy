@@ -1,4 +1,5 @@
 // MODULE ZIP REPORT
+
 @preserve
 zip_report_dir_gfu =
 {
@@ -8,8 +9,8 @@ zip_report_dir_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    produce("${input}.zip") {
-        println "INPUT: $input $OUTPUT: $output"
+    produce("${input}.zip")
+    {
         exec """
             zip -r ${input}.zip ${input}/;
             rm -rf ${input};

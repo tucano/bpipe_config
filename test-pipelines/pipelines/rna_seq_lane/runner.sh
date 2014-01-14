@@ -1,16 +1,23 @@
 #!/bin/bash
+source ../../testsupport.sh
 
 ./cleaner.sh
-bpipe-config pipe rna_seq_lane
-rm bpipe.config
 
-BPIPE_LIB="../../../modules/" && bpipe run -p test=true PI_1A_name_rna_seq_lane.groovy ../../data/*.fastq.gz
-# I expect 23 files
-RES=`ls *.merge.dedup.* | wc | awk {'print $1'}`
-if [[ $RES != 23 ]]; then
-    exit 1
-fi
+OUTPUTS=(in_L001.merge.sorted_by_name.reads.txt in_L001.merge.sorted_by_name.reads_sorted.bam)
+
+config rna_seq_lane
+runPipeLine rna_seq_lane.groovy in_L001*.fastq.gz
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+OUTPUTS=(testinput.merge.sorted_by_name.reads.txt testinput.merge.sorted_by_name.reads_sorted.bam)
+
+config rna_seq_lane
+runPipeLine rna_seq_lane.groovy testinput_R*_00*.fastq.gz
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+success
+

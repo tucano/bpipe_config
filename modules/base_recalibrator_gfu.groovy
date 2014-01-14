@@ -2,7 +2,7 @@
 GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
 @intermediate
-base_recalibrator_gfu = 
+base_recalibrator_gfu =
 {
     // stage vars
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
@@ -30,16 +30,16 @@ base_recalibrator_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def outputs
-    if (inputs.toList().size > 1) 
+    if (inputs.toList().size > 1)
     {
         outputs = ["${PROJECTNAME}.grp"]
-    } 
-    else 
+    }
+    else
     {
         outputs = ["${input.prefix}.grp"]
     }
 
-    produce(outputs) 
+    produce(outputs)
     {
         def command = """
             ulimit -l unlimited;
@@ -58,7 +58,7 @@ base_recalibrator_gfu =
                   -o $output.grp
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
                 INPUT BAM:  $input.bam

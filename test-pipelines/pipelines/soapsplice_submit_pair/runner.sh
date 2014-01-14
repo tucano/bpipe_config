@@ -1,17 +1,12 @@
 #!/bin/bash
-
-./cleaner.sh
-bpipe-config pipe soapsplice_submit_pair
-rm bpipe.config
-
-BPIPE_LIB="../../../modules/" && bpipe run -p test=true PI_1A_name_soapsplice_submit_pair.groovy ../../data/*.fastq.gz
-
-# I expect 4 files
-RES=`ls *.merge.dedup.* | wc | awk {'print $1'}`
-if [[ $RES != 4 ]]; then
-    exit 1
-fi
+source ../../testsupport.sh
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+OUTPUTS=(Sample_test_1.merge.junc Sample_test_1.merge.bam Sample_test_1.merge.bai Sample_test_1.merge.log)
+config soapsplice_submit_pair
+runPipeLine soapsplice_submit_pair.groovy *.fastq.gz
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+success

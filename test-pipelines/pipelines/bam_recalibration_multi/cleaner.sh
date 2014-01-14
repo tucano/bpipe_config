@@ -1,4 +1,4 @@
 #!/bin/bash
 
-bpipe cleanup -y
-rm -rf commandlog.txt test.graph .bpipe gfu_environment.sh *.groovy *.grp
+bpipe cleanup -y > /dev/null 2>&1
+rm -rf commandlog.txt test.out .bpipe gfu_environment.sh *.groovy *.recalibrated.bam doc

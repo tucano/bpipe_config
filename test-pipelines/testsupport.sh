@@ -22,6 +22,18 @@ function run() {
 	bpipe run -r $SCRIPT $* > test.out 2>&1
 }
 
+function runPipeLine() {
+    SCRIPT=$1
+    shift
+    BPIPE_LIB="../../../modules/" && bpipe run -r -p pretend=true $SCRIPT $* > test.out 2>&1
+}
+
+# CONFIG
+function config() {
+    bpipe-config pipe $* > /dev/null
+    rm bpipe.config
+}
+
 # check test output
 function checkTestOut() {
 	[ -e test.out ] || err "Can''t find test output file: test.out"

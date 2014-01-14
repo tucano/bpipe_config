@@ -1,17 +1,15 @@
 #!/bin/bash
+source ../../testsupport.sh
 
 ./cleaner.sh
-bpipe-config pipe htseq_count
-rm bpipe.config
 
-BPIPE_LIB="../../../modules/" && bpipe run -p test=true PI_1A_name_htseq_count.groovy ../../data/testinput_one.bam
+OUTPUTS=(testinput_one.sorted_by_name.reads.txt testinput_one.sorted_by_name.reads_sorted.bai testinput_one.sorted_by_name.reads_sorted.bam)
 
-# I expect 4 files
-RES=`ls *.reads_sorted.* | wc | awk {'print $1'}`
-if [[ $RES != 2 ]]; then
-    exit 1
-fi
+config htseq_count
+runPipeLine htseq_count.groovy testinput_one.bam
+
+checkTestOut
+exists $OUTPUTS
 ./cleaner.sh
 
-echo "SUCCESS"
-exit 0
+success
