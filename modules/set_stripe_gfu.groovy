@@ -16,16 +16,21 @@ set_stripe_gfu =
         constraints: "It is a non blocking stage (Fails in non lustre fs, but will return always true).",
         author: "davide.rambaldi@gmail.com"
 
+    def cwd = System.getProperty("user.dir")
+
     produce("setstripe.log")
     {
         def command = """
-            $LSF setstripe -c -1 -i -1 -s 2M . 1>/dev/null 2>&1 || true;
-            $LSF getstripe . 1> $output 2>&1 || true;
+            $LSF setstripe -c -1 -i -1 -s 2M $cwd 1>/dev/null 2>&1 || true;
+            $LSF getstripe $cwd 1> $output 2>&1 || true;
         """
 
         if (pretend)
         {
-            println "COMMAND: $command"
+            println """
+                COMMAND: $command
+                DIR: $cwd
+            """
             command = "touch $output"
         }
         exec command
