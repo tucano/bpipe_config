@@ -4,8 +4,9 @@ PICMERGE="/usr/local/cluster/bin/MergeSamFiles.jar"
 @preserve
 merge_bam_gfu =
 {
-    var rename  : false
-    var pretend : false
+    var rename     : false
+    var pretend    : false
+    var sample_dir : false
 
     doc title: "Merge bam files with $PICMERGE",
         desc: """
@@ -16,9 +17,14 @@ merge_bam_gfu =
             stage options:
                 rename  : $rename
                 pretend : $pretend
+                sample_dir : $sample_dir
+
+            With sample_dir true, this stage redefine output.dir using input.dir
         """,
         constraints: "",
         author: "davide.rambaldi@gmail.com"
+
+    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
     def output_prefix
     if (rename)

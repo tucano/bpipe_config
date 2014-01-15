@@ -1,4 +1,4 @@
 #!/bin/bash
 
 bpipe cleanup -y > /dev/null 2>&1
-rm -rf commandlog.txt test.out .bpipe *.dedup.bam *.bai *.metrics doc
+rm -rf commandlog.txt test.out .bpipe *.dedup.bam *.bai *.metrics doc Sample_test_*/*.dedup.*

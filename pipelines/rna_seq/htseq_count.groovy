@@ -26,10 +26,12 @@ ANNOTATION_GFF_FILE    = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPI
  * feature_type : "exon"
  */
 Bpipe.run {
-    sort_bam_by_name_gfu + htseq_count_gfu.using(
-        stranded: "no",
-        mode: "union",
-        id_attribute: "gene_name",
-        feature_type: "exon") +
-    sort_and_convert_sam_gfu + verify_bam_gfu + samtools_index_gfu
+    "%.bam" * [
+        sort_bam_by_name_gfu + htseq_count_gfu.using(
+            stranded: "no",
+            mode: "union",
+            id_attribute: "gene_name",
+            feature_type: "exon") +
+        sort_and_convert_sam_gfu + verify_bam_gfu + samtools_index_gfu
+    ]
 }

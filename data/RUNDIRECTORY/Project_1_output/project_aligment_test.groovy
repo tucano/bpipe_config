@@ -33,7 +33,7 @@ sample_dir_gfu = {
         }
     }
 
-    // ADD set stripe output and SampleSheet.csv to output
+    // ADD setstripe.log to outputs
     outputs << "setstripe.log"
 
     produce(outputs) {

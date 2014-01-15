@@ -11,6 +11,7 @@ mem_bwa_gfu =
     var pretend     : false
     var paired      : true
     var compressed  : true
+    var sample_dir  : false
 
     // INFO
     doc title: "Align DNA reads with bwa using mem",
@@ -20,7 +21,7 @@ mem_bwa_gfu =
             alignments with maximal exact matches (MEMs) and then extending seeds with the affine-gap Smith-Waterman
             algorithm (SW).
             Sort by coordinates and generate a bam file.
-            
+
             Bwa options: $BWAOPT_MEM
             bwa threads: $bwa_threads
 
@@ -28,6 +29,9 @@ mem_bwa_gfu =
                 pretend    : $pretend
                 paired     : $paired
                 compressed : $compressed
+                sample_dir : $sample_dir
+
+            With sample_dir true, this stage redefine output.dir using input.dir
         """,
         constraints: """
             Work with fastq and fastq.gz, single and paired files.
@@ -38,13 +42,15 @@ mem_bwa_gfu =
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
 
-    if (paired) 
+    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
+
+    if (paired)
     {
-        def outputs = [ 
-            ("$input1".replaceFirst("_R1_","_") - input_extension + '.bam') 
+        def outputs = [
+            ("$input1".replaceFirst("_R1_","_") - input_extension + '.bam')
         ]
 
-        produce(outputs) 
+        produce(outputs)
         {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
@@ -71,11 +77,11 @@ mem_bwa_gfu =
     }
     else
     {
-        def outputs = [ 
+        def outputs = [
             "$input" - input_extension + '.bam'
         ]
 
-        produce(outputs) 
+        produce(outputs)
         {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);

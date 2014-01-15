@@ -28,4 +28,11 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+# CHANGE DIR
+OUTPUTS=(Sample_test_1/Sample_test_1_testinput_001.bam Sample_test_1/Sample_test_1_testinput_002.bam Sample_test_2/Sample_test_2_testinput_001.bam Sample_test_2/Sample_test_2_testinput_002.bam)
+run test_paired_sample_dir.groovy input/Sample_test_*
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
 success

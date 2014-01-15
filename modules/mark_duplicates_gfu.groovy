@@ -7,6 +7,7 @@ mark_duplicates_gfu =
     var pretend : false
     var remove_duplicates : false
     var validation_stringency : "SILENT"
+    var sample_dir : false
 
     doc title: "Mark duplicates in bam files with $MARKDUP : IOS GFU 0019",
         desc: """
@@ -15,12 +16,15 @@ mark_duplicates_gfu =
                 pretend               : $pretend
                 remove_duplicates     : $remove_duplicates
                 validation_stringency : $validation_stringency
+                sample_dir            : $sample_dir
+            With sample_dir true, this stage redefine output.dir using input.dir
         """,
         constrains: """
             Require a BAM sorted by coordinate (ASSUME_SORTED=true).
         """,
         author: "davide.rambaldi@gmail.com"
 
+    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
     def outputs = [
         (input.prefix + ".dedup.bam"),
@@ -28,7 +32,7 @@ mark_duplicates_gfu =
         (input.prefix + ".dedup.metrics")
     ]
 
-    produce(outputs) 
+    produce(outputs)
     {
         def command = """
             ulimit -l unlimited;
@@ -43,7 +47,7 @@ mark_duplicates_gfu =
                 METRICS_FILE=$output_metrics
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
                 INPUT $input

@@ -11,8 +11,8 @@ make_report_dir_gfu =
     def outputs = [
         (input.replaceAll(/\/$/,"") + "_report")
     ]
-    
-    produce(outputs) 
+
+    produce(outputs)
     {
         exec """
             mkdir -p $output;
