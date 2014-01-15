@@ -71,12 +71,13 @@ class BpipeConfig
 
 		// CLI BUILDER
 		def cli = new CliBuilder(
-			usage: "bpipe-config [options] [config|sheet|pipe|info|clean|report|recover|jvm] [pipeline_name|*.groovy|dirs]",
+			usage: "bpipe-config [options] [config|sheet|pipe|info|clean|report|recover|jvm] [pipeline_name] [sample_dirs]",
     		header: "\nAvailable options (use -h for help):\n",
     		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
     		posix:  true,
     		width:  120
 		)
+
 		cli.with {
 			b	longOpt: 'batch'    , 'Automatically execute bpipe in background (bg-bpipe)', required: false
 			c   longOpt: 'commands' , 'Print a list of available commands', required: false
