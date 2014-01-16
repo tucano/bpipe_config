@@ -450,13 +450,13 @@ class Commands
 		if ( args && args.size > 0 )
 		{
 			args.each { dir ->
-				if (verbose) println Logger.info("Cleaning dir: $dir")
+				if (BpipeConfig.verbose) println Logger.info("Cleaning dir: $dir")
 				new File("${dir}/.bpipe").deleteDir()
 			}
 		}
 		else
 		{
-			if (verbose) println Logger.info("Cleaning dir: ${BpipeConfig.working_dir}")
+			if (BpipeConfig.verbose) println Logger.info("Cleaning dir: ${BpipeConfig.working_dir}")
 			new File("${BpipeConfig.working_dir}/.bpipe").deleteDir()
 		}
 	}
