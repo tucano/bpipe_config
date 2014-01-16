@@ -188,12 +188,6 @@ class BpipeConfig
 			case "clean":
 				Commands.clean(extraArguments)
 			break
-			case "report":
-				Commands.report(extraArguments)
-			break
-			case "recover":
-				Commands.recover(extraArguments)
-			break
             case "jvm":
                 Commands.jvm(extraArguments)
             break

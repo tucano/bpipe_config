@@ -51,21 +51,6 @@ class TestPipelineInfo extends GroovyTestCase
         assert Pipelines.pipelineInfo(pipeline, modules)["pipe_code"] instanceof String
     }
 
-    void testPipelineStagesKeys()
-    {
-        def expected = [ "set_stripe_gfu","soapsplice_prepare_headers_gfu","align_soapsplice_gfu",
-                         "merge_bam_gfu","merge_junc_gfu","verify_bam_gfu",
-                         "bam_flagstat_gfu","mark_duplicates_gfu","rmdup_gfu",
-                         "sort_bam_by_name_gfu","htseq_count_gfu","sort_and_convert_sam_gfu",
-                         "samtools_index_gfu","rseqc_bam_stat_gfu", "rseqc_gene_coverage_gfu",
-                         "samtools_idxstats_gfu","rseqc_reads_distribution_gfu",
-                         "rseqc_read_GC_gfu", "rseqc_read_quality_gfu", "rseqc_read_NVC_gfu"]
-
-        for(int i = 0; i < expected.size(); i++) {
-            assert Pipelines.pipelineInfo(pipeline, modules)["stages"].keySet()[i] == expected[i]
-        }
-    }
-
     void testPipelineStagesSize()
     {
         assert Pipelines.pipelineInfo(pipeline, modules)["stages"].size() == 20
@@ -73,7 +58,12 @@ class TestPipelineInfo extends GroovyTestCase
 
     void testPipelineInfoModule()
     {
-        assert Pipelines.pipelineInfo(pipeline, modules)["stages"]["merge_bam_gfu"] != null
+        def pipelines = Pipelines.listPipelines(pipelines_root)
+        pipelines.each { category, pipes ->
+            pipes.each { pipeline ->
+                assert Pipelines.pipelineInfo(pipeline, modules) != null
+            }
+        }
     }
 
     void testPipelineInfoModuleDescription()

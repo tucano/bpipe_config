@@ -219,7 +219,8 @@ class Commands
 				}
 
 				// PRINT SAMPLES TO FILE
-				if (BpipeConfig.verbose) println Logger.info "Creating Project SampleSheet.csv"
+				if (BpipeConfig.verbose) println Logger.info("Creating Project SampleSheet.csv")
+				
 				def samples_csv = new StringBuffer()
 				println samples[0].keySet()
 				samples_csv << "${samples[0].keySet().join(",")}\n"
@@ -248,12 +249,23 @@ class Commands
 				if ( sample_sheet.exists() ) 
 				{
 					samples =  slurpSampleSheet(sample_sheet)
-					if (BpipeConfig.project_name) {
+					if (!samples)
+					{
+						println Logger.error("Error in SampleSheet.csv files ... Aborting")
+						System.exit(1)
+					}
+
+					if (BpipeConfig.project_name) 
+					{
 						if (BpipeConfig.verbose) println Logger.info("Using project name: ${BpipeConfig.project_name}")
-					} else {
+					} 
+					else 
+					{
 						BpipeConfig.project_name = samples[0]["SampleProject"]
 					}
-				} else {
+				} 
+				else 
+				{
 					println Logger.error("No SampleSheet.csv in dir $dir! Aborting ...")
 					if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
 					System.exit(1)
@@ -305,7 +317,8 @@ class Commands
 		}
 
 		// FAIL for project  pipelines with o args
-		if (pipeline["project_pipeline"] && args.size == 0) {
+		if (pipeline["project_pipeline"] && args.size == 0) 
+		{
 			println Logger.error("A project pipeline require a list of samples (subdirs) as arguments after the pipeline name")
 			System.exit(1)
 		}
@@ -316,23 +329,31 @@ class Commands
 			// check if args are all dirs
 			checkDir(args)
 			// In case of project pipelines treat args as a list of samples
-			if (pipeline["project_pipeline"]) {
+			if (pipeline["project_pipeline"]) 
+			{
 				generate_pipeline(BpipeConfig.working_dir)
 				println Logger.printUserOptions()
 				println Logger.printSamples(samples)
-				if ( ! BpipeConfig.batch) {
+
+				if ( ! BpipeConfig.batch) 
+				{
 					println Logger.info("To run the pipeline:")
 					println Logger.message(usage.toString())
-				} else {
+				} 
+				else 
+				{
 					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute()
 					println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
 					println Logger.message("Use 'bpipe log' to monitor execution.")
 				}
-			} else {
+			} 
+			else 
+			{
 				// else recursively create pipelines in subdirs
 				args.each { dir ->
 					generate_pipeline(dir)
-					if (BpipeConfig.batch) {
+					if (BpipeConfig.batch) 
+					{
 						usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute(null, new File(dir))
 						println Logger.message("BATCH MODE: Bpipe started in background in directory ${dir}")
 						println Logger.message("Use 'bpipe log' to monitor execution.")
@@ -342,7 +363,7 @@ class Commands
 				if ( ! BpipeConfig.batch )
 				{
 					println Logger.printUserOptions()
-					println Logger.printSamples(samples)
+
 					// generate a convenience script in current directory
 					File runner_template = new File("${BpipeConfig.bpipe_config_home}/templates/runner.sh.template")
 					File runner = new File("runner.sh")
@@ -378,6 +399,9 @@ class Commands
 				println Logger.message(usage.toString())
 			}
 		}
+
+		// Generate pipeline info
+		info([pipeline_name])
 	}
 
 	public static info(def args)
@@ -417,22 +441,24 @@ class Commands
 		new File("doc").mkdir()
 		def fileinfo = new File("doc/${pipeline["name"]}_info.html")
 		fileinfo.write(template_pipeinfo.toString())
-		println Logger.message("Pipeline info file: ${fileinfo.getPath()}")
+		if (BpipeConfig.verbose) println Logger.info("Pipeline info file: ${fileinfo.getPath()}")
 	}
 
 	public static clean(def args)
 	{
-		println "CLEAN"
-	}
 
-	public static report(def args)
-	{
-		println "REPORT"
-	}
-
-	public static recover(def args)
-	{
-		println "RECOVER"
+		if ( args && args.size > 0 )
+		{
+			args.each { dir ->
+				if (verbose) println Logger.info("Cleaning dir: $dir")
+				new File("${dir}/.bpipe").deleteDir()
+			}
+		}
+		else
+		{
+			if (verbose) println Logger.info("Cleaning dir: ${BpipeConfig.working_dir}")
+			new File("${BpipeConfig.working_dir}/.bpipe").deleteDir()
+		}
 	}
 
 	public static jvm(def args)

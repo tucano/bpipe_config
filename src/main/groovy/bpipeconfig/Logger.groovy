@@ -57,11 +57,7 @@ class Logger
 		out << bold("info".padRight(10)) << "<pipeline name> ... ".padLeft(15).padRight(40)
 		out << green("Get info on pipeline stages.") << "\n"
 		out << bold("clean".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40)
-		out << green(wrap("Clean all in current working directory or in directory list: intermediate files, bpipe.config file, gfu_environment files, bpipe directories.", 60, 50)) << "\n"
-		out << bold("report".padRight(10)) << "<pipe1.groovy> <pipe2.groovy> ... ".padLeft(15).padRight(40)
-		out << green("Generate reports for pipeline.groovy files.") << "\n"
-		out << bold("recover".padRight(10)) << " ".padLeft(15).padRight(40)
-		out << green(wrap("\tRecover log files from .bpipe in current dir (jobs IDs and output file names).", 60, 50)) << "\n"
+		out << green(wrap("Clean .bpipe dir in current working directory or in directory list.", 60, 50)) << "\n"
 		out << bold("jvm".padRight(10)) << " ".padLeft(15).padRight(40)
 		out << green("Get info on the JVM configuration") << "\n"
 		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to get info on a pipeline.\n"

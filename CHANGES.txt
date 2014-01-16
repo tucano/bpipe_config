@@ -10,11 +10,16 @@
        now if your username is in a configuration list (config/email_list.groovy), 
        bpipe will send you email notification when the pipeline is complete
 
-    3. 
-
 * command pipe: generate a pipeline
 
-	1. SampleSheet.csv automatically created in project directory using info (validated) from sample dirs
+	1. PROJECT PIPELINES:
+	   SampleSheet.csv automatically created in project directory using info (validated) from sample dirs
+	3. PIPELINE INFO:
+	   Automatically generated in doc/pipeline_name.html
+
+* command jvm: full info on JAVA VIRTUAL MACHINE CONFIGURATION
+
+* command clean: remove .bpipe dirs from current dir or args (don't remove pipeline files)
 
 * Logging:
 
