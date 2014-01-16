@@ -160,7 +160,7 @@ class Commands
 	{
 		if (args.empty) {
 			println Logger.error("Command pipe need a pipeline name as first argument.")
-			println Logger.info("Use: bpipe-config -p to get a list of avaliable pipelines")
+			if (BpipeConfig.verbose) println Logger.info("Use: bpipe-config -p to get a list of avaliable pipelines")
 			System.exit(1)
 		}
 		String pipeline_name = args.remove(0)
@@ -187,38 +187,75 @@ class Commands
 
 		def usage = ""
 		def generate_pipeline = { dir ->
+			
 			def sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
 
 			// PROJECT SCOPE: no sample sheet needed!
-			if (pipeline["project_pipeline"]) {
+			if (pipeline["project_pipeline"]) 
+			{
 				// Loop in Sample dirs
 				samples = []
 				args.each { sample_dir ->
 					def subsample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
-					if ( subsample_sheet.exists() ) {
-						samples = (samples << slurpSampleSheet(subsample_sheet)).flatten()
-					} else {
+					if ( subsample_sheet.exists() ) 
+					{
+						def sample = slurpSampleSheet(subsample_sheet)
+						if (sample) 
+						{
+							samples = (samples << sample).flatten()	
+						} 
+						else 
+						{
+							println Logger.error("Error in SampleSheet.csv files ... Aborting")
+							System.exit(1)
+						}			
+					} 
+					else 
+					{
 						println Logger.error("No SampleSheet.csv in dir $sample_dir! Aborting ...")
-						println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+						if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
 						System.exit(1)
 					}
 				}
-				if (BpipeConfig.project_name) {
-					println Logger.info("Using project name: ${BpipeConfig.project_name}")
-				} else {
+
+				// PRINT SAMPLES TO FILE
+				if (BpipeConfig.verbose) println Logger.info "Creating Project SampleSheet.csv"
+				def samples_csv = new StringBuffer()
+				println samples[0].keySet()
+				samples_csv << "${samples[0].keySet().join(",")}\n"
+				samples.each { sample ->			
+					samples_csv << "${sample.values().toList().join(",")}\n"
+				}
+				if ( ! createFile(samples_csv.toString(), "${dir}/SampleSheet.csv", BpipeConfig.force) ) 
+				{
+					println Logger.error("Problems creating Project SampleSheet.csv file!")
+				}
+
+				// PROJECT NAME:
+				if (BpipeConfig.project_name) 
+				{
+					if (BpipeConfig.verbose) println Logger.info("Using project name: ${BpipeConfig.project_name}")
+				} 
+				else 
+				{
 					BpipeConfig.project_name = samples[0]["SampleProject"]
 				}
-			} else {
-				if ( sample_sheet.exists() ) {
+
+			}
+			// SAMPLE SCOPE 
+			else 
+			{	
+				if ( sample_sheet.exists() ) 
+				{
 					samples =  slurpSampleSheet(sample_sheet)
 					if (BpipeConfig.project_name) {
-						println Logger.info("Using project name: ${BpipeConfig.project_name}")
+						if (BpipeConfig.verbose) println Logger.info("Using project name: ${BpipeConfig.project_name}")
 					} else {
 						BpipeConfig.project_name = samples[0]["SampleProject"]
 					}
 				} else {
 					println Logger.error("No SampleSheet.csv in dir $dir! Aborting ...")
-					println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+					if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
 					System.exit(1)
 				}
 			}
@@ -232,6 +269,8 @@ class Commands
 			usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
 			def binding_usage = [ "pipeline_filename" : pipeline_filename ]
 			usage = engine.createTemplate(usage).make(binding_usage)
+			
+			// ADD bpipe.config
 			check_bpipe_config(dir)
 
 			// COPY PIPELINE AND GFU_ENVIRONMENT

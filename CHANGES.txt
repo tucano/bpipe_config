@@ -14,7 +14,7 @@
 
 * command pipe: generate a pipeline
 
-	1. SampleSheet.csv
+	1. SampleSheet.csv automatically created in project directory using info (validated) from sample dirs
 
 * Logging:
 
