@@ -1,0 +1,20 @@
+# Version 0.4
+
+* command config: generate a bpipe.config resource file.
+  
+	1. Now don't require a SampleSheet.csv or a Project name
+       by default the project name is USERNAME_DIRECTORY.
+       Check of Project name still active for command pipe.
+
+* command pipe: generate a pipeline
+
+	1. SampleSheet.csv
+
+* Logging:
+
+	1. verbose option (less verbose by default)
+
+
+* SampleSheet Vaidations
+
+	1. Better validation for each sample in SampleSheet.csv during parsing

@@ -10,7 +10,7 @@ apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templat
  * Use STAGE to make a libexec like dir.
  */
 
-version = "0.3.1"
+version = "0.4"
 
 project.ext {
     STAGE="build/stage/bpipeconfig"
