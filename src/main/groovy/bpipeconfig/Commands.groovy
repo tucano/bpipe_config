@@ -22,26 +22,37 @@ class Commands
 		def local_project_name = null
 		def binding_config, template_config, sample_sheet
 
-		// CHECK PROJECT NAME
+		// CHECK PROJECT NAME OR GENERATE ONE using USERNAME_DIR
 		def check_project_name = { dir ->
+			
 			sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
+
 			// check for defined global project name
 			if (BpipeConfig.project_name)
 			{
-				println Logger.info("using project name: ${BpipeConfig.project_name}")
+				if (BpipeConfig.verbose) println Logger.info("using project name: ${BpipeConfig.project_name}")
 			}
 			// check for local SampleSheet.csv
 			else if (sample_sheet.exists())
 			{
 				samples =  slurpSampleSheet(sample_sheet)
 				BpipeConfig.project_name = samples[0]["SampleProject"]
-				println Logger.info("using project name from SampleSheet.csv: ${BpipeConfig.project_name}")
+				if (BpipeConfig.verbose) println Logger.info("using project name from SampleSheet.csv: ${BpipeConfig.project_name}")
 			}
+			// GENERATE ONE
 			else
 			{
-				println Logger.error("No project name (-P option) and No SampleSheet.csv in dir $dir! Aborting ...")
-				println Logger.info("You can use the option -P to set a project name or the command: sheet to generate a SampleSheet.scv")
-				System.exit(1)
+				String current_dir = BpipeConfig.working_dir.replaceFirst(/.*\//,"")
+				BpipeConfig.project_name = "${BpipeConfig.user_name}_${current_dir}"
+
+				if (BpipeConfig.verbose) { 
+					println Logger.info(
+						"""
+							Using auto-generated project name: ${BpipeConfig.project_name}.
+							You can use the option -P to set a project name or the command: sheet to generate a SampleSheet.scv.
+						""".stripIndent().trim()
+					)
+				}
 			}
 		}
 
@@ -459,10 +470,10 @@ class Commands
 		def check_and_write_file = { file ->
 			if ( file.exists() ) {
 				if (force_overwrite) {
-					println Logger.error("File $file already exists. Overwriting ...")
+					println Logger.warn("File $file already exists. Overwriting ...")
 					write_file(file)
 				} else {
-					println Logger.error("File $file already exists. Skipping ...")
+					println Logger.warn("File $file already exists. Skipping ...")
 				}
 			} else {
 				write_file(file)

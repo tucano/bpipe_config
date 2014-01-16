@@ -96,7 +96,7 @@ class BpipeConfig
         modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 
 		// PRINT VERSION AND BUILD
-		println Logger.printVersionAndBuild(version, builddate)
+		if (verbose) println Logger.printVersionAndBuild(version, builddate)
 
 		// GET HELP OPTIONS
 		def help_mode = false
@@ -136,7 +136,7 @@ class BpipeConfig
 			} else {
 				print Logger.error(
 					"Project name: ${opt.P}",
-					" is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka or Banfi_1B_medaka)"
+					" is invalid. Valid format: PI_ID_Name (Es: Banfi_25_Medaka or Banfi_1B_medaka)\n"
 				)
 			}
 		}
