@@ -6,6 +6,12 @@
        by default the project name is USERNAME_DIRECTORY.
        Check of Project name still active for command pipe.
 
+    2. Email Notification: 
+       now if your username is in a configuration list (config/email_list.groovy), 
+       bpipe will send you email notification when the pipeline is complete
+
+    3. 
+
 * command pipe: generate a pipeline
 
 	1. SampleSheet.csv

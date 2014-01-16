@@ -6,6 +6,7 @@ commandlog.txt
 
 # PRIVATE FILES
 config/email_notifier.groovy
+config/email_list.groovy
 
 # DATA dir
 data/Sample_*/*.groovy

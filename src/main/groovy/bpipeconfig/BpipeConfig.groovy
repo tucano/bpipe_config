@@ -41,6 +41,7 @@ class BpipeConfig
     public static def pipelines
     public static def modules
     public static def email_config
+    public static def email_list
 
     /**
      * Main Entry Point
@@ -67,6 +68,13 @@ class BpipeConfig
 			email_config = new ConfigSlurper().parse(config_email_file.text)
 		} else {
 			println Logger.warn("No email configuration (${config_email_file})")
+		}
+
+		def config_email_list = new File("${bpipe_config_home}/config/email_list.groovy")
+		if (config_email_file.exists()) {
+			email_list = new ConfigSlurper().parse(config_email_list.text)
+		} else {
+			println Logger.warn("No email list (${config_email_list})")
 		}
 
 		// CLI BUILDER
@@ -129,6 +137,12 @@ class BpipeConfig
 				System.exit(1)
 			}
 		}
+		// GET MAIL FROM LIST
+		else if (email_list[user_name])
+		{
+			user_email = email_list[user_name]
+		}
+
 		// GET OPTIONS: PROJECT NAME
 		if ( opt.P ) {
 			if ( Commands.validateProjectName(opt.P) ) {
