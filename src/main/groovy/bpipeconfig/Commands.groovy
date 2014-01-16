@@ -36,10 +36,20 @@ class Commands
 			else if (sample_sheet.exists())
 			{
 				samples =  slurpSampleSheet(sample_sheet)
-				BpipeConfig.project_name = samples[0]["SampleProject"]
-				if (BpipeConfig.verbose) println Logger.info("using project name from SampleSheet.csv: ${BpipeConfig.project_name}")
+				if (samples)
+				{
+					BpipeConfig.project_name = samples[0]["SampleProject"]
+					if (BpipeConfig.verbose) {
+						println Logger.info("using project name from SampleSheet.csv: ${BpipeConfig.project_name}")
+					}
+				}
+				else
+				{
+					println Logger.error("Error in SampleSheet.csv file ... Aborting")
+					System.exit(1)
+				}
 			}
-			// GENERATE ONE
+			// GENERATE PROJECT NAME
 			else
 			{
 				String current_dir = BpipeConfig.working_dir.replaceFirst(/.*\//,"")
@@ -431,6 +441,25 @@ class Commands
 		email ==~ emailPattern
 	}
 
+	public static boolean validateSample(def sample)
+	{
+		if (!sample) return false
+		if (sample.getClass() != java.util.LinkedHashMap) return false
+
+		// VALIDATE headers
+		def validKeySet = [
+			"FCID", "Lane", "SampleID", "SampleRef", "Index", 
+			"Description", "Control", "Recipe", "Operator", "SampleProject"
+		]
+		if (sample.keySet().sort() != validKeySet.sort()) return false
+
+		// VALIDATE sample project name
+		if (!validateProjectName(sample["SampleProject"])) return false
+
+		// all check passed
+		return true
+	}
+
 	public static def slurpSampleSheet(File sample_file)
 	{
 		if (sample_file == null) return null
@@ -442,20 +471,40 @@ class Commands
 
 		// Store headers and remove line
 		String[] headers = lines.remove(0).split(",")
+		def sample_line_with_error = []
 
 		// Get samples
-		lines.each { line ->
+		lines.eachWithIndex { line, line_index ->
 			// skip empty lines
-			if (!line.trim().empty) {
+			if ( !line.trim().empty ) {
+				
 				def sample = line.split(",")
 				def sample_map = [:]
+				
 				headers.eachWithIndex { header, i ->
 					sample_map.put(header, sample[i])
 				}
-				samples << sample_map
+				
+				if (!validateSample(sample_map)) 
+				{
+					sample_line_with_error << "line #${line_index+2}: ${line}"
+				}
+				else
+				{
+					samples << sample_map
+				}
 			}
 		}
-		return samples
+
+		if (!sample_line_with_error.empty) 
+		{	
+			println Logger.info("File: ${sample_file.getPath()} contains errors:\n${sample_line_with_error.join("\n")}\nPlease verify your SampleSheet.")
+			return null
+		}
+		else
+		{
+			return samples
+		}
 	}
 
 	static boolean createFile(String text, String filename, boolean force_overwrite)

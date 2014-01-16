@@ -15,6 +15,6 @@
 	1. verbose option (less verbose by default)
 
 
-* SampleSheet Vaidations
+* SampleSheet Vaidations (validateSample)
 
 	1. Better validation for each sample in SampleSheet.csv during parsing

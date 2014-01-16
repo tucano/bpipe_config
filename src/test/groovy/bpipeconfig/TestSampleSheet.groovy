@@ -6,9 +6,6 @@ package bpipeconfig
 
 class TestSampleSheet extends GroovyTestCase
 {
-	private sample_sheet
-	private multi_sample_sheet
-	private minimal_sample_sheet
 	private def expected_sample_list =
 	[[
 		"FCID":"D2A8DACXX",
@@ -37,7 +34,7 @@ class TestSampleSheet extends GroovyTestCase
 		"SampleProject":"PI_1A_name"
 	]
 
-	def minimal_expected =
+	private def minimal_expected =
 	[
 		"FCID": "",
 		"Lane": "",
@@ -51,11 +48,21 @@ class TestSampleSheet extends GroovyTestCase
 		"SampleProject":"Martinelli_10_Test"
 	]
 
+	private sample_sheet
+	private sample_sheet_error
+	private multi_sample_sheet
+	private multi_sample_sheet_error
+	private minimal_sample_sheet
+
+
+
 	void setUp()
 	{
 		sample_sheet = new File(TestSampleSheet.class.getResource('/SampleSheet.csv').getPath())
+		sample_sheet_error = new File(TestSampleSheet.class.getResource('/SampleSheetErrorProject.csv').getPath())
 		multi_sample_sheet = new File(TestSampleSheet.class.getResource('/MultiSampleSheet.csv').getPath())
 		minimal_sample_sheet = new File(TestSampleSheet.class.getResource('/SampleSheetMinimal.csv').getPath())
+		multi_sample_sheet_error = new File(TestSampleSheet.class.getResource('/MultipleSampleSheetErrorProject.csv').getPath())
 	}
 
 	void testSlurpSampleSheet()
@@ -66,6 +73,16 @@ class TestSampleSheet extends GroovyTestCase
 	void testSlurpSampleSheetNull()
 	{
 		assert Commands.slurpSampleSheet(null) == null
+	}
+
+	void testSlurpSampleSheetErrorProject()
+	{
+		assert Commands.slurpSampleSheet(sample_sheet_error) == null
+	}
+
+	void testMultiSlurpSampleSheetErrorProject()
+	{
+		assert Commands.slurpSampleSheet(multi_sample_sheet_error) == null
 	}
 
 	void testMultiSamplesSheetNotNull()
