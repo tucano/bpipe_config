@@ -8,12 +8,12 @@
     Usage example in our server:
 
     1. You have some raw_data located in:
-       /lustre2/raw_data/RUN_NAME/NOMEPI_PROJECTID_PROJECTNAME
+       /lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
 
        Es: /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription
 
     2. You have to make analysis and generated intermediate file in:
-        /lustre2/scratch/NOMEPI/PROJECTID_PROJECTNAME
+        /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME
         Es: /lustre2/scratch/Kajaste/80_LV_Transcription
 
     3. Enter "scratch dir" for your project:
