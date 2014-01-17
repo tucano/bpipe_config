@@ -1,26 +1,46 @@
-# bpipe-config version 0.2
+# bpipe-config version 0.4
 
 bpip-config is a configuration and reporting software for bpipe.
 
+## Install
 
-## INSTANT GRATIFICATION
-
-How to install and use bpipe and bpipe-config
-
-### 1. Install
-
-This will add some environment vars to your __.profile__ file
+How to install and use bpipe and bpipe-config:
 
 ```
 source /lustre1/tools/libexec/bpipeconfig/misc/install.sh
 ```
 
-### 2. List pipelines
+This will add some environment vars to your __.bash_profile__ file
+
+
+##### ENVIRONMENT
+
+You need this in your enviroment (automatically installed in your .bash_profile with the install.sh script):
+
+```
+export BPIPE_HOME=/lustre1/tools/libexec/bpipe
+export BPIPE_CONFIG_HOME=/lustre1/tools/libexec/bpipeconfig
+export BPIPE_LIB=$BPIPE_CONFIG_HOME/modules
+export PATH=$BPIPE_CONFIG_HOME/bin:$BPIPE_HOME/bin:$PATH
+```
+
+
+## Usage
+
+### 1. List pipelines
 
 To print a list of available pipelines:
 
 ```
 bpipe-config -p
+```
+
+### 2. List commands
+
+To print a list of available commands:
+
+```
+bpipe-config -c
 ```
 
 ### 3. Generate a pipeline and run it in a single command
@@ -29,6 +49,14 @@ bpipe-config -p
 bpipe-config -b pipe <pipeline-name>
 ```
 
+### 4. Force mode (overwrite local files)
+
+```
+bpipe-config -f pipe <pipeline-name>
+```
+
+<br/>
+---
 
 ## USER GUIDE
 
@@ -40,17 +68,52 @@ bpipe-config -b pipe <pipeline-name>
 * bpipe help ```bpipe -h```
 * [bpipe documentation](https://code.google.com/p/bpipe/wiki/Reference)
 
+<br/>
+<br/>
 
-### ENVIRONMENT
+### 1. PROJECT PIPELINES
 
-You need this in your enviroment (automatically installed in your .profile with the install.sh script):
+Pipelines in category **illumina_projects** parallelize on multiple samples.
+
+One bpipe to run them all...  like the One Ring of Sauron
+
+#### Scenario:
+
+You have a **raw-data directory** with fastq.gz reads (after demultiplex) and a **scratch directory** to perform analysis: 
 
 ```
-export BPIPE_HOME=/lustre1/tools/libexec/bpipe
-export BPIPE_CONFIG_HOME=/lustre1/tools/libexec/bpipeconfig
-export BPIPE_LIB=$BPIPE_CONFIG_HOME/modules
-export PATH=$BPIPE_CONFIG_HOME/bin:$BPIPE_HOME/bin:$PATH
+/lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
+/lustre2/scratch/PINAME/PROJECTID_PROJECTNAME
 ```
+Example:
+
+```
+/lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription
+/lustre2/scratch/Kajaste/80_LV_Transcription
+```
+
+####Run the pipeline
+
+* Enter scratch dir: /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME and **run bpipe-config** pointing to **samples in raw-data**
+
+Example:
+
+```
+cd /lustre2/scratch/Kajaste/80_LV_Transcription
+bpipe-config pipe bwa_submit_project /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription/Sample_*
+```
+
+Notice that in **scratch dir** we use as arguments for bpipe the Samples dir in **/lustre2/raw-data** .
+
+behind the scenes the bpipe project pipelines make the following:
+
+1. Create a Sample dir for each sample in **raw-data**
+2. Copy in the Sample dir the SampleSheet.csv
+3. 
+
+
+<br/>
+<br/>
 
 ### SINGLE SAMPLE
 
@@ -66,15 +129,14 @@ B1_TTAGGC_L003_R2_003.fastq.gz
 SampleSheet.csv
 ```
 
-
-#### RUN THE PIPELINE
+####Run the pipeline
 
 * Enter working directory (make sure that you have a __SampleSheet.csv__)
 
 * In case you need it, you can generate a __SampleSheet.csv__ with
 
 ```
-bpipe-config sheet KEY=VALUE
+bpipe-config sheet FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name
 ```
 
 * Generate a __bpipe.config__ file
@@ -110,6 +172,8 @@ Where the option -r produce an HTML report in the local sub-directory __doc/__
 bg-bpipe run pipeline.groovy [INPUTS]
 ```
 
+<br/>
+<br/>
 
 ### MULTIPLE SAMPLES
 
@@ -129,7 +193,7 @@ Sample_6
 Where each sample directory contains input files a __SampleSheet.csv__
 
 
-####RUN THE PIPELINE
+####Run the pipeline
 
 * Configure, generate and run the pipeline in a single command:
 
