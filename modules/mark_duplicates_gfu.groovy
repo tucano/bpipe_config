@@ -44,7 +44,7 @@ mark_duplicates_gfu =
                 VALIDATION_STRINGENCY=$validation_stringency
                 REMOVE_DUPLICATES=$remove_duplicates
                 ASSUME_SORTED=true
-                METRICS_FILE=$output_metrics
+                METRICS_FILE=$output.metrics
         """
 
         if (pretend)
