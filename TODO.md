@@ -25,9 +25,5 @@
 
 #### 0.6
 
-1. bpipe-config command recover: recover a failed job and run diagnostic on node (to check bad nodes)
 2. Change index.html report template
 
-#### 0.7
-
-1. bpipe-config command report: generate a complete report (with QA) of the pipeline

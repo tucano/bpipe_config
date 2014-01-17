@@ -24,7 +24,7 @@ class Commands
 
 		// CHECK PROJECT NAME OR GENERATE ONE using USERNAME_DIR
 		def check_project_name = { dir ->
-			
+
 			sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
 
 			// check for defined global project name
@@ -55,7 +55,7 @@ class Commands
 				String current_dir = BpipeConfig.working_dir.replaceFirst(/.*\//,"")
 				BpipeConfig.project_name = "${BpipeConfig.user_name}_${current_dir}"
 
-				if (BpipeConfig.verbose) { 
+				if (BpipeConfig.verbose) {
 					println Logger.info(
 						"""
 							Using auto-generated project name: ${BpipeConfig.project_name}.
@@ -187,30 +187,30 @@ class Commands
 
 		def usage = ""
 		def generate_pipeline = { dir ->
-			
+
 			def sample_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
 
 			// PROJECT SCOPE: no sample sheet needed!
-			if (pipeline["project_pipeline"]) 
+			if (pipeline["project_pipeline"])
 			{
 				// Loop in Sample dirs
 				samples = []
 				args.each { sample_dir ->
 					def subsample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
-					if ( subsample_sheet.exists() ) 
+					if ( subsample_sheet.exists() )
 					{
 						def sample = slurpSampleSheet(subsample_sheet)
-						if (sample) 
+						if (sample)
 						{
-							samples = (samples << sample).flatten()	
-						} 
-						else 
+							samples = (samples << sample).flatten()
+						}
+						else
 						{
 							println Logger.error("Error in SampleSheet.csv files ... Aborting")
 							System.exit(1)
-						}			
-					} 
-					else 
+						}
+					}
+					else
 					{
 						println Logger.error("No SampleSheet.csv in dir $sample_dir! Aborting ...")
 						if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
@@ -220,33 +220,33 @@ class Commands
 
 				// PRINT SAMPLES TO FILE
 				if (BpipeConfig.verbose) println Logger.info("Creating Project SampleSheet.csv")
-				
+
 				def samples_csv = new StringBuffer()
-				println samples[0].keySet()
+
 				samples_csv << "${samples[0].keySet().join(",")}\n"
-				samples.each { sample ->			
+				samples.each { sample ->
 					samples_csv << "${sample.values().toList().join(",")}\n"
 				}
-				if ( ! createFile(samples_csv.toString(), "${dir}/SampleSheet.csv", BpipeConfig.force) ) 
+				if ( ! createFile(samples_csv.toString(), "${dir}/SampleSheet.csv", BpipeConfig.force) )
 				{
 					println Logger.error("Problems creating Project SampleSheet.csv file!")
 				}
 
 				// PROJECT NAME:
-				if (BpipeConfig.project_name) 
+				if (BpipeConfig.project_name)
 				{
 					if (BpipeConfig.verbose) println Logger.info("Using project name: ${BpipeConfig.project_name}")
-				} 
-				else 
+				}
+				else
 				{
 					BpipeConfig.project_name = samples[0]["SampleProject"]
 				}
 
 			}
-			// SAMPLE SCOPE 
-			else 
-			{	
-				if ( sample_sheet.exists() ) 
+			// SAMPLE SCOPE
+			else
+			{
+				if ( sample_sheet.exists() )
 				{
 					samples =  slurpSampleSheet(sample_sheet)
 					if (!samples)
@@ -255,16 +255,16 @@ class Commands
 						System.exit(1)
 					}
 
-					if (BpipeConfig.project_name) 
+					if (BpipeConfig.project_name)
 					{
 						if (BpipeConfig.verbose) println Logger.info("Using project name: ${BpipeConfig.project_name}")
-					} 
-					else 
+					}
+					else
 					{
 						BpipeConfig.project_name = samples[0]["SampleProject"]
 					}
-				} 
-				else 
+				}
+				else
 				{
 					println Logger.error("No SampleSheet.csv in dir $dir! Aborting ...")
 					if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
@@ -276,12 +276,14 @@ class Commands
 			String pipeline_filename = "${pipeline["file_name"]}"
 
 			// GENERATE USAGE INFO
+			// TODO USAGE for project pipelines should use args
+
 			def pattern = /(?m)\/{2}\s*USAGE:(.*)/
 			def matcher = (pipeline_text =~ pattern)
 			usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
 			def binding_usage = [ "pipeline_filename" : pipeline_filename ]
 			usage = engine.createTemplate(usage).make(binding_usage)
-			
+
 			// ADD bpipe.config
 			check_bpipe_config(dir)
 
@@ -317,7 +319,7 @@ class Commands
 		}
 
 		// FAIL for project  pipelines with o args
-		if (pipeline["project_pipeline"] && args.size == 0) 
+		if (pipeline["project_pipeline"] && args.size == 0)
 		{
 			println Logger.error("A project pipeline require a list of samples (subdirs) as arguments after the pipeline name")
 			System.exit(1)
@@ -329,30 +331,30 @@ class Commands
 			// check if args are all dirs
 			checkDir(args)
 			// In case of project pipelines treat args as a list of samples
-			if (pipeline["project_pipeline"]) 
+			if (pipeline["project_pipeline"])
 			{
 				generate_pipeline(BpipeConfig.working_dir)
 				println Logger.printUserOptions()
 				println Logger.printSamples(samples)
 
-				if ( ! BpipeConfig.batch) 
+				if ( ! BpipeConfig.batch)
 				{
 					println Logger.info("To run the pipeline:")
 					println Logger.message(usage.toString())
-				} 
-				else 
+				}
+				else
 				{
 					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute()
 					println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
 					println Logger.message("Use 'bpipe log' to monitor execution.")
 				}
-			} 
-			else 
+			}
+			else
 			{
 				// else recursively create pipelines in subdirs
 				args.each { dir ->
 					generate_pipeline(dir)
-					if (BpipeConfig.batch) 
+					if (BpipeConfig.batch)
 					{
 						usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute(null, new File(dir))
 						println Logger.message("BATCH MODE: Bpipe started in background in directory ${dir}")
@@ -513,7 +515,7 @@ class Commands
 
 		// VALIDATE headers
 		def validKeySet = [
-			"FCID", "Lane", "SampleID", "SampleRef", "Index", 
+			"FCID", "Lane", "SampleID", "SampleRef", "Index",
 			"Description", "Control", "Recipe", "Operator", "SampleProject"
 		]
 		if (sample.keySet().sort() != validKeySet.sort()) return false
@@ -542,15 +544,15 @@ class Commands
 		lines.eachWithIndex { line, line_index ->
 			// skip empty lines
 			if ( !line.trim().empty ) {
-				
+
 				def sample = line.split(",")
 				def sample_map = [:]
-				
+
 				headers.eachWithIndex { header, i ->
 					sample_map.put(header, sample[i])
 				}
-				
-				if (!validateSample(sample_map)) 
+
+				if (!validateSample(sample_map))
 				{
 					sample_line_with_error << "line #${line_index+2}: ${line}"
 				}
@@ -561,8 +563,8 @@ class Commands
 			}
 		}
 
-		if (!sample_line_with_error.empty) 
-		{	
+		if (!sample_line_with_error.empty)
+		{
 			println Logger.info("File: ${sample_file.getPath()} contains errors:\n${sample_line_with_error.join("\n")}\nPlease verify your SampleSheet.")
 			return null
 		}

@@ -1,13 +1,42 @@
 # Version 0.4
 
+* PROJECT PIPELINES: More or less is like the One Ring of Sauron: one bpipe to run them all.
+    in bpipe-config -p (pipelines list) you will notice a new category: illumina_projects. 
+    There you will find PROJECT pipepelines that parallelize on multiple samples. 
+    If classic pipelines create a bpipe instance for each sample, the project pipelines create a single JVM and bpipe instance.
+
+    Usage example in our server:
+
+    1. You have some raw_data located in:
+       /lustre2/raw_data/RUN_NAME/NOMEPI_PROJECTID_PROJECTNAME
+
+       Es: /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription
+
+    2. You have to make analysis and generated intermediate file in:
+        /lustre2/scratch/NOMEPI/PROJECTID_PROJECTNAME
+        Es: /lustre2/scratch/Kajaste/80_LV_Transcription
+
+    3. Enter "scratch dir" for your project:
+       cd /lustre2/scratch/Kajaste/80_LV_Transcription
+
+    4. Run bpipe-config from THERE pointing to samples in /lustre2/raw_data
+       bpipe-config pipe bwa_submit_project /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription/Sample_*
+       bpipe run -r bwa_submit_project.groovy /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription/Sample_*
+
+    5. Project pipelines creates dirs in scratch for samples and link fastq files from original directory to scratch dir. By default output merged BAMs are in moved in directory "BAM"
+
+* PIPES: pretend mode
+  Due to compatibility issues with bpipe, I have changed the "test mode" in "pretend mode". In order to launch a whole pipeline in pretend mode (just create empty file locally, without launching any bioinformatics software) use:
+    bpipe run -p pretend=true pipeline.groovy inputs.*
+
 * command config: generate a bpipe.config resource file.
-  
+
 	1. Now don't require a SampleSheet.csv or a Project name
        by default the project name is USERNAME_DIRECTORY.
        Check of Project name still active for command pipe.
 
-    2. Email Notification: 
-       now if your username is in a configuration list (config/email_list.groovy), 
+    2. Email Notification:
+       now if your username is in a configuration list (config/email_list.groovy),
        bpipe will send you email notification when the pipeline is complete
 
 * command pipe: generate a pipeline
