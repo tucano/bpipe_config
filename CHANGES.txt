@@ -1,6 +1,7 @@
 # Version 0.4
 
-* PROJECT PIPELINES: More or less is like the One Ring of Sauron: one bpipe to run them all.
+* PROJECT PIPELINES: 
+    More or less is like the One Ring of Sauron: one bpipe to run them all.
     in bpipe-config -p (pipelines list) you will notice a new category: illumina_projects. 
     There you will find PROJECT pipepelines that parallelize on multiple samples. 
     If classic pipelines create a bpipe instance for each sample, the project pipelines create a single JVM and bpipe instance.
