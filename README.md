@@ -292,7 +292,7 @@ export BPIPE_CONFIG_HOME=../build/stage/bpipeconfig-0.1 && ../build/stage/bpipec
 
 * JAVADOC SNIPPETS: https://github.com/ekryski/sublime-comment-snippets
 
-#### Snippets
+#### Javadoc Snippets
 
 * `todo` - TODO
 * `fix` - FIXME
