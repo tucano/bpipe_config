@@ -55,7 +55,7 @@ bpipe-config -b pipe <pipeline-name>
 bpipe-config -f pipe <pipeline-name>
 ```
 
-<br/>
+
 ---
 
 ## USER GUIDE
@@ -68,8 +68,6 @@ bpipe-config -f pipe <pipeline-name>
 * bpipe help ```bpipe -h```
 * [bpipe documentation](https://code.google.com/p/bpipe/wiki/Reference)
 
-<br/>
-<br/>
 
 ### 1. PROJECT PIPELINES
 
@@ -248,8 +246,6 @@ gradle stage
 ```
 gradle dist
 ```
-
-
 
 
 ### DEVELOPMENT NOTES
