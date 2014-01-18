@@ -193,9 +193,6 @@ Where the option -r produce an HTML report in the local sub-directory __doc/__
 bg-bpipe run pipeline.groovy [INPUTS]
 ```
 
-<br/>
-<br/>
-
 ### MULTIPLE SAMPLES
 
 ####Scenario:
@@ -223,8 +220,6 @@ bpipe-config -b pipe rna_seq_lane Sample_*
 ```
 
 ---
-<br/>
-<br/>
 
 ## DEVELOPERS GUIDE
 
