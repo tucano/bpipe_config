@@ -77,7 +77,7 @@ One bpipe to run them all...  like the One Ring of Sauron.
 
 #### Scenario:
 
-You have a **raw-data directory** with fastq.gz reads (after demultiplex) and a **scratch directory** to perform analysis: 
+You have a **raw_data directory** with fastq.gz reads (after demultiplex) and a **scratch directory** to perform analysis: 
 
 ```
 /lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
@@ -90,9 +90,33 @@ Example:
 /lustre2/scratch/Kajaste/80_LV_Transcription
 ```
 
+In the raw_data directory, after demultiplex, a Project have this structure:
+
+```
+Project_1
+├── Sample_test_1
+│   ├── SampleSheet.csv
+│   ├── Sample_test_1_testinput_R1_001.fastq.gz
+│   ├── Sample_test_1_testinput_R1_002.fastq.gz
+│   ├── Sample_test_1_testinput_R2_001.fastq.gz
+│   └── Sample_test_1_testinput_R2_002.fastq.gz
+├── Sample_test_2
+│   ├── SampleSheet.csv
+│   ├── Sample_test_2_testinput_R1_001.fastq.gz
+│   ├── Sample_test_2_testinput_R1_002.fastq.gz
+│   ├── Sample_test_2_testinput_R2_001.fastq.gz
+│   └── Sample_test_2_testinput_R2_002.fastq.gz
+├── Sample_test_3
+│   ├── SampleSheet.csv
+│   ├── Sample_test_3_testinput_R1_001.fastq.gz
+│   ├── Sample_test_3_testinput_R1_002.fastq.gz
+│   ├── Sample_test_3_testinput_R2_001.fastq.gz
+│   └── Sample_test_3_testinput_R2_002.fastq.gz
+```
+
 ####Run the pipeline
 
-* Enter scratch dir: /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME and **run bpipe-config** pointing to **samples in raw-data**
+* Enter scratch dir: /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME and **run bpipe-config** pointing to **samples in raw_data**
 
 Example:
 
@@ -109,10 +133,8 @@ behind the scenes the bpipe project pipelines make the following:
 2. Copy in the scratch sample dir the SampleSheet.csv
 3. Link (soft links) the fastq.gz files from raw-data to scratch
 4. Run the aligment in parallel for each sample
+5. Move the final output (generally bam files) in a result directory (default: "BAM")
 
-
-<br/>
-<br/>
 
 ### SINGLE SAMPLE
 
