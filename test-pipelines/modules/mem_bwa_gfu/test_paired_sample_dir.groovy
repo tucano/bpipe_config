@@ -13,7 +13,7 @@ PROJECTNAME="TEST_1_TEST"
 Bpipe.run {
     "%" * [
         sample_dir_gfu +
-        "L?*_R*_%.fastq.gz" * [
+        "*_R*_%.fastq.gz" * [
             mem_bwa_gfu.using(pretend:true,paired:true,compressed:true,sample_dir:true)
         ]
     ]

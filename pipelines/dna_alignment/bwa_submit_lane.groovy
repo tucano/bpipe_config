@@ -29,7 +29,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 Bpipe.run {
     set_stripe_gfu +
     // we add the L*_R* notation to get handle cases like IP_6_R_GGACCC_L002_R1_001.fastq.gz
-    "L?*_R*_%.fastq.gz" * [mem_bwa_gfu.using(paired: true, compressed: true)] +
+    "L*_R*_%.fastq.gz" * [mem_bwa_gfu.using(paired: true, compressed: true)] +
     "*.bam" * [merge_bam_gfu.using(rename:false)] + verify_bam_gfu + bam_flagstat_gfu +
     // an alternative to mark_duplicates_gfu is rmdup: comment this line and uncomment the rmdup_gfu stage to use it
     mark_duplicates_gfu +
