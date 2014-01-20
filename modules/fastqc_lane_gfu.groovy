@@ -2,7 +2,7 @@
 FASTQC="/lustre1/tools/bin/fastqc"
 
 @preserve
-fastqc_lane_gfu = 
+fastqc_lane_gfu =
 {
     // stage vars
     var paired  : true
@@ -20,17 +20,17 @@ fastqc_lane_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    if (paired) 
+    if (paired)
     {
         def output_name = input.prefix.replaceAll(/_R[1-2]_[0-9]*.fastq/,"")
-        
-        from("*.fastq.gz") produce("${output_name}_R1_fastqc.zip","${output_name}_R2_fastqc.zip") 
+
+        from("*.fastq.gz") produce("${output_name}_R1_fastqc.zip","${output_name}_R2_fastqc.zip")
         {
             def command = """
                 $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . $inputs
             """
-            
-            if (pretend) 
+
+            if (pretend)
             {
                 println """
                     INPUTS:  $inputs
@@ -46,19 +46,19 @@ fastqc_lane_gfu =
 
             exec command, "fastqc"
         }
-    } 
-    else 
+    }
+    else
     {
         def output_name = input.prefix.replaceAll(/_[0-9]*.fastq/,"")
-        
-        from("*.fastq.gz") produce("${output_name}_fastqc.zip") 
+
+        from("*.fastq.gz") produce("${output_name}_fastqc.zip")
         {
-            
+
             def command = """
                 $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o . $inputs
             """
-            
-            if (pretend) 
+
+            if (pretend)
             {
                 println """
                     INPUTS:  $inputs

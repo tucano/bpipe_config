@@ -11,7 +11,7 @@ fastqc_sample_gfu =
     doc title: "Fastqc on fastq.gz files in a sample directory",
         desc: """
             This module is for Illumina project structure, use fastqc_lane_gfu for single sample directory.
-            Take as input a directory named: SAMPLE_NAME_report ($input) 
+            Take as input a directory named: SAMPLE_NAME_report ($input)
             and generate in it fastqc files from the corresponding sample.
 
             Main options with value:
@@ -51,9 +51,9 @@ fastqc_sample_gfu =
         }
     }
 
-    if (paired) 
+    if (paired)
     {
-        produce("${output_prefix[0]}_fastqc.zip","${output_prefix[1]}_fastqc.zip") 
+        produce("${output_prefix[0]}_fastqc.zip","${output_prefix[1]}_fastqc.zip")
         {
             def command = "$FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;"
 
@@ -76,10 +76,10 @@ fastqc_sample_gfu =
     }
     else
     {
-        produce("${output_prefix[0]}_fastqc.zip") 
+        produce("${output_prefix[0]}_fastqc.zip")
         {
             def command = "$FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;"
-            
+
             if (pretend)
             {
                 println """

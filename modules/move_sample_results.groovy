@@ -19,7 +19,6 @@ move_sample_results =
         outputs << file.replaceFirst(/.*\//,"")
     }
 
-    println outputs
     output.dir = result_dir
 
     produce(outputs)
