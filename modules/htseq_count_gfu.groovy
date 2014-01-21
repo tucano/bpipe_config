@@ -31,16 +31,16 @@ htseq_count_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    transform("reads.txt","reads.sam") 
+    transform("reads.txt","reads.sam")
     {
-        
+
         def command = """
             export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/usr/local/cluster/python2.7/lib/;
             $SAMTOOLS view $input | $HTSEQ_COUNT -m $mode -s $stranded -i $id_attribute -o $output.sam - $ANNOTATION_GFF_FILE > $output.txt;
             test \$(awk '{sum += \$2} END {print sum}' $output.txt) -gt 0;
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
                 INPUT $input
