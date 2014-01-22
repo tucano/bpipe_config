@@ -2,11 +2,11 @@
 SNPSIFT="java -jar /lustre1/tools/bin/SnpSift.jar"
 
 @intermediate
-snpsift_annotate_gfu =
+snpsift_dbnsfp_gfu =
 {
     var pretend : false
 
-    doc title: "SnpSift annotate vcf file",
+    doc title: "SnpSift dbnsfp on vcf file",
         desc: """
             SnpSift is a toolbox that allows you to filter and manipulate annotated files.
             Main options with value:
@@ -16,10 +16,10 @@ snpsift_annotate_gfu =
         author: "davide.rambaldi@gmail.com"
 
 
-    filter("annotated")
+    filter("dbnsfp")
     {
         def command = """
-            $SNPSIFT annotate $DBSNP $input.vcf > $output.vcf
+            $SNPSIFT dbnsfp -f Ancestral_allele,Ensembl_geneid,Polyphen2_HVAR_pred,SIFT_score,GERP++_RS,ESP6500_AA_AF $DBNSFP $input.vcf > $output.vcf
         """
 
         if (pretend)

@@ -8,6 +8,8 @@ about title: "Human variants annotation: IOS 005"
 // Don't change my keywords in source!
 
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
+DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.1.txt"
+TRUSEQ_REGIONS_BED     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/TruSeq-Exome-Targeted-Regions-BED-file.regions.bed"
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
@@ -18,5 +20,7 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    set_stripe_gfu
+    set_stripe_gfu + "%.vcf" * [
+        snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpsift_intervals_gfu
+    ]
 }

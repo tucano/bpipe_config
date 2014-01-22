@@ -2,11 +2,11 @@
 SNPSIFT="java -jar /lustre1/tools/bin/SnpSift.jar"
 
 @intermediate
-snpsift_annotate_gfu =
+snpsift_intervals_gfu =
 {
     var pretend : false
 
-    doc title: "SnpSift annotate vcf file",
+    doc title: "SnpSift intervals on vcf file",
         desc: """
             SnpSift is a toolbox that allows you to filter and manipulate annotated files.
             Main options with value:
@@ -16,10 +16,10 @@ snpsift_annotate_gfu =
         author: "davide.rambaldi@gmail.com"
 
 
-    filter("annotated")
+    filter("ontarget")
     {
         def command = """
-            $SNPSIFT annotate $DBSNP $input.vcf > $output.vcf
+            $SNPSIFT intervals -i $input.vcf $TRUSEQ_REGIONS_BED > $output.vcf
         """
 
         if (pretend)
