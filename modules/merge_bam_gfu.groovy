@@ -45,7 +45,6 @@ merge_bam_gfu =
     // collect input bams
     def input_strings = inputs.collect() { return "I=" + it}.join(" ")
 
-
     produce (outputs)
     {
         def command = """
