@@ -1,25 +1,23 @@
-// MODULE SNPSIFT DBNSFO
-SNPSIFT="java -jar /lustre1/tools/bin/SnpSift.jar"
+// MODULE SNPEFF
+SNPEFF="java -jar /lustre1/tools/bin/snpEff.jar"
 
-@intermediate
-snpsift_dbnsfp_gfu =
+snpeff_gfu =
 {
     var pretend : false
 
-    doc title: "SnpSift dbnsfp on vcf file",
+    doc title: "SnpEff: Genetic variant annotation and effect prediction toolbox. ",
         desc: """
-            SnpSift is a toolbox that allows you to filter and manipulate annotated files.
+            Genetic variant annotation and effect prediction toolbox. It annotates and predicts the effects of variants on genes (such as amino acid changes).
             Main options with value:
                 pretend    : $pretend
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-
-    filter("dbnsfp")
+    produce("Tier0.vcf")
     {
         def command = """
-            $SNPSIFT dbnsfp -f Ancestral_allele,Ensembl_geneid,Polyphen2_HVAR_pred,SIFT_score,GERP++_RS,ESP6500_AA_AF $DBNSFP $input.vcf > $output.vcf
+            $SNPEFF eff -c $SNPEFF_CONFIG -canon -no-upstream -no-downstream -no-intergenic GRCh37.70 $input.vcf > $output
         """
 
         if (pretend)

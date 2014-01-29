@@ -1,4 +1,4 @@
-// MODULE SNPSIFT ANNOTATE
+// MODULE SNPSIFT INTERVALS
 SNPSIFT="java -jar /lustre1/tools/bin/SnpSift.jar"
 
 @intermediate

@@ -10,6 +10,8 @@ about title: "Human variants annotation: IOS 005"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.1.txt"
 TRUSEQ_REGIONS_BED     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/TruSeq-Exome-Targeted-Regions-BED-file.regions.bed"
+SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
+HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
@@ -21,6 +23,6 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  */
 Bpipe.run {
     set_stripe_gfu + "%.vcf" * [
-        snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpsift_intervals_gfu
+        vcf_subsam_gfu + snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpsift_intervals_gfu + snpeff_gfu
     ]
 }
