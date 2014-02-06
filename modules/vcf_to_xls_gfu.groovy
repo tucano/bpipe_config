@@ -1,5 +1,5 @@
 // MODULE VCF 2 XLS
-VCF2XLS = "/usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/vcf2xls.py"
+VCF2XLS = "PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/vcf2xls.py"
 
 vcf_to_xls_gfu =
 {
