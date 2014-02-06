@@ -31,12 +31,6 @@ dependencies {
 test {
     // LOGGER SETUP
     testLogging.exceptionFormat = 'full'
-
-    // set JVM arguments for the test JVM(s)
-    jvmArgs '-XX:MaxPermSize=256m'
-
-    // MAX HEAP
-    maxHeapSize = "512m"
 }
 
 // STAGE TASK
