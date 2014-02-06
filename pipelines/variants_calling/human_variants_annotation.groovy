@@ -1,7 +1,7 @@
 about title: "Human variants annotation: IOS 005"
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.bam
+// USAGE: bpipe run -r $pipeline_filename input.vcf
 
 // PROJECT VARS will be added by bpipe-config
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
