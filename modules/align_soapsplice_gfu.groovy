@@ -10,6 +10,7 @@ align_soapsplice_gfu =
     var pretend        : false
     var compressed     : true
     var paired         : true
+    var sample_dir     : false
 
     doc title: "Align RNA reads with soapsplice",
         desc: """
@@ -33,6 +34,9 @@ align_soapsplice_gfu =
 
 
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
+    println "INPUTS: $inputs"
+
+    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
     if (paired)
     {

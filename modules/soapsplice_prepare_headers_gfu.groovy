@@ -4,7 +4,8 @@ SSPLICE="/lustre1/tools/bin/soapsplice"
 @intermediate
 soapsplice_prepare_headers_gfu =
 {
-    var pretend : false
+    var pretend    : false
+    var sample_dir : false
 
     // INFO
     doc title: "Prepare header file for alignment with soapsplice",
@@ -13,6 +14,8 @@ soapsplice_prepare_headers_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def header  = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
+
+    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
     transform("header")
     {
