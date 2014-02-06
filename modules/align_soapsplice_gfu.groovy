@@ -34,7 +34,7 @@ align_soapsplice_gfu =
 
 
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
-
+    println "INPUTS: $inputs"
     if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
     if (paired)

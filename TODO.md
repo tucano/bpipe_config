@@ -1,5 +1,10 @@
 # TODO LIST
 
+# FIXES TODO
+
+- muovi anche i bai files in illumina projects pipeline
+
+
 ### Scheduled upgrades
 
 #### 0.3
