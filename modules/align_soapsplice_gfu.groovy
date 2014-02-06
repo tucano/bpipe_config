@@ -34,7 +34,6 @@ align_soapsplice_gfu =
 
 
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
-    println "INPUTS: $inputs"
 
     if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
@@ -46,7 +45,8 @@ align_soapsplice_gfu =
         {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
+                ${ sample_dir ? "mkdir -p ${TMP_SCRATCH}/${input.replaceFirst("/.*","")};": ""}
+                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
                 $SSPLICE -d $REFERENCE_GENOME -1 $input1 -2 $input2 -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
                 cat $input3 ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
                 mv ${TMP_OUTPUT_PREFIX}.bam $custom_output;
