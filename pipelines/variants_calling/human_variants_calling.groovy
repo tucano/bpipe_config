@@ -28,5 +28,5 @@ Bpipe.run {
     "%.vcf" * [
         snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
         indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
-    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_gfu
+    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu
 }

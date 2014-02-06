@@ -15,6 +15,9 @@ HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
+SQL_GENES_TABLE        = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.refGene.sql"
+PHI_SCORES             = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/Phi_scores_McArthur.csv"
+VCF2XLS_ANNOTATION     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/vcf2xls_annotations/G*"
 
 //--BPIPE_ENVIRONMENT_HERE--
 
@@ -23,6 +26,8 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  */
 Bpipe.run {
     set_stripe_gfu + "%.vcf" * [
-        vcf_subsam_gfu + snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpsift_intervals_gfu + snpeff_gfu
+        vcf_subsam_gfu + snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpsift_intervals_gfu +
+        snpeff_gfu + snpsift_filter_quality_gfu  + markvcf_gfu + snpsift_filter_impact_gfu +
+        vcf_to_xls_gfu
     ]
 }

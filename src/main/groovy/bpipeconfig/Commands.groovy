@@ -439,6 +439,7 @@ class Commands
 			"pipeline_code"  : pipeline_info["pipe_code"],
 			"stages"         : pipeline_info["stages"]
 		]
+
 		def template_pipeinfo = engine.createTemplate(pipeline_info_template.text).make(binding_pipeline)
 		new File("doc").mkdir()
 		def fileinfo = new File("doc/${pipeline["name"]}_info.html")
