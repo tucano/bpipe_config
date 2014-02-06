@@ -4,7 +4,7 @@
 move_sample_results =
 {
     var result_dir : "BAM"
-    var pretend : true
+    var pretend    : false
 
     doc title: "Move results (final outputs) from sample working dir to results dir",
         desc: """
