@@ -22,9 +22,9 @@ soapsplice_prepare_headers_gfu =
 
         def command = """
             SSVERSION=\$($SSPLICE | head -n1 | awk '{print \$3}');
-            awk '{OFS="\t";  print "@SQ","SN:"\$1,"LN:"\$2}' $REFERENCE_FAIDX > $output2;
-            echo -e "$header" >> $output2;
-            echo -e "@PG\tID:soapsplice\tPN:soapsplice\tVN:$SSVERSION" >> $output2
+            awk '{OFS="\t";  print "@SQ","SN:"\$1,"LN:"\$2}' $REFERENCE_FAIDX > $output;
+            echo -e "$header" >> $output;
+            echo -e "@PG\tID:soapsplice\tPN:soapsplice\tVN:$SSVERSION" >> $output;
         """
 
         if (pretend)

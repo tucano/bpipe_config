@@ -25,7 +25,7 @@ function run() {
 function runPipeLine() {
     SCRIPT=$1
     shift
-    BPIPE_LIB="../../../modules/" && bpipe run -r -p pretend=true $SCRIPT $* > test.out 2>&1
+    export BPIPE_LIB="../../../modules/" && bpipe run -r -p pretend=true $SCRIPT $* > test.out 2>&1
 }
 
 # CONFIG
