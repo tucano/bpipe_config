@@ -32,10 +32,10 @@ align_soapsplice_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    println "INPUTS: $inputs"
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
-    String header_file     = "$input1" - input_extension + '.header'
-
+    String header_file     = "$input1.prefix" + '.header'
+    println "INPUTS: $inputs"
+    
     if (sample_dir) { output.dir = "$input1".replaceFirst("/.*","") }
 
     if (paired)
