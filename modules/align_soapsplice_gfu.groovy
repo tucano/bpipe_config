@@ -32,23 +32,24 @@ align_soapsplice_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-
-    String input_extension = compressed ? '.fastq.gz' : '.fastq'
     println "INPUTS: $inputs"
-    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
+    String input_extension = compressed ? '.fastq.gz' : '.fastq'
+    String header_file     = "$input1" - input_extension + '.header'
+
+    if (sample_dir) { output.dir = "$input1".replaceFirst("/.*","") }
 
     if (paired)
     {
         def custom_output = "$input1".replaceFirst("_R1_","_") - input_extension + ".bam"
 
-        from(input_extension, input_extension, '.header') produce(custom_output)
+        from(input_extension, input_extension ) produce(custom_output)
         {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 ${ sample_dir ? "mkdir -p ${TMP_SCRATCH}/${input.replaceFirst("/.*","")};": ""}
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
                 $SSPLICE -d $REFERENCE_GENOME -1 $input1 -2 $input2 -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
-                cat $input3 ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
+                cat $header_file ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
                 mv ${TMP_OUTPUT_PREFIX}.bam $custom_output;
                 for F in ${TMP_SCRATCH}/*.junc; do
                     if [[ -e $F ]]; then
@@ -60,7 +61,7 @@ align_soapsplice_gfu =
             if (pretend)
             {
                 println """
-                    HEADER:       $input3
+                    HEADER:       $header_file
                     INPUT FASTQ:  $input1 $input2
                     OUTPUT:       $output
                     COMMAND:
@@ -76,13 +77,15 @@ align_soapsplice_gfu =
     }
     else
     {
-        from("$input_extension", '.header') produce(input.header.prefix + '.bam')
+        def custom_output = "$input" - input_extension + ".bam"
+
+        from(input_extension) produce(custom_output)
         {
             def command = """
                 TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                 TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
-                $SSPLICE -d $REFERENCE_GENOME -1 ${input1} -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
-                cat ${input2} ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
+                $SSPLICE -d $REFERENCE_GENOME -1 ${input} -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
+                cat ${header_file} ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
                 mv ${TMP_OUTPUT_PREFIX}.bam $output;
                 for F in ${TMP_SCRATCH}/*.junc; do
                     if [[ -e $F ]]; then
@@ -95,14 +98,14 @@ align_soapsplice_gfu =
             if (pretend)
             {
                 println """
-                    HEADER:       $input2
+                    HEADER:       $header_file
                     INPUT FASTQ:  $input1
                     OUTPUT:       $output
                     COMMAND:
                         $command
                 """
                 command = """
-                    echo "INPUTS: $input1 $input2" > $output;
+                    echo "INPUTS: $input1 $header_file" > $output;
                 """
             }
             exec command, "soapsplice"
