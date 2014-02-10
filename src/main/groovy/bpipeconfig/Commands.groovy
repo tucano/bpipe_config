@@ -10,7 +10,7 @@ import bpipeconfig.Logger
 
 class Commands
 {
-	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover","jvm"]
+	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover","jvm","smerge"]
 	public static def pipeline
 	public static def samples
 	public static def engine = new SimpleTemplateEngine()
@@ -40,12 +40,12 @@ class Commands
 				{
 					BpipeConfig.project_name = samples[0]["SampleProject"]
 					if (BpipeConfig.verbose) {
-						println Logger.info("using project name from SampleSheet.csv: ${BpipeConfig.project_name}")
+						println Logger.info("using project name from ${BpipeConfig.sample_sheet_name}: ${BpipeConfig.project_name}")
 					}
 				}
 				else
 				{
-					println Logger.error("Error in SampleSheet.csv file ... Aborting")
+					println Logger.error("Error in ${BpipeConfig.sample_sheet_name} file ... Aborting")
 					System.exit(1)
 				}
 			}
@@ -105,7 +105,8 @@ class Commands
 
 	public static sheet(def args)
 	{
-		if (args.empty) {
+		if (args.empty)
+		{
 			println Logger.error("Command sheet need a SAMPLE INFO as first argument.")
 			println Logger.info("FORMAT: FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name")
 			System.exit(1)
@@ -135,8 +136,8 @@ class Commands
 		}
 
 		def create_sample_sheet = { dir ->
-			if ( ! createFile(out.toString(), "${dir}/SampleSheet.csv",  BpipeConfig.force) ) {
-				println Logger.error("Problems creating SampleSheet.csv in dir $dir")
+			if ( ! createFile(out.toString(), "${dir}/${BpipeConfig.sample_sheet_name}",  BpipeConfig.force) ) {
+				println Logger.error("Problems creating ${BpipeConfig.sample_sheet_name} in dir $dir")
 			}
 		}
 
@@ -206,20 +207,20 @@ class Commands
 						}
 						else
 						{
-							println Logger.error("Error in SampleSheet.csv files ... Aborting")
+							println Logger.error("Error in ${BpipeConfig.sample_sheet_name} files ... Aborting")
 							System.exit(1)
 						}
 					}
 					else
 					{
-						println Logger.error("No SampleSheet.csv in dir $sample_dir! Aborting ...")
+						println Logger.error("No ${BpipeConfig.sample_sheet_name} in dir $sample_dir! Aborting ...")
 						if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
 						System.exit(1)
 					}
 				}
 
 				// PRINT SAMPLES TO FILE
-				if (BpipeConfig.verbose) println Logger.info("Creating Project SampleSheet.csv")
+				if (BpipeConfig.verbose) println Logger.info("Creating Project ${BpipeConfig.sample_sheet_name}")
 
 				def samples_csv = new StringBuffer()
 
@@ -227,9 +228,10 @@ class Commands
 				samples.each { sample ->
 					samples_csv << "${sample.values().toList().join(",")}\n"
 				}
-				if ( ! createFile(samples_csv.toString(), "${dir}/SampleSheet.csv", BpipeConfig.force) )
+
+				if ( ! createFile(samples_csv.toString(), "${dir}/${BpipeConfig.sample_sheet_name}", BpipeConfig.force) )
 				{
-					println Logger.error("Problems creating Project SampleSheet.csv file!")
+					println Logger.error("Problems creating Project ${BpipeConfig.sample_sheet_name} file!")
 				}
 
 				// PROJECT NAME:
@@ -251,7 +253,7 @@ class Commands
 					samples =  slurpSampleSheet(sample_sheet)
 					if (!samples)
 					{
-						println Logger.error("Error in SampleSheet.csv files ... Aborting")
+						println Logger.error("Error in ${BpipeConfig.sample_sheet_name} files ... Aborting")
 						System.exit(1)
 					}
 
@@ -266,7 +268,7 @@ class Commands
 				}
 				else
 				{
-					println Logger.error("No SampleSheet.csv in dir $dir! Aborting ...")
+					println Logger.error("No ${BpipeConfig.sample_sheet_name} in dir $dir! Aborting ...")
 					if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
 					System.exit(1)
 				}
@@ -483,6 +485,66 @@ class Commands
 		println Logger.printJVMInfo()
 	}
 
+	// TODO SOME CHECKS:
+	// Es: check with samples with same sample ID but different projects
+	public static smerge(def args)
+	{
+		if (args.empty)
+		{
+			println Logger.error("Command smerge need a list of Projects dirs as first argument.")
+			println Logger.info("FORMAT: FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name")
+			System.exit(1)
+		}
+
+		if ( args && args.size > 0 )
+		{
+			checkDir(args)
+			// loop in dirs
+			samples = []
+			args.each { dir ->
+				if (BpipeConfig.verbose) println Logger.info("Collecting samples info from project dir: $dir")
+				def global_sheet = new File("${dir}/${BpipeConfig.sample_sheet_name}")
+				if (global_sheet.exists())
+				{
+					if (BpipeConfig.verbose) println Logger.info("Using project ${BpipeConfig.sample_sheet_name} from project dir: $dir")
+					samples = (samples << slurpSampleSheet(global_sheet)).flatten()
+				}
+				else
+				{
+					if (BpipeConfig.verbose) println Logger.info("Using single samples ${BpipeConfig.sample_sheet_name} from project dir: $dir")
+					// this is weird but is the only way: look for subdir starting with Sample_
+					new File("$dir").eachDir { sample_dir ->
+						if (BpipeConfig.verbose) println Logger.info("\tCollecting info from sample dir: $sample_dir")
+						def subsample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
+						if ( subsample_sheet.exists() )
+						{
+							def sample = slurpSampleSheet(subsample_sheet)
+							samples = (samples << sample).flatten()
+						}
+						else
+						{
+							println Logger.error("Error in ${BpipeConfig.sample_sheet_name} files ... Aborting")
+							System.exit(1)
+						}
+					}
+				}
+			}
+
+			if (BpipeConfig.verbose) println Logger.info("Creating MetaProject ${BpipeConfig.sample_sheet_name}")
+
+			def samples_csv = new StringBuffer()
+			samples_csv << "${samples[0].keySet().join(",")}\n"
+			samples.each { sample ->
+				samples_csv << "${sample.values().toList().join(",")}\n"
+			}
+
+			if ( ! createFile(samples_csv.toString(), "${BpipeConfig.sample_sheet_name}", BpipeConfig.force) )
+			{
+				println Logger.error("Problems creating Project ${BpipeConfig.sample_sheet_name} file!")
+			}
+		}
+	}
+
 	// VALIDATORS
 	public static void checkDir(def args)
 	{
@@ -492,7 +554,7 @@ class Commands
 			args.each { path ->
 				def dir = new File(path)
 				if (!dir.exists() || !dir.isDirectory()) {
-					println Logger.error("Argument $path is not a directory. This command require directories or no extra arguments")
+					println Logger.error("Argument $path is not a directory. This command require directories as extra arguments")
 					System.exit(1)
 				}
 			}
@@ -523,6 +585,7 @@ class Commands
 		email ==~ emailPattern
 	}
 
+	// FIXME more validations
 	public static boolean validateSample(def sample)
 	{
 		if (!sample) return false

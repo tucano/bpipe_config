@@ -191,6 +191,9 @@ class BpipeConfig
             case "jvm":
                 Commands.jvm(extraArguments)
             break
+            case "smerge":
+                Commands.smerge(extraArguments)
+            break
 		}
 	}
 }
