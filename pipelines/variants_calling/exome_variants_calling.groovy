@@ -1,4 +1,4 @@
-about title: "Human variants calling for exomes: IOS 005"
+about title: "Human variants calling for exome: IOS 005"
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam

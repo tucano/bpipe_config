@@ -24,6 +24,9 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  */
 Bpipe.run {
     set_stripe_gfu +
-    chr(1..22,'X','Y') * [
-    ]
+    chr(1..22,'X','Y') * [ unified_genotyper_by_chromosome_gfu ] + vcf_concat_gfu +
+    "%.vcf" * [
+        snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
+        indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
+    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu
 }
