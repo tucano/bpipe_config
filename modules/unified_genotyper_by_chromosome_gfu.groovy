@@ -17,7 +17,6 @@ unified_genotyper_by_chromosome_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def configuration = """
-        [unified_genotyper_gfu]: UnifiedGenotyper configuration. Running with multi for single intervals.
         Inputs: ${inputs}, ${input.intervals}
         Output: ${input.bam.prefix}.${chr}.vcf
         CONFIGURATION:

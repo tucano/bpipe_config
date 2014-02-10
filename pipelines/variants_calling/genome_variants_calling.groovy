@@ -1,4 +1,4 @@
-about title: "Human variants calling: IOS 005"
+about title: "Human variants calling for genomes: IOS 015"
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam
@@ -8,7 +8,6 @@ about title: "Human variants calling: IOS 005"
 // Don't change my keywords in source!
 
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
-TRUSEQ                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/TruSeq_10k.intervals"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 HAPMAP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/hapmap_3.3.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
 ONEKG_OMNI             = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/1000G_omni2.5.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
@@ -24,9 +23,7 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    set_stripe_gfu + chr(1..22,'X','Y') * [ generate_truseq_intervals_gfu + unified_genotyper_by_chromosome_gfu ] + vcf_concat_gfu +
-    "%.vcf" * [
-        snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
-        indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
-    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu
+    set_stripe_gfu +
+    chr(1..22,'X','Y') * [
+    ]
 }
