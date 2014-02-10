@@ -24,16 +24,37 @@ merge_bam_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
+    def sampleid
+    if (sample_dir)
+    {
+        def mdir = input.replaceFirst("/.*","")
+        output.dir = mdir
+        def samplesheet = new File("${mdir}/SampleSheet.csv")
+        if (samplesheet.exists())
+        {
+            def sample = samplesheet.readLines()[1].split(",")
+            sampleid = sample[2]
+        }
+        else
+        {
+            println "Can't find SampleSheet in directory ${mdir} ! Aborting ..."
+            System.exit(1)
+        }
+    }
+    else
+    {
+        // get GLOBAL sample id
+        sampleid = SAMPLEID
+    }
 
     def output_prefix
     if (rename)
     {
-        output_prefix = SAMPLEID
+        output_prefix = sampleid
     }
     else
     {
-        // remove CASAVA groups
+        // just remove CASAVA groups
         output_prefix = input.prefix.replaceFirst(/_[0-9]+$/,"")
     }
 

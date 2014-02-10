@@ -24,7 +24,7 @@ sam_bwa_gfu =
                 SAMSE      : $BWAOPT_SE
                 SAMPE      : $BWAOPT_PE
         """,
-        constraints: "The user should define if files are compressed (compressed: true) and if reads are paired (paired: true)",
+        constraints: "The user should define if files are compressed (compressed: true) and if reads are paired (paired: true). No support for project pipelines.",
         author: "davide.rambaldi@gmail.com"
 
 

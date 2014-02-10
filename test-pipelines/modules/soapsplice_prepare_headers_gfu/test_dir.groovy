@@ -4,11 +4,8 @@ CENTER          = "CTGB"
 PROJECTNAME     = "PI_1A_name"
 REFERENCE       = "hg19"
 EXPERIMENT_NAME = "experiment"
-FCID            = "1111111"
-LANE            = "L001"
-SAMPLEID        = "1"
 PLATFORM        = "illumina"
 
 Bpipe.run {
-    "%" * [soapsplice_prepare_headers_gfu.using(pretend:true)]
+    "%" * [soapsplice_prepare_headers_gfu.using(pretend:true,sample_dir:true)]
 }

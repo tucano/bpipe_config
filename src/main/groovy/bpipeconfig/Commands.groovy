@@ -280,33 +280,46 @@ class Commands
 			def matcher = (pipeline_text =~ pattern)
 			usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
 			def binding_usage = [ "pipeline_filename" : pipeline_filename ]
-
 			usage = engine.createTemplate(usage).make(binding_usage)
 
 			// ADD bpipe.config
 			check_bpipe_config(dir)
 
-			// COPY PIPELINE AND GFU_ENVIRONMENT
+			// GFU_ENVIRONMENT
 			def file_gfu_env = new File("${BpipeConfig.bpipe_config_home}/templates/gfu_environment.sh.template")
-
-			def binding_gfu_env = [
-			    "project_name"    : '"' + BpipeConfig.project_name + '"',
-			    "reference"       : '"' + samples[0]["SampleRef"] + '"',
-			    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
-			    "fcid"            : '"' + samples[0]["FCID"] + '"',
-			    "lane"            : '"' + samples[0]["Lane"] + '"',
-			    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
-			]
-			// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
-			def template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
-
-			// CREATE gfu_environment.sh
-			if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
-				println Logger.error("Problems creating gfu_environment.sh file!")
+			def binding_gfu_env
+			def template_gfu_env
+			if (pipeline["project_pipeline"])
+			{
+				// first add PROJECT and REFERENCE to "//--BPIPE_ENVIRONMENT_HERE--"
+				def project_info = """
+					PROJECTNAME = "${BpipeConfig.project_name}"
+					REFERENCE   = "${samples[0]["SampleRef"]}"
+				""".stripIndent().trim()
+				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", project_info)
 			}
+			else
+			{
+				binding_gfu_env = [
+				    "project_name"    : '"' + BpipeConfig.project_name + '"',
+				    "reference"       : '"' + samples[0]["SampleRef"] + '"',
+				    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
+				    "fcid"            : '"' + samples[0]["FCID"] + '"',
+				    "lane"            : '"' + samples[0]["Lane"] + '"',
+				    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
+				]
 
-			// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (just to be sure)
-			pipeline_text = pipeline_text.replaceAll( "//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env )
+				// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
+				template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
+
+				// CREATE gfu_environment.sh
+				if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
+					println Logger.error("Problems creating gfu_environment.sh file!")
+				}
+
+				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (we are in single sample)
+				pipeline_text = pipeline_text.replaceAll( "//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env )
+			}
 
 			// Replace reference genome with first sample reference
 			pipeline_text = pipeline_text.replaceAll("BPIPE_REFERENCE_GENOME", samples[0]["SampleRef"])

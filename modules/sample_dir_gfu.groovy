@@ -18,10 +18,12 @@ sample_dir_gfu =
     def output_dir = input.dir.replaceFirst(/.*\//,"")
     output.dir = output_dir
     def dataDir = new File(input.dir)
+
     // make sample dir and copy SampleSheet.csv
     new File(output_dir).mkdir()
     ['cp', "${input.dir}/SampleSheet.csv", "$output_dir"].execute().waitFor()
 
+    // Link fastq.gz files
     dataDir.eachFile { file ->
         if (file.getName().endsWith(".fastq.gz"))
         {

@@ -20,6 +20,6 @@ forward_bam =
 
 Bpipe.run {
     "%" * [
-        forward_bam + "*.bam" * [merge_bam_gfu.using(pretend:true,rename:false,sample_dir:true)]
+        forward_bam + "*.bam" * [merge_bam_gfu.using(pretend:true,rename:true,sample_dir:true)]
     ]
 }

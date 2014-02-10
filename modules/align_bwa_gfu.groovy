@@ -33,7 +33,8 @@ align_bwa_gfu =
         """,
         constraints: """
             Work with fastq and fastq.gz, single and paired files.
-            For paired files assume the presence of _R1_ and _R2_ tags
+            For paired files assume the presence of _R1_ and _R2_ tags.
+            No support for project piplines (we use mem_bwa_gfu).
         """,
         author: "davide.rambaldi@gmail.com"
 
