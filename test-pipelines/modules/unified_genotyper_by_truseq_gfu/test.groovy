@@ -1,4 +1,4 @@
-load "../../../modules/unified_genotyper_by_chromosome_gfu.groovy"
+load "../../../modules/unified_genotyper_by_truseq_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
@@ -11,5 +11,5 @@ CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
 
 Bpipe.run {
-    chr(1..22,'X','Y') * [unified_genotyper_by_chromosome_gfu.using(pretend:true)]
+    chr(1) * [unified_genotyper_by_truseq_gfu.using(pretend:true)]
 }
