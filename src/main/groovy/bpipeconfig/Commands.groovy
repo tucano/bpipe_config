@@ -276,12 +276,11 @@ class Commands
 			String pipeline_filename = "${pipeline["file_name"]}"
 
 			// GENERATE USAGE INFO
-			// TODO USAGE for project pipelines should use args
-
 			def pattern = /(?m)\/{2}\s*USAGE:(.*)/
 			def matcher = (pipeline_text =~ pattern)
 			usage = matcher.hasGroup() ? matcher[0][1].trim() : 'bpipe run -r $pipeline_filename *'
 			def binding_usage = [ "pipeline_filename" : pipeline_filename ]
+
 			usage = engine.createTemplate(usage).make(binding_usage)
 
 			// ADD bpipe.config
@@ -330,21 +329,23 @@ class Commands
 		{
 			// check if args are all dirs
 			checkDir(args)
+
 			// In case of project pipelines treat args as a list of samples
 			if (pipeline["project_pipeline"])
 			{
 				generate_pipeline(BpipeConfig.working_dir)
+
 				println Logger.printUserOptions()
 				println Logger.printSamples(samples)
 
 				if ( ! BpipeConfig.batch)
 				{
 					println Logger.info("To run the pipeline:")
-					println Logger.message(usage.toString())
+					println Logger.message(usage.toString().replaceFirst(/<INPUT_DIRS>/,args.join(" ")))
 				}
 				else
 				{
-					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").execute()
+					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").replaceFirst(/<INPUT_DIRS>/,args.join(" ")).execute()
 					println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
 					println Logger.message("Use 'bpipe log' to monitor execution.")
 				}
