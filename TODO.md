@@ -3,7 +3,8 @@
 # FIXES TODO
 
 - muovi anche i bai files in illumina projects pipeline
-- rivedi SAMPLEID e EXPERIMENT_NAME per project pipelines
+- GFU ENVIRONMENT con load (groovy file) for PATHS...
+
 
 ### Scheduled upgrades
 

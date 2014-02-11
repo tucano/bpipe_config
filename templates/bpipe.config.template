@@ -67,4 +67,7 @@ commands {
     fastqc {
         select_statement="select=1:ncpus=4:mem=16g"
     }
+    macs {
+        select_statement="select=1:ncpus=4:mem=32g"
+    }
 }
