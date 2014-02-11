@@ -10,5 +10,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "%" * [ move_sample_results.using(result_dir:"MERGED_BAM",pretend:true) ]
+    "*" * [ move_sample_results.using(result_dir:"MERGED_BAM",pretend:true) ]
 }

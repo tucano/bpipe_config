@@ -1,7 +1,7 @@
 about title: "meDIP pipeline: IOS GFU XXX."
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.merge.bam
+// USAGE: bpipe run -r $pipeline_filename *.merge.dedup.bam
 
 // PROJECT VARS will be added by bpipe-config
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
@@ -29,5 +29,5 @@ GSIZE            = "hs"
  */
 
 Bpipe.run {
-    set_stripe_gfu + "%.bam" * [ macs_call_peaks_gfu ]
+    set_stripe_gfu + "%.bam" * [ macs_call_peaks_gfu.using(format:"BAM",keep_dup:"1",broad:true) ]
 }

@@ -4,13 +4,18 @@ MACS="/usr/local/cluster/python2.7/bin/macs2"
 @intermediate
 macs_call_peaks_gfu =
 {
-    var pretend : false
-    var format  : "BAM"
+    var pretend  : false
+    var format   : "AUTO"
+    var keep_dup : "1"
+    var broad    : true
 
-    doc title: "Rmacs2 callpeaks",
+    doc title: "Macs2 callpeaks",
         desc: """
             stage options with value:
-                pretend          : $pretend
+                pretend  : $pretend
+                format   : $format
+                keep_dup : $keep_dup
+                broad    : $broad
         """,
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
@@ -27,7 +32,7 @@ macs_call_peaks_gfu =
     produce(outputs)
     {
         def command = """
-            $MACS callpeak -t $input.bam -n ${input.prefix} -f $format -g $GSIZE --keep-dup 1 --broad
+            $MACS callpeak -t $input.bam -n ${input.prefix} -f $format -g $GSIZE --keep-dup $keep_dup ${ broad ? "--broad" : "" }
         """
 
         if (pretend)
