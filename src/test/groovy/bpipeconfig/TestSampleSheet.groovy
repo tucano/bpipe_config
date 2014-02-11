@@ -13,7 +13,7 @@ class TestSampleSheet extends GroovyTestCase
 		"SampleID":"B1",
 		"SampleRef":"hg19",
 		"Index":"TTAGGC",
-		"Description":"niguarda",
+		"Description":"description",
 		"Control":"N",
 		"Recipe":"MeDIP",
 		"Operator":"FG",
@@ -27,7 +27,7 @@ class TestSampleSheet extends GroovyTestCase
 		"SampleID":"Sample_test_1",
 		"SampleRef":"hg19",
 		"Index":"TTAGGC",
-		"Description":"niguarda",
+		"Description":"description",
 		"Control":"N",
 		"Recipe":"MeDIP",
 		"Operator":"FG",
@@ -156,17 +156,17 @@ class TestSampleSheet extends GroovyTestCase
 
 	void testValidateSampleInfoValid()
 	{
-		assert Commands.validateSampleinfo("FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name")
+		assert Commands.validateSampleinfo("FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=description,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name")
 	}
 
 	void testValidateSampleInfoInvalidWithEmptyProjectName()
 	{
-		assert !Commands.validateSampleinfo("FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=")
+		assert !Commands.validateSampleinfo("FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=description,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=")
 	}
 
 	void testValidateSampleInfoInvalidWithEmptySampleRef()
 	{
-		assert !Commands.validateSampleinfo("FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name")
+		assert !Commands.validateSampleinfo("FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=,Index=TTAGGC,Description=description,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name")
 	}
 
 	void testValidateSampleInfoValidMinimal()

@@ -157,7 +157,7 @@ SampleSheet.csv
 * In case you need it, you can generate a __SampleSheet.csv__ with
 
 ```
-bpipe-config sheet FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name
+bpipe-config sheet FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=description,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name
 ```
 
 * Generate a __bpipe.config__ file

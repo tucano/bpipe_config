@@ -63,7 +63,7 @@ class Logger
 		out << bold("smerge".padRight(10)) << "<Project1> <Project2> ...".padLeft(15).padRight(40)
 		out << green("Merge sample sheets from different Projects (for meta analysis)") << "\n"
 		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to get info on a pipeline.\n"
-		out << green("\nsheet command INFO argument format:\n") << "\tFCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=niguarda,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name" << "\n"
+		out << green("\nsheet command INFO argument format:\n") << "\tFCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=description,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name" << "\n"
 		return out.toString()
 	}
 
