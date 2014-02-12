@@ -1,3 +1,16 @@
+# Version 0.5 
+
+More pipelines: 
+
+- soapsplice_submit_project IOS 009
+- exome_variants_calling  IOS 005
+- genome_variants_calling IOS 015
+- variants_annotation     IOS 005
+
+* prototype for medip pipeline
+
+
+
 # Version 0.4
 
 * PROJECT PIPELINES: 
