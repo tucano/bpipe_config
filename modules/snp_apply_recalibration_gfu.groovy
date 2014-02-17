@@ -22,7 +22,7 @@ snp_apply_recalibration_gfu =
                   -tranchesFile $input.tranches
                   -recalFile $input.csv
                   --mode SNP
-                  -o $output.csv
+                  -o $output.vcf
                   -U $unsafe
         """
 
@@ -30,12 +30,12 @@ snp_apply_recalibration_gfu =
         {
             println """
                 INPUTS: $input.vcf $input.tranches $input.csv
-                OUTPUTS: $output
+                OUTPUTS: $output.vcf
                 COMMAND: $command
             """
 
             command = """
-                echo "INPUTS: $inputs" > $output.csv
+                echo "INPUTS: $inputs" > $output.vcf
             """
         }
 
