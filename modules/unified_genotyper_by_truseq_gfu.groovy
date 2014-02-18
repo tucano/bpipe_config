@@ -13,23 +13,24 @@ unified_genotyper_by_truseq_gfu =
     var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
 
     doc title: "GATK: Unified Genotyper",
-        desc: "Produce a VCF file with SNP calls and INDELs. Parallelized in 10 jobs for chromosome",
+        desc: """
+            Produce a VCF file with a first call to SNP and INDELs.
+            Parallelized in 10 jobs for chromosome.
+            Inputs: ${inputs}, ${input.intervals}
+            Output: ${input.bam.prefix}.${chr}.vcf
+            CONFIGURATION:
+                Reference       = $REFERENCE_GENOME_FASTA
+                Inputs          = $inputs.bam
+                DBSNP           = $DBSNP
+                nct             = $nct
+                stand_call_conf = $call_conf
+                glm             = $glm
+                Output          = ${input.bam.prefix}.${chr}.vcf
+                region set      = ${input.intervals}
+                Unsafe          = $unsafe
+        """,
         author: "davide.rambaldi@gmail.com"
 
-    def configuration = """
-        Inputs: ${inputs}, ${input.intervals}
-        Output: ${input.bam.prefix}.${chr}.vcf
-        CONFIGURATION:
-            Reference       = $REFERENCE_GENOME_FASTA
-            Inputs          = $inputs.bam
-            DBSNP           = $DBSNP
-            nct             = $nct
-            stand_call_conf = $call_conf
-            glm             = $glm
-            Output          = ${input.bam.prefix}.${chr}.vcf
-            region set      = ${input.intervals}
-            Unsafe          = $unsafe
-    """.stripIndent()
 
     def command_gatk = """
         ulimit -l unlimited;

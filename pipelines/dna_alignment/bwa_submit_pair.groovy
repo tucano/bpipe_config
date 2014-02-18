@@ -26,9 +26,9 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  *
  */
 Bpipe.run {
-    set_stripe_gfu + "%_R*" * [split_fastq_gfu.using(SPLIT_READS_SIZE: 2000000, paired: true)] +
-    "read*_%.fastq" * [mem_bwa_gfu.using(paired: true, compressed: false)] +
-    "*.bam" * [merge_bam_gfu.using(rename: true)] + verify_bam_gfu + bam_flagstat_gfu +
+    set_stripe_gfu + "%_R*" * [split_fastq_gfu.using(SPLIT_READS_SIZE:2000000,paired:true)] +
+    "read*_%.fastq" * [mem_bwa_gfu.using(paired:true,compressed:false,BWAOPT_MEM:"")] +
+    "*.bam" * [merge_bam_gfu.using(rename:true)] + verify_bam_gfu + bam_flagstat_gfu +
     // an alternative to mark_duplicates_gfu is rmdup: comment this line and uncomment the rmdup_gfu stage to use it
     mark_duplicates_gfu +
     // rmdup_gfu.using(paired:true) +

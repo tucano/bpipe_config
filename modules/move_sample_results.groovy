@@ -33,7 +33,7 @@ move_sample_results =
 
         inputs.each { file ->
             command += "mv $file $result_dir/;"
-            if (filename.endsWith('.bam')) { command += "mv {$file.prefix}.bai $result_dir/" }
+            if (file.endsWith('.bam')) { command += "mv ${file.prefix}.bai $result_dir/" }
         }
 
         if (pretend)

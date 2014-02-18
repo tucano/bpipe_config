@@ -1,25 +1,26 @@
 // MODULE GENERATE TRUSEQ INTERVALS
 
 @intermediate
-generate_truseq_intervals_gfu = 
+generate_truseq_intervals_gfu =
 {
     // stage vars
     var pretend : false
 
     doc title: "Generate per chromosome intervals from TruSeq file",
         desc: """
-            TruSeq per chromosome intervals intermediate files can be used to make GATK analysis.
+            This stage subdivide the intervals in the file $TRUSEQ per chromosome.
+            TruSeq per chromosome intervals files will be used to as input for GATK UnifiedGenotyper.
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    produce ("${chr}.intervals") 
+    produce ("${chr}.intervals")
     {
         def command = """
             grep "${chr}:" $TRUSEQ > $output;
         """
-        
-        if (pretend) 
+
+        if (pretend)
         {
             println """
                 INPUT $inputs
@@ -27,7 +28,7 @@ generate_truseq_intervals_gfu =
                 CHROMOSOME: $chr
                 COMMAND: $command
             """
-            
+
             command = """
                 echo "INPUTS: $inputs" > $output
             """
