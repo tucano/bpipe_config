@@ -13,8 +13,8 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 //--BPIPE_ENVIRONMENT_HERE--
 
 /*
- * PIPELINE NOTES
+ * PIPELINE RUN
  */
- Bpipe.run {
+Bpipe.run {
     set_stripe_gfu + "*.fastq.gz" * [fastqc_lane_gfu]
- }
+}

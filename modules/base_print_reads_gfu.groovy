@@ -2,7 +2,7 @@
 GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
 @preserve
-base_print_reads_gfu = 
+base_print_reads_gfu =
 {
     // stage vars
     var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
@@ -24,7 +24,7 @@ base_print_reads_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    filter("recalibrated") 
+    filter("recalibrated")
     {
         def command = """
             ulimit -l unlimited;
