@@ -33,7 +33,7 @@ sam_bwa_gfu =
 
     if (paired)
     {
-        def custom_output = input.prefix.replaceFirst("_R1_","_") + ".bam"
+        def custom_output = input.prefix.replaceFirst("_R[12]_","_") + ".bam"
         from ("sai","sai",input_extension, input_extension) produce(custom_output)
         {
             def command = """

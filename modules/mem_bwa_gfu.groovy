@@ -70,7 +70,7 @@ mem_bwa_gfu =
     if (paired)
     {
         def outputs = [
-            ("$input1".replaceFirst("_R1_","_") - input_extension + '.bam')
+            ("$input1".replaceFirst("_R[12]_","_") - input_extension + '.bam')
         ]
 
         produce(outputs)

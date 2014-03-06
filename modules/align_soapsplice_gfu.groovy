@@ -40,7 +40,7 @@ align_soapsplice_gfu =
 
     if (paired)
     {
-        def custom_output = "$input1".replaceFirst("_R1_","_") - input_extension + ".bam"
+        def custom_output = "$input1".replaceFirst("_R[12]_","_") - input_extension + ".bam"
 
         from(input_extension, input_extension ) produce(custom_output)
         {

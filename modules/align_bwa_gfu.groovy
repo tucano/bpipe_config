@@ -8,6 +8,8 @@ align_bwa_gfu =
     // use -I for base64 Illumina quality
     // use -q for trim quality (Es: -q 30)
     var BWAOPT_ALN  : ""
+    var BWAOPT_PE   : ""
+    var BWAOPT_SE   : ""
     var bwa_threads : 2
     var pretend     : false
     var paired      : true
@@ -50,7 +52,7 @@ align_bwa_gfu =
         def outputs = [
             ("$input1" - input_extension + '.sai'),
             ("$input2" - input_extension + '.sai'),
-            ("$input1".replaceFirst("_R1_","_") - input_extension + '.bam')
+            ("$input1".replaceFirst("_R[12]_","_") - input_extension + '.bam')
         ]
 
         produce(outputs)
