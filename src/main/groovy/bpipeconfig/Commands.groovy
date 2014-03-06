@@ -575,7 +575,7 @@ class Commands
 
 	public static boolean validateProjectName(String pname)
 	{
-		def pattern = /([a-zA-Z]+)_([0-9]+[a-zA-Z]{0,1})_([a-zA-Z]+)/
+		def pattern = /([a-zA-Z]+)_([0-9]+[a-zA-Z]{0,1})_([a-zA-Z_]+)/
 		return pname ==~ pattern
 	}
 
