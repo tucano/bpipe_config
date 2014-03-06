@@ -27,7 +27,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 Bpipe.run {
     "%" * [
         sample_dir_gfu +
-        "_R*_%.fastq.gz" * [mem_bwa_gfu.using(sample_dir:true,paired:true,BWAOPT_MEM:"")] +
+        "L%_R*_%.fastq.gz" * [mem_bwa_gfu.using(sample_dir:true,paired:true,BWAOPT_MEM:"")] +
         "*.bam" * [merge_bam_gfu.using(rename:false,sample_dir:true)] + verify_bam_gfu.using(sample_dir:true) + bam_flagstat_gfu.using(sample_dir:true) +
         mark_duplicates_gfu.using(sample_dir:true,remove_duplicates:false) +
         // an alternative to mark_duplicates_gfu is rmdup: comment this line and uncomment the rmdup_gfu stage to use it
