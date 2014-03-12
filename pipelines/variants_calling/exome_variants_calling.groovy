@@ -7,8 +7,11 @@ about title: "Human variants calling for exome: IOS 005"
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
 // Don't change my keywords in source!
 
+// INTERVALS CAPTURED BY THE EXOMES PROTOCOL
+// check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
+// for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
+INTERVALS              = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.intervals"
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
-TRUSEQ                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/TruSeq-Exome-Targeted-Regions-BED-file.regions.intervals"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 HAPMAP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/hapmap_3.3.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
 ONEKG_OMNI             = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/1000G_omni2.5.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
