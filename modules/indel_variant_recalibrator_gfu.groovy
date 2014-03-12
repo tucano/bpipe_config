@@ -15,11 +15,11 @@ indel_variant_recalibrator_gfu =
     // INFO
     doc title: "GATK VariantRecalibration",
         desc: """
-            Create a Gaussian mixture model by looking at the annotations values 
+            Create a Gaussian mixture model by looking at the annotations values
             over a high quality subset of the input call set and then evaluate all input variants.
             Outputs:
                 A recalibration table file in VCF format that is used by the ApplyRecalibration walker.
-                A tranches file which shows various metrics of the recalibration callset as a function 
+                A tranches file which shows various metrics of the recalibration callset as a function
                 of making several slices through the data.
                 An R plot script.
 
@@ -34,7 +34,7 @@ indel_variant_recalibrator_gfu =
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
-    transform("indel.recal.csv","indel.tranches","indel.plot.R") 
+    transform("indel.recal.csv","indel.tranches","indel.plot.R")
     {
         def command = """
             ulimit -l unlimited;
@@ -57,15 +57,15 @@ indel_variant_recalibrator_gfu =
                   -U $unsafe ${ inbreeding_coef ? "-an InbreedingCoeff" : ""};
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
-                INPUT: $input.vcf 
+                INPUT: $input.vcf
                 OUTPUTS: $output1, $output2, $output3
                 COMMAND: $command
             """
             command = """
-                echo "INPUT: $input" > $output1; 
+                echo "INPUT: $input" > $output1;
                 echo "INPUT: $input" > $output2;
                 echo "INPUT: $input" > $output3;
             """

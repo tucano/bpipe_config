@@ -6,7 +6,7 @@ VCFSORT   = "/usr/local/cluster/bin/vcf-sort-mod -t /lustre2/scratch"
 @intermediate
 unified_genotyper_by_truseq_gfu =
 {
-    var pretend      : false
+    var pretend   : false
     var call_conf : 20.0
     var nct       : 4
     var glm       : "BOTH"

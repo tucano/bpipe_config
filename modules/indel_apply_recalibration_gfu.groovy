@@ -10,8 +10,8 @@ indel_apply_recalibration_gfu =
     // INFO
     doc title: "GATK ApplyRecalibration",
         desc: """
-            Applies cuts to the input vcf file (by adding filter lines) 
-            to achieve the desired novel truth sensitivity levels 
+            Applies cuts to the input vcf file (by adding filter lines)
+            to achieve the desired novel truth sensitivity levels
             which were specified during VariantRecalibration
 
             stage options with value:
@@ -21,7 +21,7 @@ indel_apply_recalibration_gfu =
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
-    filter("indel_recalibrated") 
+    filter("indel_recalibrated")
     {
         def command = """
             ulimit -l unlimited;
@@ -36,10 +36,10 @@ indel_apply_recalibration_gfu =
                   -U $unsafe
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
-                INPUTS: $input.vcf $input.tranches $input.csv 
+                INPUTS: $input.vcf $input.tranches $input.csv
                 OUTPUT: $output.vcf
                 COMMAND: $command
             """
