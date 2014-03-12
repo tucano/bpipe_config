@@ -1,7 +1,7 @@
 load "../../../modules/realiagner_target_creator_gfu.groovy"
 
-REFERENCE_GENOME_FASTA = "TESTfa/BPIPE_REFERENCE_GENOME.fa"
-TRUSEQ                 = "TESTannotation/TruSeq_10k.intervals"
+REFERENCE_GENOME_FASTA = "TESTfa/hg19.fa"
+INTERVALS              = "TESTannotation/TruSeq_10k.intervals"
 DBSNP                  = "TESTannotation/dbSNP-137.chr.vcf"
 HAPMAP                 = "TESTannotation/hapmap_3.3.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
 ONEKG_OMNI             = "TESTannotation/1000G_omni2.5.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
