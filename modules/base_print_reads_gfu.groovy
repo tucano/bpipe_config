@@ -5,8 +5,6 @@ GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/Ge
 base_print_reads_gfu =
 {
     // stage vars
-    var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
-    var truseq           : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
     var pretend          : false
     var nct              : 4
 
@@ -16,10 +14,10 @@ base_print_reads_gfu =
             Inputs: ${input.bam} and ${input.grp}.
 
             Main options with value:
-            pretend          : $pretend
-            truseq           : $truseq
-            ref_genome_fasta : $ref_genome_fasta
-            nct              : $nct
+            pretend                : $pretend
+            INTERVALS              : $INTERVALS
+            REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
+            nct                    : $nct
         """,
         constraints: "",
         author: "davide.rambaldi@gmail.com"
@@ -29,11 +27,11 @@ base_print_reads_gfu =
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
-            $GATK -R $ref_genome_fasta
+            $GATK -R $REFERENCE_GENOME_FASTA
                   -I $input.bam
                   -o $output.bam
                   -T PrintReads
-                  -L $truseq
+                  -L $INTERVALS
                   -nct $nct
                   -BQSR $input.grp
         """

@@ -5,9 +5,6 @@ GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/Ge
 base_recalibrator_gfu =
 {
     // stage vars
-    var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
-    var dbsnp            : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
-    var truseq           : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
     var pretend          : false
     var nct              : 4
 
@@ -18,10 +15,11 @@ base_recalibrator_gfu =
             Forward grp output file to next stage.
 
             Main options with value:
-            pretend          : $pretend
-            truseq           : $truseq
-            ref_genome_fasta : $ref_genome_fasta
-            nct              : $nct
+            pretend                : $pretend
+            INTERVALS              : $INTERVALS
+            REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
+            DBSNP                  : $DBSNP
+            nct                    : $nct
         """,
         constraints: """
             For bam recalibration you should use all the bam files in your Project.
@@ -44,10 +42,10 @@ base_recalibrator_gfu =
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
-            $GATK -R $ref_genome_fasta
-                  -knownSites $dbsnp
+            $GATK -R $REFERENCE_GENOME_FASTA
+                  -knownSites $DBSNP
                   ${inputs.bam.collect{ "-I $it" }.join(" ")}
-                  -L $truseq
+                  -L $INTERVALS
                   -T BaseRecalibrator
                   --covariate QualityScoreCovariate
                   --covariate CycleCovariate
