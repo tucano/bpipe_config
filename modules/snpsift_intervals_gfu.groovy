@@ -6,7 +6,7 @@ snpsift_intervals_gfu =
 {
     var pretend : false
 
-    doc title: "SnpSift intervals on vcf file",
+    doc title: "SnpSift extract variants taht map in the intervals from $INTERVALS_BED in the vcf file",
         desc: """
             SnpSift is a toolbox that allows you to filter and manipulate annotated files.
             Main options with value:
@@ -19,7 +19,7 @@ snpsift_intervals_gfu =
     filter("ontarget")
     {
         def command = """
-            $SNPSIFT intervals -i $input.vcf $TRUSEQ_REGIONS_BED > $output.vcf
+            $SNPSIFT intervals -i $input.vcf $INTERVALS_BED > $output.vcf
         """
 
         if (pretend)

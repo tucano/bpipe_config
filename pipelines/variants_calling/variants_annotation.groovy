@@ -9,7 +9,10 @@ about title: "Human variants annotation: IOS 005"
 
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.1.txt"
-TRUSEQ_REGIONS_BED     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/TruSeq-Exome-Targeted-Regions-BED-file.regions.bed"
+// INTERVALS CAPTURED BY THE EXOMES PROTOCOL
+// check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
+// for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
+INTERVALS_BED         = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.bed"
 SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
 HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 PLATFORM               = "illumina"

@@ -6,7 +6,7 @@ snpsift_dbnsfp_gfu =
 {
     var pretend : false
 
-    doc title: "SnpSift dbnsfp on vcf file",
+    doc title: "SnpSift annotate dbnsfp from $DBNSFP in the vcf file",
         desc: """
             SnpSift is a toolbox that allows you to filter and manipulate annotated files.
             Main options with value:
