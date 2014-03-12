@@ -5,20 +5,16 @@ GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/Ge
 indel_realigner_gfu =
 {
     // stage vars
-    var ref_genome_fasta : "/lustre1/genomes/hg19/fa/hg19.fa"
-    var truseq           : "/lustre1/genomes/hg19/annotation/TruSeq_10k.intervals"
-    var dbsnp            : "/lustre1/genomes/hg19/annotation/dbSNP-137.chr.vcf"
     var pretend          : false
 
     doc title: "Realign reads marked by stage realiagner_target_creator_gfu with GATK toolkit: IndelRealigner",
         desc: """
             Realign small intervals marked by GATK: RealignerTargetCreator.
-
             stage options with value:
-                pretend          : $pretend
-                dbsnp            : $dbsnp
-                truseq           : $truseq
-                ref_genome_fasta : $ref_genome_fasta
+                pretend                : $pretend
+                DBSNP                  : $DBSNP
+                INTERVALS              : $INTERVALS
+                REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
         """,
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
@@ -30,19 +26,19 @@ indel_realigner_gfu =
             ulimit -l unlimited;
             ulimit -s unlimited;
             $GATK -I $input.bam
-                  -R $ref_genome_fasta
+                  -R $REFERENCE_GENOME_FASTA
                   -T IndelRealigner
-                  -L $truseq
+                  -L $INTERVALS
                   -targetIntervals $input.intervals
                   -o $output.bam
                   --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
-                  -known $dbsnp;
+                  -known $DBSNP;
         """
 
         if (pretend)
         {
             println """
-                INPUT $input
+                INPUTS: $input.bam $input.intervals
                 OUTPUT: $output
                 COMMAND: $command
             """
