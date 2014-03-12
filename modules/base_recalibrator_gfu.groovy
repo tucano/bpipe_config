@@ -59,7 +59,7 @@ base_recalibrator_gfu =
         if (pretend)
         {
             println """
-                INPUT BAM:  $input.bam
+                INPUT BAM:  $inputs
                 OUTPUT:     $output
                 COMMAND:
                     $command

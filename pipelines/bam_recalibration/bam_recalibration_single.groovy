@@ -9,21 +9,20 @@ about title: "BAM Recalibration for a single bam: IOS GFU 020"
 
 REFERENCE_GENOME       = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/bwa/BPIPE_REFERENCE_GENOME"
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
-TRUSEQ                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/TruSeq_10k.intervals"
-DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-137.chr.vcf"
-PLATFORM               = "illumina"
-CENTER                 = "CTGB"
-ENVIRONMENT_FILE       = "gfu_environment.sh"
+
+// INTERVALS CAPTURED BY THE PROTOCOLS
+// check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
+// for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
+INTERVALS        = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.intervals"
+DBSNP            = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
+
+PLATFORM         = "illumina"
+CENTER           = "CTGB"
+ENVIRONMENT_FILE = "gfu_environment.sh"
 
 //--BPIPE_ENVIRONMENT_HERE--
 
 
-/*
- * PIPELINE NOTES:
- */
 Bpipe.run {
-    "%" * [ realiagner_target_creator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq: TRUSEQ, dbsnp: DBSNP) +
-            indel_realigner_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP) +
-            base_recalibrator_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ, dbsnp : DBSNP) +
-            base_print_reads_gfu.using(ref_genome_fasta: REFERENCE_GENOME_FASTA, truseq : TRUSEQ) ]
+    "%.bam" * [ realiagner_target_creator_gfu + indel_realigner_gfu + base_recalibrator_gfu + base_print_reads_gfu ]
 }
