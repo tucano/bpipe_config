@@ -10,7 +10,7 @@ about title: "BAM Recalibration for a multiple bams: IOS GFU 020"
 REFERENCE_GENOME       = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/bwa/BPIPE_REFERENCE_GENOME"
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 
-// INTERVALS CAPTURED BY THE PROTOCOLS
+// INTERVALS CAPTURED BY THE EXOMES PROTOCOL
 // check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
 // for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
 INTERVALS        = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.intervals"
