@@ -96,6 +96,4 @@ fastqc_sample_gfu =
             exec command, "fastqc"
         }
     }
-
-    forward input
 }

@@ -22,7 +22,7 @@ set_stripe_gfu =
     {
         def command = """
             $LSF setstripe -c -1 -i -1 -s 2M $cwd 1>/dev/null 2>&1 || true;
-            $LSF getstripe $cwd 1> $output 2>&1 || true;
+            $LSF getstripe -d $cwd 1> $output 2>&1 || true;
         """
 
         if (pretend)

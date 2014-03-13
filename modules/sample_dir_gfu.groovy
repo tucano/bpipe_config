@@ -40,7 +40,7 @@ sample_dir_gfu =
     {
         exec """
             $LSF setstripe -c -1 -i -1 -s 2M $output_dir 1>/dev/null 2>&1 || true;
-            $LSF getstripe $output_dir > ${output_dir}/setstripe.log 2>&1 || true;
+            $LSF getstripe -d $output_dir > ${output_dir}/setstripe.log 2>&1 || true;
         """
     }
 }
