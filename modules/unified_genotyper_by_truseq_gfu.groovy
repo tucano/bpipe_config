@@ -11,6 +11,7 @@ unified_genotyper_by_truseq_gfu =
     var nct       : 4
     var glm       : "BOTH"
     var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
+    var rename    : ""
 
     doc title: "GATK: Unified Genotyper",
         desc: """
@@ -46,7 +47,14 @@ unified_genotyper_by_truseq_gfu =
               --interval_merging OVERLAPPING_ONLY
     """
 
-    produce("${input.bam.prefix}.${chr}.vcf")
+    def output_prefix
+    if (rename != "") {
+        output_prefix = rename
+    } else {
+        output_prefix = "${input.bam.prefix}"
+    }
+
+    produce("${output_prefix}.${chr}.vcf")
     {
         // generate a fixed number (10+1) of ranges with collate
         def ranges    = new File(input.intervals).text.split("\n").toList()
@@ -65,7 +73,7 @@ unified_genotyper_by_truseq_gfu =
         jobs.eachWithIndex() { group, i ->
             def chr_intervals = group.collect { "-L $it"}.join(" ")
             commands << """
-                $command_gatk -o ${input.bam.prefix}.${chr}.group_${i}.vcf ${chr_intervals}
+                $command_gatk -o ${output_prefix}.${chr}.group_${i}.vcf ${chr_intervals}
             """
         }
 
@@ -87,9 +95,9 @@ unified_genotyper_by_truseq_gfu =
 
             // CONCAT VCF FILES AND SORT
             exec """
-                $VCFCONCAT ${input.bam.prefix}.${chr}.group_*.vcf | $VCFSORT > ${input.bam.prefix}.${chr}.vcf;
-                rm ${input.bam.prefix}.${chr}.group_*.vcf;
-                rm ${input.bam.prefix}.${chr}.group_*.vcf.idx;
+                $VCFCONCAT ${output_prefix}.${chr}.group_*.vcf | $VCFSORT > ${output_prefix}.${chr}.vcf;
+                rm ${output_prefix}.${chr}.group_*.vcf;
+                rm ${output_prefix}.${chr}.group_*.vcf.idx;
             ""","gatk"
         }
     }

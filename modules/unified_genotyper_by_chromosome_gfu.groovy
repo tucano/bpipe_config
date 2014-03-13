@@ -4,17 +4,25 @@ GATK = "java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/
 @intermediate
 unified_genotyper_by_chromosome_gfu =
 {
-    var pretend      : false
+    var pretend   : false
     var call_conf : 20.0
     var nct       : 16
     var glm       : "BOTH"
     var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
+    var rename    : ""
 
     doc title: "GATK: Unified Genotyper",
         desc: "Produce a VCF file with SNP calls and INDELs. Parallelized in 1 job for chromosome",
         author: "davide.rambaldi@gmail.com"
 
-    transform("vcf")
+    def output_prefix
+    if (rename != "") {
+        output_prefix = rename
+    } else {
+        output_prefix = "${input.bam.prefix}"
+    }
+
+    produce("${output_prefix}.${chr}.vcf")
     {
         def configuration = """
             Inputs: ${inputs}

@@ -10,4 +10,10 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+OUTPUTS=(all_samples.chr12.vcf all_samples.chr16.vcf all_samples.chr2.vcf all_samples.chr3.vcf all_samples.chr7.vcf all_samples.chrY.vcf all_samples.chr1.vcf all_samples.chr13.vcf all_samples.chr17.vcf all_samples.chr20.vcf all_samples.chr4.vcf  all_samples.chr8.vcf all_samples.chr10.vcf all_samples.chr14.vcf all_samples.chr18.vcf all_samples.chr21.vcf all_samples.chr5.vcf  all_samples.chr9.vcf all_samples.chr11.vcf all_samples.chr15.vcf all_samples.chr19.vcf all_samples.chr22.vcf all_samples.chr6.vcf all_samples.chrX.vcf)
+run test_rename.groovy testinput_R1_001.bam testinput_R1_002.bam
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
 success

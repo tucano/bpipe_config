@@ -1,11 +1,4 @@
-about title: "Human variants calling for genomes: IOS 015"
-
-// Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.bam
-
-// PROJECT VARS will be added by bpipe-config
-// I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
-// Don't change my keywords in source!
+load "../../../modules/unified_genotyper_by_chromosome_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
@@ -17,14 +10,6 @@ PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
 
-//--BPIPE_ENVIRONMENT_HERE--
-
-// This pipeline RENAME the output vcf file from unified_genotyper to: all_samples.vcf
 Bpipe.run {
-    set_stripe_gfu +
-    chr(1..22,'X','Y') * [ unified_genotyper_by_chromosome_gfu.using(rename:"all_samples") ] + vcf_concat_gfu +
-    "%.vcf" * [
-        snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
-        indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
-    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu
+    chr(1..22,'X','Y') * [unified_genotyper_by_chromosome_gfu.using(pretend:true,rename:"all_samples")]
 }

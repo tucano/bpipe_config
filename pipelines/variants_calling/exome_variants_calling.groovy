@@ -23,13 +23,12 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 
 //--BPIPE_ENVIRONMENT_HERE--
 
-/*
- * PIPELINE NOTES:
- */
+
+// This pipeline RENAME the output vcf file from unified_genotyper to: all_samples.vcf
 Bpipe.run {
-    set_stripe_gfu + chr(1..22,'X','Y') * [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu ] + vcf_concat_gfu +
+    set_stripe_gfu + chr(1..22,'X','Y') * [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu.using(rename:"all_samples") ] + vcf_concat_gfu +
     "%.vcf" * [
         snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
         indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
-    ] + vcf_concat_gfu.using(with_suffix: "vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu
+    ] + vcf_concat_gfu.using(with_suffix:"vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu
 }

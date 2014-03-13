@@ -13,9 +13,12 @@ vcf_concat_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
+    // remove chr from file name
+    def output_prefix = "${input.vcf.prefix}".replaceAll(/\..*/,"")
+
     if (with_suffix != "")
     {
-        produce("${input.bam.prefix}.${with_suffix}.vcf")
+        produce("${output_prefix}.${with_suffix}.vcf")
         {
             def command = """
                 $VCFCONCAT $inputs.vcf | $VCFSORT > $output
@@ -39,7 +42,7 @@ vcf_concat_gfu =
     }
     else
     {
-        produce("${input.bam.prefix}.vcf")
+        produce("${output_prefix}.vcf")
         {
             def command = """
                 $VCFCONCAT $inputs.vcf | $VCFSORT > $output
