@@ -3,7 +3,7 @@ source ../../testsupport.sh
 
 ./cleaner.sh
 
-OUTPUTS=(FASTQC/Sample_test_1_report.zip FASTQC/Sample_test_2_report.zip)
+OUTPUTS=(Sample_test_1_report/Sample_test_1_testinput_R1_fastqc Sample_test_1_report/Sample_test_1_testinput_R2_fastqc)
 
 config fastqc_project Sample_test_*
 runPipeLine fastqc_project.groovy Sample_test_*
