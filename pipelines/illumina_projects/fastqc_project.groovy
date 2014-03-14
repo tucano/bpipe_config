@@ -13,7 +13,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 //--BPIPE_ENVIRONMENT_HERE--
 
 /*
- * PIPELINE NOTES
+ * PIPELINE NOTES:
  */
 Bpipe.run {
     set_stripe_gfu + "%" * [ make_report_dir_gfu + fastqc_sample_gfu.using(paired:true) ]
