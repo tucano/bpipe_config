@@ -15,6 +15,6 @@ clean_fastqc_dir_gfu =
     // to avoid fail of stage I fake produce and already present file
     produce("SampleSheet.csv")
     {
-
+        println "CLEANED DIR: $output.dir"
     }
 }
