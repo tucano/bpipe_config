@@ -37,62 +37,98 @@ fastqc_sample_gfu =
 
     // DEFINE OUTPUT PREFIX
     def output_prefix
-    if (paired) {
-        if (input_files.size <= 2) {
+    if (paired) 
+    {
+        if (input_files.size <= 2) 
+        {
             output_prefix = input_files*.replaceAll(".fastq.gz","")
-        } else {
+        } 
+        else 
+        {
             output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
         }
-    } else {
-        if (input_files.size == 1) {
+    } 
+    else 
+    {
+        if (input_files.size == 1) 
+        {
             output_prefix = input_files*.replaceAll(".fastq.gz","").unique()
-        } else {
+        } 
+        else 
+        {
             output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
         }
     }
 
+
     if (paired)
     {
-        produce("${output_prefix[0]}_fastqc.zip","${output_prefix[1]}_fastqc.zip")
+        def outputs = [
+            "${output_prefix[0]}_fastqc_data.txt",
+            "${output_prefix[1]}_fastqc_data.txt"
+        ]
+
+        produce(outputs)
         {
-            def command = "$FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;"
+            def command = """
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
+                unzip -o ${input}/${output_prefix[0]}_fastqc.zip;
+                rm ${output_prefix[0]}_fastqc.zip;
+                unzip -o ${input}/${output_prefix[1]}_fastqc.zip;
+                rm ${output_prefix[1]}_fastqc.zip;
+                cp ${input}/${output_prefix[0]}_fastqc/fastqc_data.txt $output1;
+                cp ${input}/${output_prefix[1]}_fastqc/fastqc_data.txt $output2;
+            """
 
             if (pretend)
             {
                 println """
-                    DATA_DIR: $data_dirs
+                    DATA_DIR: $data_dir
                     REPORT_DIR: $input
                     INPUT FILES: $input_files
                     OUTPUT PREFIX: ${output_prefix}
+                    OUTPUTS: $outputs
                 """
                 command = """
-                    echo "INPUTS: $inputs" > $output1
-                    echo "INPUTS: $inputs" > $output2
+                    touch ${input}/${output_prefix[0]}_zipdata.txt;
+                    touch ${input}/${output_prefix[1]}_zipdata.txt;
+                    zip -r ${input}/${output_prefix[0]}_zipdata.zip ${input}/${output_prefix[0]}_zipdata.txt;
+                    zip -r ${input}/${output_prefix[1]}_zipdata.zip ${input}/${output_prefix[1]}_zipdata.txt;
+                    unzip -o ${input}/${output_prefix[0]}_zipdata.zip;
+                    unzip -o ${input}/${output_prefix[1]}_zipdata.zip;
+                    touch $output1 $output2;
                 """
             }
-
             exec command, "fastqc"
         }
     }
     else
     {
-        produce("${output_prefix[0]}_fastqc.zip")
+        produce("${output_prefix[0]}_fastqc_data.txt")
         {
-            def command = "$FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;"
+            def command = """
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
+                unzip -o ${input}/${output_prefix[0]}_fastqc.zip;
+                rm ${output_prefix[0]}_fastqc.zip;
+                cp ${input}/${output_prefix[0]}_fastqc/fastqc_data.txt $output1;
+            """
 
             if (pretend)
             {
                 println """
-                    DATA_DIR: $data_dirs
+                    DATA_DIR: $data_dir
                     REPORT_DIR: $input
                     INPUT FILES: $input_files
                     OUTPUT PREFIX: ${output_prefix}
+                    OUTPUT: $output
                 """
                 command = """
-                    echo "INPUTS: $inputs" > $output
+                    touch ${input}/${output_prefix[0]}_zipdata.txt;                    
+                    zip -r ${input}/${output_prefix[0]}_zipdata.zip ${input}/${output_prefix[0]}_zipdata.txt;                    
+                    unzip -o ${input}/${output_prefix[0]}_zipdata.zip;
+                    touch $output;
                 """
             }
-
             exec command, "fastqc"
         }
     }
