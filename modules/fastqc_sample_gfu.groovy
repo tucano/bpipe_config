@@ -72,10 +72,10 @@ fastqc_sample_gfu =
         {
             def command = """
                 $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
-                unzip -o ${input}/${output_prefix[0]}_fastqc.zip;
-                rm ${output_prefix[0]}_fastqc.zip;
-                unzip -o ${input}/${output_prefix[1]}_fastqc.zip;
-                rm ${output_prefix[1]}_fastqc.zip;
+                unzip -o ${input}/${output_prefix[0]}_fastqc.zip -d ${input};
+                rm ${input}/${output_prefix[0]}_fastqc.zip;
+                unzip -o ${input}/${output_prefix[1]}_fastqc.zip -d ${input};
+                rm ${input}/${output_prefix[1]}_fastqc.zip;
                 cp ${input}/${output_prefix[0]}_fastqc/fastqc_data.txt $output1;
                 cp ${input}/${output_prefix[1]}_fastqc/fastqc_data.txt $output2;
             """
@@ -108,9 +108,9 @@ fastqc_sample_gfu =
         {
             def command = """
                 $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
-                unzip -o ${input}/${output_prefix[0]}_fastqc.zip;
-                rm ${output_prefix[0]}_fastqc.zip;
-                cp ${input}/${output_prefix[0]}_fastqc/fastqc_data.txt $output1;
+                unzip -o ${input}/${output_prefix[0]}_fastqc.zip -d ${input};
+                rm ${input}/${output_prefix[0]}_fastqc.zip;
+                cp ${input}/${output_prefix[0]}_fastqc/fastqc_data.txt $output;
             """
 
             if (pretend)
