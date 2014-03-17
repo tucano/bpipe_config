@@ -1,0 +1,2 @@
+FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject
+XXXXXX,1,Sample_2,hg19,TTAGGC,description,N,MeDIP,FG,Tester_2_projectdummy
