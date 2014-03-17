@@ -11,5 +11,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "*" * [base_print_reads_gfu.using(pretend:true)]
+    "*" * [base_print_reads_gfu.using(pretend:true,target_intervals:true)]
 }

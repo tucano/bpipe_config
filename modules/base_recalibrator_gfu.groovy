@@ -9,6 +9,7 @@ base_recalibrator_gfu =
     var pretend          : false
     var nct              : 4
     var healty_exomes    : false
+    var target_intervals : false
 
     doc title: "Base recalibration with GATK",
         desc: """
@@ -18,6 +19,7 @@ base_recalibrator_gfu =
 
             Main options with value:
             pretend                : $pretend
+            With target_intervals  : $target_intervals
             INTERVALS              : $INTERVALS
             REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
             DBSNP                  : $DBSNP
@@ -51,14 +53,14 @@ base_recalibrator_gfu =
 
     produce(outputs)
     {
+        def intervals_string = target_intervals ? "-L $INTERVALS" : ""
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
             $GATK -R $REFERENCE_GENOME_FASTA
                   -knownSites $DBSNP
                   ${inputs.bam.collect{ "-I $it" }.join(" ")} ${healty_exomes_input_string}
-                  -L $INTERVALS
-                  -T BaseRecalibrator
+                  -T BaseRecalibrator $intervals_string
                   --covariate QualityScoreCovariate
                   --covariate CycleCovariate
                   --covariate ContextCovariate

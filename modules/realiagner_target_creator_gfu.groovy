@@ -6,6 +6,7 @@ realiagner_target_creator_gfu =
 {
     // stage vars
     var pretend          : false
+    var target_intervals : false
 
     doc title: "Find small intervals with GATK toolkit: RealignerTargetCreator",
         desc: """
@@ -15,6 +16,7 @@ realiagner_target_creator_gfu =
             stage options:
                 pretend                : $pretend
                 REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
+                With target_intervals  : $target_intervals
                 INTERVALS              : $INTERVALS
                 DBSNP                  : $DBSNP
         """,
@@ -23,13 +25,13 @@ realiagner_target_creator_gfu =
 
     transform("intervals")
     {
+        def intervals_string = target_intervals ? "-L $INTERVALS" : ""
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
             $GATK -I $input.bam
                   -R $REFERENCE_GENOME_FASTA
-                  -T RealignerTargetCreator
-                  -L $INTERVALS
+                  -T RealignerTargetCreator $intervals_string
                   -o $output.intervals
                   --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
                   --known $DBSNP;

@@ -14,4 +14,9 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+run test_genome.groovy testinput_one.bam testinput_one.grp
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
 success

@@ -6,6 +6,7 @@ indel_realigner_gfu =
 {
     // stage vars
     var pretend          : false
+    var target_intervals : false
 
     doc title: "Realign reads marked by stage realiagner_target_creator_gfu with GATK toolkit: IndelRealigner",
         desc: """
@@ -13,6 +14,7 @@ indel_realigner_gfu =
             stage options with value:
                 pretend                : $pretend
                 DBSNP                  : $DBSNP
+                With target_intervals       : $target_intervals
                 INTERVALS              : $INTERVALS
                 REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
         """,
@@ -22,13 +24,13 @@ indel_realigner_gfu =
 
     filter("indel_realigned")
     {
+        def intervals_string = target_intervals ? "-L $INTERVALS" : ""
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
             $GATK -I $input.bam
                   -R $REFERENCE_GENOME_FASTA
-                  -T IndelRealigner
-                  -L $INTERVALS
+                  -T IndelRealigner $intervals_string
                   -targetIntervals $input.intervals
                   -o $output.bam
                   --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY

@@ -19,5 +19,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "*" * [indel_realigner_gfu.using(pretend:true,target_intervals:true)]
+    "*" * [indel_realigner_gfu.using(pretend:true,target_intervals:false)]
 }

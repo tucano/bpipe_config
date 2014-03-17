@@ -1,6 +1,7 @@
 load "../../../modules/base_print_reads_gfu.groovy"
 
-REFERENCE_GENOME="/test/reference/pippo.fa"
+REFERENCE_GENOME_FASTA = "/test/reference/pippo.fa"
+INTERVALS              = "/test/interls.intervals"
 EXPERIMENT_NAME="test"
 PLATFORM="test"
 FCID="1"
@@ -10,5 +11,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "%.*" * [base_print_reads_gfu.using(pretend:true,target_intervals:true)]
+    "*" * [base_print_reads_gfu.using(pretend:true,target_intervals:false)]
 }

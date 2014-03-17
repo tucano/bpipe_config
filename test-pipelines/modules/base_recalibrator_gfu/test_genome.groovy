@@ -12,5 +12,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "*" * [base_recalibrator_gfu.using(pretend:true,target_intervals:true)]
+    "*" * [base_recalibrator_gfu.using(pretend:true,target_intervals:false)]
 }

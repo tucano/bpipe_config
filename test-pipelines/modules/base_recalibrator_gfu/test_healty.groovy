@@ -13,5 +13,5 @@ PROJECTNAME="TEST_1_TEST"
 HEALTY_EXOMES_DIR = "healty_exomes"
 
 Bpipe.run {
-    "*" * [base_recalibrator_gfu.using(pretend:true,healty_exomes:true)]
+    "*" * [base_recalibrator_gfu.using(pretend:true,healty_exomes:true,target_intervals:true)]
 }

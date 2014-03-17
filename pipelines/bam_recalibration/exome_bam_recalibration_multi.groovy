@@ -14,6 +14,7 @@ REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFER
 // check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
 // for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
 INTERVALS        = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.intervals"
+
 DBSNP            = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 
 // HEALTY EXOMES:
@@ -32,7 +33,8 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    "%.bam" * [ realiagner_target_creator_gfu + indel_realigner_gfu ] +
-    "*.bam" * [ base_recalibrator_gfu.using(healty_exomes:true) ] +
-    "%.bam" * [ base_print_reads_gfu ]
+    "%.bam" * [ realiagner_target_creator_gfu.using(target_intervals:true) + 
+    			indel_realigner_gfu.using(target_intervals:true) ] +
+    "*.bam" * [ base_recalibrator_gfu.using(healty_exomes:true,target_intervals:true) ] +
+    "%.bam" * [ base_print_reads_gfu.using(target_intervals:true) ]
 }

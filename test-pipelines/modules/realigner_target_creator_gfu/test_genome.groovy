@@ -19,5 +19,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "*" * [realiagner_target_creator_gfu.using(pretend:true,target_intervals:true)]
+    "*" * [realiagner_target_creator_gfu.using(pretend:true,target_intervals:false)]
 }

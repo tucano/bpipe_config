@@ -7,6 +7,7 @@ base_print_reads_gfu =
     // stage vars
     var pretend          : false
     var nct              : 4
+    var target_intervals : false
 
     doc title: "Base recalibration with GATK: generate a new recalibrated BAM file",
         desc: """
@@ -15,6 +16,7 @@ base_print_reads_gfu =
 
             Main options with value:
             pretend                : $pretend
+            With target_intervals  : $target_intervals
             INTERVALS              : $INTERVALS
             REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
             nct                    : $nct
@@ -24,14 +26,14 @@ base_print_reads_gfu =
 
     filter("recalibrated")
     {
+        def intervals_string = target_intervals ? "-L $INTERVALS" : ""
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
             $GATK -R $REFERENCE_GENOME_FASTA
                   -I $input.bam
                   -o $output.bam
-                  -T PrintReads
-                  -L $INTERVALS
+                  -T PrintReads $intervals_string
                   -nct $nct
                   -BQSR $input.grp
         """
