@@ -1,5 +1,6 @@
 // MODULE BASE RECALIBRATOR GFU
 GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
+import static groovy.io.FileType.*
 
 @intermediate
 base_recalibrator_gfu =
@@ -7,6 +8,7 @@ base_recalibrator_gfu =
     // stage vars
     var pretend          : false
     var nct              : 4
+    var healty_exomes    : false
 
     doc title: "Base recalibration with GATK",
         desc: """
@@ -20,6 +22,7 @@ base_recalibrator_gfu =
             REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
             DBSNP                  : $DBSNP
             nct                    : $nct
+            healty_exomes          : $healty_exomes
         """,
         constraints: """
             For bam recalibration you should use all the bam files in your Project.
@@ -37,6 +40,15 @@ base_recalibrator_gfu =
         outputs = ["${input.prefix}.grp"]
     }
 
+    def healty_exomes_input_string = new StringBuffer()
+    
+    if (healty_exomes)
+    {
+        new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
+            healty_exomes_input_string << "-I $bam "
+        }
+    }
+
     produce(outputs)
     {
         def command = """
@@ -44,7 +56,7 @@ base_recalibrator_gfu =
             ulimit -s unlimited;
             $GATK -R $REFERENCE_GENOME_FASTA
                   -knownSites $DBSNP
-                  ${inputs.bam.collect{ "-I $it" }.join(" ")}
+                  ${inputs.bam.collect{ "-I $it" }.join(" ")} ${healty_exomes_input_string}
                   -L $INTERVALS
                   -T BaseRecalibrator
                   --covariate QualityScoreCovariate

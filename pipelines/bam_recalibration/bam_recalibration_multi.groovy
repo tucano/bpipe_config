@@ -16,6 +16,11 @@ REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFER
 INTERVALS        = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.intervals"
 DBSNP            = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 
+// HEALTY EXOMES:
+// if base_recalibrator_gfu.using(healty_exomes:true)
+// the pipeline use the HealtyExomes in path to recalibrate the bam files
+HEALTY_EXOMES_DIR = "/lustre1/workspace/Stupka/HealthyExomes/"
+
 PLATFORM         = "illumina"
 CENTER           = "CTGB"
 ENVIRONMENT_FILE = "gfu_environment.sh"
@@ -28,6 +33,6 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  */
 Bpipe.run {
     "%.bam" * [ realiagner_target_creator_gfu + indel_realigner_gfu ] +
-    "*.bam" * [ base_recalibrator_gfu ] +
+    "*.bam" * [ base_recalibrator_gfu.using(healty_exomes:true) ] +
     "%.bam" * [ base_print_reads_gfu ]
 }

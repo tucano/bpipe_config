@@ -10,6 +10,9 @@ about title: "Human variants annotation: IOS 005"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.1.txt"
 SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
+
+// HEALTY EXOMES: the pipeline is designed to remove the HealtyExomes from annotation
+// if you don't want to remove healty exomes remove the stage vcf_sumbsam_gfu
 HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
