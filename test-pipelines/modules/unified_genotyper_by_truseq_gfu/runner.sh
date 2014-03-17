@@ -16,4 +16,10 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+OUTPUTS=(all_samples.chr1.vcf)
+run test_healty.groovy testinput_R1_001.bam chr1.intervals
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
 success

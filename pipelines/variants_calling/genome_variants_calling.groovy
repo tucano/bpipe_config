@@ -19,10 +19,16 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 
 //--BPIPE_ENVIRONMENT_HERE--
 
+
+// N.B: BY DEFAULT HEALTY EXOMES ARE NOT USED TO CALL VARIANTS! IF YOU WANT THEM, 
+// SET healty_exomes:true and uncomment this line:
+// HEALTY_EXOMES_DIR = "/lustre1/workspace/Stupka/HealthyExomes/"
+
 // This pipeline RENAME the output vcf file from unified_genotyper to: all_samples.vcf
 Bpipe.run {
     set_stripe_gfu +
-    chr(1..22,'X','Y') * [ unified_genotyper_by_chromosome_gfu.using(rename:"all_samples") ] + vcf_concat_gfu +
+    chr(1..22,'X','Y') * [ unified_genotyper_by_chromosome_gfu.using(rename:"all_samples",healty_exomes:false) ] + 
+    vcf_concat_gfu +
     "%.vcf" * [
         snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
         indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu

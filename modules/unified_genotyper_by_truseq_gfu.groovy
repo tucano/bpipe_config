@@ -2,16 +2,18 @@
 GATK = "java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 VCFCONCAT = "export PERL5LIB=/lustre1/tools/libexec/vcftools_0.1.9/perl/ && /usr/local/cluster/bin/vcf-concat"
 VCFSORT   = "/usr/local/cluster/bin/vcf-sort-mod -t /lustre2/scratch"
+import static groovy.io.FileType.*
 
 @intermediate
 unified_genotyper_by_truseq_gfu =
 {
-    var pretend   : false
-    var call_conf : 20.0
-    var nct       : 4
-    var glm       : "BOTH"
-    var unsafe    : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
-    var rename    : ""
+    var pretend       : false
+    var call_conf     : 20.0
+    var nct           : 4
+    var glm           : "BOTH"
+    var unsafe        : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
+    var rename        : ""
+    var healty_exomes : false
 
     doc title: "GATK: Unified Genotyper",
         desc: """
@@ -19,6 +21,8 @@ unified_genotyper_by_truseq_gfu =
             Parallelized in 10 jobs for chromosome.
             Inputs: ${inputs}, ${input.intervals}
             Output: ${input.bam.prefix}.${chr}.vcf
+            With healty exomes: $healty_exomes
+
             CONFIGURATION:
                 Reference       = $REFERENCE_GENOME_FASTA
                 Inputs          = $inputs.bam
@@ -32,12 +36,19 @@ unified_genotyper_by_truseq_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
+    def healty_exomes_input_string = new StringBuffer()
+    if (healty_exomes)
+    {
+        new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
+            healty_exomes_input_string << "-I $bam "
+        }
+    }
 
     def command_gatk = """
         ulimit -l unlimited;
         ulimit -s unlimited;
         $GATK -R $REFERENCE_GENOME_FASTA
-              ${inputs.bam.collect{ "-I $it" }.join(" ")}
+              ${inputs.bam.collect{ "-I $it" }.join(" ")} ${healty_exomes_input_string}
               --dbsnp $DBSNP
               -T UnifiedGenotyper
               -nct $nct

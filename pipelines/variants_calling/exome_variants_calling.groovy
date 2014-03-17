@@ -11,6 +11,12 @@ about title: "Human variants calling for exome: IOS 005"
 // check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
 // for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
 INTERVALS              = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.intervals"
+
+// HEALTY EXOMES:
+// if unified_genotyper_by_truseq_gfu.using(healty_exomes:true)
+// the pipeline use the HealtyExomes in path to call variants
+HEALTY_EXOMES_DIR = "/lustre1/workspace/Stupka/HealthyExomes/"
+
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 HAPMAP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/hapmap_3.3.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
@@ -26,7 +32,9 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 
 // This pipeline RENAME the output vcf file from unified_genotyper to: all_samples.vcf
 Bpipe.run {
-    set_stripe_gfu + chr(1..22,'X','Y') * [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu.using(rename:"all_samples") ] + vcf_concat_gfu +
+    set_stripe_gfu + chr(1..22,'X','Y') * 
+    [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu.using(rename:"all_samples",healty_exomes:true) ] + 
+    vcf_concat_gfu +
     "%.vcf" * [
         snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
         indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
