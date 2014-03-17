@@ -182,6 +182,9 @@ class BpipeConfig
 			case "pipe":
 				Commands.pipe(extraArguments)
 			break
+			case "project":
+				Commands.project(extraArguments)
+			break
 			case "info":
 				Commands.info(extraArguments)
 			break

@@ -55,6 +55,9 @@ class Logger
 		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out << green(wrap("Generate pipeline file in current directory or directories in list (pipeline.groovy)",60, 50)) << "\n"
 		
+		out << bold("project".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40)
+		out << green(wrap("Generate a project pipeline for each directory in list (pipeline.groovy)",60, 50)) << "\n"
+		
 		out << bold("sheet".padRight(10)) << "<INFO> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out	<< green(wrap("Generate a SampleSheet.csv file using the INFO string in current directory or directories in list. SampleProject format: <PI_name>_<ProjectID>_<ProjectName>", 60, 50)) << "\n"
 		
@@ -85,6 +88,17 @@ class Logger
 			out << "\tDESCRIPTION: " << bold("${item["Description"]}");
 			out << "\tRECIPE: " << bold("${item["Recipe"]}");
 			out << "\n"
+		}
+		return out.toString()
+	}
+
+	static String printProjects(def projects, def pipeline_name)
+	{
+		out = new StringBuffer()
+		out << "\n" << bold("Pipeline: ") << green("$pipeline_name") << "\n"
+		out << "\n" << bold("Projects") << "\n"
+		projects.each {  project, samples ->
+			out << green(project) << "\t" << green("SAMPLES: ") << samples.join(" ") << "\n"
 		}
 		return out.toString()
 	}

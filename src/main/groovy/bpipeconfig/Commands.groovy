@@ -11,7 +11,7 @@ import bpipeconfig.Logger
 class Commands
 {
 	final static String[] available_commands = [
-		"config","sheet","pipe",
+		"config","sheet","pipe","project",
 		"info","clean","report",
 		"recover","jvm","smerge"]
 
@@ -303,6 +303,27 @@ class Commands
 					REFERENCE   = "${samples[0]["SampleRef"]}"
 				""".stripIndent().trim()
 				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", project_info)
+
+				// second, for each sample add a gfu enviroment file
+				args.each { sample_dir ->
+					def single_sample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
+					def single_sample = slurpSampleSheet(single_sample_sheet)
+					binding_gfu_env = [
+				    	"project_name"    : '"' + single_sample[0]["SampleProject"] + '"',
+				    	"reference"       : '"' + single_sample[0]["SampleRef"] + '"',
+				    	"experiment_name" : '"' + single_sample[0]["FCID"] + "_" + single_sample[0]["SampleID"] + '"',
+				    	"fcid"            : '"' + single_sample[0]["FCID"] + '"',
+				    	"lane"            : '"' + single_sample[0]["Lane"] + '"',
+				    	"sampleid"        : '"' + single_sample[0]["SampleID"] + '"'
+					]
+					// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
+					template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
+
+					// CREATE gfu_environment.sh
+					if ( ! createFile(template_gfu_env, "${sample_dir}/gfu_environment.sh", BpipeConfig.force) ) {
+						println Logger.error("Problems creating gfu_environment.sh file!")
+					}
+				}
 			}
 			else
 			{
@@ -421,9 +442,70 @@ class Commands
 				println Logger.message(usage.toString())
 			}
 		}
-
 		// Generate pipeline info
 		info([pipeline_name])
+	}
+
+	public static project(def args)
+	{
+		if (args.empty) {
+			println Logger.error("Command pipe need a pipeline name as first argument.")
+			if (BpipeConfig.verbose) println Logger.info("Use: bpipe-config -p to get a list of avaliable pipelines")
+			System.exit(1)
+		}
+		String pipeline_name = args.remove(0)
+
+		// Validate pipeline
+		def pipeline
+		BpipeConfig.pipelines.each { category, pipes ->
+			pipes.each { pipe ->
+				if (pipe["name"] == pipeline_name) {
+					pipeline = pipe
+				}
+			}
+		}
+
+		if (pipeline == null) {
+			println Logger.error("can't find pipeline $pipeline_name in pipelines.")
+			System.exit(1)
+		}
+
+		if (!pipeline["project_pipeline"])
+		{
+			println Logger.error("This command work only with illumina_projects pipelines.")
+			System.exit(1)
+		}
+
+		if (args.size == 0)
+		{
+			println Logger.error("No input project dirs. Usage:\n\tbpipe-config project <pipeline name> <project1> <project2> ...")
+			System.exit(1)
+		}
+
+		// check if args are all dirs
+		checkDir(args)
+
+		// extract sample dirs
+		def projects = [:]
+		args.each { project_dir ->
+			projects["$project_dir"] = []
+			new File(project_dir).eachDir { sample ->
+				if (sample.getName() ==~ /^Sample_.*/)
+				{
+					projects["$project_dir"] << sample.getPath()
+				}
+			}
+		}
+		// LOG
+		println Logger.printProjects(projects, pipeline_name)
+		// SEND PIPE COMMAND changing working dir
+		def old_path = BpipeConfig.working_dir
+		projects.each { project, samples ->
+			def pargs = [pipeline_name, samples].flatten()
+			BpipeConfig.working_dir = project
+			pipe(pargs)
+		}
+		BpipeConfig.working_dir = old_path
 	}
 
 	public static info(def args)
@@ -461,8 +543,8 @@ class Commands
 		]
 
 		def template_pipeinfo = engine.createTemplate(pipeline_info_template.text).make(binding_pipeline)
-		new File("doc").mkdir()
-		def fileinfo = new File("doc/${pipeline["name"]}_info.html")
+		new File("${BpipeConfig.working_dir}/doc").mkdir()
+		def fileinfo = new File("${BpipeConfig.working_dir}/doc/${pipeline["name"]}_info.html")
 		fileinfo.write(template_pipeinfo.toString())
 		println Logger.message("Info for pipeline: $pipeline_name generated in file ${fileinfo.getPath()}")
 		if (BpipeConfig.verbose) println Logger.info("Pipeline info file: ${fileinfo.getPath()}")
