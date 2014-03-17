@@ -14,7 +14,7 @@ class Commands
 		"config","sheet","pipe",
 		"info","clean","report",
 		"recover","jvm","smerge"]
-	
+
 	public static def pipeline
 	public static def samples
 	public static def engine = new SimpleTemplateEngine()
@@ -464,6 +464,7 @@ class Commands
 		new File("doc").mkdir()
 		def fileinfo = new File("doc/${pipeline["name"]}_info.html")
 		fileinfo.write(template_pipeinfo.toString())
+		println Logger.message("Info for pipeline: $pipeline_name generated in file ${fileinfo.getPath()}")
 		if (BpipeConfig.verbose) println Logger.info("Pipeline info file: ${fileinfo.getPath()}")
 	}
 
