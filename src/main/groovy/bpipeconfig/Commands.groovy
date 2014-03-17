@@ -10,7 +10,11 @@ import bpipeconfig.Logger
 
 class Commands
 {
-	final static String[] available_commands = ["config","sheet","pipe","info","clean","report","recover","jvm","smerge"]
+	final static String[] available_commands = [
+		"config","sheet","pipe",
+		"info","clean","report",
+		"recover","jvm","smerge"]
+	
 	public static def pipeline
 	public static def samples
 	public static def engine = new SimpleTemplateEngine()

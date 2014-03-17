@@ -79,8 +79,8 @@ class BpipeConfig
 
 		// CLI BUILDER
 		def cli = new CliBuilder(
-			usage: "bpipe-config [options] [config|sheet|pipe|info|clean|report|recover|jvm] [pipeline_name] [sample_dirs]",
-    		header: "\nAvailable options (use -h for help):\n",
+			usage: "bpipe-config [options] [command] [pipeline_name] [sample_dirs|project_dirs]",
+    		header: "\nAvailable options:\n",
     		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
     		posix:  true,
     		width:  120
