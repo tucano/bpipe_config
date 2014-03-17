@@ -1,8 +1,11 @@
 #!/bin/bash
 
-git pull
 gradle clean && gradle test && gradle stage && gradle dist
+CURRENT=`pwd -P`
+cd /lustre1/tool/libexec/
+rm -f bpipeconfig_SNAPSHOT.tar.gz
+tar czvf bpipeconfig_SNAPSHOT.tar.gz bpipeconfig/
+cd ${CURRENT}/build
 rm -rf /lustre1/tools/libexec/bpipeconfig
-cd build
-tar xzvf bpipeconfig-0.5.2.tar.gz -C /lustre1/tools/libexec/
+tar xzvf bpipeconfig-*.tar.gz -C /lustre1/tools/libexec/
 cd ..
