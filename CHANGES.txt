@@ -6,6 +6,7 @@ bpipe-config:
 pipelines:
 - intervals, gemoes and exomes, healty exomes
 - upgraded annotation: dbNSFP2.4.txt.gz
+- centralized paths for softwares
 
 
 # Version 0.5 
