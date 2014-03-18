@@ -1,6 +1,4 @@
 // MODULE ALIGN BWA GFU
-BWA="/lustre1/tools/bin/bwa"
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @intermediate
 align_bwa_gfu =

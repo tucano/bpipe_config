@@ -1,6 +1,4 @@
 // MODULE MEM BWA GFU
-BWA="/lustre1/tools/bin/bwa"
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @intermediate
 mem_bwa_gfu =

@@ -52,11 +52,20 @@ class Pipelines
 		String source
 		String name
 		modules_dir.eachFile { file ->
+			// skip module file default_paths_gfu.groovy: is not a module, is ajust alist of variables
 			name = file.name.replaceAll(/\..*/,"")
-			source = file.text.replaceAll(/(?s).*doc/,"[").replaceAll(/(?s)([^"]")[^,]?\n.*/,"\$1]").replaceAll(/(?s)\$/,"")
-			if (source != "")
+			if (name == "default_paths_gfu")
 			{
-				list[name] = shell.evaluate(source)
+				// DO SOMETHING WITH PATHS?
+				// TODO
+			}
+			else
+			{
+				source = file.text.replaceAll(/(?s).*doc/,"[").replaceAll(/(?s)([^"]")[^,]?\n.*/,"\$1]").replaceAll(/(?s)\$/,"")
+				if (source != "")
+				{
+					list[name] = shell.evaluate(source)
+				}
 			}
 		}
 		return list

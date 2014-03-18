@@ -1,6 +1,4 @@
 // MODULE SAMPE/SAMSE BWA GFU
-BWA="/lustre1/tools/bin/bwa"
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @intermediate
 sam_bwa_gfu =
