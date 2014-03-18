@@ -1,5 +1,5 @@
 // MODULE SNPSIFT FILTER IMPACT GFU
-SNPSIFT = "java -Xmx16g -jar /lustre1/tools/bin/SnpSift.jar"
+SNPSIFT = "java -Xmx16g -jar /lustre1/tools/bin/SnpSift-3.5c.jar"
 
 snpsift_filter_impact_gfu =
 {

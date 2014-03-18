@@ -1,5 +1,5 @@
 // MODULE SNPSIFT INTERVALS
-SNPSIFT="java -jar /lustre1/tools/bin/SnpSift.jar"
+SNPSIFT="java -jar /lustre1/tools/bin/SnpSift-3.5c.jar"
 
 @intermediate
 snpsift_intervals_gfu =

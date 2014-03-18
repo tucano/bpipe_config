@@ -1,5 +1,5 @@
 // MODULE SNPSIFT ANNOTATE
-SNPSIFT="java -jar /lustre1/tools/bin/SnpSift.jar"
+SNPSIFT="java -jar /lustre1/tools/bin/SnpSift-3.5c.jar"
 
 @intermediate
 snpsift_annotate_gfu =
