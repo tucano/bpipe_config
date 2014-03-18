@@ -21,7 +21,7 @@ align_soapsplice_gfu =
                 paired     : $paired
                 compressed : $compressed
 
-            soaplsplice options: ${SSPLICEOPT_ALN}.
+            soapsplice options: ${SSPLICEOPT_ALN}.
             Generate temporary files in /dev/shm on the node.
             Merge the pregenerated header and the output sam file in a bam file sorted by coordinates.
         """,
@@ -34,7 +34,6 @@ align_soapsplice_gfu =
 
     String input_extension = compressed ? '.fastq.gz' : '.fastq'
     String header_file     = "$input1.prefix" + '.header'
-    println "SOASPLICE INPUTS: $inputs"
 
     if (sample_dir) { output.dir = "$input1".replaceFirst("/.*","") }
 
