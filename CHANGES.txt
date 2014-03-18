@@ -2,6 +2,8 @@
 
 bpipe-config:
 - smerge
+- project
+
 
 pipelines:
 - intervals, gemoes and exomes, healty exomes
