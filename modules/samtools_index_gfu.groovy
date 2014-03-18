@@ -1,5 +1,4 @@
 // MODULE SAMTOOLS CREATE BAI FILE
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve
 samtools_index_gfu =

@@ -1,5 +1,4 @@
 // MODULE SORT SAM BY COORDINATES AND CONVERT TO BAM
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve
 sort_and_convert_sam_gfu =

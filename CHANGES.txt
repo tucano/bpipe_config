@@ -8,7 +8,7 @@ bpipe-config:
 pipelines:
 - intervals, gemoes and exomes, healty exomes
 - upgraded annotation: dbNSFP2.4.txt.gz
-- centralized paths for softwares
+- centralized paths for softwares: default_paths_gfu.groovy
 
 
 # Version 0.5 

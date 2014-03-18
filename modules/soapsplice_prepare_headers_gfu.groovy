@@ -1,5 +1,4 @@
 // MODULE SOAPSPLICE PREPARE HEADERS
-SSPLICE="/lustre1/tools/bin/soapsplice"
 
 @intermediate
 soapsplice_prepare_headers_gfu =

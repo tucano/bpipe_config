@@ -1,5 +1,4 @@
 // MODULE CONFIG LUSTRE FS
-LSF="/usr/bin/lfs"
 
 @intermediate
 set_stripe_gfu =

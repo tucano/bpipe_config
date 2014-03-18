@@ -1,5 +1,4 @@
 // MODULE SNPSIFT DBNSFO
-SNPSIFT="java -jar /lustre1/tools/bin/SnpSift-3.5c.jar"
 
 @intermediate
 snpsift_dbnsfp_gfu =

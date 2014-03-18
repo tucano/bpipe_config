@@ -1,5 +1,4 @@
 // MODULE MERGE BAM FILES
-PICMERGE="/usr/local/cluster/bin/MergeSamFiles.jar"
 
 @preserve
 merge_bam_gfu =

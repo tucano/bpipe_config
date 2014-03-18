@@ -1,7 +1,4 @@
 // MODULE UNIFIED GENOTYPER BY TRUSEQ INTERVALS GFU
-GATK = "java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
-VCFCONCAT = "export PERL5LIB=/lustre1/tools/libexec/vcftools_0.1.9/perl/ && /usr/local/cluster/bin/vcf-concat"
-VCFSORT   = "/usr/local/cluster/bin/vcf-sort-mod -t /lustre2/scratch"
 import static groovy.io.FileType.*
 
 @intermediate

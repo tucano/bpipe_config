@@ -1,6 +1,4 @@
 // MODULE SOAPSPLICE ALIGN
-SSPLICE="/lustre1/tools/bin/soapsplice"
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @intermediate
 align_soapsplice_gfu =

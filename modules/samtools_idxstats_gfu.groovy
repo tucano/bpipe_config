@@ -1,5 +1,4 @@
 // MODULE GENE COVERAGE FROM RSEQC
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve
 samtools_idxstats_gfu =

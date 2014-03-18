@@ -1,8 +1,4 @@
 // MODULE GENE READ QUALITY RSEQC
-READQUALITY = """
-    export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-    /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/read_quality.py
-""".stripIndent().trim()
 
 @preserve
 rseqc_read_quality_gfu =

@@ -1,5 +1,4 @@
 // MODULE SAMPLE DIR GFU
-LSF="/usr/bin/lfs"
 
 @intermediate
 sample_dir_gfu =

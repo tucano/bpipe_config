@@ -1,5 +1,4 @@
 // MODULE INDEL VARIANT RECALIBRATOR
-GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
 @intermediate
 indel_variant_recalibrator_gfu =

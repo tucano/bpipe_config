@@ -1,6 +1,4 @@
 // MODULE VCF CONCAT
-VCFCONCAT = "export PERL5LIB=/lustre1/tools/libexec/vcftools_0.1.9/perl/ && /usr/local/cluster/bin/vcf-concat"
-VCFSORT   = "/usr/local/cluster/bin/vcf-sort-mod -t /lustre2/scratch"
 
 @intermediate
 vcf_concat_gfu =

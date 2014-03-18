@@ -1,4 +1,5 @@
 // MODULE UNIFIED SNP APPLY RECALIBRATOR
+
 @intermediate
 snp_apply_recalibration_gfu =
 {

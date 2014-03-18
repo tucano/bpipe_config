@@ -1,5 +1,4 @@
 // MODULE BASE RECALIBRATOR GFU
-GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
 @preserve
 base_print_reads_gfu =

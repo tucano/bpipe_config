@@ -1,5 +1,4 @@
 // MODULE FLAGSTAT ON BAM
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve
 bam_flagstat_gfu =

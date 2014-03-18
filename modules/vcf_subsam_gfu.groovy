@@ -1,9 +1,6 @@
 // MODULE VCF LIST SAMPLES
 import static groovy.io.FileType.*
 
-VCFUTILS="/usr/local/cluster/bin/vcfutils.pl"
-SNPSIFT = "java -Xmx16g -jar /lustre1/tools/bin/SnpSift-3.5c.jar"
-
 @intermediate
 vcf_subsam_gfu =
 {

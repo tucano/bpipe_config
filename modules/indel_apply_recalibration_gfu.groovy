@@ -1,5 +1,4 @@
 // MODULE UNIFIED INDEL APPLY RECALIBRATION
-GATK="java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 
 @intermediate
 indel_apply_recalibration_gfu =

@@ -1,5 +1,4 @@
 // MODULE SNPEFF
-SNPEFF="java -jar /lustre1/tools/bin/snpEff.jar"
 
 snpeff_gfu =
 {

@@ -1,4 +1,5 @@
 // MODULE UNIFIED SNP VARIANT RECALIBRATOR
+
 @intermediate
 snp_variant_recalibrator_gfu =
 {

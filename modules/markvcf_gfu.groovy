@@ -1,5 +1,4 @@
 // MODULE MARKVCF
-MARKVCF="/usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/markvcf.py"
 
 markvcf_gfu =
 {

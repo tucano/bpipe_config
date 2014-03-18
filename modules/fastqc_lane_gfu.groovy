@@ -1,5 +1,4 @@
 // MODULE FASTQC
-FASTQC="/lustre1/tools/bin/fastqc"
 
 @preserve
 fastqc_lane_gfu =

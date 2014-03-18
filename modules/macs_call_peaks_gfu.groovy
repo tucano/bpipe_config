@@ -1,5 +1,4 @@
 // MODULE MACS CALL PEAKS GFU
-MACS="/usr/local/cluster/python2.7/bin/macs2"
 
 @intermediate
 macs_call_peaks_gfu =

@@ -1,5 +1,4 @@
 // MODULE SAMTOOLS RMDUP
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve
 rmdup_gfu =

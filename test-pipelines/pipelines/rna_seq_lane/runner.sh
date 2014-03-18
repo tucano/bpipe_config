@@ -11,13 +11,5 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
-OUTPUTS=(testinput.merge.sorted_by_name.reads.txt testinput.merge.sorted_by_name.reads_sorted.bam)
-
-config rna_seq_lane
-runPipeLine rna_seq_lane.groovy testinput_R*_00*.fastq.gz
-checkTestOut
-exists $OUTPUTS
-./cleaner.sh
-
 success
 

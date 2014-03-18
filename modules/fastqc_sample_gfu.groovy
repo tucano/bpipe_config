@@ -1,5 +1,4 @@
 // MODULE FASTQC SAMPLE
-FASTQC="/lustre1/tools/bin/fastqc"
 
 @intermediate
 fastqc_sample_gfu =

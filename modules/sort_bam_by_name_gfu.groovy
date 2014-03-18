@@ -1,5 +1,4 @@
 // MODULE SORT BAM BY NAME FILE GFU
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @intermediate
 sort_bam_by_name_gfu =

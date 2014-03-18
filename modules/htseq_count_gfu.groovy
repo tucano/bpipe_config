@@ -1,6 +1,4 @@
 // MODULE HTSEQ COUNT GFU
-HTSEQ_COUNT="/usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python2.7/bin/htseq-count"
-SAMTOOLS="/usr/local/cluster/bin/samtools"
 
 @preserve
 htseq_count_gfu =

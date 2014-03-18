@@ -1,8 +1,4 @@
 // MODULE BAM STAT FROM RSEQC
-BAMSTAT="""
-     export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-     /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/bam_stat.py
-""".stripIndent().trim()
 
 @preserve
 rseqc_bam_stat_gfu =
