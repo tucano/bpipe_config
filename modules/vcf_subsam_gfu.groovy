@@ -20,13 +20,7 @@ vcf_subsam_gfu =
     def healty_samples = []
 
     new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
-        /*
-         * quick fix:
-         * some bam files in $HEALTY_EXOMES_DIR have a filename different form the sample name.
-         * Example: C1VVVACXX_AMP5.bam is sample AMP5 in vcf file!
-         * I remove everything before the underscore (_)
-         */
-        healty_samples << bam.getName().replaceAll(/\..*/,"").replaceAll(/.*_/,"")
+        healty_samples << bam.getName().replaceAll(/\..*/,"")
     }
 
     filter("filtered")

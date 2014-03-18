@@ -8,7 +8,7 @@ about title: "Human variants annotation: IOS 005"
 // Don't change my keywords in source!
 
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
-DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.1.txt"
+DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.4.txt.gz"
 // INTERVALS CAPTURED BY THE EXOMES PROTOCOL
 // check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
 // for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME

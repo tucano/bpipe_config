@@ -8,7 +8,7 @@ about title: "Human variants annotation: IOS 005"
 // Don't change my keywords in source!
 
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
-DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.1.txt"
+DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.4.txt.gz"
 SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
 
 // HEALTY EXOMES: the pipeline is designed to remove the HealtyExomes from annotation
