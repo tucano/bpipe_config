@@ -571,7 +571,6 @@ class Commands
 		new File("${BpipeConfig.working_dir}/doc").mkdir()
 		def fileinfo = new File("${BpipeConfig.working_dir}/doc/${pipeline["name"]}_info.html")
 		fileinfo.write(template_pipeinfo.toString())
-		println Logger.message("Info for pipeline: $pipeline_name generated in file ${fileinfo.getPath()}")
 		if (BpipeConfig.verbose) println Logger.info("Pipeline info file: ${fileinfo.getPath()}")
 	}
 
