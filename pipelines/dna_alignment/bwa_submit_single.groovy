@@ -12,7 +12,7 @@ PLATFORM         = "illumina"
 CENTER           = "CTGB"
 ENVIRONMENT_FILE = "gfu_environment.sh"
 
-//--BPIPE_ENVIRONMENT_HERE--
+//--BPIPE_SAMPLE_INFO_HERE--
 
 
 /*

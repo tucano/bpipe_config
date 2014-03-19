@@ -11,7 +11,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 // Used by rseqc QA
 BED12_ANNOTATION = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.ensGene.bed"
 
-//--BPIPE_ENVIRONMENT_HERE--
+//--BPIPE_SAMPLE_INFO_HERE--
 
 /*
  * PIPELINE NOTES:

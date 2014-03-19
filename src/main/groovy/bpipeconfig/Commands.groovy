@@ -304,7 +304,7 @@ class Commands
 				""".stripIndent().trim()
 				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", project_info)
 
-				// second, for each sample add a gfu enviroment file
+				// for each sample add a gfu enviroment file
 				args.each { sample_dir ->
 					def single_sample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
 					def single_sample = slurpSampleSheet(single_sample_sheet)
@@ -327,25 +327,50 @@ class Commands
 			}
 			else
 			{
-				binding_gfu_env = [
-				    "project_name"    : '"' + BpipeConfig.project_name + '"',
-				    "reference"       : '"' + samples[0]["SampleRef"] + '"',
-				    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
-				    "fcid"            : '"' + samples[0]["FCID"] + '"',
-				    "lane"            : '"' + samples[0]["Lane"] + '"',
-				    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
-				]
+				// ALTERNATIVE TOKENS: 
+				//
+				// //--BPIPE_SAMPLE_INFO_HERE--  <-- is a single sample pipeline
+				// //--BPIPE_ENVIRONMENT_HERE--  <-- project_name and reference ONLY
+				//
+				// FOR MULTIPLE SAMPLES PIPELINES I USE THE SampleSheet.csv in current directory:
+				// For single sample stages I use the SampleSheet.csv in Sample dir. 
+				// For multiple sample stages I will use the SampleSheet.csv in Project dir.
+				//
+				// FOR MULTIPLE SAMPLES PIPELINES IN SAME DIR NO gfu_environment.sh
+				
+				// SINGLE SAMPLE
+				if (pipeline_text.contains("//--BPIPE_SAMPLE_INFO_HERE--"))
+				{
+					binding_gfu_env = [
+					    "project_name"    : '"' + BpipeConfig.project_name + '"',
+					    "reference"       : '"' + samples[0]["SampleRef"] + '"',
+					    "experiment_name" : '"' + samples[0]["FCID"] + "_" + samples[0]["SampleID"] + '"',
+					    "fcid"            : '"' + samples[0]["FCID"] + '"',
+					    "lane"            : '"' + samples[0]["Lane"] + '"',
+					    "sampleid"        : '"' + samples[0]["SampleID"] + '"'
+					]
 
-				// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
-				template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
+					// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
+					template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
 
-				// CREATE gfu_environment.sh
-				if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
-					println Logger.error("Problems creating gfu_environment.sh file!")
+					// CREATE gfu_environment.sh
+					if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
+						println Logger.error("Problems creating gfu_environment.sh file!")
+					}
+					
+					// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline
+					pipeline_text = pipeline_text.replaceAll( "//--BPIPE_SAMPLE_INFO_HERE--", template_gfu_env )
 				}
-
-				// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline (we are in single sample)
-				pipeline_text = pipeline_text.replaceAll( "//--BPIPE_ENVIRONMENT_HERE--", template_gfu_env )
+				// MULTIPLE SAMPLE
+				else
+				{
+					// first add PROJECT and REFERENCE to "//--BPIPE_ENVIRONMENT_HERE--"
+					def project_info = """
+						PROJECTNAME = "${BpipeConfig.project_name}"
+						REFERENCE   = "${samples[0]["SampleRef"]}"
+					""".stripIndent().trim()
+					pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", project_info)
+				}
 			}
 
 			// Replace reference genome with first sample reference

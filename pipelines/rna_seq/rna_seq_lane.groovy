@@ -12,7 +12,7 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 BED12_ANNOTATION       = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.ensGene.bed"
 ANNOTATION_GFF_FILE    = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.ensGene_withGeneName.gtf"
 
-//--BPIPE_ENVIRONMENT_HERE--
+//--BPIPE_SAMPLE_INFO_HERE--
 
 
 
