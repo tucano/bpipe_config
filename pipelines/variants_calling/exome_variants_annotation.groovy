@@ -3,20 +3,10 @@ about title: "Human variants annotation: IOS 005"
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename input.vcf
 
-// PROJECT VARS will be added by bpipe-config
-// I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
-// Don't change my keywords in source!
-
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.4.txt.gz"
-// INTERVALS CAPTURED BY THE EXOMES PROTOCOL
-// check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
-// for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
 INTERVALS_BED          = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.bed"
 SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
-
-// HEALTY EXOMES: the pipeline is designed to remove the HealtyExomes from annotation
-// if you don't want to remove healty exomes remove the stage vcf_sumbsam_gfu
 HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
@@ -29,6 +19,13 @@ VCF2XLS_ANNOTATION     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/vcf
 
 /*
  * PIPELINE NOTES:
+ * INTERVALS:
+ * check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README
+ * for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
+ * HEALTY_EXOMES_DIR:
+ * The pipeline is designed to remove the HealtyExomes samples from annotation
+ * if you don't want to remove healty exomes remove the stage vcf_sumbsam_gfu
+ *
  */
 Bpipe.run {
     set_stripe_gfu + "%.vcf" * [

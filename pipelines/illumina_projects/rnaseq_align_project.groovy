@@ -3,10 +3,6 @@ about title: "RNA project alignment with soapsplice: IOS GFU 009."
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename <INPUT_DIRS>
 
-// PROJECT VARS will be added by bpipe-config
-// I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
-// Don't change my keywords in source pipeline file!
-
 REFERENCE_GENOME = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/SOAPsplice/BPIPE_REFERENCE_GENOME.index"
 REFERENCE_FAIDX  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa.fai"
 PLATFORM         = "illumina"
@@ -17,7 +13,6 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 
 /*
  * PIPELINE NOTES:
- *
  */
 Bpipe.run
 {

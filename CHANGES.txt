@@ -6,6 +6,7 @@ bpipe-config:
 
 
 pipelines:
+- reorganized by type of input (exome, genome and rnaseq)
 - intervals, gemoes and exomes, healty exomes
 - upgraded annotation: dbNSFP2.4.txt.gz
 - centralized paths for softwares: default_paths_gfu.groovy

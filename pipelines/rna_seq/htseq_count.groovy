@@ -3,27 +3,19 @@ about title: "RNA-seq reads count with htseq-count: IOS GFU 007."
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.merge.bam
 
-// PROJECT VARS will be added by bpipe-config
-// I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
-// Don't change my keywords in source pipeline file!
-
-REFERENCE_GENOME = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/SOAPsplice/BPIPE_REFERENCE_GENOME.index"
-REFERENCE_FAIDX  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa.fai"
-PLATFORM         = "illumina"
-CENTER           = "CTGB"
-ENVIRONMENT_FILE = "gfu_environment.sh"
+REFERENCE_GENOME    = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/SOAPsplice/BPIPE_REFERENCE_GENOME.index"
+REFERENCE_FAIDX     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa.fai"
+PLATFORM            = "illumina"
+CENTER              = "CTGB"
+ENVIRONMENT_FILE    = "gfu_environment.sh"
+ANNOTATION_GFF_FILE = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.ensGene_withGeneName.gtf"
 
 //--BPIPE_ENVIRONMENT_HERE--
 
-ANNOTATION_GFF_FILE    = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPIPE_REFERENCE_GENOME.ensGene_withGeneName.gtf"
 
 /*
  * PIPELINE NOTES:
- * Options for htseq_count:
- * stranded : "no"
- * mode    : "union"
- * id_attribute : "gene_name"
- * feature_type : "exon"
+ * Check the options for htseq_count!
  */
 Bpipe.run {
     "%.bam" * [

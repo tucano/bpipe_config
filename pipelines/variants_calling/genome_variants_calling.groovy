@@ -3,10 +3,7 @@ about title: "Human variants calling for genomes: IOS 015"
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam
 
-// PROJECT VARS will be added by bpipe-config
-// I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS
-// Don't change my keywords in source!
-
+// HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 HAPMAP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/hapmap_3.3.BPIPE_REFERENCE_GENOME.sites.vcf.gz"
@@ -20,11 +17,14 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 //--BPIPE_ENVIRONMENT_HERE--
 
 
-// N.B: BY DEFAULT HEALTY EXOMES ARE NOT USED TO CALL VARIANTS! IF YOU WANT THEM, 
-// SET healty_exomes:true and uncomment this line:
-// HEALTY_EXOMES_DIR = "/lustre1/workspace/Stupka/HealthyExomes/"
-
-// This pipeline RENAME the output vcf file from unified_genotyper to: all_samples.vcf
+/*
+ * PIPELINE NOTES:
+ * This pipeline RENAME the output vcf file from unified_genotyper to: all_samples.vcf
+ *
+ * HEALTY_EXOMES_DIR:
+ * BY DEFAULT HEALTY EXOMES ARE NOT USED TO CALL VARIANTS FOR GENOME VARIANTS CALLING! 
+ * IF YOU WANT THEM, SET healty_exomes:true and uncomment the HEALTY_EXOMES_DIR line:
+ */
 Bpipe.run {
     set_stripe_gfu +
     chr(1..22,'X','Y') * [ unified_genotyper_by_chromosome_gfu.using(rename:"all_samples",healty_exomes:false) ] + 
