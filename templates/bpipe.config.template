@@ -58,6 +58,9 @@ commands {
     bwa_mem {
         select_statement="select=1:ncpus=2:mem=24g"
     }
+    hsmetrics {
+        select_statement="select=1:ncpus=4:mem=32g"
+    }
     gatk {
         select_statement="select=1:ncpus=4:mem=32g"
     }

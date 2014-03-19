@@ -1,7 +1,4 @@
-about title: "CaluclateHsMetrics, Quality control metrics for illumina exomes: IOS GFU XXX."
-
-// Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.merge.bam
+load "../../../modules/calculate_hsmetrics_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 BAITS                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_probes.interval_list"
@@ -11,12 +8,6 @@ PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
 
-//--BPIPE_ENVIRONMENT_HERE--
-
-
-/*
- * PIPELINE NOTES:
- */
 Bpipe.run {
-    
+    "%.bam" * [calculate_hsmetrics_gfu.using(pretend:true)]
 }
