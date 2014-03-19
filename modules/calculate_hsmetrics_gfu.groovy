@@ -13,7 +13,7 @@ calculate_hsmetrics_gfu =
    	transform("hsmetrics") 
    	{
    		def command = """
-			$HSMETRICS BI=$BAITS TI=$TARGETS I=$input.bam O=$output REFERENCE_SEQUENCE=$REFERENCE_FASTA
+			$HSMETRICS BI=$BAITS TI=$TARGETS I=$input.bam O=$output REFERENCE_SEQUENCE=$REFERENCE_GENOME_FASTA
 		"""
 
 		if (pretend)
@@ -21,7 +21,7 @@ calculate_hsmetrics_gfu =
 			println """
 				INPUT_BAM       : $input.bam
 				OUTPUT          : $output
-				REFERENCE_FASTA : $REFERENCE_FASTA
+				REFERENCE_FASTA : $REFERENCE_GENOME_FASTA
 				BAITS           : $BAITS       
 				TARGETS         : $TARGETS
 				COMMAND         : $command
