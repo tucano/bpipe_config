@@ -27,5 +27,6 @@ Bpipe.run {
         mark_duplicates_gfu.using(sample_dir:true,remove_duplicates:false) +
         // rmdup_gfu.using(paired:true,sample_dir:true) +
         bam_flagstat_gfu.using(sample_dir:true)
-    ] + "%.bam" * [move_sample_results.using(result_dir:"BAM")]
+    ] + "%.bam" * [move_sample_results.using(result_dir:"BAM") + calculate_hsmetrics_gfu.using(output_dir:"HsMetrics") ] +
+    "*.hsmetrics" * [make_report_hsmetrics_gfu.using(output_dir:"doc")]
 }

@@ -3,18 +3,29 @@
 @preserve
 make_report_hsmetrics_gfu =
 {
-	var pretend : false
+	var pretend    : false
+	var output_dir : ""
 
 	doc title: "Make a report from a set of HS metrics",
         desc: "...",
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
+    if (output_dir != "") output.dir = output_dir
+
 	produce("HsMetrics_Report.tsv")
 	{
 		if (pretend)
 		{
-			exec "touch $output"
+			if (output_dir != "")
+			{
+				exec "touch ${output_dir}/HsMetrics_Report.tsv"	
+			}
+			else
+			{
+				exec "touch HsMetrics_Report.tsv"
+			}
+			
 		}
 		else
 		{
@@ -34,7 +45,17 @@ make_report_hsmetrics_gfu =
 			samples.each { sample_name, hsdata ->
 				report << "$sample_name" << "\t" << hsdata.join("\t") << "\n"
 			}
-			new File("$output").write(report.toString())
+
+			def output_filename = ""
+			if (output_dir != "")
+			{
+				output_filename = "${output_dir}/HsMetrics_Report.tsv"
+			}
+			else
+			{
+				output_filename = "HsMetrics_Report.tsv"
+			}
+			new File("$output_filename").write(report.toString())
 		}
 	}
 }
