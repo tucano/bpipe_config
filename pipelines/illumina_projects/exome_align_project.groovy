@@ -3,10 +3,14 @@ about title: "exome project alignment with bwa: IOS GFU 009"
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename <INPUT_DIRS>
 
-REFERENCE_GENOME = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/bwa/BPIPE_REFERENCE_GENOME"
-PLATFORM         = "illumina"
-CENTER           = "CTGB"
-ENVIRONMENT_FILE = "gfu_environment.sh"
+REFERENCE_GENOME       = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/bwa/BPIPE_REFERENCE_GENOME"
+REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
+BAITS                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_probes.interval_list"
+TARGETS                = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.interval_list"
+TARGETS_EXPANDED       = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions_slope200.interval_list"
+PLATFORM               = "illumina"
+CENTER                 = "CTGB"
+ENVIRONMENT_FILE       = "gfu_environment.sh"
 
 //--BPIPE_ENVIRONMENT_HERE--
 
