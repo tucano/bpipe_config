@@ -1,4 +1,4 @@
-# bpipe-config version 0.5
+# bpipe-config version 0.6
 
 bpip-config is a configuration and reporting software for bpipe.
 

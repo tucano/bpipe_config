@@ -1,15 +1,24 @@
 # Version 0.6
 
 bpipe-config:
-- smerge
-- project
+- smerge [META ANALYSIS]
+- project [PROTOTYPE]
 
 
 pipelines:
 - reorganized by type of input (exome, genome and rnaseq)
-- intervals, gemoes and exomes, healty exomes
+- intervals targets, gemoes and exomes, healty exomes
 - upgraded annotation: dbNSFP2.4.txt.gz
 - centralized paths for softwares: default_paths_gfu.groovy
+
+- exome align project:
+  + At the end of the alignment generate a report on Coverage metrics (HsMetrics) in the doc directory
+
+- fastqc pipeline:
+  + Works like the align_project pipelines: your working dir is /lustre2/scratch/PI/Project while input dta are in /lustre2/raw_data
+
+bpipe:
+- send, check and fail
 
 
 # Version 0.5 
