@@ -35,30 +35,36 @@ fastqc_sample_gfu =
     }
 
     // DEFINE OUTPUT PREFIX
-    def output_prefix
-    if (paired)
-    {
-        if (input_files.size <= 2)
-        {
-            output_prefix = input_files*.replaceAll(".fastq.gz","")
-        }
-        else
-        {
-            output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
-        }
-    }
-    else
-    {
-        if (input_files.size == 1)
-        {
-            output_prefix = input_files*.replaceAll(".fastq.gz","").unique()
-        }
-        else
-        {
-            output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
-        }
-    }
+    // IDENTIFY FIRST LANES
+    def lane_groups = input_files*.replaceAll(".fastq.gz","").groupBy([{ it.replaceAll(/_R[12].*/,"")}])
 
+    def output_prefix = []
+    lane_groups.each { prefix, files ->
+        if (paired)
+        {
+            if (files.size <= 2)
+            {
+                output_prefix << files
+            }
+            else
+            {
+                output_prefix << files*.replaceAll(/_[0-9]*/,"").unique()
+            }
+        }
+        else
+        {
+            if (files.size == 1)
+            {
+                output_prefix << files.unique()
+            }
+            else
+            {
+                output_prefix << files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
+            }
+        }
+    }
+    // FLATTEN THE ARRAY
+    output_prefix = output_prefix.flatten()
 
     if (paired)
     {

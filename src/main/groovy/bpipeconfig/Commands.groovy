@@ -417,11 +417,13 @@ class Commands
 						System.exit(1)
 					}
 					runner << """
+						echo "LAUNCHING bpipe in project dir: ${BpipeConfig.working_dir}"
 						cd ${BpipeConfig.working_dir}
 						${usage.toString().replaceFirst(/bpipe/,"bg-bpipe").replaceFirst(/<INPUT_DIRS>/,sample_paths.join(" "))}
 						sleep 5
 						cd ..
 					""".stripIndent()
+					"chmod 755 runner.sh".execute()
 					println Logger.message("I create a runner script for your projects. Run it with: ")
 					println Logger.message("\t./runner.sh")
 				}
