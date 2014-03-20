@@ -36,24 +36,24 @@ fastqc_sample_gfu =
 
     // DEFINE OUTPUT PREFIX
     def output_prefix
-    if (paired) 
+    if (paired)
     {
-        if (input_files.size <= 2) 
+        if (input_files.size <= 2)
         {
             output_prefix = input_files*.replaceAll(".fastq.gz","")
-        } 
-        else 
+        }
+        else
         {
             output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
         }
-    } 
-    else 
+    }
+    else
     {
-        if (input_files.size == 1) 
+        if (input_files.size == 1)
         {
             output_prefix = input_files*.replaceAll(".fastq.gz","").unique()
-        } 
-        else 
+        }
+        else
         {
             output_prefix = input_files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
         }
@@ -93,7 +93,7 @@ fastqc_sample_gfu =
             {
                 def command = new StringBuffer()
                 command << """
-                    $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;                
+                    $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
                 """
                 output_prefix.each { prefix ->
                     command << """
