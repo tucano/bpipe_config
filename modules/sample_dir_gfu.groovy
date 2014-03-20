@@ -22,6 +22,12 @@ sample_dir_gfu =
     new File(output_dir).mkdir()
     ['cp', "${input.dir}/SampleSheet.csv", "$output_dir"].execute().waitFor()
 
+    // copy gfu_envrinoment.sh
+    if (new File("${input.dir}/gfu_envrinoment.sh").exists())
+    {
+        ['cp', "${input.dir}/gfu_envrinoment.sh", "$output_dir"].execute().waitFor()
+    }
+
     // Link fastq.gz files
     dataDir.eachFile { file ->
         if (file.getName().endsWith(".fastq.gz"))

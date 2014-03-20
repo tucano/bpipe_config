@@ -1,20 +1,10 @@
 #!/bin/bash
 
 ###################################################################
-# BPIPE RUNNER
+# BPIPE RUNNER FOR MULTIPLE PROJECTS
 # bpipe-config version: $VERSION
 #
 # Check input files before run this script!
 # After launch, you can monitor with bpipe log
 ###################################################################
-
-for i in ${args.join(" ")}
-do
-    cd \$i
-    $usage
-    echo -e "BATCH MODE: Bpipe started in background in directory \$i"
-    echo -e "Use: bpipe log to monitor execution in \$i"
-    cd ..
-    sleep 5
-done
 

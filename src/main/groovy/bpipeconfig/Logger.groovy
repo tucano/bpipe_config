@@ -48,31 +48,31 @@ class Logger
 	{
 		out = new StringBuffer()
 		out << bold("\nAvailable Commands:\n")
-		
+
 		out << bold("config".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out	<< green(wrap("Configure current directory or directories in list (add bpipe.config file).", 60, 50)) << "\n"
-		
+
 		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out << green(wrap("Generate pipeline file in current directory or directories in list (pipeline.groovy)",60, 50)) << "\n"
-		
+
 		out << bold("project".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out << green(wrap("Generate a project pipeline for each directory in list (pipeline.groovy)",60, 50)) << "\n"
-		
+
 		out << bold("sheet".padRight(10)) << "<INFO> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out	<< green(wrap("Generate a SampleSheet.csv file using the INFO string in current directory or directories in list. SampleProject format: <PI_name>_<ProjectID>_<ProjectName>", 60, 50)) << "\n"
-		
+
 		out << bold("info".padRight(10)) << "<pipeline name> ... ".padLeft(15).padRight(40)
 		out << green("Get info on pipeline stages.") << "\n"
-		
+
 		out << bold("clean".padRight(10)) << "[dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out << green(wrap("Clean .bpipe dir in current working directory or in directory list.", 60, 50)) << "\n"
-		
+
 		out << bold("jvm".padRight(10)) << " ".padLeft(15).padRight(40)
 		out << green("Get info on the JVM configuration") << "\n"
-		
+
 		out << bold("smerge".padRight(10)) << "<Project1> <Project2> ...".padLeft(15).padRight(40)
 		out << green("Merge sample sheets from different Projects (for meta analysis)") << "\n"
-		
+
 		out << "\nUse: " << green("bpipe-config info <pipeline name>") << " to generate and html page with info for the pipeline.\n"
 		out << green("\nsheet command INFO argument format:\n") << "\tFCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=description,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name" << "\n"
 		return out.toString()
@@ -108,7 +108,7 @@ class Logger
 		out = new StringBuffer()
 		out << "\n" << bold("Configuration:") << "\n"
 		out << "\tCommand            = " << green(BpipeConfig.command) << "\n"
-		out << "\tWorking Directory  = " << green(BpipeConfig.working_dir) << "\n"
+		out << "\tWorking Directory  = " << green( new File(BpipeConfig.working_dir).absolutePath) << "\n"
 		out << "\tProject Name       = " << green(BpipeConfig.project_name) << "\n"
 		out << "\tUsername           = " << green(BpipeConfig.user_name) << "\n"
 

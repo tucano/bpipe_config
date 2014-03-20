@@ -1,10 +1,5 @@
 # Version 0.6
 
-bpipe-config:
-- smerge [META ANALYSIS]
-- project [PROTOTYPE]
-
-
 pipelines:
 - reorganized by type of input (exome, genome and rnaseq)
 - intervals targets, gemoes and exomes, healty exomes
@@ -15,10 +10,16 @@ pipelines:
   + At the end of the alignment generate a report on Coverage metrics (HsMetrics) in the doc directory
 
 - fastqc pipeline:
-  + Works like the align_project pipelines: your working dir is /lustre2/scratch/PI/Project while input dta are in /lustre2/raw_data
+  + Works like the align_project pipelines: You have a raw_data directory with fastq.gz reads (after demultiplex) and a scratch directory to perform analysis:
+    /lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
+    /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME
 
 bpipe:
 - send, check and fail
+
+bpipe-config new commands:
+- smerge: create a SampleSheet.csv mergin samples from different projects [META ANALYSIS]
+- project: launch the same pipeline on different projects [PROTOTYPE]
 
 
 # Version 0.5 

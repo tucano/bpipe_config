@@ -2,7 +2,7 @@
 
 gradle clean && gradle test && gradle stage && gradle dist
 CURRENT=`pwd -P`
-cd /lustre1/tool/libexec/
+cd /lustre1/tools/libexec/
 rm -f bpipeconfig_SNAPSHOT.tar.gz
 tar czvf bpipeconfig_SNAPSHOT.tar.gz bpipeconfig/
 cd ${CURRENT}/build

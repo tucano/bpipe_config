@@ -2,7 +2,7 @@
 
 for project in Tester_*
 do
-	rm -rf *.groovy $project/SampleSheet.csv $project/bpipe.config $project/.bpipe $project/*.groovy $project/commandlog.txt $project/runner.sh $project/doc
+	rm -rf *.groovy $project/SampleSheet.csv $project/bpipe.config $project/.bpipe $project/*.groovy $project/commandlog.txt $project/runner.sh $project/doc OUTPUT/*
 	for sample in ${project}/Sample_*
 	do
 		rm -rf $sample/gfu_environment.sh 

@@ -224,7 +224,7 @@ class Commands
 				}
 
 				// PRINT SAMPLES TO FILE
-				if (BpipeConfig.verbose) println Logger.info("Creating Project ${BpipeConfig.sample_sheet_name}")
+				if (BpipeConfig.verbose) println Logger.info("Creating Project ${BpipeConfig.sample_sheet_name}: ${dir}/${BpipeConfig.sample_sheet_name}")
 
 				def samples_csv = new StringBuffer()
 
@@ -327,17 +327,17 @@ class Commands
 			}
 			else
 			{
-				// ALTERNATIVE TOKENS: 
+				// ALTERNATIVE TOKENS:
 				//
 				// //--BPIPE_SAMPLE_INFO_HERE--  <-- is a single sample pipeline
 				// //--BPIPE_ENVIRONMENT_HERE--  <-- project_name and reference ONLY
 				//
 				// FOR MULTIPLE SAMPLES PIPELINES I USE THE SampleSheet.csv in current directory:
-				// For single sample stages I use the SampleSheet.csv in Sample dir. 
+				// For single sample stages I use the SampleSheet.csv in Sample dir.
 				// For multiple sample stages I will use the SampleSheet.csv in Project dir.
 				//
 				// FOR MULTIPLE SAMPLES PIPELINES IN SAME DIR NO gfu_environment.sh
-				
+
 				// SINGLE SAMPLE
 				if (pipeline_text.contains("//--BPIPE_SAMPLE_INFO_HERE--"))
 				{
@@ -357,7 +357,7 @@ class Commands
 					if ( ! createFile(template_gfu_env, "${dir}/gfu_environment.sh", BpipeConfig.force) ) {
 						println Logger.error("Problems creating gfu_environment.sh file!")
 					}
-					
+
 					// WRITING THE GFU_ENVIROMENT FILE AS GROOVY VARS in the pipeline
 					pipeline_text = pipeline_text.replaceAll( "//--BPIPE_SAMPLE_INFO_HERE--", template_gfu_env )
 				}
@@ -399,20 +399,46 @@ class Commands
 			if (pipeline["project_pipeline"])
 			{
 				generate_pipeline(BpipeConfig.working_dir)
-
 				println Logger.printUserOptions()
 				println Logger.printSamples(samples)
 
-				if ( ! BpipeConfig.batch)
+				// INPUT FILES CAN BE IN OUT DIRECTORY: USE CANONICAL PATHS
+				def sample_paths = args.collect { new File(it).canonicalPath }
+
+				// MULTI PROJECTS
+				if (BpipeConfig.working_dir != System.getProperty("user.dir"))
 				{
-					println Logger.info("To run the pipeline:")
-					println Logger.message(usage.toString().replaceFirst(/<INPUT_DIRS>/,args.join(" ")))
+					// IS MULTI PROJECT PIPELINE WITH MULTIPLE WORKING DIR
+					// FILL THE RUNNER
+					File runner = new File("${System.getProperty("user.dir")}/runner.sh")
+					if (! runner.exists() )
+					{
+						println Logger.error("Problems writing on multi project runner: ${System.getProperty("user.dir")}/runner.sh")
+						System.exit(1)
+					}
+					runner << """
+						cd ${BpipeConfig.working_dir}
+						${usage.toString().replaceFirst(/bpipe/,"bg-bpipe").replaceFirst(/<INPUT_DIRS>/,sample_paths.join(" "))}
+						sleep 5
+						cd ..
+					""".stripIndent()
+					println Logger.message("I create a runner script for your projects. Run it with: ")
+					println Logger.message("\t./runner.sh")
 				}
+				// SINGLE PROJECT
 				else
 				{
-					usage.toString().replaceFirst(/bpipe/,"bg-bpipe").replaceFirst(/<INPUT_DIRS>/,args.join(" ")).execute()
-					println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
-					println Logger.message("Use 'bpipe log' to monitor execution.")
+					if ( ! BpipeConfig.batch)
+					{
+						println Logger.info("To run the pipeline:")
+						println Logger.message(usage.toString().replaceFirst(/<INPUT_DIRS>/,sample_paths.join(" ")))
+					}
+					else
+					{
+						usage.toString().replaceFirst(/bpipe/,"bg-bpipe").replaceFirst(/<INPUT_DIRS>/,sample_paths.join(" ")).execute()
+						println Logger.message("BATCH MODE: Bpipe started in background in ${BpipeConfig.working_dir}")
+						println Logger.message("Use 'bpipe log' to monitor execution.")
+					}
 				}
 			}
 			else
@@ -523,11 +549,18 @@ class Commands
 		}
 		// LOG
 		println Logger.printProjects(projects, pipeline_name)
+		// CREATE A RUNNER (EMPTY)
+		new File("${BpipeConfig.working_dir}/runner.sh").write(new File("${BpipeConfig.bpipe_config_home}/templates/multi_projects_runner.sh.template").text)
+
 		// SEND PIPE COMMAND changing working dir
 		def old_path = BpipeConfig.working_dir
 		projects.each { project, samples ->
 			def pargs = [pipeline_name, samples].flatten()
-			BpipeConfig.working_dir = project
+			def project_dir = project.replaceFirst(/.*\//,"")
+			// create project output dir if doesn't exists
+			new File(project_dir).mkdir()
+			BpipeConfig.working_dir = project_dir
+			BpipeConfig.project_name = project_dir
 			pipe(pargs)
 		}
 		BpipeConfig.working_dir = old_path
