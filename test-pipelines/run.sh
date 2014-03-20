@@ -60,7 +60,7 @@ echo "Success: $module_succ"
 echo "Fail:    $module_fail"
 echo
 echo
-if [ $fail -gt 0 ];
+if [ $module_fail -gt 0 ];
 then
   echo "Failed module tests:"
   printf "$module_failures"
@@ -73,7 +73,7 @@ echo
 echo "Success: $pipeline_succ"
 echo "Fail:    $pipeline_fail"
 echo
-if [ $fail -gt 0 ];
+if [ $pipeline_fail -gt 0 ];
 then
   echo "Failed pipeline tests:"
   printf "$pipeline_failures"
