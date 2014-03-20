@@ -9,6 +9,24 @@ SAMPLEID="S1"
 CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
+present_fastqgz =
+{
+    println "INPUT DIR $input.dir"
+    def dataDir = new File(input.dir)
+    def outputs = []
+    output.dir = input.dir
+    dataDir.eachFile { file ->
+        if (file.getName().endsWith(".fastq.gz"))
+        {
+            outputs << file.getName()
+        }
+    }
+    produce(outputs)
+    {
+        exec "echo 'FORWARDING fastq gz files'"
+    }
+}
+
 Bpipe.run {
-    "%" * [ make_report_dir_gfu ]
+    "%" * [ present_fastqgz + make_report_dir_gfu ]
 }
