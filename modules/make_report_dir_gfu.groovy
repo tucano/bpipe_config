@@ -9,7 +9,7 @@ make_report_dir_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def outputs = [
-        (input.dir.replaceAll(/\/$/,"") + "_report")
+        (input.dir.replaceAll(/\/$/,"").replaceFirst(/.*\//,"") + "_report")
     ]
 
     produce(outputs)
