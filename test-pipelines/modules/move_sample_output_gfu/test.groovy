@@ -1,4 +1,4 @@
-load "../../../modules/move_sample_results.groovy"
+load "../../../modules/move_sample_output_gfu.groovy"
 
 REFERENCE_GENOME="/test/reference/pippo.fa"
 EXPERIMENT_NAME="test"
@@ -10,5 +10,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "*" * [ move_sample_results.using(result_dir:"MERGED_BAM",pretend:true) ]
+    "*" * [ move_sample_output_gfu.using(result_dir:"MERGED_BAM",pretend:true) ]
 }

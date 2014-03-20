@@ -92,7 +92,7 @@ project_report_fastqc_gfu =
     	new File("${samples[0]["SampleProject"]}_fastqc_report.html").write(html_index)
 
     	command << """
-    		cp ${samples[0]["SampleProject"]}_fastqc_report.html ${project_report_dir}/index.html
+    		mv ${samples[0]["SampleProject"]}_fastqc_report.html ${project_report_dir}/index.html
     	"""
 
  		println """
