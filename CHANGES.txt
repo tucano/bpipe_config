@@ -14,12 +14,17 @@ pipelines:
     /lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
     /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME
 
-bpipe:
+bpipe 0.9.8.6_beta_4.gfu:
 - send, check and fail
 
 bpipe-config new commands:
 - smerge: create a SampleSheet.csv mergin samples from different projects [META ANALYSIS]
 - project: launch the same pipeline on different projects [PROTOTYPE]
+  Example:
+  mkdir /lustre2/scratch/RUN145
+  cd /lustre2/scratch/RUN145
+  bpipe-config project fastqc_project /lustre2/raw_data/140211_SN859_0140_AD2A9EACXX/Project_*
+  
 
 
 # Version 0.5 
