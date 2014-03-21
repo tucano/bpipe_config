@@ -48,7 +48,7 @@ fastqc_sample_gfu =
             }
             else
             {
-                output_prefix << files*.replaceAll(/_[0-9]*/,"").unique()
+                output_prefix << files*.replaceFirst(/_[0-9]*$/,"").unique()
             }
         }
         else
@@ -59,7 +59,7 @@ fastqc_sample_gfu =
             }
             else
             {
-                output_prefix << files*.replaceAll(/_[0-9]*\.fastq\.gz/,"").unique()
+                output_prefix << files*.replaceFirst(/_[0-9]*$/,"").unique()
             }
         }
     }
@@ -75,6 +75,18 @@ fastqc_sample_gfu =
 
         produce(outputs)
         {
+            def command = new StringBuffer()
+            command << """
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
+            """
+            output_prefix.each { prefix ->
+                command << """
+                    unzip -o ${input}/${prefix}_fastqc.zip;
+                    rm ${input}/${prefix}_fastqc.zip;
+                    cp ${input}/${prefix}_fastqc/fastqc_data.txt ${input}/${prefix}_fastqc_data.txt;
+                """
+            }
+
             if (pretend)
             {
                 println """
@@ -83,33 +95,20 @@ fastqc_sample_gfu =
                     INPUT FILES: $input_files
                     OUTPUT PREFIX: ${output_prefix}
                     OUTPUTS: $outputs
+                    COMMAND: $command
+                    WORKING_DIR: ${System.getProperty("user.dir")}
                 """
-                def command = new StringBuffer()
+                command = new StringBuffer()
                 output_prefix.each { prefix ->
                     command << """
                         touch ${input}/${prefix}_zipdata.txt;
                         zip -r ${input}/${prefix}_zipdata.zip ${input}/${prefix}_zipdata.txt;
-                        unzip -o ${input}/${prefix}_zipdata.zip -d ${input};
+                        unzip -o ${input}/${prefix}_zipdata.zip;
                         touch ${input}/${prefix}_fastqc_data.txt;
                     """
                 }
-                exec "$command"
             }
-            else
-            {
-                def command = new StringBuffer()
-                command << """
-                    $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
-                """
-                output_prefix.each { prefix ->
-                    command << """
-                        unzip -o ${input}/${prefix}_fastqc.zip -d ${input};
-                        rm ${input}/${prefix}_fastqc.zip;
-                        cp ${input}/${prefix}_fastqc/fastqc_data.txt ${input}/${prefix}_fastqc_data.txt;
-                    """
-                }
-                exec "$command", "fastqc"
-            }
+            exec "$command","fastqc"
         }
     }
     else
@@ -121,6 +120,18 @@ fastqc_sample_gfu =
 
         produce(outputs)
         {
+            def command = new StringBuffer()
+            command << """
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
+            """
+            output_prefix.each { prefix ->
+                command << """
+                    unzip -o ${input}/${prefix}_fastqc.zip;
+                    rm ${input}/${prefix}_fastqc.zip;
+                    cp ${input}/${prefix}_fastqc/fastqc_data.txt $output;
+                """
+            }
+
             if (pretend)
             {
                 println """
@@ -130,32 +141,17 @@ fastqc_sample_gfu =
                     OUTPUT PREFIX: ${output_prefix}
                     OUTPUT: $output
                 """
-                def command = new StringBuffer()
+                command = new StringBuffer()
                 output_prefix.each { prefix ->
                     command << """
                         touch ${input}/${prefix}_zipdata.txt;
                         zip -r ${input}/${prefix}_zipdata.zip ${input}/${prefix}_zipdata.txt;
-                        unzip -o ${input}/${prefix}_zipdata.zip -d ${input};
+                        unzip -o ${input}/${prefix}_zipdata.zip;
                         touch ${input}/${prefix}_fastqc_data.txt;
                     """
                 }
-                exec "$command"
             }
-            else
-            {
-                def command = new StringBuffer()
-                command << """
-                    $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
-                """
-                output_prefix.each { prefix ->
-                    command << """
-                        unzip -o ${input}/${prefix}_fastqc.zip -d ${input};
-                        rm ${input}/${prefix}_fastqc.zip;
-                        cp ${input}/${prefix}_fastqc/fastqc_data.txt $output;
-                    """
-                }
-                exec "$command", "fastqc"
-            }
+            exec "$command", "fastqc"
         }
     }
 }

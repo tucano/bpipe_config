@@ -16,6 +16,7 @@ move_sample_results =
         """,
         author: "davide.rambaldi@gmail.com"
 
+    // FIXME COPY ALSO SampleSheet.csv
     def outputs = []
     inputs.each { file ->
         def filename = file.replaceFirst(/.*\//,"")
