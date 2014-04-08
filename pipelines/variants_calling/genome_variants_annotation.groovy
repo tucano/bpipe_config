@@ -3,10 +3,10 @@ about title: "Human variants annotation: IOS 005"
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename input.vcf
 
+// HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.4.txt.gz"
 SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
-HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
@@ -20,12 +20,13 @@ VCF2XLS_ANNOTATION     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/vcf
 /*
  * PIPELINE NOTES:
  * HEALTY_EXOMES_DIR:
- * The pipeline is designed to remove the HealtyExomes samples from annotation
- * if you don't want to remove healty exomes remove the stage vcf_sumbsam_gfu
+ * BY DEFAULT HEALTY EXOMES ARE NOT USED TO CALL VARIANTS FOR GENOME VARIANTS CALLING!
+ * IF YOU WANT TO REMOVE THEM uncomment HEALTY_EXOMES_DIR and uncomment vcf_subsam_gfu stage
  */
 Bpipe.run {
     set_stripe_gfu + "%.vcf" * [
-        vcf_subsam_gfu + snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpeff_gfu + snpsift_filter_quality_gfu +
+        // vcf_subsam_gfu +
+        snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpeff_gfu + snpsift_filter_quality_gfu +
         markvcf_gfu + snpsift_filter_impact_gfu + vcf_to_xls_gfu
     ]
 }

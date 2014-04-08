@@ -1,30 +1,64 @@
 # Version 0.6
 
-pipelines:
-- reorganized by type of input (exome, genome and rnaseq)
-- intervals targets, gemoes and exomes, healty exomes
-- upgraded annotation: dbNSFP2.4.txt.gz
-- centralized paths for softwares: default_paths_gfu.groovy
+- CENTRALIZED DEFAULT PATHS 
+   the module: default_paths_gfu.groovy contains the SOFTWARE PATHS used currently by bpipe in ALL our modules
+   (location: /lustre1/tools/libexec/bpipeconfig/modules/default_paths_gfu.groovy). You can override the SOFTWARE PATHS definition in your pipeline.groovy file
 
-- exome align project:
-  + At the end of the alignment generate a report on Coverage metrics (HsMetrics) in the doc directory
+- pipelines reorganized by type of input (exome, genome and rnaseq)
 
-- fastqc pipeline:
-  + Works like the align_project pipelines: You have a raw_data directory with fastq.gz reads (after demultiplex) and a scratch directory to perform analysis:
-    /lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
-    /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME
+- Quality Control pipelines are now in subgroup “quality_control"
+
+- exome pipelines: 
+  * EXOME PIPELINES use TARGET_INTERVALS (nextera rapid capture targets as default)
+  * EXOME VARIANTS CALLING and BAM RECALIBRATION use by default HealtyExomes in /lustre1/workspace/Stupka/HealtyExomes/
+  * EXOME VARIANTS ANNOTATION: remove by default HealtyExomes from the vcf file  
+  * EXOME ALIGN PROJECT now generate an HsMetrics report in the doc subdirectory (see quality_control)
+
+- genome pipelines:
+  * DON’T USE TARGET INTERVALS
+  * VARIANTS CALLING and BAM RECALIBRATION DON’T USE by default HealtyExomes in /lustre1/workspace/Stupka/HealtyExomes/ (but can be changed in the pipeline file)
+
+- variants annotation (exome and genome):
+  * upgraded dbSNFSP annotation (current: dbNSFP2.4.txt.gz)
+
+- quality_control:
+  * new pipeline hsmetrics, calculate hs metrics of a set of bam files (for columns definition see: http://picard.sourceforge.net/picard-metric-definitions.shtml#HsMetrics)
+  * fastqc_project pipeline: 
+    Works like the align_project pipelines, You have a raw_data directory with fastq.gz reads (after demultiplex) and a scratch directory to perform analysis:
+       /lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
+       /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME
+
+    You launch the pipelines FROM the /lustre2/scratch/ directory pointing to /lustre2/raw_data/ directory:
+  cd /lustre2/scratch/PINAME/PROJECTID_PROJECTNAME
+  bpipe-config pipe fastqc_project /lustre2/raw_data/RUN_NAME/PINAME_PROJECTID_PROJECTNAME
+   
+  * THIS CONFIGURATION (working dir: scratch, data dir: raw_data) avoid pollution of the raw_data dir with bpipe intermediate files (everything is done the scratch dir)
 
 bpipe 0.9.8.6_beta_4.gfu:
 - send, check and fail
 
 bpipe-config new commands:
-- smerge: create a SampleSheet.csv mergin samples from different projects [META ANALYSIS]
-- project: launch the same pipeline on different projects [PROTOTYPE]
-  Example:
-  mkdir /lustre2/scratch/RUN145
-  cd /lustre2/scratch/RUN145
-  bpipe-config project fastqc_project /lustre2/raw_data/140211_SN859_0140_AD2A9EACXX/Project_*
-  
+- project
+
+With the project command you can launch the same project pipeline on multiple projects.
+
+Example:
+
+SCENARIO: You have just demultiplexed the RUN140 in  /lustre2/raw_data/140211_SN859_0140_AD2A9EACXX and you want to launch the fastqc_project pipeline on all the Projects in the RUN 140
+
+COMMANDS:
+
+> mkdir /lustre2/scratch/RUN140_fastqc
+> cd /lustre2/scratch/RUN140_fastqc
+> bpipe-config project fastqc_project /lustre2/raw_data/140211_SN859_0140_AD2A9EACXX/Project_*
+> ./runner.sh
+
+A fastqc project pipeline will be launched for each Project dir in the RUN140
+
+
+- smerge 
+
+This command with this cool name merge SampleSheet.csv from different projects
 
 
 # Version 0.5 
@@ -38,6 +72,9 @@ More pipelines:
 
 * prototype for medip pipeline
 
+The new fastqc project pipeline generate a better fastqc, with an index page to navigate samples:
+
+Example: /lustre1/QC-Illumina/140211_SN859_0140_AD2A9EACXX/Stupka_10_RareDisease_fastqc_report/index.html
 
 
 # Version 0.4
