@@ -36,6 +36,11 @@ project_report_fastqc_gfu =
                 }
                 samples << sample_map
             }
+            def unique_samples = []
+            samples.each { sample ->
+                unique_samples << sample["SampleID"]
+            }
+            unique_samples = unique_samples.unique()
 
             def project_report_dir = "${samples[0]["SampleProject"]}_fastqc_report"
             def report_dirs = inputs.collect{ it.replaceAll(/\/.*/,"") }.unique()
@@ -67,8 +72,8 @@ project_report_fastqc_gfu =
 
             // MAKE AN INDEX.HTML PAGE
             def samples_html = new StringBuffer()
-            samples.each { sample ->
-                def reports_data = inputs.findAll{ inp -> inp ==~ /.*${sample["SampleID"]}.*/ }
+            unique_samples.each { sample ->
+                def reports_data = inputs.findAll{ inp -> inp ==~ /.*${sample}.*/ }
                 def total_seq_html = new StringBuffer()
                 total_seq_html << "<table>"
                 reports_data.each { r ->
@@ -78,7 +83,7 @@ project_report_fastqc_gfu =
                 }
                 total_seq_html << "</table>"
 
-                def reports = fastqc_html.findAll{ report -> report ==~ /.*${sample["SampleID"]}.*/ }
+                def reports = fastqc_html.findAll{ report -> report ==~ /.*${sample}.*/ }
                 def reports_html = new StringBuffer()
                 reports_html << "<table>"
                 reports.each { r ->
@@ -90,7 +95,7 @@ project_report_fastqc_gfu =
 
                 samples_html << """
                     <tr>
-                        <td>${sample["SampleID"]}</td>
+                        <td>${sample}</td>
                         <td>$total_seq_html</td>
                         <td>$reports_html</td>
                     </tr>
