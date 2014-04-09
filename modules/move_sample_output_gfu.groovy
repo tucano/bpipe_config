@@ -34,10 +34,10 @@ move_sample_output_gfu =
         """
 
         inputs.each { file ->
-            command += "mv $file $result_dir/; ln -s ${result_dir}/${file.replaceFirst(/.*\//,"")} ${file};"
+            command += "mv $file $result_dir/; ln -s ../${result_dir}/${file.replaceFirst(/.*\//,"")} ${file};"
             if (file.endsWith('.bam'))
             {
-                command += "mv ${file.prefix}.bai $result_dir/; ln -s ${result_dir}/${file.prefix.replaceFirst(/.*\//,"")}.bai ${file.prefix}.bai;"
+                command += "mv ${file.prefix}.bai $result_dir/; ln -s ../${result_dir}/${file.prefix.replaceFirst(/.*\//,"")}.bai ${file.prefix}.bai;"
             }
         }
 
