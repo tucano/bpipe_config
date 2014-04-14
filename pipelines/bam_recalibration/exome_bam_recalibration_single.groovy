@@ -20,8 +20,8 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
  */
 Bpipe.run {
-    "%.bam" * [ realiagner_target_creator_gfu.using(target_intervals:true) + 
-    			indel_realigner_gfu.using(target_intervals:true) + 
-    			base_recalibrator_gfu.using(target_intervals:true) + 
+    "%.bam" * [ realiagner_target_creator_gfu.using(target_intervals:true) +
+    			indel_realigner_gfu.using(target_intervals:true) +
+    			base_recalibrator_gfu.using(target_intervals:true) +
     			base_print_reads_gfu.using(target_intervals:true) ]
 }

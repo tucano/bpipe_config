@@ -21,8 +21,8 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * the pipeline use the HealtyExomes in path to recalibrate the bam files
  */
 Bpipe.run {
-    "%.bam" * [ realiagner_target_creator_gfu.using(target_intervals:false) + 
+    "%.bam" * [ realiagner_target_creator_gfu.using(target_intervals:false) +
     			indel_realigner_gfu.using(target_intervals:false) ] +
-    "*.bam" * [ base_recalibrator_gfu.using(healty_exomes:true,target_intervals:false) ] +
+    "*.bam" * [ base_recalibrator_gfu.using(healty_exomes:false,target_intervals:false) ] +
     "%.bam" * [ base_print_reads_gfu.using(target_intervals:false) ]
 }

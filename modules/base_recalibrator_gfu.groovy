@@ -42,7 +42,7 @@ base_recalibrator_gfu =
     }
 
     def healty_exomes_input_string = new StringBuffer()
-    
+
     if (healty_exomes)
     {
         new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
