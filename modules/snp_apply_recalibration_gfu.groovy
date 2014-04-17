@@ -19,7 +19,7 @@ snp_apply_recalibration_gfu =
             ulimit -s unlimited;
             $GATK -T ApplyRecalibration
                   -R $REFERENCE_GENOME_FASTA
-                  -input $input.vcf
+                  -I $input.vcf
                   -tranchesFile $input.tranches
                   -recalFile $input.csv
                   --mode SNP

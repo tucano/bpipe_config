@@ -40,7 +40,7 @@ indel_variant_recalibrator_gfu =
             ulimit -s unlimited;
             $GATK -T VariantRecalibrator
                   -R $REFERENCE_GENOME_FASTA
-                  -input $input.vcf
+                  -I $input.vcf
                   --maxGaussians $max_gaussian
                   -percentBad $percent_bad
                   -minNumBad $min_num_bad
