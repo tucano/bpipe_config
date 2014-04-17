@@ -27,7 +27,7 @@ indel_apply_recalibration_gfu =
             ulimit -s unlimited;
             $GATK -T ApplyRecalibration
                   -R $REFERENCE_GENOME_FASTA
-                  -I $input.vcf
+                  -input $input.vcf
                   -tranchesFile $input.tranches
                   -recalFile $input.csv
                   --mode INDEL
