@@ -4,12 +4,12 @@ import static groovy.io.FileType.*
 @intermediate
 unified_genotyper_by_chromosome_gfu =
 {
-    var pretend       : false
-    var call_conf     : 20.0
-    var nct           : 16
-    var glm           : "BOTH"
-    var unsafe        : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
-    var rename        : ""
+    var pretend        : false
+    var call_conf      : 20.0
+    var nct            : 16
+    var glm            : "BOTH"
+    var unsafe         : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
+    var rename         : ""
     var healty_exomes  : false
     var min_indel_frac : 0.2
 
