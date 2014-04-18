@@ -11,6 +11,7 @@ unified_genotyper_by_truseq_gfu =
     var unsafe        : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
     var rename        : ""
     var healty_exomes : false
+    var min_indel_frac : 0.2
 
     doc title: "GATK: Unified Genotyper",
         desc: """
@@ -52,7 +53,7 @@ unified_genotyper_by_truseq_gfu =
               -stand_call_conf $call_conf
               -glm $glm
               -U $unsafe
-              --interval_merging OVERLAPPING_ONLY
+              -minIndelFrac $min_indel_frac
     """
 
     def output_prefix

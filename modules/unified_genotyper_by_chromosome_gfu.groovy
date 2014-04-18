@@ -10,7 +10,8 @@ unified_genotyper_by_chromosome_gfu =
     var glm           : "BOTH"
     var unsafe        : "ALLOW_SEQ_DICT_INCOMPATIBILITY"
     var rename        : ""
-    var healty_exomes : false
+    var healty_exomes  : false
+    var min_indel_frac : 0.2
 
     doc title: "GATK: Unified Genotyper",
         desc: """
@@ -62,6 +63,7 @@ unified_genotyper_by_chromosome_gfu =
                   -U $unsafe
                   -L $chr
                   -o $output.vcf
+                  -minIndelFrac $min_indel_frac
         """
 
         if (pretend)
