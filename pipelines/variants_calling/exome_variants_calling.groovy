@@ -31,8 +31,8 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * the pipeline use the HealtyExomes in path to call variants
  */
 Bpipe.run {
-    set_stripe_gfu + chr(1..22,'X','Y') * 
-    [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu.using(rename:"all_samples",healty_exomes:true) ] + 
+    set_stripe_gfu + chr(1..22,'X','Y') *
+    [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu.using(rename:"all_samples",healty_exomes:true,with_groups:true) ] +
     vcf_concat_gfu +
     "%.vcf" * [
         snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
