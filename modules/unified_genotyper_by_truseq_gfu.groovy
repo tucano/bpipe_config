@@ -12,6 +12,7 @@ unified_genotyper_by_truseq_gfu =
     var rename         : ""
     var healty_exomes  : false
     var min_indel_frac : 0.2
+    var with_groups    : true
 
     doc title: "GATK: Unified Genotyper",
         desc: """
@@ -65,49 +66,71 @@ unified_genotyper_by_truseq_gfu =
 
     produce("${output_prefix}.${chr}.vcf")
     {
-        // generate a fixed number (10+1) of ranges with collate
-        def ranges    = new File(input.intervals).text.split("\n").toList()
-        def intervals = Math.floor(ranges.size / 10) as int
-        def jobs      = []
-        for (i in 0 .. 9) {
-            if (i == 9) {
-                jobs << ranges
-            } else {
-                jobs << ranges.take(intervals)
-                ranges = ranges.drop(intervals)
+        def commands = []
+
+        if (with_groups)
+        {
+            // generate a fixed number (10+1) of ranges with collate
+            def ranges    = new File(input.intervals).text.split("\n").toList()
+            def intervals = Math.floor(ranges.size / 10) as int
+            def jobs      = []
+            for (i in 0 .. 9) {
+                if (i == 9) {
+                    jobs << ranges
+                } else {
+                    jobs << ranges.take(intervals)
+                    ranges = ranges.drop(intervals)
+                }
+            }
+
+
+            jobs.eachWithIndex() { group, i ->
+                def chr_intervals = group.collect { "-L $it"}.join(" ")
+                commands << """
+                    $command_gatk -o ${output_prefix}.${chr}.group_${i}.vcf ${chr_intervals}
+                """
             }
         }
 
-        def commands = []
-        jobs.eachWithIndex() { group, i ->
-            def chr_intervals = group.collect { "-L $it"}.join(" ")
-            commands << """
-                $command_gatk -o ${output_prefix}.${chr}.group_${i}.vcf ${chr_intervals}
-            """
-        }
 
         if (pretend)
         {
             println "INPUT: $inputs"
             println "TEST MODE FOR CHROMOSOME $chr  [multi steps]"
             println "FINAL OUTPUT: $output"
-            println "COMMAND LIST:"
-            commands.each { com ->
-                println "COMMAND: $com"
+            if (with_groups)
+            {
+                println "COMMAND LIST:"
+                commands.each { com ->
+                    println "COMMAND: $com"
+                }
+            }
+            else
+            {
+                print "COMMAND: $command_gatk -o ${output.vcf} -L ${input.intervals};"
             }
             exec "touch $output"
         }
         else
         {
-            // fixed with https://groups.google.com/forum/#!msg/bpipe-discuss/GQGTsrrAuDU/FSNcFTEYXosJ
-            multiExec(commands)
+            if (with_groups)
+            {
+                // fixed with https://groups.google.com/forum/#!msg/bpipe-discuss/GQGTsrrAuDU/FSNcFTEYXosJ
+                multiExec(commands)
 
-            // CONCAT VCF FILES AND SORT
-            exec """
-                $VCFCONCAT ${output_prefix}.${chr}.group_*.vcf | $VCFSORT > ${output_prefix}.${chr}.vcf;
-                rm ${output_prefix}.${chr}.group_*.vcf;
-                rm ${output_prefix}.${chr}.group_*.vcf.idx;
-            ""","gatk"
+                // CONCAT VCF FILES AND SORT
+                exec """
+                    $VCFCONCAT ${output_prefix}.${chr}.group_*.vcf | $VCFSORT > ${output_prefix}.${chr}.vcf;
+                    rm ${output_prefix}.${chr}.group_*.vcf;
+                    rm ${output_prefix}.${chr}.group_*.vcf.idx;
+                ""","gatk"
+            }
+            else
+            {
+                exec """
+                    $command_gatk -o ${output.vcf} -L ${input.intervals};
+                """, "gatk"
+            }
         }
     }
     forward output.vcf
