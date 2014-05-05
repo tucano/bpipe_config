@@ -84,6 +84,7 @@ class Logger
 		out << "\n" << bold("Samples Info: ") << "\n"
 		samples.each { item ->
 			out << "\tID: " << bold("${item["SampleID"]}");
+			out << "\tLANE: " << bold("${item["Lane"]}");
 			out << "\tREFERENCE: " << bold("${item["SampleRef"]}");
 			out << "\tDESCRIPTION: " << bold("${item["Description"]}");
 			out << "\tRECIPE: " << bold("${item["Recipe"]}");
