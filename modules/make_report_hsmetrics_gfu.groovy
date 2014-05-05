@@ -3,15 +3,15 @@
 @preserve
 make_report_hsmetrics_gfu =
 {
-	var pretend    : false
-	var output_dir : ""
+	var pretend       : false
+	var output_dir    : ""
 
 	doc title: "Make a report from a set of HS metrics",
         desc: "...",
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    if (output_dir != "") output.dir = output_dir
+  if (output_dir != "") output.dir = output_dir
 
 	produce("HsMetrics_Report.tsv")
 	{
@@ -19,13 +19,13 @@ make_report_hsmetrics_gfu =
 		{
 			if (output_dir != "")
 			{
-				exec "touch ${output_dir}/HsMetrics_Report.tsv"	
+				exec "touch ${output_dir}/HsMetrics_Report.tsv; touch ${output_dir}/HsMetrics_Report.html"
 			}
 			else
 			{
-				exec "touch HsMetrics_Report.tsv"
+				exec "touch HsMetrics_Report.tsv; touch HsMetrics_Report.html"
 			}
-			
+
 		}
 		else
 		{
@@ -38,24 +38,25 @@ make_report_hsmetrics_gfu =
 				def hsmetrics = file.readLines()[7]
 				samples[sample] = hsmetrics.split("\t")
 			}
+
 			// write a metrics file with sample name as first column
 			def report = new StringBuffer()
 			report << ["SAMPLE_NAME", headers].flatten().join("\t") << "\n"
-			
+
 			samples.each { sample_name, hsdata ->
 				report << "$sample_name" << "\t" << hsdata.join("\t") << "\n"
 			}
 
-			def output_filename = ""
+			def output_filename_csv = ""
 			if (output_dir != "")
 			{
-				output_filename = "${output_dir}/HsMetrics_Report.tsv"
+				output_filename_csv = "${output_dir}/HsMetrics_Report.tsv"
 			}
 			else
 			{
-				output_filename = "HsMetrics_Report.tsv"
+				output_filename_csv = "HsMetrics_Report.tsv"
 			}
-			new File("$output_filename").write(report.toString())
+			new File("$output_filename_csv").write(report.toString())
 		}
 	}
 }
