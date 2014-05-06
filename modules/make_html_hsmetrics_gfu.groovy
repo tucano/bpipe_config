@@ -7,7 +7,7 @@ make_html_hsmetrics_gfu =
   var pretend       : false
   var output_dir    : ""
 
-  doc title: "Make a report from a set of HS metrics",
+  doc title: "Make a html report from a set of HS metrics",
       desc: "...",
       constraints: "...",
       author: "davide.rambaldi@gmail.com"
