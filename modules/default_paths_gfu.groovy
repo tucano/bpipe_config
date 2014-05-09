@@ -1,5 +1,4 @@
 // THIS MODULE STORE ALL THE SOFTWARE PATHS IN USE ON THE CLUSTER
-
 BWA                = "/lustre1/tools/bin/bwa"
 FASTQC             = "/lustre1/tools/bin/fastqc"
 GATK               = "java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
