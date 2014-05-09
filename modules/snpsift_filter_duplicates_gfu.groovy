@@ -1,5 +1,6 @@
 // MODULE SNPSIFT FILTER DUPLICATES GFU
 
+@preserve
 snpsift_filter_duplicates_gfu =
 {
     var pretend : false
