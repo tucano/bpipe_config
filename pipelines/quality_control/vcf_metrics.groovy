@@ -15,5 +15,5 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-  "%.vcf" * [vcf_coverage_gfu]
+  "%.vcf" * [vcf_coverage_gfu, vcf_called_intervals_gfu]
 }

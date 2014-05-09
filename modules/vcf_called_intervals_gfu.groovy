@@ -11,6 +11,8 @@ vcf_called_intervals_gfu =
       constraints: "...",
       author: "davide.rambaldi@gmail.com"
 
+  if (output_dir != "") output.dir = output_dir
+
   produce("vcf_called_intervals.log")
   {
 
