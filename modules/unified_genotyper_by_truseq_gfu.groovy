@@ -33,13 +33,20 @@ unified_genotyper_by_truseq_gfu =
                 region set      = ${input.intervals}
                 Unsafe          = $unsafe
         """,
+        constraints: "This stage use a file list for input bam. For security the list is removed in the next stage (vcf_concat)",
         author: "davide.rambaldi@gmail.com"
 
-    def healty_exomes_input_string = new StringBuffer()
-    if (healty_exomes)
+    def bam_list = new File("input_bams.${chr}.list")
+    if (!bam_list.exists())
     {
-        new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
-            healty_exomes_input_string << "-I $bam "
+        if (healty_exomes)
+        {
+            new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
+                bam_list << bam << "\n"
+            }
+        }
+        inputs.bam.each { bam ->
+            bam_list << bam << "\n"
         }
     }
 
@@ -47,7 +54,7 @@ unified_genotyper_by_truseq_gfu =
         ulimit -l unlimited;
         ulimit -s unlimited;
         $GATK -R $REFERENCE_GENOME_FASTA
-              ${inputs.bam.collect{ "-I $it" }.join(" ")} ${healty_exomes_input_string}
+              -I input_bams.${chr}.list
               --dbsnp $DBSNP
               -T UnifiedGenotyper
               -nct $nct
@@ -64,7 +71,7 @@ unified_genotyper_by_truseq_gfu =
         output_prefix = "${input.bam.prefix}"
     }
 
-    produce("${output_prefix}.${chr}.vcf")
+    produce("${output_prefix}.${chr}.vcf","input_bams.${chr}.list")
     {
         def commands = []
 

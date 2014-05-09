@@ -8,7 +8,7 @@ vcf_concat_gfu =
 
     doc title: "Vcf concat stage",
         desc: "Sort and concatenate VCF files",
-        constraints: "...",
+        constraints: "",
         author: "davide.rambaldi@gmail.com"
 
     // remove chr from file name
@@ -19,7 +19,7 @@ vcf_concat_gfu =
         produce("${output_prefix}.${with_suffix}.vcf")
         {
             def command = """
-                $VCFCONCAT $inputs.vcf | $VCFSORT > $output
+                $VCFCONCAT $inputs.vcf | $VCFSORT > $output;
             """
 
             if (pretend)
@@ -43,7 +43,7 @@ vcf_concat_gfu =
         produce("${output_prefix}.vcf")
         {
             def command = """
-                $VCFCONCAT $inputs.vcf | $VCFSORT > $output
+                $VCFCONCAT $inputs.vcf | $VCFSORT > $output;
             """
 
             if (pretend)
