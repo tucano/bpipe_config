@@ -34,8 +34,7 @@ fi
 if [[ -f $PROFILE ]]
 then
 	log "Sourcing $PROFILE"
-	. $PROFILE
-	source $PROFILE
+	. ./$PROFILE
 fi
 
 which bpipe 1>/dev/null 2>&1 || fail "Can't find bpipe binary with which! Something goes wrong here..."
