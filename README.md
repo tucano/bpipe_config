@@ -7,7 +7,8 @@ bpip-config is a configuration and reporting software for bpipe.
 How to install and use bpipe and bpipe-config:
 
 ```
-. ./lustre1/tools/libexec/bpipeconfig/misc/install.sh
+./lustre1/tools/libexec/bpipeconfig/misc/install.sh
+source ~/.bash_profile
 ```
 
 This will add some environment vars to your __.bash_profile__ file
