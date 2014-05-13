@@ -34,16 +34,12 @@ fi
 if [[ -f $PROFILE ]]
 then
 	log "BPIPE Environment saved in $PROFILE"
-  log "Exporting enviroment in current shell:"
-  export BPIPE_HOME=/lustre1/tools/libexec/bpipe
-  export PATH=\$BPIPE_HOME/bin:\$PATH
-	export BPIPE_CONFIG_HOME=/lustre1/tools/libexec/bpipeconfig
-  export BPIPE_LIB=\$BPIPE_CONFIG_HOME/modules
-  export PATH=\$BPIPE_CONFIG_HOME/bin:\$PATH
 fi
 
-which bpipe 1>/dev/null 2>&1 || fail "Can't find bpipe binary with which! Something goes wrong here..."
-
-log "bpipe path: $BPIPE_HOME/bin/bpipe"
-log "bpipe-config path: $BPIPE_CONFIG_HOME/bin/bpipe-config"
+log "Exporting enviroment in current shell:"
+export BPIPE_HOME=/lustre1/tools/libexec/bpipe
+export PATH=\$BPIPE_HOME/bin:\$PATH
+export BPIPE_CONFIG_HOME=/lustre1/tools/libexec/bpipeconfig
+export BPIPE_LIB=\$BPIPE_CONFIG_HOME/modules
+export PATH=\$BPIPE_CONFIG_HOME/bin:\$PATH
 log "All set."
