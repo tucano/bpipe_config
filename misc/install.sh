@@ -38,4 +38,3 @@ then
   log "source ~/.bash_profile"
 fi
 
-log "All set."
