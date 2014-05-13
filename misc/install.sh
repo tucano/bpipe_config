@@ -8,6 +8,8 @@ PROFILE=$HOME/.bash_profile
 if [[ ! -f $PROFILE ]]
 then
     log "Creating $PROFILE"
+    touch $PROFILE
+    chmod 755 $PROFILE
 fi
 
 echo -e "Appending BPIPE and BPIPE_CONFIG enviroment vars to $PROFILE"
@@ -32,7 +34,7 @@ fi
 if [[ -f $PROFILE ]]
 then
 	log "Sourcing ..."
-	. ./$PROFILE
+	. $PROFILE
 fi
 
 which bpipe 1>/dev/null 2>&1 || fail "Can't find bpipe binary with which! Something goes wrong here..."
