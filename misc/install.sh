@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 log()  { printf "%b\n" "$*"; }
-fail() { log "\nERROR: $*\n" ; exit 1 ; }
+fail() { log "\nERROR: $*\n";}
 
 PROFILE=$HOME/.bash_profile
 

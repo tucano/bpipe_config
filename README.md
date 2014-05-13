@@ -7,7 +7,7 @@ bpip-config is a configuration and reporting software for bpipe.
 How to install and use bpipe and bpipe-config:
 
 ```
-source /lustre1/tools/libexec/bpipeconfig/misc/install.sh
+. ./lustre1/tools/libexec/bpipeconfig/misc/install.sh
 ```
 
 This will add some environment vars to your __.bash_profile__ file
@@ -122,7 +122,7 @@ Example:
 
 ```
 cd /lustre2/scratch/Kajaste/80_LV_Transcription
-bpipe-config pipe bwa_submit_project /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription/Sample_*
+bpipe-config pipe exome_align_project /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription/Sample_*
 ```
 
 Notice that in **scratch dir** we use as arguments for bpipe the Samples dir in **/lustre2/raw-data** .
