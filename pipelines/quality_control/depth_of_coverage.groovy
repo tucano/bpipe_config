@@ -14,5 +14,5 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    set_stripe_gfu + "%.bam" * [gatk_detpth_of_coverage]
+    set_stripe_gfu + "%.bam" * [gatk_detpth_of_coverage_gfu]
 }

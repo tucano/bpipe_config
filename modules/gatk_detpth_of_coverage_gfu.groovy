@@ -1,7 +1,7 @@
 // MODULE GATK DEPTH OF COVERAGE
 
 @preserve
-gatk_detpth_of_coverage =
+gatk_detpth_of_coverage_gfu =
 {
     var pretend                : false
     var downsampling_type      : "BY_SAMPLE"
