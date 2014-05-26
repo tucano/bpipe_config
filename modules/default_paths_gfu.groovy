@@ -17,6 +17,7 @@ VCFCONCAT          = "export PERL5LIB=/lustre1/tools/libexec/vcftools_0.1.9/perl
 VCFSORT            = "/usr/local/cluster/bin/vcf-sort-mod -t /lustre2/scratch"
 VCFUTILS           = "/usr/local/cluster/bin/vcfutils.pl"
 VCF2XLS            = "PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/vcf2xls.py"
+XHMM               = "/lustre1/tools/bin/xhmm"
 
 // VCF QUERY
 VCFQUERY="""
