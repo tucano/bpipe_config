@@ -18,6 +18,7 @@ VCFSORT            = "/usr/local/cluster/bin/vcf-sort-mod -t /lustre2/scratch"
 VCFUTILS           = "/usr/local/cluster/bin/vcfutils.pl"
 VCF2XLS            = "PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/vcf2xls.py"
 XHMM               = "/lustre1/tools/bin/xhmm"
+XHMM_FIX_VCF       = "PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/xhmm_fix_vcf.py"
 
 // VCF QUERY
 VCFQUERY="""
