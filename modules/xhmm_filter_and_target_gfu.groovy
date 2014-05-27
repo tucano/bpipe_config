@@ -43,6 +43,6 @@ xhmm_filter_and_target_gfu =
             command = "touch ${outputs.join(" ")}"
         }
 
-        exec "$command"
+        exec "$command","xhmm"
     }
 }

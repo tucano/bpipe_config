@@ -40,6 +40,6 @@ xhmm_merge_depth_of_coverage_gfu =
             """
             command = "touch $output"
         }
-        exec command
+        exec "$command","xhmm"
     }
 }
