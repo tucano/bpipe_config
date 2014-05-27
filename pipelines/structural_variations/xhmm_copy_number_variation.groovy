@@ -15,5 +15,7 @@ REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFER
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    set_stripe_gfu + "%.bam" * [gatk_detpth_of_coverage_gfu] + "*.sample_interval_summary" * [xhmm_merge_depth_of_coverage_gfu + xhmm_filter_and_target_gfu + xhmm_pca_gfu + xhmm_filter_and_normalize_gfu]
+    set_stripe_gfu + "%.bam" * [gatk_detpth_of_coverage_gfu] + "*.sample_interval_summary" * [xhmm_merge_depth_of_coverage_gfu +
+    xhmm_filter_and_target_gfu + xhmm_pca_gfu + xhmm_filter_and_normalize_gfu +
+    xhmm_filter_original_data_gfu + xhmm_discover_cnv_gfu + xhmm_genotype_cnv_gfu ]
 }
