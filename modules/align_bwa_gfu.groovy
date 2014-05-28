@@ -40,98 +40,67 @@ align_bwa_gfu =
 
 
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
-    String input_extension = compressed ? '.fastq.gz' : '.fastq'
-
-    // config for multi stages
-    // see https://groups.google.com/forum/#!searchin/bpipe-discuss/multi$20config/bpipe-discuss/6jq6GiHz7oE/uBG32j4VU1oJ
 
     if (paired)
     {
-        def outputs = [
-            ("$input1" - input_extension + '.sai'),
-            ("$input2" - input_extension + '.sai'),
-            ("$input1".replaceFirst("_R[12]_","_") - input_extension + '.bam')
-        ]
-
-        produce(outputs)
+        transform("sai","sai","bam")
         {
-            def command_alnone = "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input1 > $output1"
-            def command_alntwo = "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input2 > $output2"
-            def command_sampe = """
-                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-                echo -e "[sam_bwa_gfu]: bwa sampe on node $HOSTNAME with TMP_SCRATCH: $TMP_SCRATCH" >&2;
-                echo -e "[sam_bwa_gfu]: header is $header" >&2;
-                $BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME $output1 $output2 $input1 $input2 > ${TMP_OUTPUT_PREFIX}.sam;
-                $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
-                mv ${TMP_SCRATCH}/$output.bam $output.bam;
-                rm -rf ${TMP_SCRATCH};
-            """
-
             if (pretend)
             {
                 println """
-                    HEADER:  $header
                     INPUTS:  $inputs
-                    OUTPUTS: $outputs
-                    COMMANDS ALN:
-                        $command_alnone
-                        $command_alntwo
-                    COMMAND SAMPE:
-                        $command_sampe
+                    OUTPUTS: $output1 $output2 $output3
+                    HEADER:  $header
                 """
-
-                command_alnone = "echo INPUT: $input1 > $output1"
-                command_alntwo = "echo INPUT: $input2 > $output2"
-                command_sampe  = """
-                    echo "INPUTS: $inputs $output1 $output2" > $output3;
-                """
+                exec "touch $output1 $output2 $output3"
             }
-
-            config("bwa_aln")
+            else
             {
-                multi "$command_alnone", "$command_alntwo"
+                if (compressed)
+                {
+                    multi "gunzip -c $input1.gz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output1",
+                          "gunzip -c $input2.gz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output2"
+                    exec  "$BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME  $output1 $output2 $input1.gz $input2.gz |  $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix", "bwa_sampe"
+                }
+                else
+                {
+                    multi "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input1 > $output1",
+                          "$BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input2 > $output2"
+                    exec  "$BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME  $output1 $output2 $input1 $input2 |  $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix", "bwa_sampe"
+                }
             }
-            exec command_sampe, "bwa_sampe"
         }
     }
     else
     {
-        def outputs = [
-            ("$input1" - input_extension + '.sai'),
-            ("$input1" - input_extension + '.bam')
-        ]
-
-        produce(outputs)
+        transform("sai","bam")
         {
-            def command = """
-                $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input > $output1;
-                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-                echo -e "[sam_bwa_gfu]: bwa samse on node $HOSTNAME with TMP_SCRATCH: $TMP_SCRATCH" >&2;
-                echo -e "[sam_bwa_gfu]: header is $header" >&2;
-                $BWA samse $BWAOPT_SE -r \"$header\" $REFERENCE_GENOME $output1 $input1 > ${TMP_OUTPUT_PREFIX}.sam;
-                $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
-                mv ${TMP_SCRATCH}/$output.bam $output.bam;
-                rm -rf ${TMP_SCRATCH};
-            """
-
             if (pretend)
             {
                 println """
+                    INPUT:  $input
+                    OUTPUTS: $output1 $output2
                     HEADER:  $header
-                    INPUTS:  $input
-                    OUTPUTS: $outputs
-                    COMMAND:
-                        $command
                 """
-                command = """
-                    echo "INPUT: $input" > $output1;
-                    echo "INPUTS: $input $output1" > $output2;
-                """
+                exec "touch $output1 $output2"
             }
-
-            exec command, "bwa_samse"
+            else
+            {
+                if (compressed)
+                {
+                    exec """
+                        gunzip -c $input.gz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output1;
+                        $BWA samse $BWAOPT_SE -r \"$header\" $REFERENCE_GENOME $output1 $input1 > $output2
+                    """
+                }
+                else
+                {
+                    exec """
+                        $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.fastq > $output1;
+                        $BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME $output1 $input > $output2
+                    """
+                }
+            }
         }
     }
 }
