@@ -17,6 +17,6 @@ DEPTH_DATA_DIR         = "/lustre1/workspace/Stupka/XHMM_interval_summaries/"
  */
 Bpipe.run {
     set_stripe_gfu + "%.bam" * [gatk_detpth_of_coverage_gfu] + "*.sample_interval_summary" * [xhmm_merge_depth_of_coverage_gfu +
-    xhmm_filter_and_target_gfu + xhmm_pca_gfu + xhmm_filter_and_normalize_gfu +
+    xhmm_filter_and_target_gfu + xhmm_pca_gfu + xhmm_filter_and_normalize_gfu + xhmm_filter_and_zscore_gfu +
     xhmm_filter_original_data_gfu + xhmm_discover_cnv_gfu + xhmm_genotype_cnv_gfu + xhmm_fix_vcf_gfu ]
 }
