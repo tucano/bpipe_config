@@ -1,4 +1,4 @@
-about title: "DNA paired ends alignment with bwa: IOS GFU 009"
+about title: "DNA paired ends alignment with bwa mem: IOS GFU 009"
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz

@@ -1,4 +1,4 @@
-about title: "DNA alignment with bwa (single file): IOS GFU 009"
+about title: "DNA alignment with bwa mem (single file): IOS GFU 009"
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz
