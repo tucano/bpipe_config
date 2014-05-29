@@ -10,7 +10,7 @@ move_sample_output_gfu =
         desc: """
             By default move files to a directory named: BAM.
             Directory is created if not exists (mkdir -p).
-            This stage generate a soft link in sample working dir with TARGET the otuput file in result dir.
+            This stage generate a soft link in sample working dir with TARGET the output file in result dir.
             The soft link is used by bpipe to keep track of intermediate files.
         """,
         constraints: """
