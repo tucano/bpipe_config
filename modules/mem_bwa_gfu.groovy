@@ -12,6 +12,7 @@ mem_bwa_gfu =
     var use_shm        : false
     var compressed     : false
     var fqz_compressed : false
+    var phred_64       : false
 
     // INFO
     doc title: "Align DNA reads with bwa using mem",
@@ -32,9 +33,11 @@ mem_bwa_gfu =
                 fqz_compressed : $fqz_compressed [.fqz]
                 sample_dir     : $sample_dir
                 use_shm        : $use_shm
+                phred_64       : $phred_64
 
             With sample_dir true, this stage redefine output.dir using input.dir.
             With use_shm this stage writes intermediate file (sam file) in /dev/shm node.
+            With phred_64 convert phred 64 with MAQ ill2sanger
         """,
         constraints: """
             Work with fastq, fastq.gz, fqz single and paired files.
@@ -96,15 +99,46 @@ mem_bwa_gfu =
             // DEFINE INPUTS STRINGS
             def r1 = ""
             def r2 = ""
+
             if (fqz_compressed)
             {
-                r1 = "<( $FQZ_COMP -d $input1 )"
-                r2 = "<( $FQZ_COMP -d $input2 )"
+                if (phred_64)
+                {
+                    r1 = "<( $FQZ_COMP -d $input1 | $MAQ ill2sanger - - )"
+                    r2 = "<( $FQZ_COMP -d $input2 | $MAQ ill2sanger - - )"
+                }
+                else
+                {
+                    r1 = "<( $FQZ_COMP -d $input1 )"
+                    r2 = "<( $FQZ_COMP -d $input2 )"
+                }
+
+            }
+            else if (compressed)
+            {
+                if (phred_64)
+                {
+                    r1 = "<( zcat $input1 | $MAQ ill2sanger - - )"
+                    r2 = "<( zcat $input2 | $MAQ ill2sanger - - )"
+                }
+                else
+                {
+                    r1 = "$input1"
+                    r2 = "$input2"
+                }
             }
             else
             {
-                r1 = "$input1"
-                r2 = "$input2"
+                if (phred_64)
+                {
+                    r1 = "<( cat $input1 | $MAQ ill2sanger - - )"
+                    r2 = "<( cat $input2 | $MAQ ill2sanger - - )"
+                }
+                else
+                {
+                    r1 = "$input1"
+                    r2 = "$input2"
+                }
             }
 
             if (use_shm)
@@ -154,11 +188,36 @@ mem_bwa_gfu =
             def r1 = ""
             if (fqz_compressed)
             {
-                r1 = "<( $FQZ_COMP -d $input )"
+                if (phred_64)
+                {
+                    r1 = "<( $FQZ_COMP -d $input | $MAQ ill2sanger - -)"
+                }
+                else
+                {
+                    r1 = "<( $FQZ_COMP -d $input )"
+                }
+            }
+            else if (compressed)
+            {
+                if (phred_64)
+                {
+                    r1 = "<( zcat $input | $MAQ ill2sanger - - )"
+                }
+                else
+                {
+                    r1 = "$input"
+                }
             }
             else
             {
-                r1 = "$input"
+                if (phred_64)
+                {
+                    r1 = "<( cat $input | $MAQ ill2sanger - - )"
+                }
+                else
+                {
+                    r1 = "$input"
+                }
             }
 
             if (use_shm)

@@ -49,4 +49,18 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+OUTPUTS=(testinput_001.bam testinput_002.bam)
+run test_paired_fqz_phred.groovy *.fqz
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+# PHRED 64
+OUTPUTS=(testinput_001.bam testinput_002.bam)
+run test_paired_phred64.groovy *.fastq
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+
 success
