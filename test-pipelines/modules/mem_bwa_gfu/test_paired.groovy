@@ -10,5 +10,13 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-	"_R*_%.fastq" * [mem_bwa_gfu.using(pretend:true,paired:true,compressed:false)]
+	"_R*_%.fastq" * [mem_bwa_gfu.using(
+      pretend:true,
+      paired:true,
+      bwa_threads:2,
+      sample_dir:false,
+      use_shm: false,
+      fqz_compressed: false,
+      compressed:false
+  )]
 }

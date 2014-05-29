@@ -4,13 +4,14 @@
 mem_bwa_gfu =
 {
     // stage vars
-    var BWAOPT_MEM  : ""
-    var bwa_threads : 2
-    var pretend     : false
-    var paired      : true
-    var compressed  : true
-    var sample_dir  : false
-    var use_shm     : false
+    var BWAOPT_MEM     : ""
+    var bwa_threads    : 2
+    var pretend        : false
+    var paired         : true
+    var sample_dir     : false
+    var use_shm        : false
+    var compressed     : false
+    var fqz_compressed : false
 
     // INFO
     doc title: "Align DNA reads with bwa using mem",
@@ -25,23 +26,37 @@ mem_bwa_gfu =
             bwa threads: $bwa_threads
 
             Main options with value:
-                pretend    : $pretend
-                paired     : $paired
-                compressed : $compressed
-                sample_dir : $sample_dir
-                use_shm    : $use_shm
+                pretend        : $pretend
+                paired         : $paired
+                compressed     : $compressed  [fastq.gz]
+                fqz_compressed : $fqz_compressed [.fqz]
+                sample_dir     : $sample_dir
+                use_shm        : $use_shm
 
             With sample_dir true, this stage redefine output.dir using input.dir.
-            With use_shm writes intermediate file (sam file) in /dev/shm
+            With use_shm this stage writes intermediate file (sam file) in /dev/shm node.
         """,
         constraints: """
-            Work with fastq and fastq.gz, single and paired files.
+            Work with fastq, fastq.gz, fqz single and paired files.
             For paired files assume the presence of _R1_ and _R2_ tags.
         """,
         author: "davide.rambaldi@gmail.com"
 
     String header
-    String input_extension = compressed ? '.fastq.gz' : '.fastq'
+    String input_extension = ""
+
+    if (compressed)
+    {
+        input_extension = '.fastq.gz'
+    }
+    else if (fqz_compressed)
+    {
+        input_extension = '.fqz'
+    }
+    else
+    {
+        input_extension = '.fastq'
+    }
 
     if (sample_dir)
     {
@@ -78,13 +93,27 @@ mem_bwa_gfu =
         produce(outputs)
         {
             def command = ""
+            // DEFINE INPUTS STRINGS
+            def r1 = ""
+            def r2 = ""
+            if (fqz_compressed)
+            {
+                r1 = "<( $FQZ_COMP -d $input1 )"
+                r2 = "<( $FQZ_COMP -d $input2 )"
+            }
+            else
+            {
+                r1 = "$input1"
+                r2 = "$input2"
+            }
+
             if (use_shm)
             {
                 command = """
                     TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                     ${ sample_dir ? "mkdir -p ${TMP_SCRATCH}/${input.replaceFirst("/.*","")};": ""}
                     TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 > ${TMP_OUTPUT_PREFIX}.sam;
+                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $r1 $r2 > ${TMP_OUTPUT_PREFIX}.sam;
                     $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
                     mv ${TMP_SCRATCH}/$output.bam $output.bam;
                     rm -rf ${TMP_SCRATCH};
@@ -93,7 +122,7 @@ mem_bwa_gfu =
             else
             {
                 command = """
-                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
+                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $r1 $r2 | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
                 """
             }
 
@@ -101,6 +130,7 @@ mem_bwa_gfu =
             {
                 println """
                     INPUTS: $inputs
+                    INPUT EXTENSION: $input_extension
                     OUTPUT: $output
                     COMMAND: $command
                 """
@@ -120,12 +150,23 @@ mem_bwa_gfu =
         produce(outputs)
         {
             def command = ""
+            // DEFINE INPUTS STRINGS
+            def r1 = ""
+            if (fqz_compressed)
+            {
+                r1 = "<( $FQZ_COMP -d $input )"
+            }
+            else
+            {
+                r1 = "$input"
+            }
+
             if (use_shm)
             {
                 command = """
                     TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
                     TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input > ${TMP_OUTPUT_PREFIX}.sam;
+                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $r1 > ${TMP_OUTPUT_PREFIX}.sam;
                     $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
                     mv ${TMP_SCRATCH}/$output.bam $output.bam;
                     rm -rf ${TMP_SCRATCH};
@@ -135,7 +176,7 @@ mem_bwa_gfu =
             else
             {
                 command = """
-                    $BWA mem -R \"$header\" -N -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
+                    $BWA mem -R \"$header\" -N -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $r1 | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
                 """
             }
 
@@ -143,6 +184,7 @@ mem_bwa_gfu =
             {
                 println """
                     INPUT:  $input
+                    INPUT EXTENSION: $input_extension
                     OUTPUT: $output
                     COMMAND: $command
                 """

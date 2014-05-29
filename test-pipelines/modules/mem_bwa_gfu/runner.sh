@@ -42,4 +42,11 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+# FQZ
+OUTPUTS=(testinput_001.bam testinput_002.bam)
+run test_paired_fqz.groovy *.fqz
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
 success
