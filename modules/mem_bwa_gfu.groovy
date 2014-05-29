@@ -10,6 +10,7 @@ mem_bwa_gfu =
     var paired      : true
     var compressed  : true
     var sample_dir  : false
+    var use_shm     : false
 
     // INFO
     doc title: "Align DNA reads with bwa using mem",
@@ -28,12 +29,14 @@ mem_bwa_gfu =
                 paired     : $paired
                 compressed : $compressed
                 sample_dir : $sample_dir
+                use_shm    : $use_shm
 
-            With sample_dir true, this stage redefine output.dir using input.dir
+            With sample_dir true, this stage redefine output.dir using input.dir.
+            With use_shm writes intermediate file (sam file) in /dev/shm
         """,
         constraints: """
             Work with fastq and fastq.gz, single and paired files.
-            For paired files assume the presence of _R1_ and _R2_ tags
+            For paired files assume the presence of _R1_ and _R2_ tags.
         """,
         author: "davide.rambaldi@gmail.com"
 
@@ -67,21 +70,32 @@ mem_bwa_gfu =
 
     if (paired)
     {
+        // the regexp replace first _R1_ with _ and then _R1 with empty
         def outputs = [
-            ("$input1".replaceFirst("_R[12]_","_") - input_extension + '.bam')
+            ("$input1".replaceFirst("_R[12]_","_").replaceFirst("_R[12]","") - input_extension + '.bam')
         ]
 
         produce(outputs)
         {
-            def command = """
-                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                ${ sample_dir ? "mkdir -p ${TMP_SCRATCH}/${input.replaceFirst("/.*","")};": ""}
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-                $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 > ${TMP_OUTPUT_PREFIX}.sam;
-                $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
-                mv ${TMP_SCRATCH}/$output.bam $output.bam;
-                rm -rf ${TMP_SCRATCH};
-            """
+            def command = ""
+            if (use_shm)
+            {
+                command = """
+                    TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
+                    ${ sample_dir ? "mkdir -p ${TMP_SCRATCH}/${input.replaceFirst("/.*","")};": ""}
+                    TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
+                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 > ${TMP_OUTPUT_PREFIX}.sam;
+                    $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
+                    mv ${TMP_SCRATCH}/$output.bam $output.bam;
+                    rm -rf ${TMP_SCRATCH};
+                """
+            }
+            else
+            {
+                command = """
+                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input1 $input2 | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
+                """
+            }
 
             if (pretend)
             {
@@ -105,14 +119,25 @@ mem_bwa_gfu =
 
         produce(outputs)
         {
-            def command = """
-                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-                $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input > ${TMP_OUTPUT_PREFIX}.sam;
-                $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
-                mv ${TMP_SCRATCH}/$output.bam $output.bam;
-                rm -rf ${TMP_SCRATCH};
-            """
+            def command = ""
+            if (use_shm)
+            {
+                command = """
+                    TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
+                    TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
+                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input > ${TMP_OUTPUT_PREFIX}.sam;
+                    $SAMTOOLS view -Su ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS sort - ${TMP_OUTPUT_PREFIX};
+                    mv ${TMP_SCRATCH}/$output.bam $output.bam;
+                    rm -rf ${TMP_SCRATCH};
+                """
+
+            }
+            else
+            {
+                command = """
+                    $BWA mem -R \"$header\" -N -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $input | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
+                """
+            }
 
             if (pretend)
             {

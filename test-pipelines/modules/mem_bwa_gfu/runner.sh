@@ -35,4 +35,11 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+# /DEV/SHM
+OUTPUTS=(testinput_001.bam testinput_002.bam)
+run test_paired_shm.groovy *.fastq
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
 success
