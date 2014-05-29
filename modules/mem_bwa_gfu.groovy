@@ -45,13 +45,13 @@ mem_bwa_gfu =
     String header
     String input_extension = ""
 
-    if (compressed)
-    {
-        input_extension = '.fastq.gz'
-    }
-    else if (fqz_compressed)
+    if (fqz_compressed)
     {
         input_extension = '.fqz'
+    }
+    else if (compressed)
+    {
+        input_extension = '.fastq.gz'
     }
     else
     {
