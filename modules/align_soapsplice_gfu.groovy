@@ -90,7 +90,9 @@ align_soapsplice_gfu =
             else
             {
                 command = """
-                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -2 $r2 -o $output.bam.prefix $SSPLICEOPT_ALN | cat $header_file - | $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix;
+                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -2 $r2 -o $output.bam.prefix $SSPLICEOPT_ALN;
+                    cat $header_file ${output.bam.prefix}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix;
+                    rm ${output.bam.prefix}.sam;
                 """
             }
 
@@ -149,7 +151,9 @@ align_soapsplice_gfu =
             else
             {
                 command = """
-                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -o ${output.bam.prefix} $SSPLICEOPT_ALN | cat ${header_file} - |  $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.bam.prefix};
+                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -o ${output.bam.prefix} $SSPLICEOPT_ALN;
+                    cat ${header_file} ${output.bam.prefix}.sam |  $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.bam.prefix};
+                    rm ${output.bam.prefix}.sam;
                 """
             }
 
