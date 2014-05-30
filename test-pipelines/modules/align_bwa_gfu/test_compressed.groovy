@@ -10,5 +10,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-	"%.fastq.gz" * [align_bwa_gfu.using(pretend:true,paired:false,compressed:true)]
+	"%.fastq.gz" * [align_bwa_gfu.using(pretend:true,paired:false,compression:"gz")]
 }

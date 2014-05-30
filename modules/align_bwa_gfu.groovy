@@ -11,7 +11,7 @@ align_bwa_gfu =
     var bwa_threads : 2
     var pretend     : false
     var paired      : true
-    var compressed  : true
+    var compression : ""
 
     // INFO
     doc title: "Align DNA reads with bwa",
@@ -19,10 +19,11 @@ align_bwa_gfu =
             Use bwa aln to align reads on the reference genome.
 
             Main options with value:
-                pretend    : $pretend
-                paired     : $paired
-                compressed : $compressed
+                pretend     : $pretend
+                paired      : $paired
+                compression : $compression
 
+            Compression type: gz, fqz
             bwa options: ${BWAOPT_ALN}.
             bwa threads: ${bwa_threads}.
 
@@ -56,11 +57,17 @@ align_bwa_gfu =
             }
             else
             {
-                if (compressed)
+                if (compression == "gz")
                 {
                     multi "gunzip -c $input1.gz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output1",
                           "gunzip -c $input2.gz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output2"
                     exec  "$BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME  $output1 $output2 $input1.gz $input2.gz |  $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix", "bwa_sampe"
+                }
+                else if (compression == "fqz")
+                {
+                    multi "$FQZ_COMP -d $input1.fqz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output1",
+                          "$FQZ_COMP -d $input2.fqz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output2"
+                    exec "$BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME  $output1 $output2 <( $FQZ_COMP -d $input1.fqz ) <( $FQZ_COMP -d $input2.fqz ) |  $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix", "bwa_sampe"
                 }
                 else
                 {

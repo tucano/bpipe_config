@@ -9,6 +9,6 @@ SAMPLEID="S1"
 CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
-run {
-	"_R*_%.fastq" * [align_bwa_gfu.using(pretend:true, paired:true, compression:"")]
+Bpipe.run {
+	"%" * [align_bwa_gfu.using(pretend:true,paired:false,compression:"fqz")]
 }

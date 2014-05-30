@@ -34,4 +34,7 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+# FQZ
+run test_fqz.groovy testinput_R*_001.fqz
+
 success

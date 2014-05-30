@@ -10,5 +10,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-	"%" * [align_bwa_gfu.using(pretend:true,paired:false,compressed:false)]
+	"%" * [align_bwa_gfu.using(pretend:true,paired:false,compression:"")]
 }
