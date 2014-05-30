@@ -19,7 +19,11 @@ Bpipe.run
     "%" * [
         sample_dir_gfu +
         "%.fastq.gz" * [ soapsplice_prepare_headers_gfu.using(sample_dir:true) ] +
-        "L%_R*_%.fastq.gz" * [align_soapsplice_gfu.using(paired:true,sample_dir:true,compressed:true,SSPLICEOPT_ALN:"-p 4 -f 2 -q 1 -j 0")] +
+        "L%_R*_%.fastq.gz" * [align_soapsplice_gfu.using(
+          paired:true,
+          sample_dir:true,
+          compression:"gz",
+          SSPLICEOPT_ALN:"-p 4 -f 2 -q 1 -j 0")] +
         "*.bam" * [merge_bam_gfu.using(rename:false,sample_dir:true)] +
         verify_bam_gfu.using(sample_dir:true) + bam_flagstat_gfu.using(sample_dir:true)
     ] + "%.bam" * [move_sample_output_gfu.using(result_dir:"BAM")]

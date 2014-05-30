@@ -32,6 +32,7 @@ Bpipe.run {
       bwa_threads:2,
       sample_dir:false,
       use_shm:false,
-      compression:"gz"
+      compression:"gz",
+      phred_64: false
     )] + verify_bam_gfu + mark_duplicates_gfu + bam_flagstat_gfu
 }
