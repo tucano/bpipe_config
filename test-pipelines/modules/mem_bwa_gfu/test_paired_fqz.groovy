@@ -16,8 +16,7 @@ Bpipe.run {
       bwa_threads:2,
       sample_dir:false,
       use_shm: false,
-      fqz_compressed: true,
-      compressed:false,
+      compression: "fqz",
       phred_64:false
   )]
 }

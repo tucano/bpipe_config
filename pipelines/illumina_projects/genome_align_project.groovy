@@ -18,6 +18,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * Exception in thread "main" net.sf.picard.PicardException: Value was put into PairInfoMap more than once.
  * you can switch to rmdup (samtools)
  * remove/comment the mark_duplicates_gfu stage and uncomment the rmdup_gfu stage to use it
+ * Accepted values for compression: gz, fqz
  */
 Bpipe.run {
     "%" * [
@@ -27,9 +28,8 @@ Bpipe.run {
           paired:true,
           bwa_threads:2,
           sample_dir:true,
-          use_shm: false,
-          fqz_compressed: false,
-          compressed:true
+          use_shm:false,
+          compression:"gz"
         )] + "*.bam" * [merge_bam_gfu.using(rename:false,sample_dir:true)] + verify_bam_gfu.using(sample_dir:true) + bam_flagstat_gfu.using(sample_dir:true) +
         mark_duplicates_gfu.using(sample_dir:true,remove_duplicates:false) +
         // rmdup_gfu.using(paired:true,sample_dir:true) +

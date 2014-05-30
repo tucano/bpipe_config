@@ -10,8 +10,7 @@ mem_bwa_gfu =
     var paired         : true
     var sample_dir     : false
     var use_shm        : false
-    var compressed     : false
-    var fqz_compressed : false
+    var compression    : ""
     var phred_64       : false
 
     // INFO
@@ -27,14 +26,14 @@ mem_bwa_gfu =
             bwa threads: $bwa_threads
 
             Main options with value:
-                pretend        : $pretend
-                paired         : $paired
-                compressed     : $compressed  [fastq.gz]
-                fqz_compressed : $fqz_compressed [.fqz]
-                sample_dir     : $sample_dir
-                use_shm        : $use_shm
+                pretend        : $pretend,
+                paired         : $paired,
+                compression    : $compression,
+                sample_dir     : $sample_dir,
+                use_shm        : $use_shm,
                 phred_64       : $phred_64
 
+            Compression type: gz, fqz
             With sample_dir true, this stage redefine output.dir using input.dir.
             With use_shm this stage writes intermediate file (sam file) in /dev/shm node.
             With phred_64 convert phred 64 with MAQ ill2sanger
@@ -48,18 +47,19 @@ mem_bwa_gfu =
     String header
     String input_extension = ""
 
-    if (fqz_compressed)
-    {
-        input_extension = '.fqz'
-    }
-    else if (compressed)
+    if (compression == "gz")
     {
         input_extension = '.fastq.gz'
+    }
+    else if (compression == "fqz")
+    {
+        input_extension = '.fqz'
     }
     else
     {
         input_extension = '.fastq'
     }
+
 
     if (sample_dir)
     {
@@ -100,7 +100,7 @@ mem_bwa_gfu =
             def r1 = ""
             def r2 = ""
 
-            if (fqz_compressed)
+            if (compression == "fqz")
             {
                 if (phred_64)
                 {
@@ -114,7 +114,7 @@ mem_bwa_gfu =
                 }
 
             }
-            else if (compressed)
+            else if (compression == "gz")
             {
                 if (phred_64)
                 {
@@ -186,7 +186,8 @@ mem_bwa_gfu =
             def command = ""
             // DEFINE INPUTS STRINGS
             def r1 = ""
-            if (fqz_compressed)
+
+            if (compression == "fqz")
             {
                 if (phred_64)
                 {
@@ -197,7 +198,7 @@ mem_bwa_gfu =
                     r1 = "<( $FQZ_COMP -d $input )"
                 }
             }
-            else if (compressed)
+            else if (compression == "gz")
             {
                 if (phred_64)
                 {
