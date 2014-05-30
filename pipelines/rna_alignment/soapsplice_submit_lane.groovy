@@ -18,7 +18,11 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  */
 Bpipe.run {
     set_stripe_gfu + "%.fastq.gz" * [soapsplice_prepare_headers_gfu] +
-    "L%_R*_%.fastq.gz" * [align_soapsplice_gfu.using(paired:true,compressed:true,SSPLICEOPT_ALN:"-p 4 -f 2 -q 1 -j 0")] +
+    "L%_R*_%.fastq.gz" * [align_soapsplice_gfu.using(
+      paired:true,
+      compression:"gz",
+      use_shm: false,
+      SSPLICEOPT_ALN:"-p 4 -f 2 -q 1 -j 0")] +
     merge_bam_gfu.using(rename: false) + merge_junc_gfu + verify_bam_gfu +
     bam_flagstat_gfu
 }

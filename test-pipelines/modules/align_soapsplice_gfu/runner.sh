@@ -18,7 +18,7 @@ exists $OUTPUTS
 
 # MULTI FASTQ NOT PAIRED
 OUTPUTS=(testinput_R1_001.bam testinput_R1_002.bam testinput_R2_001.bam testinput_R2_002.bam)
-run test_multi.groovy *.fastq *.header 
+run test_multi.groovy *.fastq *.header
 checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
@@ -36,6 +36,13 @@ exists $OUTPUTS
 ./cleaner.sh
 
 run test_paired_compressed.groovy *.fastq.gz *.header
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
+# SHM
+OUTPUTS=(testinput_001.bam testinput_002.bam)
+run test_paired_shm.groovy *.fastq *.header
 checkTestOut
 exists $OUTPUTS
 ./cleaner.sh

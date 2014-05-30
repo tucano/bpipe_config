@@ -9,6 +9,7 @@ align_soapsplice_gfu =
     var compression    : ""
     var paired         : true
     var sample_dir     : false
+    var use_shm        : false
 
     doc title: "Align RNA reads with soapsplice",
         desc: """
@@ -67,20 +68,31 @@ align_soapsplice_gfu =
                 r2 = "$input2"
             }
 
-            def command = """
-                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                ${ sample_dir ? "mkdir -p ${TMP_SCRATCH}/${input.replaceFirst("/.*","")};": ""}
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
-                $SSPLICE -d $REFERENCE_GENOME -1 $r1 -2 $r2 -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
-                cat $header_file ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
-                mv ${TMP_OUTPUT_PREFIX}.bam $custom_output;
-                for F in ${TMP_SCRATCH}/*.junc; do
-                    if [[ -e $F ]]; then
-                        mv $F .;
-                    fi;
-                done;
-                rm -rf ${TMP_SCRATCH};
-            """
+            def command = ""
+
+            if (use_shm)
+            {
+                command = """
+                    TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
+                    ${ sample_dir ? "mkdir -p ${TMP_SCRATCH}/${input.replaceFirst("/.*","")};": ""}
+                    TMP_OUTPUT_PREFIX=$TMP_SCRATCH/${output.bam.prefix};
+                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -2 $r2 -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
+                    cat $header_file ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
+                    mv ${TMP_OUTPUT_PREFIX}.bam $custom_output;
+                    for F in ${TMP_SCRATCH}/*.junc; do
+                        if [[ -e $F ]]; then
+                            mv $F .;
+                        fi;
+                    done;
+                    rm -rf ${TMP_SCRATCH};
+                """
+            }
+            else
+            {
+                command = """
+                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -2 $r2 -o $output.bam.prefix $SSPLICEOPT_ALN | cat $header_file - | $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix;
+                """
+            }
 
             if (pretend)
             {
@@ -116,19 +128,30 @@ align_soapsplice_gfu =
                 r1 = "$input1"
             }
 
-            def command = """
-                TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
-                TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
-                $SSPLICE -d $REFERENCE_GENOME -1 $r1 -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
-                cat ${header_file} ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
-                mv ${TMP_OUTPUT_PREFIX}.bam $output;
-                for F in ${TMP_SCRATCH}/*.junc; do
-                    if [[ -e $F ]]; then
-                        mv $F .;
-                    fi;
-                done;
-                rm -rf ${TMP_SCRATCH};
-            """
+            def command = ""
+
+            if (use_shm)
+            {
+                command = """
+                    TMP_SCRATCH=\$(/bin/mktemp -d /dev/shm/${PROJECTNAME}.XXXXXXXXXXXXX);
+                    TMP_OUTPUT_PREFIX=$TMP_SCRATCH/$output.prefix;
+                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -o $TMP_OUTPUT_PREFIX $SSPLICEOPT_ALN;
+                    cat ${header_file} ${TMP_OUTPUT_PREFIX}.sam | $SAMTOOLS view -Su - | $SAMTOOLS sort - $TMP_OUTPUT_PREFIX;
+                    mv ${TMP_OUTPUT_PREFIX}.bam $output;
+                    for F in ${TMP_SCRATCH}/*.junc; do
+                        if [[ -e $F ]]; then
+                            mv $F .;
+                        fi;
+                    done;
+                    rm -rf ${TMP_SCRATCH};
+                """
+            }
+            else
+            {
+                command = """
+                    $SSPLICE -d $REFERENCE_GENOME -1 $r1 -o ${output.bam.prefix} $SSPLICEOPT_ALN | cat ${header_file} - |  $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.bam.prefix};
+                """
+            }
 
             if (pretend)
             {
