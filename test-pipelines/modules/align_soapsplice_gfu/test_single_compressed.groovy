@@ -10,5 +10,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-    "*" * [align_soapsplice_gfu.using(pretend:true,paired:false,compressed:true)]
+    "*" * [align_soapsplice_gfu.using(pretend:true,paired:false,compression:"gz")]
 }

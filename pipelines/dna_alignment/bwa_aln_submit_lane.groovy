@@ -21,7 +21,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  */
 Bpipe.run {
     set_stripe_gfu +
-    "L%_R*_%.fastq.gz" * [align_bwa_gfu.using(paired:true,compressed:true,BWAOPT_ALN:"",BWAOPT_SE:"")] +
+    "L%_R*_%.fastq.gz" * [align_bwa_gfu.using(paired:true,compression:"gz",BWAOPT_ALN:"",BWAOPT_SE:"")] +
     "*.bam" * [merge_bam_gfu.using(rename:false)] + verify_bam_gfu + bam_flagstat_gfu +
     mark_duplicates_gfu +
     // rmdup_gfu.using(paired:true) +
