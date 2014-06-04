@@ -29,7 +29,12 @@ ANNOTATION_GFF_FILE    = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/BPI
  */
 Bpipe.run {
     set_stripe_gfu + "%.fastq.gz" * [soapsplice_prepare_headers_gfu] +
-    "L%_R*_%.fastq.gz" * [align_soapsplice_gfu.using(paired: true)] +
+    "L%_R*_%.fastq.gz" * [align_soapsplice_gfu.using(
+        paired: true,
+        compression:"gz",
+        use_shm: false,
+        SSPLICEOPT_ALN:"-p 4 -f 2 -q 1 -j 0"
+    )] +
     merge_bam_gfu.using(rename: false) + merge_junc_gfu + verify_bam_gfu +
     bam_flagstat_gfu + sort_bam_by_name_gfu + htseq_count_gfu.using(
         stranded: "no",

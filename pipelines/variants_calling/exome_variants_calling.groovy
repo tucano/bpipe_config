@@ -33,10 +33,10 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 Bpipe.run {
     set_stripe_gfu + chr(1..22,'X','Y') *
     [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu.using(rename:"all_samples",healty_exomes:true,with_groups:true) ] +
-    vcf_concat_gfu +
+    "*.vcf" * [vcf_concat_gfu] +
     "%.vcf" * [
         snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
         indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
-    ] + vcf_concat_gfu.using(with_suffix:"vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu +
+    ] + "*.vcf" * [vcf_concat_gfu.using(with_suffix:"vcf_merged_and_recalibrated")] + snpsift_filter_duplicates_gfu +
     [vcf_coverage_gfu.using(output_dir:"doc"), vcf_called_intervals_gfu.using(output_dir:"doc")]
 }

@@ -81,8 +81,6 @@ base_recalibrator_gfu =
                 echo "INPUTS: ${inputs.bam}" > $output.grp;
             """
         }
-
         exec command, "gatk"
-        forward output.grp
     }
 }

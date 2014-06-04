@@ -27,5 +27,5 @@ ALLELES                = "/path/to/alleles/file"
 Bpipe.run {
     set_stripe_gfu +
     chr(1..22,'X','Y') * [ unified_genotyper_by_alleles_gfu.using(rename:"all_samples") ] +
-    vcf_concat_gfu + vcf_coverage_gfu.using(output_dir:"doc")
+    "*.vcf" * [vcf_concat_gfu + vcf_coverage_gfu.using(output_dir:"doc")]
 }
