@@ -1,7 +1,5 @@
 # TODO LIST
 
-- PIPELINE VCF PER AMPLICONI
-
 - SISTEMA bam flagstat not working
 - TRIGGERS partendo da fastqc with send (fail)
 
