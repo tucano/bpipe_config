@@ -25,34 +25,34 @@ class BpipeConfig
 	 */
 	final static String sample_sheet_name    = "SampleSheet.csv"
 	final static String version              = System.getProperty("bpipeconfig.version")
-    final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
+  final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
 
-    public static String  user_email
-    public static boolean verbose
-    public static boolean force
-    public static boolean batch
-    public static String command
-    public static String user_name
-    public static String working_dir
-    public static String bpipe_home
-    public static String bpipe_config_home
-    public static String java_runtime_version
-    public static String project_name
-    public static def pipelines
-    public static def modules
-    public static def email_config
-    public static def email_list
+  public static String  user_email
+  public static boolean verbose
+  public static boolean force
+  public static boolean batch
+  public static String command
+  public static String user_name
+  public static String working_dir
+  public static String bpipe_home
+  public static String bpipe_config_home
+  public static String java_runtime_version
+  public static String project_name
+  public static def pipelines
+  public static def modules
+  public static def email_config
+  public static def email_list
 
-    /**
-     * Main Entry Point
-     * <p>
-     * Use the CliBuilder to handle options.
-     * Use bpipeconfig.Logger to send messages
-     * Use bpipeconfig.Commands to execute commands
-     *
-     * @param	args	command line arguments
- 	 * @return	A System.exit status
-     */
+  /**
+   * Main Entry Point
+   * <p>
+   * Use the CliBuilder to handle options.
+   * Use bpipeconfig.Logger to send messages
+   * Use bpipeconfig.Commands to execute commands
+   *
+   * @param	args	command line arguments
+	 * @return	A System.exit status
+   */
 	public static void main(String[] args)
 	{
 		// GET ENVIRONMENT INFO
@@ -99,23 +99,24 @@ class BpipeConfig
 		def opt = cli.parse(args)
 		if ( !opt ) System.exit(1)
 
-		// GET MAP OF PIPELINES and MODULES
-		pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
-        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
-
 		// PRINT VERSION AND BUILD
 		if (verbose) println Logger.printVersionAndBuild(version, builddate)
 
 		// GET HELP OPTIONS
 		def help_mode = false
 		if ( opt.h ) {
-        	cli.usage()
-        	help_mode = true
-        }
+    	cli.usage()
+    	help_mode = true
+    }
+
 		if ( opt.p ) {
+      // GET MAP OF PIPELINES and MODULES
+      pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+      modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 			println Logger.printPipelines(pipelines)
 			help_mode = true
 		}
+
 		if ( opt.c ) {
 			println Logger.printHelpCommands()
 			help_mode = true
@@ -180,23 +181,29 @@ class BpipeConfig
 				Commands.sheet(extraArguments)
 			break
 			case "pipe":
+        pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.pipe(extraArguments)
 			break
 			case "project":
+        pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.project(extraArguments)
 			break
 			case "info":
+        pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.info(extraArguments)
 			break
 			case "clean":
 				Commands.clean(extraArguments)
 			break
-            case "jvm":
-                Commands.jvm(extraArguments)
-            break
-            case "smerge":
-                Commands.smerge(extraArguments)
-            break
+      case "jvm":
+          Commands.jvm(extraArguments)
+      break
+      case "smerge":
+          Commands.smerge(extraArguments)
+      break
 		}
 	}
 }
