@@ -1,7 +1,7 @@
 about title: "FASTQC: quality control of fastq files - IOS XXX"
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -R softwareschedule $pipeline_filename <INPUT_DIRS>
+// USAGE: bpipe run -r $pipeline_filename <INPUT_DIRS>
 
 PLATFORM         = "illumina"
 CENTER           = "CTGB"

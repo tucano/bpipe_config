@@ -1,7 +1,7 @@
 about title: "DNA alignment with bwa mem (single file): IOS GFU 009"
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -R softwareschedule $pipeline_filename *.fastq.gz
+// USAGE: bpipe run -r $pipeline_filename *.fastq.gz
 
 // PROJECT VARS will be added by bpipe-config
 // I don't wanna templates for a groovy file. Use simple regexp with PLACEHOLDERS

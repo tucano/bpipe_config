@@ -1,7 +1,7 @@
 about title: "genome project alignment with bwa: IOS GFU 009"
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -R softwareschedule $pipeline_filename <INPUT_DIRS>
+// USAGE: bpipe run -r $pipeline_filename <INPUT_DIRS>
 
 REFERENCE_GENOME = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/bwa/BPIPE_REFERENCE_GENOME"
 PLATFORM         = "illumina"

@@ -1,7 +1,7 @@
 about title: "CalculateHsMetrics, Quality control metrics for illumina exomes: IOS GFU XXX."
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -R softwareschedule $pipeline_filename *.bam
+// USAGE: bpipe run -r $pipeline_filename *.bam
 
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 BAITS                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_probes.interval_list"

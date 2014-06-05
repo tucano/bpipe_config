@@ -1,7 +1,7 @@
 about title: "Human variants annotation: IOS 005"
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -R softwareschedule $pipeline_filename input.vcf
+// USAGE: bpipe run -r $pipeline_filename input.vcf
 
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.4.txt.gz"
