@@ -1,7 +1,7 @@
 about title: "RNA-seq reads count with htseq-count: IOS GFU 007."
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.merge.bam
+// USAGE: bpipe run -R softwareschedule $pipeline_filename *.merge.bam
 
 REFERENCE_GENOME    = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/SOAPsplice/BPIPE_REFERENCE_GENOME.index"
 REFERENCE_FAIDX     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa.fai"

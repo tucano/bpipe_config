@@ -1,3 +1,10 @@
+# VERSION 0.7
+
+- softwareshedule
+- force skip samplesheets check
+- new pipelines
+- send test
+
 # Version 0.6
 
 - CENTRALIZED DEFAULT PATHS 

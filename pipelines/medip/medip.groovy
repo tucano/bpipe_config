@@ -1,7 +1,7 @@
 about title: "meDIP pipeline: IOS GFU XXX."
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.merge.dedup.bam
+// USAGE: bpipe run -R softwareschedule $pipeline_filename *.merge.dedup.bam
 
 PLATFORM         = "illumina"
 CENTER           = "CTGB"

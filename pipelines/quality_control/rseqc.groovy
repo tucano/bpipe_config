@@ -1,7 +1,7 @@
 about title: "RNA-seq quality control with rseqc: IOS GFU 009."
 
 // Usage line will be used to infer the correct bpipe command
-// USAGE: bpipe run -r $pipeline_filename *.bam
+// USAGE: bpipe run -R softwareschedule $pipeline_filename *.bam
 
 REFERENCE_GENOME = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/SOAPsplice/BPIPE_REFERENCE_GENOME.index"
 REFERENCE_FAIDX  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa.fai"
