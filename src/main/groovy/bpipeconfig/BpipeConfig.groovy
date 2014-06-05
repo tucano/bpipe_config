@@ -80,10 +80,10 @@ class BpipeConfig
 		// CLI BUILDER
 		def cli = new CliBuilder(
 			usage: "bpipe-config [options] [command] [pipeline_name] [sample_dirs|project_dirs]",
-    		header: "\nAvailable options:\n",
-    		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
-    		posix:  true,
-    		width:  120
+  		header: "\nAvailable options:\n",
+  		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
+  		posix:  true,
+  		width:  120
 		)
 
 		cli.with {
@@ -96,6 +96,7 @@ class BpipeConfig
 			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
 			v   longOpt: 'verbose'  , 'Verbose mode', required: false
 		}
+
 		def opt = cli.parse(args)
 		if ( !opt ) System.exit(1)
 

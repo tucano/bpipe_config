@@ -217,9 +217,17 @@ class Commands
 					}
 					else
 					{
-						println Logger.error("No ${BpipeConfig.sample_sheet_name} in dir $sample_dir! Aborting ...")
-						if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
-						System.exit(1)
+						if (BpipeConfig.force)
+						{
+							println Logger.warn("No ${BpipeConfig.sample_sheet_name} files ... continue due to force option")
+							if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+						}
+						else
+						{
+							println Logger.error("Error in ${BpipeConfig.sample_sheet_name} files ... Aborting")
+							if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+							System.exit(1)
+						}
 					}
 				}
 
@@ -272,9 +280,17 @@ class Commands
 				}
 				else
 				{
-					println Logger.error("No ${BpipeConfig.sample_sheet_name} in dir $dir! Aborting ...")
-					if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
-					System.exit(1)
+					if (BpipeConfig.force)
+					{
+						println Logger.warn("No ${BpipeConfig.sample_sheet_name} files ... continue due to force option")
+						if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+					}
+					else
+					{
+						println Logger.error("Error in ${BpipeConfig.sample_sheet_name} files ... Aborting")
+						if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
+						System.exit(1)
+					}
 				}
 			}
 
@@ -297,6 +313,17 @@ class Commands
 			def template_gfu_env
 			if (pipeline["project_pipeline"])
 			{
+				// IF force and no sample continue anyway with NA
+				if ((!samples) && (BpipeConfig.force))
+				{
+					samples[0] = [
+						"FCID"      : "NA",
+						"SampleRef" : "NA",
+						"SampleID"  : "NA",
+						"Lane"      : "NA"
+					]
+				}
+
 				// first add PROJECT and REFERENCE to "//--BPIPE_ENVIRONMENT_HERE--"
 				def project_info = """
 					PROJECTNAME = "${BpipeConfig.project_name}"
@@ -305,25 +332,30 @@ class Commands
 				pipeline_text = pipeline_text.replaceAll("//--BPIPE_ENVIRONMENT_HERE--", project_info)
 
 				// for each sample add a gfu enviroment file
-				args.each { sample_dir ->
-					def single_sample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
-					def single_sample = slurpSampleSheet(single_sample_sheet)
-					binding_gfu_env = [
-				    	"project_name"    : '"' + single_sample[0]["SampleProject"] + '"',
-				    	"reference"       : '"' + single_sample[0]["SampleRef"] + '"',
-				    	"experiment_name" : '"' + single_sample[0]["FCID"] + "_" + single_sample[0]["SampleID"] + '"',
-				    	"fcid"            : '"' + single_sample[0]["FCID"] + '"',
-				    	"lane"            : '"' + single_sample[0]["Lane"] + '"',
-				    	"sampleid"        : '"' + single_sample[0]["SampleID"] + '"'
-					]
-					// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
-					template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
+				// IF force and no sample continue anyway
+				if ((samples) && (!BpipeConfig.force))
+				{
+					args.each { sample_dir ->
+						def single_sample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
+						def single_sample = slurpSampleSheet(single_sample_sheet)
+						binding_gfu_env = [
+					    	"project_name"    : '"' + single_sample[0]["SampleProject"] + '"',
+					    	"reference"       : '"' + single_sample[0]["SampleRef"] + '"',
+					    	"experiment_name" : '"' + single_sample[0]["FCID"] + "_" + single_sample[0]["SampleID"] + '"',
+					    	"fcid"            : '"' + single_sample[0]["FCID"] + '"',
+					    	"lane"            : '"' + single_sample[0]["Lane"] + '"',
+					    	"sampleid"        : '"' + single_sample[0]["SampleID"] + '"'
+						]
+						// GENERATION OF gfu_enviroment.sh FILE with Per pipeline options
+						template_gfu_env = engine.createTemplate(file_gfu_env.text).make(binding_gfu_env).toString()
 
-					// CREATE gfu_environment.sh
-					if ( ! createFile(template_gfu_env, "${sample_dir}/gfu_environment.sh", BpipeConfig.force) ) {
-						println Logger.error("Problems creating gfu_environment.sh file!")
+						// CREATE gfu_environment.sh
+						if ( ! createFile(template_gfu_env, "${sample_dir}/gfu_environment.sh", BpipeConfig.force) ) {
+							println Logger.error("Problems creating gfu_environment.sh file!")
+						}
 					}
 				}
+
 			}
 			else
 			{
@@ -341,6 +373,18 @@ class Commands
 				// SINGLE SAMPLE
 				if (pipeline_text.contains("//--BPIPE_SAMPLE_INFO_HERE--"))
 				{
+					// IF force and no sample continue anyway with NA
+					if ((!samples) && (BpipeConfig.force))
+					{
+						samples = []
+						samples[0] = [
+							"FCID"      : "NA",
+							"SampleRef" : "NA",
+							"SampleID"  : "NA",
+							"Lane"      : "NA"
+						]
+					}
+
 					binding_gfu_env = [
 					    "project_name"    : '"' + BpipeConfig.project_name + '"',
 					    "reference"       : '"' + samples[0]["SampleRef"] + '"',
@@ -364,6 +408,18 @@ class Commands
 				// MULTIPLE SAMPLE
 				else
 				{
+					// IF force and no sample continue anyway with NA
+					if ((!samples) && (BpipeConfig.force))
+					{
+						samples = []
+						samples[0] = [
+							"FCID"      : "NA",
+							"SampleRef" : "NA",
+							"SampleID"  : "NA",
+							"Lane"      : "NA"
+						]
+					}
+
 					// first add PROJECT and REFERENCE to "//--BPIPE_ENVIRONMENT_HERE--"
 					def project_info = """
 						PROJECTNAME = "${BpipeConfig.project_name}"
