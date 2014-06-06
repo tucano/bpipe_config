@@ -32,6 +32,10 @@ base_recalibrator_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def outputs
+
+    // RENAME GRP FILE ACCORDING TO THE NUMBER OF INPUTS
+    // 1 input: input name
+    // 2+ inputs: project name
     if (inputs.toList().size > 1)
     {
         outputs = ["${PROJECTNAME}.grp"]

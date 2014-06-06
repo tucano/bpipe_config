@@ -26,6 +26,7 @@ base_print_reads_gfu =
     filter("recalibrated")
     {
         def intervals_string = target_intervals ? "-L $INTERVALS" : ""
+
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;

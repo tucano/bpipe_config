@@ -19,12 +19,13 @@ realiagner_target_creator_gfu =
                 INTERVALS              : $INTERVALS
                 DBSNP                  : $DBSNP
         """,
-        constrains: "Require the index bai file for: $input.bam",
+        constrains: "Require the index bai file for: ${input.bam}, forward the bam file to the next stage",
         author: "davide.rambaldi@gmail.com"
 
     transform("intervals")
     {
         def intervals_string = target_intervals ? "-L $INTERVALS" : ""
+
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
@@ -35,6 +36,7 @@ realiagner_target_creator_gfu =
                   --unsafe ALLOW_SEQ_DICT_INCOMPATIBILITY
                   --known $DBSNP;
         """
+
         if (pretend)
         {
             println """
@@ -46,6 +48,7 @@ realiagner_target_creator_gfu =
                 echo "INPUT: $input" > $output
             """
         }
+
         exec command, "gatk"
     }
     forward input.bam

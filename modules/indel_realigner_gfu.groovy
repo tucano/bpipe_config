@@ -13,7 +13,7 @@ indel_realigner_gfu =
             stage options with value:
                 pretend                : $pretend
                 DBSNP                  : $DBSNP
-                With target_intervals       : $target_intervals
+                With target_intervals  : $target_intervals
                 INTERVALS              : $INTERVALS
                 REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
         """,
@@ -24,6 +24,7 @@ indel_realigner_gfu =
     filter("indel_realigned")
     {
         def intervals_string = target_intervals ? "-L $INTERVALS" : ""
+
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;
