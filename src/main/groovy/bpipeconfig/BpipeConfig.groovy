@@ -30,6 +30,7 @@ class BpipeConfig
   public static String  user_email
   public static boolean verbose
   public static boolean force
+  public static boolean skip_sample_sheet
   public static boolean batch
   public static String command
   public static String user_name
@@ -87,14 +88,15 @@ class BpipeConfig
 		)
 
 		cli.with {
-			b	longOpt: 'batch'    , 'Automatically execute bpipe in background (bg-bpipe)', required: false
-			c   longOpt: 'commands' , 'Print a list of available commands', required: false
-			f   longOpt: 'force'    , 'Force files overwrite when needed (default=FALSE).', required: false
-			h   longOpt: 'help'     , 'Usage Information', required: false
-			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
-			p   longOpt: 'pipelines', 'Print a list of available pipelines', required: false
-			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
-			v   longOpt: 'verbose'  , 'Verbose mode', required: false
+			b	  longOpt: 'batch'     , 'Automatically execute bpipe in background (bg-bpipe)', required: false
+			c   longOpt: 'commands'  , 'Print a list of available commands', required: false
+			f   longOpt: 'force'     , 'Force files overwrite when needed (default=FALSE).', required: false
+			h   longOpt: 'help'      , 'Usage Information', required: false
+			m   longOpt: 'email'     , 'User email address (Es: -m user@example.com)', args: 1, required: false
+			p   longOpt: 'pipelines' , 'Print a list of available pipelines', required: false
+			'P' longOpt: 'project'   , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
+			v   longOpt: 'verbose'   , 'Verbose mode', required: false
+      s   longOpt: 'skip-sheet', 'Skip SampleSheet checks', required: false
 		}
 
 		def opt = cli.parse(args)
@@ -161,6 +163,7 @@ class BpipeConfig
 		verbose = opt.v
 		force   = opt.f
 		batch   = opt.b
+    skip_sample_sheet = opt.s
 
 		// GET command (first non options argument) and remove it from list
 		def extraArguments = opt.arguments()

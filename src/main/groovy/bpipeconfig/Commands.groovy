@@ -217,9 +217,9 @@ class Commands
 					}
 					else
 					{
-						if (BpipeConfig.force)
+						if (BpipeConfig.skip_sample_sheet)
 						{
-							println Logger.warn("No ${BpipeConfig.sample_sheet_name} files ... continue due to force option")
+							println Logger.warn("No ${BpipeConfig.sample_sheet_name} files ... continue due to skip sample sheet option")
 							if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
 						}
 						else
@@ -280,9 +280,9 @@ class Commands
 				}
 				else
 				{
-					if (BpipeConfig.force)
+					if (BpipeConfig.skip_sample_sheet)
 					{
-						println Logger.warn("No ${BpipeConfig.sample_sheet_name} files ... continue due to force option")
+						println Logger.warn("No ${BpipeConfig.sample_sheet_name} files ... continue due to skip sample sheet option")
 						if (BpipeConfig.verbose) println Logger.info("You can use the command: sheet to generate a SampleSheet.scv")
 					}
 					else
@@ -333,7 +333,7 @@ class Commands
 
 				// for each sample add a gfu enviroment file
 				// IF force and no sample continue anyway
-				if ((samples) && (!BpipeConfig.force))
+				if ((samples) && (!BpipeConfig.skip_sample_sheet))
 				{
 					args.each { sample_dir ->
 						def single_sample_sheet = new File("${sample_dir}/${BpipeConfig.sample_sheet_name}")
@@ -374,7 +374,7 @@ class Commands
 				if (pipeline_text.contains("//--BPIPE_SAMPLE_INFO_HERE--"))
 				{
 					// IF force and no sample continue anyway with NA
-					if ((!samples) && (BpipeConfig.force))
+					if ((!samples) && (BpipeConfig.skip_sample_sheet))
 					{
 						samples = []
 						samples[0] = [
@@ -409,7 +409,7 @@ class Commands
 				else
 				{
 					// IF force and no sample continue anyway with NA
-					if ((!samples) && (BpipeConfig.force))
+					if ((!samples) && (BpipeConfig.skip_sample_sheet))
 					{
 						samples = []
 						samples[0] = [
