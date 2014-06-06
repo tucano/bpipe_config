@@ -1,6 +1,7 @@
-// MAKE HTML HSMETRICS REPORT
+// MAKE HTML HSMETRICS REPORT (rev1)
 import groovy.text.SimpleTemplateEngine
 
+@preserve
 make_html_hsmetrics_gfu =
 {
   var html_template : "/lustre1/tools/libexec/bpipeconfig/templates/metrics.html.template"

@@ -60,7 +60,7 @@ mem_bwa_gfu =
         input_extension = '.fastq'
     }
 
-    def required_binds = ["PLATFORM","CENTER","REFERENCE_GENOME","BWA","FQZ_COMP"]
+    def required_binds = ["PLATFORM","CENTER","REFERENCE_GENOME","BWA","FQZ_COMP","SAMTOOLS"]
 
     if (sample_dir)
     {

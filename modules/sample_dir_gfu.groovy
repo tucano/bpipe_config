@@ -1,4 +1,4 @@
-// MODULE SAMPLE DIR GFU
+// MODULE SAMPLE DIR GFU (rev1)
 
 @intermediate
 sample_dir_gfu =
@@ -12,6 +12,20 @@ sample_dir_gfu =
         """,
         constraints: "setstripe and getstripe as non blocking steps (Fails in non lustre fs, but will return always true).",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["LSF"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     def outputs = []
     def output_dir = input.dir.replaceFirst(/.*\//,"")
