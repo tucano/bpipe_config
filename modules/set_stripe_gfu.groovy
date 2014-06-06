@@ -1,4 +1,4 @@
-// MODULE CONFIG LUSTRE FS
+// MODULE CONFIG LUSTRE FS (rev1)
 
 @intermediate
 set_stripe_gfu =
@@ -12,10 +12,23 @@ set_stripe_gfu =
                 -i -1 : a start_ost_index of -1 allows the MDS to choose the starting index and it is strongly recommended, as this allows space and load balancing to be done by the MDS as needed.
                 -s 2M : Stripsize 2 megabytes
         """,
-        constraints: "It is a non blocking stage (Fails in non lustre fs, but will return always true).",
+        constraints: "It is a non blocking stage (Fails in non lustre fs, but will return always true). Forward input to next stage.",
         author: "davide.rambaldi@gmail.com"
 
     def cwd = System.getProperty("user.dir")
+    def required_binds = ["LSF"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     produce("setstripe.log")
     {

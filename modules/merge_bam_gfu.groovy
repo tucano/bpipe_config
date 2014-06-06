@@ -1,4 +1,4 @@
-// MODULE MERGE BAM FILES
+// MODULE MERGE BAM FILES (rev1)
 
 @preserve
 merge_bam_gfu =
@@ -14,14 +14,16 @@ merge_bam_gfu =
             The output will be renamed with the variable SAMPLEID (${SAMPLEID}).
             For Illumina default runs set rename to FALSE, this stage will automatically remove casava groups notation.
             stage options:
-                rename  : $rename
-                pretend : $pretend
+                rename     : $rename
+                pretend    : $pretend
                 sample_dir : $sample_dir
 
             With sample_dir true, this stage redefine output.dir using input.dir
         """,
         constraints: "",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["PICMERGE"]
 
     def sampleid
     if (sample_dir)
@@ -44,7 +46,21 @@ merge_bam_gfu =
     {
         // get GLOBAL sample id
         sampleid = SAMPLEID
+        required_binds.push "SAMPLEID"
     }
+
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     def output_prefix
     if (rename)
@@ -90,7 +106,6 @@ merge_bam_gfu =
                 echo "INPUTS: $inputs" > $output2;
             """
         }
-
         exec command,"merge_bam_files"
     }
 }

@@ -1,4 +1,4 @@
-// MODULE ALIGN BWA GFU
+// MODULE ALIGN BWA GFU (rev1)
 
 @intermediate
 align_bwa_gfu =
@@ -36,8 +36,24 @@ align_bwa_gfu =
             Work with fastq and fastq.gz, single and paired files.
             For paired files assume the presence of _R1_ and _R2_ tags.
             No support for project piplines (we use mem_bwa_gfu).
+            Take info about sample from binding variables, die if variables are not defined
         """,
         author: "davide.rambaldi@gmail.com"
+
+    // TAKE INFO ABOUT SAMPLE FROM GLOBAL VARS
+    def required_binds = ["EXPERIMENT_NAME","PLATFORM","FCID","SAMPLEID","CENTER","REFERENCE_GENOME","BWA"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
 
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"

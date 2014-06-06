@@ -1,4 +1,4 @@
-// MODULE VERIFY BAM
+// MODULE VERIFY BAM (rev1)
 
 verify_bam_gfu =
 {
@@ -9,11 +9,11 @@ verify_bam_gfu =
         desc: """
             Use a function to verify BAM file using the EOF (copied by Davide Cittaro bashrc)
              stage options:
-                pretend : $pretend
+                pretend    : $pretend
                 sample_dir : $sample_dir
             With sample_dir true, this stage redefine output.dir using input.dir
         """,
-        constraints: "Ask to Davide Cittaro",
+        constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
     BGZF_EOF="1F8B08040000000000FF0600424302001B00030000000000*"
