@@ -1,4 +1,4 @@
-// MODULE MEM BWA GFU
+// MODULE MEM BWA GFU (rev1)
 
 @intermediate
 mem_bwa_gfu =
@@ -60,6 +60,7 @@ mem_bwa_gfu =
         input_extension = '.fastq'
     }
 
+    def required_binds = ["PLATFORM","CENTER","REFERENCE_GENOME","BWA","FQZ_COMP"]
 
     if (sample_dir)
     {
@@ -84,7 +85,24 @@ mem_bwa_gfu =
     else
     {
         header  = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
+        required_binds.push "SAMPLEID"
+        required_binds.push "EXPERIMENT_NAME"
+        required_binds.push "FCID"
     }
+
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
+
 
     if (paired)
     {

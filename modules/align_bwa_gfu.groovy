@@ -40,7 +40,6 @@ align_bwa_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    // TAKE INFO ABOUT SAMPLE FROM GLOBAL VARS
     def required_binds = ["EXPERIMENT_NAME","PLATFORM","FCID","SAMPLEID","CENTER","REFERENCE_GENOME","BWA"]
     def to_fail = false
     required_binds.each { key ->

@@ -1,4 +1,4 @@
-// MODULE SPLIT FASTQ FILE
+// MODULE SPLIT FASTQ FILE (rev1)
 
 @intermediate
 split_fastq_gfu =
