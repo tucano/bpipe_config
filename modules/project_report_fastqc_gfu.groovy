@@ -1,4 +1,4 @@
-// MODULE PROJECT REPORT FASTQC
+// MODULE PROJECT REPORT FASTQC (rev1)
 import groovy.text.SimpleTemplateEngine
 
 project_report_fastqc_gfu =

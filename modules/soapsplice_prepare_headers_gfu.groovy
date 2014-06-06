@@ -1,4 +1,4 @@
-// MODULE SOAPSPLICE PREPARE HEADERS
+// MODULE SOAPSPLICE PREPARE HEADERS (rev1)
 
 @intermediate
 soapsplice_prepare_headers_gfu =
@@ -13,6 +13,8 @@ soapsplice_prepare_headers_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def header
+
+    def required_binds = ["PLATFORM","CENTER","REFERENCE_FAIDX","SSPLICE"]
 
     if (sample_dir)
     {
@@ -37,7 +39,23 @@ soapsplice_prepare_headers_gfu =
     else
     {
         header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
+        required_binds.push "SAMPLEID"
+        required_binds.push "EXPERIMENT_NAME"
+        required_binds.push "FCID"
     }
+
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     transform("header")
     {

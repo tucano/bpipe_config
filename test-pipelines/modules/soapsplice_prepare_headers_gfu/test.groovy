@@ -8,6 +8,7 @@ FCID            = "1111111"
 LANE            = "L001"
 SAMPLEID        = "1"
 PLATFORM        = "illumina"
+REFERENCE_FAIDX = "test"
 
 Bpipe.run {
     "%" * [soapsplice_prepare_headers_gfu.using(pretend:true)]

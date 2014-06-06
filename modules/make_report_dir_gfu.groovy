@@ -1,4 +1,4 @@
-// MODULE  GENERATE REPORT DIR
+// MODULE  GENERATE REPORT DIR (rev1)
 
 @preserve
 make_report_dir_gfu =

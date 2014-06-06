@@ -29,6 +29,20 @@ align_soapsplice_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
+    def required_binds = ["REFERENCE_GENOME","SAMTOOLS","SSPLICE","FQZ_COMP"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
+
     String input_extension = ""
 
     if (compression == "gz")
