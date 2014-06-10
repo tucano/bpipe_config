@@ -1,4 +1,4 @@
-// MODULE UNIFIED INDEL APPLY RECALIBRATION
+// MODULE UNIFIED INDEL APPLY RECALIBRATION (rev1)
 
 @intermediate
 indel_apply_recalibration_gfu =
@@ -19,6 +19,9 @@ indel_apply_recalibration_gfu =
         """,
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
+
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
 
     filter("indel_recalibrated")
     {

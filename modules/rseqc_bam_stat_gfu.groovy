@@ -18,19 +18,7 @@ rseqc_bam_stat_gfu =
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["BAMSTAT"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires BAMSTAT : "Please define BAMSTAT path"
 
     transform("bam_stat.log")
     {

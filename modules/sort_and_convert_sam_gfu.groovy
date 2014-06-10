@@ -10,19 +10,7 @@ sort_and_convert_sam_gfu =
         constraints: "I take the headers from the last forwarded bam file (the input of htseq-count stage)",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["SAMTOOLS"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires SAMTOOLS: "Please define SAMTOOLS path"
 
     transform("reads.sam") to("reads_sorted.bam")
     {

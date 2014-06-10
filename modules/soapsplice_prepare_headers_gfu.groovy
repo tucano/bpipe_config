@@ -14,7 +14,10 @@ soapsplice_prepare_headers_gfu =
 
     def header
 
-    def required_binds = ["PLATFORM","CENTER","REFERENCE_FAIDX","SSPLICE"]
+    requires PLATFORM: "Please define the PLATFORM variable"
+    requires CENTER: "Please define the CENTER variable"
+    requires REFERENCE_FAIDX: "Please define a REFERENCE_FAIDX file"
+    requires SSPLICE: "Please define SSPLICE path"
 
     if (sample_dir)
     {
@@ -38,24 +41,12 @@ soapsplice_prepare_headers_gfu =
     }
     else
     {
-        header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
-        required_binds.push "SAMPLEID"
-        required_binds.push "EXPERIMENT_NAME"
-        required_binds.push "FCID"
-    }
+        requires EXPERIMENT_NAME : "Please define the EXPERIMENT_NAME variable"
+        requires FCID: "Please define the FCID variable"
+        requires SAMPLEID: "Please define the SAMPLEID variable"
 
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
+        header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
     }
-    if (to_fail) { System.exit(1) }
 
     transform("header")
     {

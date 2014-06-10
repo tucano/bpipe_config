@@ -1,4 +1,4 @@
-// MODULE SNPEFF
+// MODULE SNPEFF (rev1)
 
 snpeff_gfu =
 {
@@ -13,19 +13,8 @@ snpeff_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["SNPEFF","SNPEFF_CONFIG"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires SNPEFF : "Please define path for SNPEFF"
+    requires SNPEFF_CONFIG : "Please define a SNPEFF_CONFIG file"
 
     produce("Tier0.vcf")
     {

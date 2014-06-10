@@ -11,19 +11,10 @@ calculate_hsmetrics_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["HSMETRICS","REFERENCE_GENOME_FASTA","BAITS","TARGETS"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires HSMETRICS : "Please define path of HSMETRICS"
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires BAITS: "Please define a BAITS file"
+    requires TARGETS: "Please define a TARGETS file"
 
     if (output_dir != "") output.dir = output_dir
 
@@ -53,5 +44,5 @@ calculate_hsmetrics_gfu =
 		}
 
 		exec "$command", "hsmetrics"
-   	}
+  }
 }

@@ -16,19 +16,9 @@ vcf_subsam_gfu =
 
     def healty_samples = []
 
-    def required_binds = ["HEALTY_EXOMES_DIR","VCFUTILS","SNPSIFT"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires HEALTY_EXOMES_DIR : "Please define HEALTY_EXOMES_DIR dir path"
+    requires VCFUTILS : "Please define VCFUTILS path"
+    requires SNPSIFT : "Please define SNPSIFT path"
 
     new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
         healty_samples << bam.getName().replaceAll(/\..*/,"")

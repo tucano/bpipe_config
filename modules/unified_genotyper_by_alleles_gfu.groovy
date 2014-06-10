@@ -17,19 +17,10 @@ unified_genotyper_by_alleles_gfu =
         desc: "Produce a VCF file with SNP calls and INDELs. Parallelized in 1 job for chromosome",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["GATK","REFERENCE_GENOME_FASTA"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+    requires ALLELES: "Please define an alleles file (ALLELES)"
+    requires DBSNP; "Please define a DBSNP file"
 
     def output_prefix
     if (rename != "") {

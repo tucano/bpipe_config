@@ -23,7 +23,7 @@ merge_bam_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["PICMERGE"]
+    requires PICMERGE : "Please define the PICMERGE path"
 
     def sampleid
     if (sample_dir)
@@ -44,23 +44,10 @@ merge_bam_gfu =
     }
     else
     {
+        requires SAMPLEID : "Please define the SAMPLEID"
         // get GLOBAL sample id
         sampleid = SAMPLEID
-        required_binds.push "SAMPLEID"
     }
-
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
 
     def output_prefix
     if (rename)

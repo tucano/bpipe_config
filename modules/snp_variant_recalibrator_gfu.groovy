@@ -1,4 +1,4 @@
-// MODULE UNIFIED SNP VARIANT RECALIBRATOR
+// MODULE UNIFIED SNP VARIANT RECALIBRATOR (rev1)
 
 @intermediate
 snp_variant_recalibrator_gfu =
@@ -16,6 +16,13 @@ snp_variant_recalibrator_gfu =
         desc: "Create a Gaussian mixture model by looking at the annotations values over a high quality subset of the input call set and then evaluate all input variants.",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
+
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+    requires HAPMAP: "Please define an HAPMAP file"
+    requires ONETH_GENOMES: "Please define an ONETH_GENOMES file"
+    requires ONEKG_OMNI: "Please define an ONEKG_OMNI file"
+    requires DBSNP: "Please define a DBSNP file"
 
     // we transform a VCF into a set of files
     transform("snp.recal.csv","snp.tranches","snp.plot.R")

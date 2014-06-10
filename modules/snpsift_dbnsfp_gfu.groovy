@@ -1,4 +1,4 @@
-// MODULE SNPSIFT DBNSFO
+// MODULE SNPSIFT DBNSFO (rev1)
 
 @intermediate
 snpsift_dbnsfp_gfu =
@@ -14,19 +14,8 @@ snpsift_dbnsfp_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["DBNSFP","SNPSIFT"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires DBNSFP : "Please define path for DBNSFP file"
+    requires SNPSIFT : "Please define the path of SNPSIFT"
 
     filter("dbnsfp")
     {

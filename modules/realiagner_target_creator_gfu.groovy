@@ -1,4 +1,4 @@
-// MODULE REALIGNER CREATOR GFU
+// MODULE REALIGNER CREATOR GFU (rev1)
 
 @intermediate
 realiagner_target_creator_gfu =
@@ -21,6 +21,13 @@ realiagner_target_creator_gfu =
         """,
         constrains: "Require the index bai file for: ${input.bam}, forward the bam file to the next stage",
         author: "davide.rambaldi@gmail.com"
+
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+    requires DBSNP: "Please define the DBSNP path"
+    if (target_intervals) {
+        requires INTERVALS : "Please define the INTERVALS file"
+    }
 
     transform("intervals")
     {

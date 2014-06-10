@@ -29,19 +29,9 @@ htseq_count_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["HTSEQ_COUNT","SAMTOOLS","ANNOTATION_GFF_FILE"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires HTSEQ_COUNT: "Please define HTSEQ_COUNT path"
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+    requires ANNOTATION_GFF_FILE: "Please define ANNOTATION_GFF_FILE file path"
 
     transform("reads.txt","reads.sam")
     {

@@ -29,19 +29,10 @@ align_soapsplice_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["REFERENCE_GENOME","SAMTOOLS","SSPLICE","FQZ_COMP"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires REFERENCE_GENOME: "Please define a REFERENCE_GENOME"
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+    requires SSPLICE: "Please define SSPLICE path"
+    requires FQZ_COMP: "Please define FQZ_COMP path"
 
     String input_extension = ""
 

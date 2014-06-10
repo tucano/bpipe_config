@@ -14,19 +14,8 @@ rseqc_reads_distribution_gfu =
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["READS_DISTRIBUTION","BED12_ANNOTATION"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires READS_DISTRIBUTION : "Please define the READS_DISTRIBUTION path"
+    requires BED12_ANNOTATION : "Please define the BED12_ANNOTATION path"
 
     transform("reads_distribution.log")
     {

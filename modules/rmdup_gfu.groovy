@@ -21,19 +21,7 @@ rmdup_gfu =
 
     if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
-    def required_binds = ["SAMTOOLS"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires SAMTOOLS: "Please define SAMTOOLS path"
 
     filter("rmdup")
     {

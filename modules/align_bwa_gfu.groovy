@@ -40,20 +40,17 @@ align_bwa_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["EXPERIMENT_NAME","PLATFORM","FCID","SAMPLEID","CENTER","REFERENCE_GENOME","BWA"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
+    requires EXPERIMENT_NAME : "Please define the EXPERIMENT_NAME variable"
+    requires PLATFORM: "Please define the PLATFORM variable"
+    requires FCID: "Please define the FCID variable"
+    requires SAMPLEID: "Please define the SAMPLEID variable"
+    requires CENTER: "Please define the CENTER variable"
+    requires REFERENCE_GENOME: "Please define a REFERENCE_GENOME"
+    requires BWA: "Please define BWA path"
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+    if (compression == "fqz") {
+        requires FQZ_COMP: "Please define FQZ_COMP path"
     }
-    if (to_fail) { System.exit(1) }
-
 
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
 

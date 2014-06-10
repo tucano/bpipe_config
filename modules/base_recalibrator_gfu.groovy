@@ -1,4 +1,4 @@
-// MODULE BASE RECALIBRATOR GFU
+// MODULE BASE RECALIBRATOR GFU (rev1)
 import static groovy.io.FileType.*
 
 @intermediate
@@ -31,8 +31,18 @@ base_recalibrator_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
-    def outputs
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+    requires DBSNP: "Please define the path for DBSNP file"
+    if (target_intervals) {
+        requires INTERVALS: "Please define an INTERVALS file"
+    }
+    if (healty_exomes) {
+        requires HEALTY_EXOMES_DIR: "Please define path of the HEALTY_EXOMES_DIR"
+    }
 
+
+    def outputs
     // RENAME GRP FILE ACCORDING TO THE NUMBER OF INPUTS
     // 1 input: input name
     // 2+ inputs: project name
