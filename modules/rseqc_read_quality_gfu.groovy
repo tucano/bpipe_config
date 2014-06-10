@@ -1,4 +1,4 @@
-// MODULE GENE READ QUALITY RSEQC
+// MODULE GENE READ QUALITY RSEQC (rev1)
 
 @preserve
 rseqc_read_quality_gfu =
@@ -27,6 +27,20 @@ rseqc_read_quality_gfu =
             In addition there are some errors in the R script. We must update rseqc?
         """,
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["READQUALITY"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     transform("qual.boxplot.pdf","qual.r")
     {

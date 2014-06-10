@@ -1,4 +1,4 @@
-// MODULE GENE READ GC RSEQC
+// MODULE GENE READ GC RSEQC (rev1)
 
 @preserve
 rseqc_read_GC_gfu =
@@ -13,6 +13,20 @@ rseqc_read_GC_gfu =
         """,
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["READGC"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     transform("GC_plot.r","GC_plot.pdf","GC.xls")
     {

@@ -1,4 +1,4 @@
-// VCF COVERAGE GFU
+// VCF COVERAGE GFU (rev1)
 
 @preserve
 vcf_coverage_gfu =
@@ -12,6 +12,20 @@ vcf_coverage_gfu =
       author: "davide.rambaldi@gmail.com"
 
   if (output_dir != "") output.dir = output_dir
+
+  def required_binds = ["VCFUTILS","SNPSIFT"]
+  def to_fail = false
+  required_binds.each { key ->
+    if (!binding.variables.containsKey(key))
+    {
+        to_fail = true
+        println """
+            This stage require this variable: $key, add this to the groovy file:
+                $key = "VALUE"
+        """.stripIndent()
+    }
+  }
+  if (to_fail) { System.exit(1) }
 
   produce("vcf_coverage.log")
   {
