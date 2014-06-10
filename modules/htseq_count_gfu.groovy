@@ -1,4 +1,4 @@
-// MODULE HTSEQ COUNT GFU
+// MODULE HTSEQ COUNT GFU (rev1)
 
 @preserve
 htseq_count_gfu =
@@ -28,6 +28,20 @@ htseq_count_gfu =
             This stage forward the last bam file to create headers in sort_and_convert_sam_gfu
         """,
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["HTSEQ_COUNT","SAMTOOLS","ANNOTATION_GFF_FILE"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     transform("reads.txt","reads.sam")
     {

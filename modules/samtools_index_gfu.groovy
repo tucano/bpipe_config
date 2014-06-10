@@ -1,4 +1,4 @@
-// MODULE SAMTOOLS CREATE BAI FILE
+// MODULE SAMTOOLS CREATE BAI FILE (rev1)
 
 @preserve
 samtools_index_gfu =
@@ -9,6 +9,20 @@ samtools_index_gfu =
         desc: "Launch $SAMTOOLS index on $input.bam. Create link from bam.bai to .bai",
         constraints: "Forward input bam to next stage",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["SAMTOOLS"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     transform("bai")
     {

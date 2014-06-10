@@ -1,4 +1,4 @@
-// MODULE XHMM FILTER AND TARGET
+// MODULE XHMM FILTER AND TARGET (rev1)
 
 xhmm_filter_and_target_gfu =
 {
@@ -23,6 +23,20 @@ xhmm_filter_and_target_gfu =
         "DATA.filtered_centered.RD.txt.filtered_targets.txt",
         "DATA.filtered_centered.RD.txt.filtered_samples.txt"
     ]
+
+    def required_binds = ["XHMM"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     produce(outputs)
     {

@@ -7,6 +7,7 @@ REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFER
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
+INTERVALS_BED          = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.bed"
 
 //--BPIPE_SAMPLE_INFO_HERE--
 

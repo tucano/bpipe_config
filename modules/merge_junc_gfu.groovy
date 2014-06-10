@@ -1,4 +1,4 @@
-// MODULE MERGE JUNC FILES
+// MODULE MERGE JUNC FILES (rev1)
 
 @preserve
 merge_junc_gfu =
@@ -10,7 +10,7 @@ merge_junc_gfu =
         constraints: "Should be placed after merge_bam_gfu in order to forward $input.bam to the next stage",
         author: "davide.rambaldi@gmail.com"
 
-    transform("junc") 
+    transform("junc")
     {
         def command = """
             JUNC=\$(ls *.junc 2>/dev/null);
@@ -22,7 +22,7 @@ merge_junc_gfu =
             done;
         """
 
-        if (pretend) 
+        if (pretend)
         {
             println """
                 INPUT $input
