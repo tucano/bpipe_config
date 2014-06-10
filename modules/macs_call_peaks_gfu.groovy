@@ -1,4 +1,4 @@
-// MODULE MACS CALL PEAKS GFU
+// MODULE MACS CALL PEAKS GFU (rev1)
 
 @intermediate
 macs_call_peaks_gfu =
@@ -27,6 +27,20 @@ macs_call_peaks_gfu =
         "${input.prefix}_model.r",
         "${input.prefix}_broad_peaks.bed"
     ]
+
+    def required_binds = ["MACS","GSIZE"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     produce(outputs)
     {

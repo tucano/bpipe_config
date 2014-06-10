@@ -7,7 +7,7 @@
 - branch variables:
    Once set, a branch variable becomes referenceable directly by all subsequent stages that are part of the branch, including any child branches. The value can be referenced as a property on the branch object, for example 'branch.planet', but can also be referenced without the branch. prefix.
 - removed /dev/shm  (optional)
-- check on global vars
+- check on global vars (to fail is not defined)
 
 # Version 0.6
 
