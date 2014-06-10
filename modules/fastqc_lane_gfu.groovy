@@ -1,4 +1,4 @@
-// MODULE FASTQC
+// MODULE FASTQC LANE (rev1)
 
 @preserve
 fastqc_lane_gfu =
