@@ -1,4 +1,4 @@
-// MODULE UNIFIED GENOTYPER BY ALLELES
+// MODULE UNIFIED GENOTYPER BY ALLELES (rev1)
 
 import static groovy.io.FileType.*
 
@@ -16,6 +16,20 @@ unified_genotyper_by_alleles_gfu =
     doc title: "GATK: Unified Genotyper by alleles",
         desc: "Produce a VCF file with SNP calls and INDELs. Parallelized in 1 job for chromosome",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["GATK","REFERENCE_GENOME_FASTA"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     def output_prefix
     if (rename != "") {

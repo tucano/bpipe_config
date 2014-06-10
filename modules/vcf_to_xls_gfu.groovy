@@ -1,5 +1,6 @@
-// MODULE VCF 2 XLS
+// MODULE VCF 2 XLS (rev1)
 
+@preserve
 vcf_to_xls_gfu =
 {
     var pretend : false
@@ -10,6 +11,19 @@ vcf_to_xls_gfu =
         constraints: "For any question, write to cittaro.davide@hsr.it",
         author: "davide.rambaldi@gmail.com"
 
+    def required_binds = ["VCF2XLS","VCF2XLS_ANNOTATION"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     transform("xls")
     {

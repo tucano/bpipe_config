@@ -1,4 +1,4 @@
-// MODULE UNIFIED GENOTYPER BY TRUSEQ INTERVALS GFU
+// MODULE UNIFIED GENOTYPER BY TRUSEQ INTERVALS GFU (rev1)
 import static groovy.io.FileType.*
 
 @intermediate
@@ -35,6 +35,22 @@ unified_genotyper_by_truseq_gfu =
         """,
         constraints: "This stage use a file list for input bam. For security the list is removed in the next stage (vcf_concat)",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["GATK","REFERENCE_GENOME_FASTA","DBSNP","VCFCONCAT"]
+    if (healty_exomes) { required_binds.push "HEALTY_EXOMES_DIR" }
+
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     def bam_list = new File("input_bams.${chr}.list")
     if (!bam_list.exists())

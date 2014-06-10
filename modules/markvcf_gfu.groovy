@@ -1,4 +1,4 @@
-// MODULE MARKVCF
+// MODULE MARKVCF (Rev1)
 
 markvcf_gfu =
 {
@@ -9,6 +9,20 @@ markvcf_gfu =
         desc: "Mark VCF files for gene properties",
         constraints: "For any question, write to cittaro.davide@hsr.it",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["MARKVCF","SQL_GENES_TABLE","PHI_SCORES"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     produce("Tier1.vcf")
     {

@@ -1,4 +1,4 @@
-// MODULE GENERATE TRUSEQ INTERVALS
+// MODULE GENERATE TRUSEQ INTERVALS (rev1)
 
 @intermediate
 generate_truseq_intervals_gfu =
@@ -16,6 +16,20 @@ generate_truseq_intervals_gfu =
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["INTERVALS"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     produce ("${chr}.intervals")
     {

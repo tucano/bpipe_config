@@ -14,6 +14,19 @@ snpsift_dbnsfp_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
+    def required_binds = ["DBNSFP","SNPSIFT"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     filter("dbnsfp")
     {

@@ -1,4 +1,4 @@
-// MODULE VCF CONCAT
+// MODULE VCF CONCAT (rev1)
 
 @intermediate
 vcf_concat_gfu =
@@ -10,6 +10,20 @@ vcf_concat_gfu =
         desc: "Sort and concatenate VCF files",
         constraints: "",
         author: "davide.rambaldi@gmail.com"
+
+    def required_binds = ["VCFCONCAT","VCFSORT"]
+    def to_fail = false
+    required_binds.each { key ->
+        if (!binding.variables.containsKey(key))
+        {
+            to_fail = true
+            println """
+                This stage require this variable: $key, add this to the groovy file:
+                    $key = "VALUE"
+            """.stripIndent()
+        }
+    }
+    if (to_fail) { System.exit(1) }
 
     // remove chr from file name
     def output_prefix = "${input.vcf.prefix}".replaceAll(/\..*/,"")
