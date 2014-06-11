@@ -21,7 +21,7 @@ xhmm_filter_and_zscore_gfu =
         "DATA.PCA_normalized.filtered.sample_zscores.RD.txt.filtered_samples.txt"
     ]
 
-    requires XHMM, "Please define the XHMM path"
+    requires XHMM : "Please define the XHMM path"
 
     produce(outputs)
     {

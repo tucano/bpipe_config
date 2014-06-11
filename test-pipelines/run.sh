@@ -67,7 +67,8 @@ then
   echo
 fi
 
-
+echo
+echo
 echo "=========== Test Pipelines Summary ==========="
 echo
 echo "Success: $pipeline_succ"

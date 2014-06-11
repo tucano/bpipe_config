@@ -14,7 +14,7 @@ xhmm_genotype_cnv_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    requires XHMM, "Please define the XHMM path"
+    requires XHMM: "Please define the XHMM path"
 
     // GENERATE PARAMS file from string
     new File("params.txt").write(params.split(",").join("\t"))

@@ -14,7 +14,7 @@ xhmm_filter_and_normalize_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    requires XHMM, "Please define the XHMM path"
+    requires XHMM : "Please define the XHMM path"
 
     produce("DATA.PCA_normalized.txt")
     {

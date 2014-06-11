@@ -17,10 +17,10 @@ unified_genotyper_by_alleles_gfu =
         desc: "Produce a VCF file with SNP calls and INDELs. Parallelized in 1 job for chromosome",
         author: "davide.rambaldi@gmail.com"
 
-    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
-    requires GATK: "Please define GATK path"
-    requires ALLELES: "Please define an alleles file (ALLELES)"
-    requires DBSNP; "Please define a DBSNP file"
+    requires REFERENCE_GENOME_FASTA : "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK : "Please define GATK path"
+    requires ALLELES : "Please define an alleles file (ALLELES)"
+    requires DBSNP : "Please define a DBSNP file"
 
     def output_prefix
     if (rename != "") {
