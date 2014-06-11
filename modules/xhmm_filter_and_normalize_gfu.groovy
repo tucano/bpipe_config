@@ -14,19 +14,7 @@ xhmm_filter_and_normalize_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    def required_binds = ["XHMM"]
-    def to_fail = false
-    required_binds.each { key ->
-        if (!binding.variables.containsKey(key))
-        {
-            to_fail = true
-            println """
-                This stage require this variable: $key, add this to the groovy file:
-                    $key = "VALUE"
-            """.stripIndent()
-        }
-    }
-    if (to_fail) { System.exit(1) }
+    requires XHMM, "Please define the XHMM path"
 
     produce("DATA.PCA_normalized.txt")
     {
