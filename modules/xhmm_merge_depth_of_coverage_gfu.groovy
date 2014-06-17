@@ -1,4 +1,4 @@
-// MODULE xhmm_merge_depth_of_coverage_gfu
+// MODULE xhmm_merge_depth_of_coverage_gfu (rev1)
 
 xhmm_merge_depth_of_coverage_gfu =
 {
@@ -13,6 +13,9 @@ xhmm_merge_depth_of_coverage_gfu =
         """,
         constraints: "",
         author: "davide.rambaldi@gmail.com"
+
+    requires XHMM: "Please define the XHMM path"
+    requires DEPTH_DATA_DIR: "Please define the DEPTH_DATA_DIR path"
 
     def input_string = new StringBuffer()
     inputs.each { file ->

@@ -1,4 +1,4 @@
-// MODULE MOVE SAMPLE RESULTS
+// MODULE MOVE SAMPLE RESULTS (rev1)
 
 @preserve
 move_sample_output_gfu =

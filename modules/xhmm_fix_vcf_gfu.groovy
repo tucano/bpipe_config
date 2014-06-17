@@ -13,6 +13,9 @@ xhmm_fix_vcf_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
+    requires XHMM_FIX_VCF: "Please define the XHMM_FIX_VCF path"
+    requires REFERENCE_GENOME_FASTA: "Please define the REFERENCE_GENOME_FASTA path"
+
     filter("fixed")
     {
         def command = """

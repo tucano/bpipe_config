@@ -1,4 +1,4 @@
-// MODULE SNPSIFT FILTER QUALITY GFU
+// MODULE SNPSIFT FILTER QUALITY GFU (Rev1)
 
 snpsift_filter_quality_gfu =
 {
@@ -10,6 +10,7 @@ snpsift_filter_quality_gfu =
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
+    requires SNPSIFT : "Please define the path of SNPSIFT"
 
     filter("quality")
     {

@@ -1,4 +1,4 @@
-// MODULE READS DISTRIBUTIONS FROM RSEQC
+// MODULE READS DISTRIBUTIONS FROM RSEQC (rev1)
 
 @preserve
 rseqc_reads_distribution_gfu =
@@ -14,10 +14,12 @@ rseqc_reads_distribution_gfu =
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
 
+    requires READS_DISTRIBUTION : "Please define the READS_DISTRIBUTION path"
+    requires BED12_ANNOTATION : "Please define the BED12_ANNOTATION path"
+
     transform("reads_distribution.log")
     {
         def command = """
-            echo -e "[rseqc_reads_distribution]: input file $input.bam";
             $READS_DISTRIBUTION -i $input.bam -r $BED12_ANNOTATION 1> $output
         """
         if (pretend)

@@ -1,4 +1,4 @@
-// MODULE SORT BAM BY NAME FILE GFU
+// MODULE SORT BAM BY NAME FILE GFU (rev1)
 
 @intermediate
 sort_bam_by_name_gfu =
@@ -9,6 +9,8 @@ sort_bam_by_name_gfu =
         desc: "Sort bam file by name",
         constrains: "...",
         author: "davide.rambaldi@gmail.com"
+
+    requires SAMTOOLS: "Please define SAMTOOLS path"
 
     filter("sorted_by_name")
     {

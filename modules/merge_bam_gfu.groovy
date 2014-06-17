@@ -1,4 +1,4 @@
-// MODULE MERGE BAM FILES
+// MODULE MERGE BAM FILES (rev1)
 
 @preserve
 merge_bam_gfu =
@@ -14,14 +14,16 @@ merge_bam_gfu =
             The output will be renamed with the variable SAMPLEID (${SAMPLEID}).
             For Illumina default runs set rename to FALSE, this stage will automatically remove casava groups notation.
             stage options:
-                rename  : $rename
-                pretend : $pretend
+                rename     : $rename
+                pretend    : $pretend
                 sample_dir : $sample_dir
 
             With sample_dir true, this stage redefine output.dir using input.dir
         """,
         constraints: "",
         author: "davide.rambaldi@gmail.com"
+
+    requires PICMERGE : "Please define the PICMERGE path"
 
     def sampleid
     if (sample_dir)
@@ -42,6 +44,7 @@ merge_bam_gfu =
     }
     else
     {
+        requires SAMPLEID : "Please define the SAMPLEID"
         // get GLOBAL sample id
         sampleid = SAMPLEID
     }
@@ -90,7 +93,6 @@ merge_bam_gfu =
                 echo "INPUTS: $inputs" > $output2;
             """
         }
-
         exec command,"merge_bam_files"
     }
 }

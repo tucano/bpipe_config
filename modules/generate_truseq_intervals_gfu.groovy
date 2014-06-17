@@ -1,4 +1,4 @@
-// MODULE GENERATE TRUSEQ INTERVALS
+// MODULE GENERATE TRUSEQ INTERVALS (rev1)
 
 @intermediate
 generate_truseq_intervals_gfu =
@@ -16,6 +16,8 @@ generate_truseq_intervals_gfu =
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
+
+    requires INTERVALS: "Please define an INTERVALS file"
 
     produce ("${chr}.intervals")
     {

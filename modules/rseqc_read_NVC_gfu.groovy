@@ -1,4 +1,4 @@
-// MODULE GENE READ NVC RSEQC
+// MODULE GENE READ NVC RSEQC (rev1)
 
 @preserve
 rseqc_read_NVC_gfu =
@@ -17,6 +17,8 @@ rseqc_read_NVC_gfu =
         """,
         constrains: "I am forcing export of site-packages to get qcmodule.",
         author: "davide.rambaldi@gmail.com"
+
+    requires READNVC : "Please define READNVC path"
 
     transform("NVC_plot.pdf","NVC_plot.r","NVC.xls")
     {

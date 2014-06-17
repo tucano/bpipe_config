@@ -1,4 +1,4 @@
-// VCF COVERAGE GFU
+// VCF COVERAGE GFU (rev1)
 
 @preserve
 vcf_coverage_gfu =
@@ -12,6 +12,9 @@ vcf_coverage_gfu =
       author: "davide.rambaldi@gmail.com"
 
   if (output_dir != "") output.dir = output_dir
+
+  requires VCFUTILS : "Please define VCFUTILS path"
+  requires SNPSIFT  : "Please define SNPSIFT path"
 
   produce("vcf_coverage.log")
   {

@@ -1,4 +1,4 @@
-// MODULE FASTQC
+// MODULE FASTQC LANE (rev1)
 
 @preserve
 fastqc_lane_gfu =
@@ -18,6 +18,8 @@ fastqc_lane_gfu =
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
+
+    requires FASTQC : "Please define path of FASTQC"
 
     if (paired)
     {

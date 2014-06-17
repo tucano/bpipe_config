@@ -1,4 +1,4 @@
-// MODULE ALIGN BWA GFU
+// MODULE ALIGN BWA GFU (rev1)
 
 @intermediate
 align_bwa_gfu =
@@ -36,9 +36,21 @@ align_bwa_gfu =
             Work with fastq and fastq.gz, single and paired files.
             For paired files assume the presence of _R1_ and _R2_ tags.
             No support for project piplines (we use mem_bwa_gfu).
+            Take info about sample from binding variables, die if variables are not defined
         """,
         author: "davide.rambaldi@gmail.com"
 
+    requires EXPERIMENT_NAME : "Please define the EXPERIMENT_NAME variable"
+    requires PLATFORM: "Please define the PLATFORM variable"
+    requires FCID: "Please define the FCID variable"
+    requires SAMPLEID: "Please define the SAMPLEID variable"
+    requires CENTER: "Please define the CENTER variable"
+    requires REFERENCE_GENOME: "Please define a REFERENCE_GENOME"
+    requires BWA: "Please define BWA path"
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+    if (compression == "fqz") {
+        requires FQZ_COMP: "Please define FQZ_COMP path"
+    }
 
     String header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
 

@@ -1,4 +1,4 @@
-// MODULE GATK DEPTH OF COVERAGE
+// MODULE GATK DEPTH OF COVERAGE (rev1)
 
 @preserve
 gatk_detpth_of_coverage_gfu =
@@ -32,6 +32,10 @@ gatk_detpth_of_coverage_gfu =
             produce tables pertaining to different coverage summaries. Suffix on the table files declares the contents
         """,
         author: "davide.rambaldi@gmail.com"
+
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+    requires INTERVALS: "Please define an INTERVALS file"
 
     def outputs = []
 

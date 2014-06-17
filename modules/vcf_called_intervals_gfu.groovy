@@ -1,4 +1,4 @@
-// VCF CALLED INTERVALS
+// VCF CALLED INTERVALS (rev1)
 
 @preserve
 vcf_called_intervals_gfu =
@@ -10,6 +10,9 @@ vcf_called_intervals_gfu =
       desc: "...",
       constraints: "...",
       author: "davide.rambaldi@gmail.com"
+
+  requires VCFQUERY : "Please define VCFQUERY path"
+  requires INTERVALS_BED : "Please define INTERVALS_BED file"
 
   if (output_dir != "") output.dir = output_dir
 

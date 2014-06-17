@@ -1,4 +1,4 @@
-// MODULE INDEL REALIGNER GFU
+// MODULE INDEL REALIGNER GFU (rev1)
 
 @intermediate
 indel_realigner_gfu =
@@ -13,17 +13,21 @@ indel_realigner_gfu =
             stage options with value:
                 pretend                : $pretend
                 DBSNP                  : $DBSNP
-                With target_intervals       : $target_intervals
+                With target_intervals  : $target_intervals
                 INTERVALS              : $INTERVALS
                 REFERENCE_GENOME_FASTA : $REFERENCE_GENOME_FASTA
         """,
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+    requires DBSNP: "Please define a DBSNP file"
 
     filter("indel_realigned")
     {
         def intervals_string = target_intervals ? "-L $INTERVALS" : ""
+
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;

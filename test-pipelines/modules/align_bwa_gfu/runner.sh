@@ -35,6 +35,10 @@ exists $OUTPUTS
 ./cleaner.sh
 
 # FQZ
+OUTPUTS=(testinput_R1_001.sai testinput_R2_001.sai testinput_001.bam)
 run test_fqz.groovy testinput_R*_001.fqz
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
 
 success

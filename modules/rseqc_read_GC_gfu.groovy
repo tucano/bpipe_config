@@ -1,4 +1,4 @@
-// MODULE GENE READ GC RSEQC
+// MODULE GENE READ GC RSEQC (rev1)
 
 @preserve
 rseqc_read_GC_gfu =
@@ -13,6 +13,8 @@ rseqc_read_GC_gfu =
         """,
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
+
+    requires READGC : "Please define READGC path"
 
     transform("GC_plot.r","GC_plot.pdf","GC.xls")
     {

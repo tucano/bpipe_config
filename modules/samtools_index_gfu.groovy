@@ -1,4 +1,4 @@
-// MODULE SAMTOOLS CREATE BAI FILE
+// MODULE SAMTOOLS CREATE BAI FILE (rev1)
 
 @preserve
 samtools_index_gfu =
@@ -9,6 +9,8 @@ samtools_index_gfu =
         desc: "Launch $SAMTOOLS index on $input.bam. Create link from bam.bai to .bai",
         constraints: "Forward input bam to next stage",
         author: "davide.rambaldi@gmail.com"
+
+    requires SAMTOOLS: "Please define SAMTOOLS path"
 
     transform("bai")
     {

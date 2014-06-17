@@ -17,8 +17,8 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    "%.bam" * [ realiagner_target_creator_gfu.using(target_intervals:false) + 
-    			indel_realigner_gfu.using(target_intervals:false) + 
-    			base_recalibrator_gfu.using(target_intervals:false) + 
+    "%.bam" * [ realiagner_target_creator_gfu.using(target_intervals:false) +
+    			indel_realigner_gfu.using(target_intervals:false) +
+    			base_recalibrator_gfu.using(target_intervals:false) +
     			base_print_reads_gfu.using(target_intervals:false) ]
 }

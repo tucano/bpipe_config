@@ -1,4 +1,4 @@
-// MODULE SNPSIFT DBNSFO
+// MODULE SNPSIFT DBNSFO (rev1)
 
 @intermediate
 snpsift_dbnsfp_gfu =
@@ -14,6 +14,8 @@ snpsift_dbnsfp_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
+    requires DBNSFP : "Please define path for DBNSFP file"
+    requires SNPSIFT : "Please define the path of SNPSIFT"
 
     filter("dbnsfp")
     {

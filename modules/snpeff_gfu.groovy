@@ -1,4 +1,4 @@
-// MODULE SNPEFF
+// MODULE SNPEFF (rev1)
 
 snpeff_gfu =
 {
@@ -12,6 +12,9 @@ snpeff_gfu =
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
+
+    requires SNPEFF : "Please define path for SNPEFF"
+    requires SNPEFF_CONFIG : "Please define a SNPEFF_CONFIG file"
 
     produce("Tier0.vcf")
     {

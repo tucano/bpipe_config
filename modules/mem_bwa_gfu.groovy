@@ -1,4 +1,4 @@
-// MODULE MEM BWA GFU
+// MODULE MEM BWA GFU (rev1)
 
 @intermediate
 mem_bwa_gfu =
@@ -60,6 +60,14 @@ mem_bwa_gfu =
         input_extension = '.fastq'
     }
 
+    requires PLATFORM: "Please define the PLATFORM variable"
+    requires CENTER: "Please define the CENTER variable"
+    requires REFERENCE_GENOME: "Please define a REFERENCE_GENOME"
+    requires BWA: "Please define BWA path"
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+    if (compression == "fqz") {
+        requires FQZ_COMP: "Please define FQZ_COMP path"
+    }
 
     if (sample_dir)
     {
@@ -83,6 +91,9 @@ mem_bwa_gfu =
     }
     else
     {
+        requires EXPERIMENT_NAME : "Please define the EXPERIMENT_NAME variable"
+        requires FCID: "Please define the FCID variable"
+        requires SAMPLEID: "Please define the SAMPLEID variable"
         header  = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
     }
 

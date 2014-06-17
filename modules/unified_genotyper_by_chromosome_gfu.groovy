@@ -1,4 +1,4 @@
-// MODULE UNIFIED GENOTYPER BY CHROMOSOME GFU
+// MODULE UNIFIED GENOTYPER BY CHROMOSOME GFU (rev1)
 import static groovy.io.FileType.*
 
 @intermediate
@@ -32,6 +32,14 @@ unified_genotyper_by_chromosome_gfu =
                 Unsafe          = $unsafe
         """,
         author: "davide.rambaldi@gmail.com"
+
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+    requires DBSNP: "Please define a DBSNP file"
+
+    if (healty_exomes) {
+        requires HEALTY_EXOMES_DIR : "Please define a HEALTY_EXOMES_DIR directory"
+    }
 
     def output_prefix
     if (rename != "") {

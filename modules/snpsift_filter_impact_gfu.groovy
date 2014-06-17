@@ -10,6 +10,8 @@ snpsift_filter_impact_gfu =
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
+    requires SNPSIFT : "Please define the path of SNPSIFT"
+
     produce("Tier2.vcf")
     {
         def command = """

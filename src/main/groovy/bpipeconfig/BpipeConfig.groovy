@@ -25,34 +25,35 @@ class BpipeConfig
 	 */
 	final static String sample_sheet_name    = "SampleSheet.csv"
 	final static String version              = System.getProperty("bpipeconfig.version")
-    final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
+  final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
 
-    public static String  user_email
-    public static boolean verbose
-    public static boolean force
-    public static boolean batch
-    public static String command
-    public static String user_name
-    public static String working_dir
-    public static String bpipe_home
-    public static String bpipe_config_home
-    public static String java_runtime_version
-    public static String project_name
-    public static def pipelines
-    public static def modules
-    public static def email_config
-    public static def email_list
+  public static String  user_email
+  public static boolean verbose
+  public static boolean force
+  public static boolean skip_sample_sheet
+  public static boolean batch
+  public static String command
+  public static String user_name
+  public static String working_dir
+  public static String bpipe_home
+  public static String bpipe_config_home
+  public static String java_runtime_version
+  public static String project_name
+  public static def pipelines
+  public static def modules
+  public static def email_config
+  public static def email_list
 
-    /**
-     * Main Entry Point
-     * <p>
-     * Use the CliBuilder to handle options.
-     * Use bpipeconfig.Logger to send messages
-     * Use bpipeconfig.Commands to execute commands
-     *
-     * @param	args	command line arguments
- 	 * @return	A System.exit status
-     */
+  /**
+   * Main Entry Point
+   * <p>
+   * Use the CliBuilder to handle options.
+   * Use bpipeconfig.Logger to send messages
+   * Use bpipeconfig.Commands to execute commands
+   *
+   * @param	args	command line arguments
+	 * @return	A System.exit status
+   */
 	public static void main(String[] args)
 	{
 		// GET ENVIRONMENT INFO
@@ -80,28 +81,26 @@ class BpipeConfig
 		// CLI BUILDER
 		def cli = new CliBuilder(
 			usage: "bpipe-config [options] [command] [pipeline_name] [sample_dirs|project_dirs]",
-    		header: "\nAvailable options:\n",
-    		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
-    		posix:  true,
-    		width:  120
+  		header: "\nAvailable options:\n",
+  		footer: "\n${Logger.versionInfo(version)}, ${Logger.buildInfo(builddate)}\n",
+  		posix:  true,
+  		width:  120
 		)
 
 		cli.with {
-			b	longOpt: 'batch'    , 'Automatically execute bpipe in background (bg-bpipe)', required: false
-			c   longOpt: 'commands' , 'Print a list of available commands', required: false
-			f   longOpt: 'force'    , 'Force files overwrite when needed (default=FALSE).', required: false
-			h   longOpt: 'help'     , 'Usage Information', required: false
-			m   longOpt: 'email'    , 'User email address (Es: -m user@example.com)', args: 1, required: false
-			p   longOpt: 'pipelines', 'Print a list of available pipelines', required: false
-			'P' longOpt: 'project'  , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
-			v   longOpt: 'verbose'  , 'Verbose mode', required: false
+			b	  longOpt: 'batch'     , 'Automatically execute bpipe in background (bg-bpipe)', required: false
+			c   longOpt: 'commands'  , 'Print a list of available commands', required: false
+			f   longOpt: 'force'     , 'Force files overwrite when needed (default=FALSE).', required: false
+			h   longOpt: 'help'      , 'Usage Information', required: false
+			m   longOpt: 'email'     , 'User email address (Es: -m user@example.com)', args: 1, required: false
+			p   longOpt: 'pipelines' , 'Print a list of available pipelines', required: false
+			'P' longOpt: 'project'   , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
+			v   longOpt: 'verbose'   , 'Verbose mode', required: false
+      s   longOpt: 'skip-sheet', 'Skip SampleSheet checks', required: false
 		}
+
 		def opt = cli.parse(args)
 		if ( !opt ) System.exit(1)
-
-		// GET MAP OF PIPELINES and MODULES
-		pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
-        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 
 		// PRINT VERSION AND BUILD
 		if (verbose) println Logger.printVersionAndBuild(version, builddate)
@@ -109,13 +108,18 @@ class BpipeConfig
 		// GET HELP OPTIONS
 		def help_mode = false
 		if ( opt.h ) {
-        	cli.usage()
-        	help_mode = true
-        }
+    	cli.usage()
+    	help_mode = true
+    }
+
 		if ( opt.p ) {
+      // GET MAP OF PIPELINES and MODULES
+      pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+      modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 			println Logger.printPipelines(pipelines)
 			help_mode = true
 		}
+
 		if ( opt.c ) {
 			println Logger.printHelpCommands()
 			help_mode = true
@@ -159,6 +163,7 @@ class BpipeConfig
 		verbose = opt.v
 		force   = opt.f
 		batch   = opt.b
+    skip_sample_sheet = opt.s
 
 		// GET command (first non options argument) and remove it from list
 		def extraArguments = opt.arguments()
@@ -180,23 +185,29 @@ class BpipeConfig
 				Commands.sheet(extraArguments)
 			break
 			case "pipe":
+        pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.pipe(extraArguments)
 			break
 			case "project":
+        pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.project(extraArguments)
 			break
 			case "info":
+        pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
+        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.info(extraArguments)
 			break
 			case "clean":
 				Commands.clean(extraArguments)
 			break
-            case "jvm":
-                Commands.jvm(extraArguments)
-            break
-            case "smerge":
-                Commands.smerge(extraArguments)
-            break
+      case "jvm":
+          Commands.jvm(extraArguments)
+      break
+      case "smerge":
+          Commands.smerge(extraArguments)
+      break
 		}
 	}
 }

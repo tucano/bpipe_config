@@ -1,4 +1,4 @@
-// MODULE BAM STAT FROM RSEQC
+// MODULE BAM STAT FROM RSEQC (rev1)
 
 @preserve
 rseqc_bam_stat_gfu =
@@ -18,6 +18,7 @@ rseqc_bam_stat_gfu =
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
 
+    requires BAMSTAT : "Please define BAMSTAT path"
 
     transform("bam_stat.log")
     {

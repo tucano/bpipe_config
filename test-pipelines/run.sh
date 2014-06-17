@@ -46,7 +46,7 @@ do
         else
                 echo "--> FAILED"
                 let "pipeline_fail=pipeline_fail+1"
-                pipeline_failures="$\n$t"
+                pipeline_failures="$pipeline_failures\n$t"
         fi
         cd ..
 done
@@ -67,7 +67,8 @@ then
   echo
 fi
 
-
+echo
+echo
 echo "=========== Test Pipelines Summary ==========="
 echo
 echo "Success: $pipeline_succ"

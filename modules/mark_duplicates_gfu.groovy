@@ -1,12 +1,12 @@
-// MODULE MARK DUPLICATES IN BAM FILE
+// MODULE MARK DUPLICATES IN BAM FILE (rev1)
 
 @preserve
 mark_duplicates_gfu =
 {
-    var pretend : false
-    var remove_duplicates : false
+    var pretend               : false
+    var remove_duplicates     : false
     var validation_stringency : "SILENT"
-    var sample_dir : false
+    var sample_dir            : false
 
     doc title: "Mark duplicates in bam files with $MARKDUP : IOS GFU 0019",
         desc: """
@@ -22,6 +22,8 @@ mark_duplicates_gfu =
             Require a BAM sorted by coordinate (ASSUME_SORTED=true).
         """,
         author: "davide.rambaldi@gmail.com"
+
+    requires MARKDUP : "Please define MARKDUP path"
 
     if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 

@@ -1,4 +1,4 @@
-// MODULE XHMM DISCOVER CNV
+// MODULE XHMM DISCOVER CNV (rev1)
 
 xhmm_discover_cnv_gfu =
 {
@@ -13,6 +13,8 @@ xhmm_discover_cnv_gfu =
         """,
         constraints: "",
         author: "davide.rambaldi@gmail.com"
+
+    requires XHMM : "Please define the XHMM path"
 
     // GENERATE PARAMS file from string
     new File("params.txt").write(params.split(",").join("\t"))

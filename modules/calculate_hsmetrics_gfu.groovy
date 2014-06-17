@@ -1,4 +1,4 @@
-// MODULE HSMETRICS
+// MODULE HSMETRICS (rev1)
 
 @intermediate
 calculate_hsmetrics_gfu =
@@ -11,9 +11,14 @@ calculate_hsmetrics_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
+    requires HSMETRICS : "Please define path of HSMETRICS"
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires BAITS: "Please define a BAITS file"
+    requires TARGETS: "Please define a TARGETS file"
+
     if (output_dir != "") output.dir = output_dir
 
-   	transform("hsmetrics") 
+   	transform("hsmetrics")
    	{
    		def command = new StringBuffer()
 
@@ -32,12 +37,12 @@ calculate_hsmetrics_gfu =
 				INPUT_BAM       : $input.bam
 				OUTPUT          : $output
 				REFERENCE_FASTA : $REFERENCE_GENOME_FASTA
-				BAITS           : $BAITS       
+				BAITS           : $BAITS
 				TARGETS         : $TARGETS
 				COMMAND         : $command
 			"""
 		}
 
 		exec "$command", "hsmetrics"
-   	}
+  }
 }

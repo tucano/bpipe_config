@@ -19,6 +19,8 @@ xhmm_pca_gfu =
         "DATA.RD_PCA.PC.txt"
     ]
 
+    requires XHMM: "Please define the XHMM path"
+
     produce(outputs)
     {
         def command = """

@@ -22,6 +22,8 @@ fastqc_sample_gfu =
         """,
         author: "davide.rambaldi@gmail.com"
 
+    requires FASTQC : "Please define path of FASTQC"
+
     // GET INPUT DIR (report dir) AND SET OUTPUT DIR()
     output.dir = input
     // GET DATA DIR and locate input files

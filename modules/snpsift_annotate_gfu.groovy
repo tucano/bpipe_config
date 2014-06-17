@@ -1,4 +1,4 @@
-// MODULE SNPSIFT ANNOTATE
+// MODULE SNPSIFT ANNOTATE (rev1)
 
 @intermediate
 snpsift_annotate_gfu =
@@ -14,6 +14,8 @@ snpsift_annotate_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
+    requires DBSNP : "Please define path for DBSNP file"
+    requires SNPSIFT : "Please define the path of SNPSIFT"
 
     filter("annotated")
     {

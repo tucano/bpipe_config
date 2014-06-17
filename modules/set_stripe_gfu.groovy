@@ -1,4 +1,4 @@
-// MODULE CONFIG LUSTRE FS
+// MODULE CONFIG LUSTRE FS (rev1)
 
 @intermediate
 set_stripe_gfu =
@@ -12,10 +12,12 @@ set_stripe_gfu =
                 -i -1 : a start_ost_index of -1 allows the MDS to choose the starting index and it is strongly recommended, as this allows space and load balancing to be done by the MDS as needed.
                 -s 2M : Stripsize 2 megabytes
         """,
-        constraints: "It is a non blocking stage (Fails in non lustre fs, but will return always true).",
+        constraints: "It is a non blocking stage (Fails in non lustre fs, but will return always true). Forward input to next stage.",
         author: "davide.rambaldi@gmail.com"
 
     def cwd = System.getProperty("user.dir")
+
+    requires LSF : "Please define path of LSF"
 
     produce("setstripe.log")
     {

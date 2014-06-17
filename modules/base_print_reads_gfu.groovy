@@ -1,4 +1,4 @@
-// MODULE BASE RECALIBRATOR GFU
+// MODULE BASE RECALIBRATOR GFU (rev1)
 
 @preserve
 base_print_reads_gfu =
@@ -23,9 +23,17 @@ base_print_reads_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+
+    if (target_intervals) {
+        requires INTERVALS: "Please define an INTERVALS file"
+    }
+
     filter("recalibrated")
     {
         def intervals_string = target_intervals ? "-L $INTERVALS" : ""
+
         def command = """
             ulimit -l unlimited;
             ulimit -s unlimited;

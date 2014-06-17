@@ -12,7 +12,7 @@ apply from: 'http://www.tellurianring.com/projects/gradle-plugins/gradle-templat
  * GRADLE_OPTS="-Xmx1024m" gradle stage
  */
 
-version = "0.7"
+version = "0.8"
 
 project.ext {
     STAGE="build/stage/bpipeconfig"

@@ -1,4 +1,4 @@
-// MODULE SAMPLE DIR GFU
+// MODULE SAMPLE DIR GFU (rev1)
 
 @intermediate
 sample_dir_gfu =
@@ -12,6 +12,8 @@ sample_dir_gfu =
         """,
         constraints: "setstripe and getstripe as non blocking steps (Fails in non lustre fs, but will return always true).",
         author: "davide.rambaldi@gmail.com"
+
+    requires LSF : "Please define path of LSF"
 
     def outputs = []
     def output_dir = input.dir.replaceFirst(/.*\//,"")

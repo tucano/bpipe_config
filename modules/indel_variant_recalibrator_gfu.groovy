@@ -33,6 +33,9 @@ indel_variant_recalibrator_gfu =
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
+
     transform("indel.recal.csv","indel.tranches","indel.plot.R")
     {
         def command = """

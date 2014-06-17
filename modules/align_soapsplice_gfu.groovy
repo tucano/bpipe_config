@@ -1,4 +1,4 @@
-// MODULE SOAPSPLICE ALIGN
+// MODULE SOAPSPLICE ALIGN (rev1)
 
 @intermediate
 align_soapsplice_gfu =
@@ -28,6 +28,11 @@ align_soapsplice_gfu =
             Don't support MarkDuplicates stages.
         """,
         author: "davide.rambaldi@gmail.com"
+
+    requires REFERENCE_GENOME: "Please define a REFERENCE_GENOME"
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+    requires SSPLICE: "Please define SSPLICE path"
+    requires FQZ_COMP: "Please define FQZ_COMP path"
 
     String input_extension = ""
 

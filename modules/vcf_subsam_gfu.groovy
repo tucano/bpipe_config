@@ -1,4 +1,4 @@
-// MODULE VCF LIST SAMPLES
+// MODULE VCF LIST SAMPLES (rev1)
 import static groovy.io.FileType.*
 
 @intermediate
@@ -15,6 +15,10 @@ vcf_subsam_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def healty_samples = []
+
+    requires HEALTY_EXOMES_DIR : "Please define HEALTY_EXOMES_DIR dir path"
+    requires VCFUTILS : "Please define VCFUTILS path"
+    requires SNPSIFT : "Please define SNPSIFT path"
 
     new File("$HEALTY_EXOMES_DIR").eachFileMatch FILES, ~/.*\.bam/, { bam ->
         healty_samples << bam.getName().replaceAll(/\..*/,"")

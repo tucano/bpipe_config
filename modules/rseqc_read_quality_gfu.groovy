@@ -1,4 +1,4 @@
-// MODULE GENE READ QUALITY RSEQC
+// MODULE GENE READ QUALITY RSEQC (rev1)
 
 @preserve
 rseqc_read_quality_gfu =
@@ -27,6 +27,8 @@ rseqc_read_quality_gfu =
             In addition there are some errors in the R script. We must update rseqc?
         """,
         author: "davide.rambaldi@gmail.com"
+
+    requires READQUALITY : "Please define READQUALITY path"
 
     transform("qual.boxplot.pdf","qual.r")
     {

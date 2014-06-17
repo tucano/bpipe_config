@@ -1,4 +1,4 @@
-// MODULE SNPSIFT FILTER DUPLICATES GFU
+// MODULE SNPSIFT FILTER DUPLICATES GFU (rev1)
 
 @preserve
 snpsift_filter_duplicates_gfu =
@@ -11,6 +11,8 @@ snpsift_filter_duplicates_gfu =
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
 
+    requires SNPSIFT : "Please define the path of SNPSIFT"
+
     filter("dedup")
     {
         def command = """
@@ -21,8 +23,8 @@ snpsift_filter_duplicates_gfu =
         if (pretend)
         {
             println """
-                INPUT: $input
-                OUTPUT: $output
+                INPUT:   $input
+                OUTPUT:  $output
                 COMMAND: $command
             """
 

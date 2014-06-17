@@ -1,4 +1,4 @@
-// MODULE XHMM FILTER AND TARGET
+// MODULE XHMM FILTER AND TARGET (rev1)
 
 xhmm_filter_and_target_gfu =
 {
@@ -23,6 +23,8 @@ xhmm_filter_and_target_gfu =
         "DATA.filtered_centered.RD.txt.filtered_targets.txt",
         "DATA.filtered_centered.RD.txt.filtered_samples.txt"
     ]
+
+    requires XHMM : "Please define the XHMM path"
 
     produce(outputs)
     {

@@ -1,4 +1,4 @@
-// MODULE HTSEQ COUNT GFU
+// MODULE HTSEQ COUNT GFU (rev1)
 
 @preserve
 htseq_count_gfu =
@@ -28,6 +28,10 @@ htseq_count_gfu =
             This stage forward the last bam file to create headers in sort_and_convert_sam_gfu
         """,
         author: "davide.rambaldi@gmail.com"
+
+    requires HTSEQ_COUNT: "Please define HTSEQ_COUNT path"
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+    requires ANNOTATION_GFF_FILE: "Please define ANNOTATION_GFF_FILE file path"
 
     transform("reads.txt","reads.sam")
     {

@@ -1,4 +1,4 @@
-// MODULE FLAGSTAT ON BAM
+// MODULE FLAGSTAT ON BAM (rev1)
 
 @preserve
 bam_flagstat_gfu =
@@ -17,6 +17,8 @@ bam_flagstat_gfu =
         """,
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
+
+    requires SAMTOOLS: "Please define SAMTOOLS path"
 
     if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 

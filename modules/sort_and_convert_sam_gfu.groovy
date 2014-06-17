@@ -1,4 +1,4 @@
-// MODULE SORT SAM BY COORDINATES AND CONVERT TO BAM
+// MODULE SORT SAM BY COORDINATES AND CONVERT TO BAM (rev1)
 
 @preserve
 sort_and_convert_sam_gfu =
@@ -9,6 +9,8 @@ sort_and_convert_sam_gfu =
         desc: "This stage is used by htseq-count pipelines to reconvert the output reads sam file to a bam file",
         constraints: "I take the headers from the last forwarded bam file (the input of htseq-count stage)",
         author: "davide.rambaldi@gmail.com"
+
+    requires SAMTOOLS: "Please define SAMTOOLS path"
 
     transform("reads.sam") to("reads_sorted.bam")
     {

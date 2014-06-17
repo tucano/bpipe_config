@@ -21,6 +21,8 @@ rmdup_gfu =
 
     if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
 
+    requires SAMTOOLS: "Please define SAMTOOLS path"
+
     filter("rmdup")
     {
         def command

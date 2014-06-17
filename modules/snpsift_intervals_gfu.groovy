@@ -1,4 +1,4 @@
-// MODULE SNPSIFT INTERVALS
+// MODULE SNPSIFT INTERVALS (rev1)
 
 @intermediate
 snpsift_intervals_gfu =
@@ -14,6 +14,8 @@ snpsift_intervals_gfu =
         constraints: "...",
         author: "davide.rambaldi@gmail.com"
 
+    requires SNPSIFT : "Please define the path of SNPSIFT"
+    requires INTERVALS_BED : "Please define the path of INTERVALS_BED file"
 
     filter("ontarget")
     {

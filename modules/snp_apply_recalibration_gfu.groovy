@@ -1,4 +1,4 @@
-// MODULE UNIFIED SNP APPLY RECALIBRATOR
+// MODULE UNIFIED SNP APPLY RECALIBRATOR (rev1)
 
 @intermediate
 snp_apply_recalibration_gfu =
@@ -11,6 +11,9 @@ snp_apply_recalibration_gfu =
         desc: "Applies cuts to the input vcf file (by adding filter lines) to achieve the desired novel truth sensitivity levels which were specified during VariantRecalibration",
         constraints: " ... ",
         author: "davide.rambaldi@gmail.com"
+
+    requires REFERENCE_GENOME_FASTA: "Please define a REFERENCE_GENOME_FASTA"
+    requires GATK: "Please define GATK path"
 
     filter("snp_recalibrated")
     {

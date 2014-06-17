@@ -12,6 +12,8 @@ xhmm_filter_original_data_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
+    requires XHMM : "Please define the XHMM path"
+
     produce("DATA.same_filtered.RD.txt")
     {
         def command = """

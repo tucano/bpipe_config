@@ -1,4 +1,4 @@
-// MODULE SOAPSPLICE PREPARE HEADERS
+// MODULE SOAPSPLICE PREPARE HEADERS (rev1)
 
 @intermediate
 soapsplice_prepare_headers_gfu =
@@ -13,6 +13,11 @@ soapsplice_prepare_headers_gfu =
         author: "davide.rambaldi@gmail.com"
 
     def header
+
+    requires PLATFORM: "Please define the PLATFORM variable"
+    requires CENTER: "Please define the CENTER variable"
+    requires REFERENCE_FAIDX: "Please define a REFERENCE_FAIDX file"
+    requires SSPLICE: "Please define SSPLICE path"
 
     if (sample_dir)
     {
@@ -36,6 +41,10 @@ soapsplice_prepare_headers_gfu =
     }
     else
     {
+        requires EXPERIMENT_NAME : "Please define the EXPERIMENT_NAME variable"
+        requires FCID: "Please define the FCID variable"
+        requires SAMPLEID: "Please define the SAMPLEID variable"
+
         header = '@RG' + "\tID:${EXPERIMENT_NAME}\tPL:${PLATFORM}\tPU:${FCID}\tLB:${EXPERIMENT_NAME}\tSM:${SAMPLEID}\tCN:${CENTER}"
     }
 

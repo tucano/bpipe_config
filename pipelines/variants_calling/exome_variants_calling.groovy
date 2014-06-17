@@ -4,6 +4,7 @@ about title: "Human variants calling for exome: IOS 005"
 // USAGE: bpipe run -r $pipeline_filename *.bam
 
 INTERVALS              = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.intervals"
+INTERVALS_BED          = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.bed"
 HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
@@ -33,10 +34,10 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 Bpipe.run {
     set_stripe_gfu + chr(1..22,'X','Y') *
     [ generate_truseq_intervals_gfu + unified_genotyper_by_truseq_gfu.using(rename:"all_samples",healty_exomes:true,with_groups:true) ] +
-    vcf_concat_gfu +
+    "*.vcf" * [vcf_concat_gfu] +
     "%.vcf" * [
         snp_variant_recalibrator_gfu + snp_apply_recalibration_gfu,
         indel_variant_recalibrator_gfu + indel_apply_recalibration_gfu
-    ] + vcf_concat_gfu.using(with_suffix:"vcf_merged_and_recalibrated") + snpsift_filter_duplicates_gfu +
+    ] + "*.vcf" * [vcf_concat_gfu.using(with_suffix:"vcf_merged_and_recalibrated")] + snpsift_filter_duplicates_gfu +
     [vcf_coverage_gfu.using(output_dir:"doc"), vcf_called_intervals_gfu.using(output_dir:"doc")]
 }

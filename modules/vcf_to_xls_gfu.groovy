@@ -1,5 +1,6 @@
-// MODULE VCF 2 XLS
+// MODULE VCF 2 XLS (rev1)
 
+@preserve
 vcf_to_xls_gfu =
 {
     var pretend : false
@@ -10,6 +11,8 @@ vcf_to_xls_gfu =
         constraints: "For any question, write to cittaro.davide@hsr.it",
         author: "davide.rambaldi@gmail.com"
 
+    requires VCF2XLS :"Please define the VCF2XLS path"
+    requires VCF2XLS_ANNOTATION : "Please define the VCF2XLS_ANNOTATION file path"
 
     transform("xls")
     {

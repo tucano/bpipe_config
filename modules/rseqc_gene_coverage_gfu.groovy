@@ -1,4 +1,4 @@
-// MODULE GENE COVERAGE FROM RSEQC
+// MODULE GENE COVERAGE FROM RSEQC (rev1)
 
 @preserve
 rseqc_gene_coverage_gfu =
@@ -18,6 +18,9 @@ rseqc_gene_coverage_gfu =
         """,
         constrains: "I am forcing export of site-packages to get qcmodule",
         author: "davide.rambaldi@gmail.com"
+
+    requires GENECOVERAGE : "Please define GENECOVERAGE path"
+    requires BED12_ANNOTATION : "Please define BED12_ANNOTATION path"
 
     transform("geneBodyCoverage.pdf","geneBodyCoverage_plot.r","geneBodyCoverage.txt")
     {

@@ -1,4 +1,4 @@
-// MODULE MACS CALL PEAKS GFU
+// MODULE MACS CALL PEAKS GFU (rev1)
 
 @intermediate
 macs_call_peaks_gfu =
@@ -27,6 +27,9 @@ macs_call_peaks_gfu =
         "${input.prefix}_model.r",
         "${input.prefix}_broad_peaks.bed"
     ]
+
+    requires MACS : "Please define MACS path"
+    requires GSIZE : "Please define GSIZE"
 
     produce(outputs)
     {

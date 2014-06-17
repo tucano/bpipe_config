@@ -1,4 +1,4 @@
-// MODULE VCF CONCAT
+// MODULE VCF CONCAT (rev1)
 
 @intermediate
 vcf_concat_gfu =
@@ -10,6 +10,9 @@ vcf_concat_gfu =
         desc: "Sort and concatenate VCF files",
         constraints: "",
         author: "davide.rambaldi@gmail.com"
+
+    requires VCFCONCAT : "Please define VCFCONCAT path"
+    requires VCFSORT   : "Please define VCFSORT path"
 
     // remove chr from file name
     def output_prefix = "${input.vcf.prefix}".replaceAll(/\..*/,"")

@@ -1,4 +1,4 @@
-// MODULE GENE COVERAGE FROM RSEQC
+// MODULE GENE COVERAGE FROM RSEQC (rev1)
 
 @preserve
 samtools_idxstats_gfu =
@@ -13,6 +13,8 @@ samtools_idxstats_gfu =
         """,
         constrains: "BAM file $input.bam must be indexed",
         author: "davide.rambaldi@gmail.com"
+
+    requires SAMTOOLS: "Please define SAMTOOLS path"
 
     transform("idxstats.log")
     {
