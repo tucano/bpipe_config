@@ -28,7 +28,7 @@ Bpipe.run {
       bwa_threads:2,
       sample_dir:false,
       use_shm:false,
-      compression:"gz",
+      compression:"",
       phred_64: false
     )] + "*.bam" * [merge_bam_gfu.using(rename:true)] + verify_bam_gfu + mark_duplicates_gfu +
     // rmdup_gfu.using(paired:true) +
