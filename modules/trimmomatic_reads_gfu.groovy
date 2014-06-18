@@ -29,7 +29,6 @@ trimmomatic_reads_gfu =
           TOPHRED33: Convert quality scores to Phred-33
           TOPHRED64: Convert quality scores to Phred-64
 
-
           Main options with value:
           pretend     : $pretend
           adapters    : $adapters
@@ -46,6 +45,10 @@ trimmomatic_reads_gfu =
       author: "davide.rambaldi@gmail.com"
 
   requires TRIMMOMATIC: "Please define TRIMMOMATIC path"
+  if (compression == "fqz")
+  {
+    requires FQZ_COMP: "Please define FQZ_COMP path"
+  }
 
   if (sample_dir)
   {
@@ -75,17 +78,43 @@ trimmomatic_reads_gfu =
 
   if (paired)
   {
-    outputs = [
-      ("$input1" - input_extension + '_paired.fastq.gz'),
-      ("$input1" - input_extension + '_unpaired.fastq.gz'),
-      ("$input2" - input_extension + '_paired.fastq.gz'),
-      ("$input2" - input_extension + '_unpaired.fastq.gz')
-    ]
+    if (compression == "gz")
+    {
+      outputs = [
+        ("$input1" - input_extension + '_paired.fastq.gz'),
+        ("$input1" - input_extension + '_unpaired.fastq.gz'),
+        ("$input2" - input_extension + '_paired.fastq.gz'),
+        ("$input2" - input_extension + '_unpaired.fastq.gz')
+      ]
+    }
+    else
+    {
+      outputs = [
+        ("$input1" - input_extension + '_paired.fastq'),
+        ("$input1" - input_extension + '_unpaired.fastq'),
+        ("$input2" - input_extension + '_paired.fastq'),
+        ("$input2" - input_extension + '_unpaired.fastq')
+      ]
+    }
 
     produce (outputs)
     {
+      def r1 = ""
+      def r2 = ""
+
+      if (compression == "fqz")
+      {
+        r1 = "<( $FQZ_COMP -d $input1 )"
+        r2 = "<( $FQZ_COMP -d $input2 )"
+      }
+      else
+      {
+        r1 = "$input1"
+        r2 = "$input2"
+      }
+
       command = """
-        $TRIMMOMATIC $mode $phred $input1 $input2 $output1 $output2 $output3 $output4 $conf_string
+        $TRIMMOMATIC $mode $phred $r1 $r2 $output1 $output2 $output3 $output4 $conf_string
       """
 
       if (pretend)
@@ -103,15 +132,36 @@ trimmomatic_reads_gfu =
   }
   else
   {
-    outputs = [
-      ("$input" - input_extension + '_paired.fastq.gz'),
-      ("$input" - input_extension + '_unpaired.fastq.gz')
-    ]
+    if (compression == "gz")
+    {
+      outputs = [
+        ("$input" - input_extension + '_paired.fastq.gz'),
+        ("$input" - input_extension + '_unpaired.fastq.gz')
+      ]
+    }
+    else
+    {
+      outputs = [
+        ("$input" - input_extension + '_paired.fastq'),
+        ("$input" - input_extension + '_unpaired.fastq')
+      ]
+    }
 
     produce (outputs)
     {
+      def r1 = ""
+
+      if (compression == "fqz")
+      {
+        r1 = "<( $FQZ_COMP -d $input )"
+      }
+      else
+      {
+        r2 = "$input"
+      }
+
       command = """
-        $TRIMMOMATIC $mode $phred $input $output1 $output2 $conf_string
+        $TRIMMOMATIC $mode $phred $r1 $output1 $output2 $conf_string
       """
 
       if (pretend)
