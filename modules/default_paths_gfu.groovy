@@ -23,7 +23,7 @@ XHMM_FIX_VCF       = "PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /
 FQZ_COMP           = "/lustre1/tools/bin/fqz_comp"
 MAQ                = "/lustre1/tools/bin/maq"
 TRIMMOMATIC        = "java -jar /lustre1/tools/libexec/Trimmomatic-0.32/trimmomatic-0.32.jar"
-
+BAMTOOLS           = "/usr/local/cluster/bin/bamtools"
 
 // VCF QUERY
 VCFQUERY="""

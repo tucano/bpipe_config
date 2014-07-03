@@ -27,8 +27,8 @@ calculate_hsmetrics_gfu =
    		}
 
    		command << """
-			$HSMETRICS BI=$BAITS TI=$TARGETS I=$input.bam O=$output REFERENCE_SEQUENCE=$REFERENCE_GENOME_FASTA
-		"""
+			  $HSMETRICS BI=$BAITS TI=$TARGETS I=$input.bam O=$output REFERENCE_SEQUENCE=$REFERENCE_GENOME_FASTA
+		  """
 
 		if (pretend)
 		{
