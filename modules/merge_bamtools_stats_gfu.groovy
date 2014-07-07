@@ -49,7 +49,7 @@ merge_bamtools_stats_gfu =
 
 			// HEADERS
 			def res_table = new StringBuffer()
-			res_table << "SAMPLE_NAME\tTotal reads:\tMapped reads\tMapped reads(%)\tForward strand\tForward strand (%)\tReverse strand\tReverse strand (%)\tFailed QC\tFailed QC (%)\tDuplicates\tDuplicates (%)\t"
+			res_table << "SAMPLE_NAME\tTotal reads\tMapped reads\tMapped reads(%)\tForward strand\tForward strand (%)\tReverse strand\tReverse strand (%)\tFailed QC\tFailed QC (%)\tDuplicates\tDuplicates (%)\t"
 			res_table << "Paired-end reads\tPaired-end reads (%)\tProper-pairs\tProper-pairs (%)\tBoth pairs mapped\tBoth pairs mapped (%)\tRead1\tRead2\tSingletons\tSingletons (%)\t"
 			res_table << "Average insert size (absolute value)\tMedian insert size (absolute value)\n"
 			samples.each { key, value ->
@@ -65,8 +65,7 @@ merge_bamtools_stats_gfu =
 				res_table << value["Both pairs mapped"][0] << "\t" << value["Both pairs mapped"][1] << "\t"
 				res_table << value["Read 1"][0] << "\t" << value["Read 2"][0] << "\t"
 				res_table << value["Singletons"][0] << "\t" << value["Singletons"][1] << "\t"
-				res_table << value["Average insert size (absolute value)"][0] << "\t" << value["Median insert size (absolute value)"][0] << "\t"
-				res_table << "\n"
+				res_table << value["Average insert size (absolute value)"][0] << "\t" << value["Median insert size (absolute value)"][0] << "\n"
 			}
 			new File("$with_name").write(res_table.toString())
 		}
