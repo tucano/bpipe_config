@@ -1,4 +1,4 @@
 #!/bin/bash
 
 bpipe cleanup -y > /dev/null 2>&1
-rm -rf commandlog.txt test.out .bpipe doc HsMetrics_Report.tsv
+rm -rf commandlog.txt test.out .bpipe doc HsMetrics_Report.tsv all_samples.hsmetrics.tsv
