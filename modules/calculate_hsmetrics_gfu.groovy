@@ -29,7 +29,7 @@ calculate_hsmetrics_gfu =
    			command << "mkdir -p $output_dir;"
    		}
 
-      if (use_sample_name)
+      if (use_sample_name != "")
       {
         command << """
            SAMPLE_NAME=`samtools view -H $input.bam | grep @RG | head -n 1 | sed -e 's/.*SM://' | sed -e 's/\\s.*//'`;

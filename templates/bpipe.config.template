@@ -76,4 +76,7 @@ commands {
     macs {
         select_statement="select=1:ncpus=4:mem=32g"
     }
+    bamtools {
+        select_statement="select=1:ncpus=4:mem=32g"
+    }
 }
