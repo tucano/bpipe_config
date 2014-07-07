@@ -5,6 +5,7 @@ make_report_hsmetrics_gfu =
 {
 	var pretend       : false
 	var output_dir    : ""
+	var with_name     : "HsMetrics_Report.tsv"
 
 	doc title: "Make a report from a set of HS metrics",
         desc: "...",
@@ -13,17 +14,17 @@ make_report_hsmetrics_gfu =
 
   if (output_dir != "") output.dir = output_dir
 
-	produce("HsMetrics_Report.tsv")
+	produce("$with_name")
 	{
 		if (pretend)
 		{
 			if (output_dir != "")
 			{
-				exec "touch ${output_dir}/HsMetrics_Report.tsv; touch ${output_dir}/HsMetrics_Report.html"
+				exec "touch ${output_dir}/${with_name};"
 			}
 			else
 			{
-				exec "touch HsMetrics_Report.tsv; touch HsMetrics_Report.html"
+				exec "touch ${with_name};"
 			}
 
 		}
@@ -50,11 +51,11 @@ make_report_hsmetrics_gfu =
 			def output_filename_csv = ""
 			if (output_dir != "")
 			{
-				output_filename_csv = "${output_dir}/HsMetrics_Report.tsv"
+				output_filename_csv = "${output_dir}/${with_name}"
 			}
 			else
 			{
-				output_filename_csv = "HsMetrics_Report.tsv"
+				output_filename_csv = "${with_name}"
 			}
 			new File("$output_filename_csv").write(report.toString())
 		}
