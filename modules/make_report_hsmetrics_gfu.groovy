@@ -26,7 +26,6 @@ make_report_hsmetrics_gfu =
 			{
 				exec "touch ${with_name};"
 			}
-
 		}
 		else
 		{
