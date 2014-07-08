@@ -5,6 +5,7 @@ vcf_coverage_gfu =
 {
   var pretend       : false
   var output_dir    : ""
+  var with_name     : "vcf_coverage.log"
 
   doc title: "Calculate coverage (nX) on VCF variants",
       desc: "...",
@@ -16,17 +17,17 @@ vcf_coverage_gfu =
   requires VCFUTILS : "Please define VCFUTILS path"
   requires SNPSIFT  : "Please define SNPSIFT path"
 
-  produce("vcf_coverage.log")
+  produce("$with_name")
   {
     def output_filename
 
     if (output_dir != "")
     {
-      output_filename = "${output_dir}/vcf_coverage.log"
+      output_filename = "${output_dir}/${with_name}"
     }
     else
     {
-      output_filename = "vcf_coverage.log"
+      output_filename = "$with_name"
     }
 
     def command = """
