@@ -114,7 +114,7 @@ trimmomatic_reads_gfu =
       }
 
       command = """
-        $TRIMMOMATIC $mode $phred $r1 $r2 $output1 $output2 $output3 $output4 $conf_string
+        $TRIMMOMATIC $mode $phred -trimlog trimming.log $r1 $r2 $output1 $output2 $output3 $output4 $conf_string
       """
 
       if (pretend)
@@ -161,7 +161,7 @@ trimmomatic_reads_gfu =
       }
 
       command = """
-        $TRIMMOMATIC $mode $phred $r1 $output1 $output2 $conf_string
+        $TRIMMOMATIC $mode $phred -trimlog trimming.log $r1 $output1 $output2 $conf_string
       """
 
       if (pretend)
