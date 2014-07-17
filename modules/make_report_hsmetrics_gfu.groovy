@@ -5,7 +5,7 @@ make_report_hsmetrics_gfu =
 {
 	var pretend       : false
 	var output_dir    : ""
-	var with_name     : "HsMetrics_Report.tsv"
+	var with_name     : "all_samples.hsmetrics"
 
 	doc title: "Make a report from a set of HS metrics",
         desc: "...",

@@ -5,7 +5,7 @@ vcf_coverage_gfu =
 {
   var pretend       : false
   var output_dir    : ""
-  var with_name     : "vcf_coverage.log"
+  var with_name     : "all_samples.vcfcoverage"
 
   doc title: "Calculate coverage (nX) on VCF variants",
       desc: "...",
@@ -33,7 +33,7 @@ vcf_coverage_gfu =
     {
       println """
         INPUT: $input.vcf
-        OUTPUT: $output_filename
+        OUTPUT: $output
         COMMAND: $command
       """.stripIndent()
 

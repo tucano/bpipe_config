@@ -5,7 +5,7 @@ merge_bamtools_stats_gfu =
 {
 	var pretend       : false
 	var output_dir    : ""
-	var with_name     : "all_samples.bamstats.log"
+	var with_name     : "all_samples.bamstats"
 
 	doc title: "Make a report from a set of HS metrics",
 		desc: "...",
