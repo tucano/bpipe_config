@@ -34,7 +34,7 @@ vcf_coverage_gfu =
       echo -e "SAMPLE\tCOVERAGE" > $output_filename;
       $VCFUTILS listsam $input.vcf | while read sample;
       do echo -ne "$sample\t" >> $output_filename;
-      $VCFUTILS subsam all_samples.vcf $sample | $SNPSIFT filter "isVariant(GEN[0])" |
+      $VCFUTILS subsam $input.vcf $sample | $SNPSIFT filter "isVariant(GEN[0])" |
       $SNPSIFT extractFields - GEN[0].DP | awk '{sum+=\$1;n+=1} END {print sum/n}' >> $output_filename;
       done;
     """
