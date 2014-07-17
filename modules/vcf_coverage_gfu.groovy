@@ -19,23 +19,13 @@ vcf_coverage_gfu =
 
   produce("$with_name")
   {
-    def output_filename
-
-    if (output_dir != "")
-    {
-      output_filename = "${output_dir}/${with_name}"
-    }
-    else
-    {
-      output_filename = "$with_name"
-    }
 
     def command = """
-      echo -e "SAMPLE\tCOVERAGE" > $output_filename;
+      echo -e "SAMPLE\tCOVERAGE" > $output;
       $VCFUTILS listsam $input.vcf | while read sample;
-      do echo -ne "$sample\t" >> $output_filename;
+      do echo -ne "$sample\t" >> $output;
       $VCFUTILS subsam $input.vcf $sample | $SNPSIFT filter "isVariant(GEN[0])" |
-      $SNPSIFT extractFields - GEN[0].DP | awk '{sum+=\$1;n+=1} END {print sum/n}' >> $output_filename;
+      $SNPSIFT extractFields - GEN[0].DP | awk '{sum+=\$1;n+=1} END {print sum/n}' >> $output;
       done;
     """
 
@@ -47,7 +37,7 @@ vcf_coverage_gfu =
         COMMAND: $command
       """.stripIndent()
 
-      command = "touch $output_filename"
+      command = "touch $output"
     }
 
     exec "$command","snpsift"
