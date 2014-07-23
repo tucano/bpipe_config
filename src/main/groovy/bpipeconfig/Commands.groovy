@@ -826,6 +826,7 @@ class Commands
 			// skip empty lines
 			if ( !line.trim().empty ) {
 
+				// see: https://stackoverflow.com/questions/5245912/groovy-split-without-final-trim
 				def sample = line.split(",", -1)
 				def sample_map = [:]
 
