@@ -1,7 +1,7 @@
-Report for WES Resequencing Project: ${PROJECTNAME}
+Report for WES Resequencing Project: Borghini_113_CAPS
 ==========================================
 
-*Analysis by ${AUTHOR}*
+*Analysis by Davide Rambaldi*
 
 
 ---
@@ -30,14 +30,71 @@ Report for WES Resequencing Project: ${PROJECTNAME}
 ```{r setup, include=FALSE}
 library(xtable)
 library(kinship2)
-presamplesheet <- read.csv("$SAMPLESHEET", header=TRUE, row.names=NULL)
+presamplesheet <- read.csv("SampleSheet.csv", header=TRUE, row.names=NULL)
 ```
 
 ---
 
 # <a name="overview"></a> OVERVIEW
 
-$RATIONALE
+### Ricerca di nuovi geni coinvolti nel gruppo eterogeneo di malattie autoinfiammatorie con fenotipo simile a CAPS (Cryopyrin associated periodic syndromes ) 
+
+Le CAPS sono malattie autoinfiammatorie rare, autosomiche dominanti, associate all'attivazione 
+della risposta infiammatoria in apparente assenza di eventi infettivi. Circa il 70% dei pazienti ha 
+una mutazione de novo nel gene NLRP3, in piccolo percentuale dovuta a mosaicismo non 
+rilevabile con il metodo Sanger.
+
+Grazie alla collaborazione con clinici distribuiti lungo tutto il territorio nazionale, si stanno 
+raccogliendo PBMCs di pazienti con fenotipo CAPS ma senza mutazione individuabile al gene 
+NLRP3 e dei genitori disposti a partecipare allo studio. Si dispone  della sequenza 
+dell'Esoma di due pazienti per i quali era stata esclusa la presenza di mosaicismo a NLRP3. 
+
+#### BACKGROUND
+
+Le CAPS sono rare condizioni monogeniche appartenenti alle malattie autoinfiammatorie (AIDS), 
+la cui caratteristica clinica comune è l'attivazione della risposta infiammatoria in apparente
+assenza di eventi infettivi. 
+Esse sono dovute a mutazioni di geni codificanti proteine che svolgono un ruolo fondamentale 
+nella regolazione della risposta infiammatoria, spiegando così il fenotipo associato.
+Anche se le manifestazioni cliniche delle AIDs sono spesso sovrapponibili, le CAPS sono 
+caratterizzate in particolare da orticaria cutanea atipica cronica o ricorrente, associata 
+inoltre a diversi sintomi sistemici.
+Pertanto, diversamente da altre AIDS, le CAPS presentano un fenotipo generalmente specifico, 
+benchè questo non corrisponda ad omogeneia' di difetti genetici. 
+Circa il 70% dei pazienti affetti da CAPS hanno una mutazione nel gene NLRP3, 
+una piccola percentuale delle quali in stato di mosaico. 
+Inoltre, ad oggi, le mutazioni del gene NLRP12 sono state identificate in soli sei diversi 
+pazienti caratterizzati da un fenotipo specifico: la sensibilita' al freddo. 
+Gli individui affetti rimanenti non hanno una diagnosi genetica e sono quindi indicati come CAPS-like. 
+L'identificazione di altri geni è auspicabile non solo per fornire una corretta diagnosi genetica ai
+pazienti e per valutare il rischio di ricorrenza, ma anche per identificare nuovi bersagli molecolari 
+per approcci terapeutici alternativi agli antagonisti attualmente utilizzati, tra cui quello per l'IL1beta (anakinra) 
+che sono costosi, hanno bisogno di iniezioni sottocutanee settimanali e 
+hanno recentemente mostrato fenomeni di resistenza. 
+
+#### Experimental design
+
+I pazienti con un fenotipo clinico e immunologico tipico delle CAPS sono sottoposti regolarmente nel nostro laboratorio da ormai dieci anni 
+allo screening di mutazione per l'esone 3 di NLRP3 e, in caso di sensibilita' al freddo, dell'esone 3 di NLRP12. 
+Per perseguire l'obiettivo di identificare nuovi geni responsabili dello sviluppo di CAPS, abbiamo selezionato i pazienti risultati 
+negativi per lo screening della sequenza codificante totale dei due geni NLRP, anche per la condizione di mosaico nel caso del gene 
+NLRP3 (analisi eseguita mediante tecniche di next generation sequencing con copertura 1000X). 
+DNA da pazienti senza mutazione saranno sottoposti a sequenziamento dell'intero esoma (WES) al fine di identificare mutazioni in geni nuovi. 
+L'analisi WES sara' condotta anche sul DNA di quei genitori che accettano di partecipare allo studio. 
+In questo caso l'analisi statistica sara' basata sulla ricerca di una mutazione de novo, aumentando così il potere dello studio.
+I geni candidati promettenti saranno convalidati con il metodo Sanger. 
+Gli studi funzionali saranno opportunamente impostati per ogni nuovo gene, sulla base del suo ruolo specifico cellulare, e condotti in cellule di pazienti e / o in linee cellulari.
+
+#### REFERENCES
+
+* Ng, S. B., Bigham, A. W., Buckingham, K. J., Hannibal, M. C., McMillin, M. J.,Gildersleeve, H. I., Beck, A. E., Tabor, H. K., Cooper, G. M., Mefford, H. C.,Lee, C., Turner, E. H., and 9 others. Exome sequencing identifies MLL2 mutations as a cause of Kabuki syndrome. Nature Genet. 42: 790-793, 2010. [PubMed: 20711175]
+* Hoffman H et al. (2001). Nat Genet 29:301-5
+* Feldmann J et al. (2002). Am J Hum Genet 71:198-203
+* Touitou I et al. (2004) Hum Mutat 24:194-8
+* Ye Z & Ting J (2008) Curr Opin Immunol 20:3-9
+* Borghini S et al. (2010) Arthritis Rheum. 63:830-9
+* Izawa et al. (2012) Dna research 19: 143-152
+
 
 ---
 
@@ -45,15 +102,15 @@ $RATIONALE
 
 ```{r readPedigree, echo=FALSE}
 # check if we have a ped
-if (file.exists("$PEDIGREE")) {
-  pedigree_data <- read.table("$PEDIGREE", header=F, col.names=c("ped","id","father","mother","sex","affected"), stringsAsFactors=FALSE, na.strings = "0")
+if (file.exists("report_data/pedigree.ped")) {
+  pedigree_data <- read.table("report_data/pedigree.ped", header=F, col.names=c("ped","id","father","mother","sex","affected"), stringsAsFactors=FALSE, na.strings = "0")
   pedigree <- pedigree(
-   id=pedigree_data\$id,
-   dadid=pedigree_data\$father,
-   momid=pedigree_data\$mother,
-   sex=pedigree_data\$sex,
-   famid=pedigree_data\$ped,
-   affected=pedigree_data\$affected
+   id=pedigree_data$id,
+   dadid=pedigree_data$father,
+   momid=pedigree_data$mother,
+   sex=pedigree_data$sex,
+   famid=pedigree_data$ped,
+   affected=pedigree_data$affected
   )
 } else {
   pedigree <- NA
@@ -65,39 +122,39 @@ if (file.exists("$PEDIGREE")) {
 ```{r PlotPedigree, echo=FALSE, warning=FALSE}
 if (is.na(pedigree)) {
   # no pedigree to plot, hide chunk
-  opts_chunk\$set(include=FALSE)
-} else if (length(unique(pedigree\$famid)) > 1) {
+  opts_chunk$set(include=FALSE)
+} else if (length(unique(pedigree$famid)) > 1) {
   par(mfrow=c(2,2))
   for (i in 1:length(pedigree))
   {
     plot(pedigree[i])
-    title(paste("FAMILY ID: ", unique(pedigree[i]\$famid)))
+    title(paste("FAMILY ID: ", unique(pedigree[i]$famid)))
   }
   par(mfrow=c(1,1))
 } else {
   plot(pedigree[1])
-  title(paste("FAMILY ID: ", unique(pedigree[1]\$famid)))
+  title(paste("FAMILY ID: ", unique(pedigree[1]$famid)))
 }
 ```
 
-The frequency of the disease in the population is __${DISEASE_FREQUENCY}__.
-Model used for interesting variant selection: __${VARIANT_SELECTION_MODEL}__.
+The frequency of the disease in the population is __0.05__.
+Model used for interesting variant selection: __recessive model__.
 
 ### <a name="samples_info"></a> Samples info
 
-We received a total of __${RECEIVED_SAMPLES}__ samples and we sequenced __${SEQUENCED_SAMPLES}__ samples.
+We received a total of __50__ samples and we sequenced __20__ samples.
 
 ```{r phenotypes,  results='asis', echo=FALSE}
-phenotypes <- as.data.frame(unique(cbind(as.character(presamplesheet\$Name_sample), as.character(presamplesheet\$Design_Condizione))))
+phenotypes <- as.data.frame(unique(cbind(as.character(presamplesheet$Name_sample), as.character(presamplesheet$Design_Condizione))))
 colnames(phenotypes) <- c("SampleName","SampleInfo (design)")
 print(xtable(phenotypes, align=rep("c",ncol(phenotypes)+1)), type="html", include.rownames=F)
 ```
 
 # <a name="library_preparation"></a> Library preparation
 
-We used Exome sequencing with Illumina  __${ILLUMINA}__ (view service chart), using the __${ILLUMINA_PROTOCOL}__ protocol.
+We used Exome sequencing with Illumina  __HiSeq 2500__ (view service chart), using the __Nextera__ protocol.
 
-Kit name: __${KIT_VERSION}__.
+Kit name: __1.3__.
 
 All libraries were tested for quality wth BioAnalyzer (Agilent) and QUBIT (Life Technologies) and passed the QC steps.
 
@@ -106,18 +163,18 @@ All libraries were tested for quality wth BioAnalyzer (Agilent) and QUBIT (Life 
 ### <a name="seq_methods"></a> Sequence Alignment Methodology
 
 The alignments were processed using the procedure described be 1000g consortium (Gil A McVean et al., Nature 2012) including the variant call.
-We __aligned__ the reads got from the Illumina run, against the reference __${GENOME}__ (release: __${RELEASE}__),
-using the [BWA](http://bio-bwa.sourceforge.net) software (Li H. and Durbin R., 2009), version __${BWA_VERSION}__.
+We __aligned__ the reads got from the Illumina run, against the reference __"Human genome"__ (release: __hg19__),
+using the [BWA](http://bio-bwa.sourceforge.net) software (Li H. and Durbin R., 2009), version __0.7.5-r404__.
 
 ### <a name="seq_quality"></a> Quality Assessment of Sequencing
 
 ```{r bamstatsLoad, results='hide', echo=FALSE}
-bamstats_data <- read.delim("$BAMSTATS", sep="\\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
+bamstats_data <- read.delim("report_data/all_samples.bamstats", sep="\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
 tot.aligned <- sum(bamstats_data[,2])
 ```
 ```{r hsmetricsLoad, results='hide', echo=FALSE}
-hsmetrics_data <- read.delim("$HSMETRICS", sep="\\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
-qc_data_summary <- cbind(formatC(bamstats_data[,1], format="e"),formatC(bamstats_data[,2], format="e"), round(bamstats_data[,3], digits=2), round(hsmetrics_data\$MEAN_TARGET_COVERAGE, digits=2))
+hsmetrics_data <- read.delim("report_data/all_samples.hsmetrics", sep="\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
+qc_data_summary <- cbind(formatC(bamstats_data[,1], format="e"),formatC(bamstats_data[,2], format="e"), round(bamstats_data[,3], digits=2), round(hsmetrics_data$MEAN_TARGET_COVERAGE, digits=2))
 colnames(qc_data_summary) <- c("TotalReads","MappedReads","MappedReads(%)","Coverage")
 ```
 
@@ -127,7 +184,7 @@ The average coverage across all samples, defined as:
 
 _the mean coverage of targets that received at least coverage depth = 2 at one base_ (see also [hsmetrics coverage definition](http://picard.sourceforge.net/picard-metric-definitions.shtml)),
 
-is __`r round(mean(hsmetrics_data\$MEAN_TARGET_COVERAGE), digits=2)`X__
+is __`r round(mean(hsmetrics_data$MEAN_TARGET_COVERAGE), digits=2)`X__
 
 ```{r qc_table, results='asis', echo=FALSE}
 print(xtable(format(qc_data_summary, scientific=T), align=rep("c", ncol(qc_data_summary)+1)), type="html")
@@ -138,7 +195,7 @@ In addition to the __mean target coverage__, given that the distribution of read
 _The percentage of ALL target bases achieving iX or greater coverage._
 
 ```{r BarPlotCoverage, echo=FALSE}
-covdata <- c(mean(hsmetrics_data\$PCT_TARGET_BASES_10X), mean(hsmetrics_data\$PCT_TARGET_BASES_20X), mean(hsmetrics_data\$PCT_TARGET_BASES_30X))
+covdata <- c(mean(hsmetrics_data$PCT_TARGET_BASES_10X), mean(hsmetrics_data$PCT_TARGET_BASES_20X), mean(hsmetrics_data$PCT_TARGET_BASES_30X))
 names(covdata) <- c("10X","20X","30X")
 bp <- barplot(covdata*100, las=1, ylim=c(0,100), col="grey", main="Cumulative distribution of target coverage")
 text(bp, 0, paste(round(covdata*100, digits=2),"%"),cex=1,pos=3)
@@ -158,11 +215,11 @@ The output of Variants calling is a file in VCF Format (Petr Danecek et al., 201
 
 Starting from the aligned BAM, we first recalibrate the BAM files with the following pipeline:
 
-![BAM Recalibration IMAGE](${BAM_RECALIBRATION_SCHEMA})
+![BAM Recalibration IMAGE](../../../templates/reports/wes/WES_BAM_RECALIBRATION_SCHEMA.png)
 
 Then we perform variant calling across all samples with the following pipeline:
 
-![VariantCalling IMAGE](${VARIANTS_CALLING_SCHEMA})
+![VariantCalling IMAGE](../../../templates/reports/wes/WES_VARIANTS_CALLING_SCHEMA.png)
 
 #### <a name="additional_datasets"></a> Additional datasets
 
@@ -172,8 +229,8 @@ _"calling multiple samples simultaneously, even with only a handful of reads spa
 enables one to detect the vast majority of common variant sites present in the cohort with a high degree of sensitivity."_ (DePristo et al., 2011)
 
 ```{r HealtyExomes, echo=FALSE, include=FALSE}
-if (file.exists("$HEALTY_EXOMES")) {
-  healty_exomes <- read.table("$HEALTY_EXOMES", stringsAsFactors=F)\$V1
+if (file.exists("")) {
+  healty_exomes <- read.table("", stringsAsFactors=F)$V1
 } else {
   healty_exomes <- NA
 }
@@ -184,7 +241,7 @@ We have perfomed the Variants Calling adding a set of __`r ifelse(is.na(healty_e
 ### <a name="variants_annotation"></a> Variant Annotation and Selection Methodology
 
 ```{r VariantsCount, echo=FALSE, include=FALSE}
-tiers_count <- read.table("$VARIANTS_COUNT", row.names=1, col.names=c("","Variants"))
+tiers_count <- read.table("report_data/variants_count.txt", row.names=1, col.names=c("","Variants"))
 ratio <- c(1.0,tiers_count["Tier1",]/tiers_count["Tier0",],tiers_count["Tier2",]/tiers_count["Tier0",]) * 100
 tiers_count <- cbind(tiers_count, paste(round(ratio, digits=2), "%", sep=""))
 colnames(tiers_count) <- c("Variants","PASS Filter")
@@ -192,7 +249,7 @@ colnames(tiers_count) <- c("Variants","PASS Filter")
 
 For the __variant annotation and filtering__ we have applied a standard [SNPEff/SNPSift](http://snpeff.sourceforge.net/) annotation pipeline (Cingolani et al., 2012).
 
-![ANNOTATION_SCHEMA](${VARIANTS_ANNOTATION_SCHEMA})
+![ANNOTATION_SCHEMA](../../../templates/reports/wes/WES_VARIANTS_ANNOTATION_SCHEMA.png)
 
 From the Variant Calling pipeline we got __`r tiers_count["Tier0",1]`__ variants (Tier0.vcf), these variants are filtered according with the standard procedure producing the following VCF files:
 
@@ -213,9 +270,9 @@ To each variant called it has been assigned a potential effect and only the vari
 Average coverage of variant calling per genomic position of interest calculated on __Tier2.vcf__:
 
 ```{r VcfCoverage, echo=FALSE, results='asis'}
-vcf.coverage.data <- read.table("$VCFCOVERAGE", header=T, stringsAsFactors=FALSE)
-sample.names <- levels(presamplesheet\$Name_sample)
-vcf.coverage.data <- vcf.coverage.data[vcf.coverage.data\$SAMPLE %in% sample.names,]
+vcf.coverage.data <- read.table("report_data/all_samples.vcfcoverage", header=T, stringsAsFactors=FALSE)
+sample.names <- levels(presamplesheet$Name_sample)
+vcf.coverage.data <- vcf.coverage.data[vcf.coverage.data$SAMPLE %in% sample.names,]
 print(xtable(vcf.coverage.data, align=rep("c", ncol(vcf.coverage.data)+1)), type="html", include.rownames=F)
 ```
 

@@ -104,9 +104,9 @@ make_wgs_report_gfu =
     {
       fail "Can't open pedigree file ${report_data_dir}/${PEDIGREE}"
     }
-    if (!new File("${report_data_dir}/${SAMPLESHEET}").isFile())
+    if (!new File("${SAMPLESHEET}").isFile())
     {
-      fail "Can't open pre-samplesheet file ${report_data_dir}/${SAMPLESHEET}"
+      fail "Can't open samplesheet file ${SAMPLESHEET}"
     }
 
     // CHECK FOR bwa_version.txt, healty_exomes.txt and variants_count.txt
@@ -142,7 +142,7 @@ make_wgs_report_gfu =
     def binding = [
       "PROJECTNAME"                : "$PROJECTNAME",
       "AUTHOR"                     : stats.AUTHOR,
-      "SAMPLESHEET"                : "${report_data_dir}/$SAMPLESHEET",
+      "SAMPLESHEET"                : "$SAMPLESHEET",
       "RATIONALE"                  : new File("${report_data_dir}/${RATIONALE}").text,
       "PEDIGREE"                   : "${report_data_dir}/${PEDIGREE}",
       "DISEASE_FREQUENCY"          : stats.DISEASE_FREQUENCY,
