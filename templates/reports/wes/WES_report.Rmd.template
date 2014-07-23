@@ -1,0 +1,290 @@
+Report for WES Resequencing Project: ${PROJECTNAME}
+==========================================
+
+*Analysis by ${AUTHOR}*
+
+
+---
+
+### Table of Contents
+
+* [Project Overview](#overview)
+* [Experimental design](#design)
+ * [Pedigrees](#pedigrees)
+ * [Samples info](#samples_info)
+* [Library preparation](#library_preparation)
+* [Sequencing](#sequencing)
+ * [Sequence Alignment Methodology](#seq_methods)
+ * [Quality Assessment of Sequencing](#seq_quality)
+* [Variants calling](#variant_calling)
+ * [Variants calling methodology](#variant_methodology)
+  * [Filters](#variant_filters)
+  * [Additional datasets](#additional_datasets)
+ * [Variants calling results](#variant_results)
+ * [Variant Annotation and Selection Methodology](#variant_annotations)
+ * [Variant Annotation and Selection Results](#variant_annotation_results)
+* [Genes prioritization](#genes_prioritization)
+ * [Genes prioritization methodology](#genes_prioritization_methods)
+ * [Genes prioritization results](#genes_prioritization_results)
+
+```{r setup, include=FALSE}
+library(xtable)
+library(kinship2)
+presamplesheet <- read.csv("$SAMPLESHEET", header=TRUE, row.names=NULL)
+```
+
+---
+
+# <a name="overview"></a> OVERVIEW
+
+$RATIONALE
+
+---
+
+# <a name="design"></a> Sequencing Experimental Design
+
+```{r readPedigree, echo=FALSE}
+# check if we have a ped
+if (file.exists("$PEDIGREE")) {
+  pedigree_data <- read.table("$PEDIGREE", header=F, col.names=c("ped","id","father","mother","sex","affected"), stringsAsFactors=FALSE, na.strings = "0")
+  pedigree <- pedigree(
+   id=pedigree_data\$id,
+   dadid=pedigree_data\$father,
+   momid=pedigree_data\$mother,
+   sex=pedigree_data\$sex,
+   famid=pedigree_data\$ped,
+   affected=pedigree_data\$affected
+  )
+} else {
+  pedigree <- NA
+}
+```
+
+### <a name="pedigrees"></a> Pedigrees, Frequency and Variant Selection Model
+
+```{r PlotPedigree, echo=FALSE, warning=FALSE}
+if (is.na(pedigree)) {
+  # no pedigree to plot, hide chunk
+  opts_chunk\$set(include=FALSE)
+} else if (length(unique(pedigree\$famid)) > 1) {
+  par(mfrow=c(2,2))
+  for (i in 1:length(pedigree))
+  {
+    plot(pedigree[i])
+    title(paste("FAMILY ID: ", unique(pedigree[i]\$famid)))
+  }
+  par(mfrow=c(1,1))
+} else {
+  plot(pedigree[1])
+  title(paste("FAMILY ID: ", unique(pedigree[1]\$famid)))
+}
+```
+
+The frequency of the disease in the population is __${DISEASE_FREQUENCY}__.
+Model used for interesting variant selection: __${VARIANT_SELECTION_MODEL}__.
+
+### <a name="samples_info"></a> Samples info
+
+We received a total of __${RECEIVED_SAMPLES}__ samples and we sequenced __${SEQUENCED_SAMPLES}__ samples.
+
+```{r phenotypes,  results='asis', echo=FALSE}
+phenotypes <- as.data.frame(unique(cbind(as.character(presamplesheet\$Name_sample), as.character(presamplesheet\$Design_Condizione))))
+colnames(phenotypes) <- c("SampleName","SampleInfo (design)")
+print(xtable(phenotypes, align=rep("c",ncol(phenotypes)+1)), type="html", include.rownames=F)
+```
+
+# <a name="library_preparation"></a> Library preparation
+
+We used Exome sequencing with Illumina  __${ILLUMINA}__ (view service chart), using the __${ILLUMINA_PROTOCOL}__ protocol.
+
+Kit name: __${KIT_VERSION}__.
+
+All libraries were tested for quality wth BioAnalyzer (Agilent) and QUBIT (Life Technologies) and passed the QC steps.
+
+# <a name="sequencing"></a> Sequencing
+
+### <a name="seq_methods"></a> Sequence Alignment Methodology
+
+The alignments were processed using the procedure described be 1000g consortium (Gil A McVean et al., Nature 2012) including the variant call.
+We __aligned__ the reads got from the Illumina run, against the reference __${GENOME}__ (release: __${RELEASE}__),
+using the [BWA](http://bio-bwa.sourceforge.net) software (Li H. and Durbin R., 2009), version __${BWA_VERSION}__.
+
+### <a name="seq_quality"></a> Quality Assessment of Sequencing
+
+```{r bamstatsLoad, results='hide', echo=FALSE}
+bamstats_data <- read.delim("$BAMSTATS", sep="\\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
+tot.aligned <- sum(bamstats_data[,2])
+```
+```{r hsmetricsLoad, results='hide', echo=FALSE}
+hsmetrics_data <- read.delim("$HSMETRICS", sep="\\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
+qc_data_summary <- cbind(formatC(bamstats_data[,1], format="e"),formatC(bamstats_data[,2], format="e"), round(bamstats_data[,3], digits=2), round(hsmetrics_data\$MEAN_TARGET_COVERAGE, digits=2))
+colnames(qc_data_summary) <- c("TotalReads","MappedReads","MappedReads(%)","Coverage")
+```
+
+We have produced a total of  __`r formatC(tot.aligned, format="e")`__ aligned sequences.
+The coverage was evaluated using [PICARD](http://picard.sourceforge.net "Picard"), hsmetrics statistics are described here: [HSMETRICS](http://picard.sourceforge.net/picard-metric-definitions.shtml "metrics")
+The average coverage across all samples, defined as:
+
+_the mean coverage of targets that received at least coverage depth = 2 at one base_ (see also [hsmetrics coverage definition](http://picard.sourceforge.net/picard-metric-definitions.shtml)),
+
+is __`r round(mean(hsmetrics_data\$MEAN_TARGET_COVERAGE), digits=2)`X__
+
+```{r qc_table, results='asis', echo=FALSE}
+print(xtable(format(qc_data_summary, scientific=T), align=rep("c", ncol(qc_data_summary)+1)), type="html")
+```
+
+In addition to the __mean target coverage__, given that the distribution of reads over targets is not normal, is important to check also the coverage distribution (Sims et al., 2014), defined as:
+
+_The percentage of ALL target bases achieving iX or greater coverage._
+
+```{r BarPlotCoverage, echo=FALSE}
+covdata <- c(mean(hsmetrics_data\$PCT_TARGET_BASES_10X), mean(hsmetrics_data\$PCT_TARGET_BASES_20X), mean(hsmetrics_data\$PCT_TARGET_BASES_30X))
+names(covdata) <- c("10X","20X","30X")
+bp <- barplot(covdata*100, las=1, ylim=c(0,100), col="grey", main="Cumulative distribution of target coverage")
+text(bp, 0, paste(round(covdata*100, digits=2),"%"),cex=1,pos=3)
+```
+
+# <a name="variant_calling"></a> Variants calling
+
+### <a name="variant_methodology"></a> Variants calling methodology
+
+On the aligned data, we ran a standard [GATK](http://www.broadinstitute.org/gatk/gatkdocs/ "GATK") pipeline (McKenna et al, 2010) for the __variant calling__ with base quality score recalibration,
+indel realignment, duplicate removal, and we performed SNP and INDEL discovery and genotyping across all samples simulatenously
+(adding our internal controls, see also: "Additional datasets") using standard hard filtering parameters
+or variant quality score recalibration according to GATK Best Practices recommendations (DePristo et al., 2011; Van der Auwera et al., 2013).
+The output of Variants calling is a file in VCF Format (Petr Danecek et al., 2011).
+
+#### <a name="variant_filters"></a> Variant Calling pipelines
+
+Starting from the aligned BAM, we first recalibrate the BAM files with the following pipeline:
+
+![BAM Recalibration IMAGE](${BAM_RECALIBRATION_SCHEMA})
+
+Then we perform variant calling across all samples with the following pipeline:
+
+![VariantCalling IMAGE](${VARIANTS_CALLING_SCHEMA})
+
+#### <a name="additional_datasets"></a> Additional datasets
+
+Given that:
+
+_"calling multiple samples simultaneously, even with only a handful of reads spanning a SNP for any given sample,
+enables one to detect the vast majority of common variant sites present in the cohort with a high degree of sensitivity."_ (DePristo et al., 2011)
+
+```{r HealtyExomes, echo=FALSE, include=FALSE}
+if (file.exists("$HEALTY_EXOMES")) {
+  healty_exomes <- read.table("$HEALTY_EXOMES", stringsAsFactors=F)\$V1
+} else {
+  healty_exomes <- NA
+}
+```
+
+We have perfomed the Variants Calling adding a set of `r ifelse(is.na(healty_exomes),0,length(healty_exomes))` exomes coming from healty individuals (Healty Exomes).
+
+### <a name="variants_annotation"></a> Variant Annotation and Selection Methodology
+
+```{r VariantsCount, echo=FALSE, include=FALSE}
+tiers_count <- read.table("$VARIANTS_COUNT", row.names=1, col.names=c("","Variants"))
+ratio <- c(1.0,tiers_count["Tier1",]/tiers_count["Tier0",],tiers_count["Tier2",]/tiers_count["Tier0",]) * 100
+tiers_count <- cbind(tiers_count, paste(round(ratio, digits=2), "%", sep=""))
+colnames(tiers_count) <- c("Variants","PASS Filter")
+```
+
+For the __variant annotation and filtering__ we have applied a standard [SNPEff/SNPSift](http://snpeff.sourceforge.net/) annotation pipeline (Cingolani et al., 2012).
+
+![ANNOTATION_SCHEMA](${VARIANTS_ANNOTATION_SCHEMA})
+
+From the Variant Calling pipeline we got __`r tiers_count["Tier0",1]`__ variants (Tier0.vcf), these variants are filtered according with the standard procedure producing the following VCF files:
+
+1. __Tier0.vcf__ : Annotated variants with predicted effect (__N=`r tiers_count["Tier0",1]`__).
+2. __Tier1.vcf__ : Variants that pass the quality filters (__N=`r tiers_count["Tier1",1]`__).
+3. __Tier2.vcf__ : Variants with an high or moderate impact in the protein (__N=`r tiers_count["Tier2",1]`__).
+4. __Tier2.xlsx__ : Tier2.vcf file in Excel format.
+
+Number of variants and percentage of variants that pass the filtering are depicted in the following table:
+
+```{r VariantsCountTable, echo=FALSE, results='asis'}
+print(xtable(tiers_count, align=rep("c", ncol(tiers_count)+1)), type="html", include.rownames=T)
+```
+
+### <a name="variant_results"></a> Variant calling results
+
+To each variant called it has been assigned a potential effect and only the variants that alterate the sequence of the protein are reported in the __Tier2.vcf__ results file.
+Average coverage of variant calling per genomic position of interest calculated on __Tier2.vcf__:
+
+```{r VcfCoverage, echo=FALSE, results='asis'}
+vcf.coverage.data <- read.table("$VCFCOVERAGE", header=T, stringsAsFactors=FALSE)
+sample.names <- levels(presamplesheet\$Name_sample)
+vcf.coverage.data <- vcf.coverage.data[vcf.coverage.data\$SAMPLE %in% sample.names,]
+print(xtable(vcf.coverage.data, align=rep("c", ncol(vcf.coverage.data)+1)), type="html", include.rownames=F)
+```
+
+#### <a name="variants_annotation_results"></a> Variant Annotations: Glossary
+
+* __Know disease genes__ : genes that are known to be associated to the pathology
+* __Private variants__ : variants that have no record in dbSNP and are present only in one family (or on sample for sporadic case)
+* __New variants__ : variants that have no record in dbSNP
+* __Rare variants__ : variants with a MAF <= 0.02 and allele count <= 8
+
+#### Variants annotation: definitions
+
+Definitions of the main fields in the VCF Format. For an in-deep description of fields, please refer to: [VCF DOCUMENTATION](http://www.1000genomes.org/node/101)
+
+|Field|Definition|
+|:---:|:--------:|
+|CHROM|Chromosome|
+|POS  |Position|
+|ID   |dbSNP or Exome Variant Server ID|
+|REF  |Reference Allele|
+|ALT|Alternate Allele(s)|
+|QUAL|Call quality|
+|FILTER|Filter|
+|TAC|Allele count in this table|
+|TAF|Allele frequency in this table|
+|SAMPLE.GT|Sample Genotype (0: ref allele, 1: first alternate allele...)|
+|SAMPLE.AD|Allele depth|
+|DP|Approximate read depth; some reads may have been filtered|
+|MQ|RMS Mapping Quality|
+|VQSLOD|Log odds ratio of being a true variant versus being false under the trained gaussian mixture model|
+|AC|Allele count in genotypes, for each ALT allele, in the same order as listed|
+|AN|Total number of alleles in called genotypes|
+|AF|Allele Frequency, for each ALT allele, in the same order as listed|
+|CAF|An ordered, comma delimited list of allele frequencies based on 1000Genomes, starting with the reference allele followed by alternate alleles as ordered in the ALT column. Where a 1000Genomes alternate allele is not in the dbSNPs alternate allele set, the allele is added to the ALT column.  The minor allele is the second largest value in the list, and was previuosly reported in VCF as the GMAF.  This is the GMAF reported on the RefSNP and EntrezSNP pages and VariationReporter|
+|dbNSFP_ESP6500_AA_AF|Field 'ESP6500_AA_AF' from dbNSFP|
+|COMMON|RS is a common SNP.  A common SNP is one that has at least one 1000Genomes population with a minor allele of frequency >= 1% and for which 2 or more founders contribute to that minor allele frequency.|
+|dbNSFP_Polyphen2_HVAR_pred|Field 'Polyphen2_HVAR_pred' from dbNSFP|
+|dbSNFP_SIFT_score|NA|
+|dbNSFP_GERP++_RS|Field 'GERP++_RS' from dbNSFP|
+|OM|Has OMIM/OMIA|
+|CC_TREND|p-value using trend model (CochranArmitage)|
+|CC_GENO|p-value using genotypic model (ChiSquare)|
+|CC_ALL|p-value using allele count model (Fisher exact test)|
+|CC_DOM|p-value using dominant model (Fisher exact test)|
+|CC_REC|p-value using recessive model (Fisher exact test)|
+
+# <a name="genes_prioritization"></a> Gene prioritization
+
+### <a name="genes_prioritization_methods"></a> Gene prioritization Methodology
+
+A cura dell'Rfp
+
+### <a name="genes_prioritization_results"></a> Gene prioritization Results
+
+A cura dell'Rfp
+
+# Sequencing methodologies bibliography
+
+1. G. A. McVean, D. M. A. (Co-Chair), R. M. D. (Co-Chair), et al. An integrated map of genetic variation from 1,092 human genomes. In: Nature 491.7422 (Oct. 2012), pp. 56-65. DOI: 10.1038/nature11632.
+2. Li H. and Durbin R. (2009) Fast and accurate short read alignment with Burrows-Wheeler Transform. Bioinformatics, 25:1754-60. [PMID: 19451168]
+3. Picard Software: [PICARD](http://picard.sourceforge.net/)
+4. McKenna A, Hanna M, Banks E, Sivachenko A, Cibulskis K, Kernytsky A, Garimella K, Altshuler D, Gabriel S, Daly M, DePristo MA (2010). The Genome Analysis Toolkit: a MapReduce framework for analyzing next-generation DNA sequencing data. Genome Res. 20:1297-303.
+5. DePristo M, Banks E, Poplin R, Garimella K, Maguire J, Hartl C, Philippakis A, del Angel G, Rivas MA, Hanna M, McKenna A, Fennell T, Kernytsky A, Sivachenko A, Cibulskis K, Gabriel S, Altshuler D, Daly M (2011). A framework for variation discovery and genotyping using next-generation DNA sequencing data. Nature Genetics. 43:491-498.
+6. Van der Auwera GA, Carneiro M, Hartl C, Poplin R, del Angel G, Levy-Moonshine A, Jordan T, Shakir K, Roazen D, Thibault J, Banks E, Garimella K, Altshuler D, Gabriel S, DePristo M (2013). From FastQ Data to High-Confidence Variant Calls: The Genome Analysis Toolkit Best Practices Pipeline. Current Protocols in Bioinformatics. 43:11.10.1-11.10.33.
+7. SNPSift software: [SNPSift](http://snpeff.sourceforge.net/SnpSift.html)
+8. SNPEff software: [SNPEff](http://snpeff.sourceforge.net)
+9. Cingolani P, Platts A, Wang LL, Coon M, Nguyen T, Wang L, Land SJ, Lu X, Ruden DM. A program for annotating and predicting the effects of single nucleotide polymorphisms, SnpEff: SNPs in the genome of Drosophila melanogaster strain w1118; iso-2; iso-3. Fly 2012; 6:80 - 92; PMID: 22728672; http://dx.doi.org/10.4161/fly.19695
+10. Sims D, Sudbery I, Ilott NE, Heger A, Ponting CP. Sequencing depth and coverage: key considerations in genomic analyses. Nat Rev Genet. 2014 Feb;15(2):121-32. doi: 10.1038/nrg3642. Review. PubMed PMID: 24434847.
+11. VCF Format online documentation [VCF Format](http://www.1000genomes.org/node/101)
+12. Petr Danecek, Adam Auton, Goncalo Abecasis, Cornelis A. Albers, Eric Banks, Mark A. DePristo, Robert E. Handsaker, Gerton Lunter, Gabor T. Marth, Stephen T. Sherry, Gilean McVean, Richard Durbin, 1000 Genomes Project Analysis Group, The variant call format and VCFtools, Bioinformatics. 2011 August 1; 27(15): 2156–2158. Published online 2011 June 7. doi: 10.1093/bioinformatics/btr330, PMCID: PMC3137218
+
+
