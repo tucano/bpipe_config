@@ -793,12 +793,13 @@ class Commands
 		if (!sample) return false
 		if (sample.getClass() != java.util.LinkedHashMap) return false
 
-		// VALIDATE headers
-		def validKeySet = [
-			"FCID", "Lane", "SampleID", "SampleRef", "Index",
-			"Description", "Control", "Recipe", "Operator", "SampleProject"
-		]
-		if (sample.keySet().sort() != validKeySet.sort()) return false
+		// VALIDATE headers NO, headers are changing
+		// FIXME
+		// def validKeySet = [
+		// 	"FCID", "Lane", "SampleID", "SampleRef", "Index",
+		// 	"Description", "Control", "Recipe", "Operator", "SampleProject"
+		// ]
+		// if (sample.keySet().sort() != validKeySet.sort()) return false
 
 		// VALIDATE sample project name
 		if (!validateProjectName(sample["SampleProject"])) return false
@@ -825,7 +826,7 @@ class Commands
 			// skip empty lines
 			if ( !line.trim().empty ) {
 
-				def sample = line.split(",")
+				def sample = line.split(",", -1)
 				def sample_map = [:]
 
 				headers.eachWithIndex { header, i ->
