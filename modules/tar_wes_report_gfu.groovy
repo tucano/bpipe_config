@@ -15,7 +15,7 @@ tar_wes_report_gfu =
   requires REPORT_DATA_DIR : "Please define path of REPORT_DATA_DIR"
   requires STYLE_TEMPLATE  : "Please define path of STYLE_TEMPLATE"
 
-  requiers BAM_RECALIBRATION_SCHEMA   : "Please define path of BAM_RECALIBRATION_SCHEMA image"
+  requires BAM_RECALIBRATION_SCHEMA   : "Please define path of BAM_RECALIBRATION_SCHEMA image"
   requires VARIANTS_CALLING_SCHEMA    : "Please define path of VARIANTS_CALLING_SCHEMA image"
   requires VARIANTS_ANNOTATION_SCHEMA : "Please define path of VARIANTS_ANNOTATION_SCHEMA image"
 
