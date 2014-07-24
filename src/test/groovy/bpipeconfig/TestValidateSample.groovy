@@ -65,15 +65,15 @@ class TestValidateSample extends GroovyTestCase
 		assert Commands.validateSample("pippo") == false
 	}
 
-	void testValidateSheetBadKeysSize()
-	{
-		assert Commands.validateSample(sample_truncated) == false
-	}
-
-	void testValidateSheetBadKeys()
-	{
-		assert Commands.validateSample(sample_badkeys) == false
-	}
+	// CHECK ON HEADERS REMOVED: headers are changing ...
+	// void testValidateSheetBadKeysSize()
+	// {
+	// 	assert Commands.validateSample(sample_truncated) == false
+	// }
+	// void testValidateSheetBadKeys()
+	// {
+	// 	assert Commands.validateSample(sample_badkeys) == false
+	// }
 
 	void testValidateSheetBadProjectName()
 	{

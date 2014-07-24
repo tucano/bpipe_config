@@ -10,47 +10,43 @@ about title: "Whole Exome Sequencing report: IOS XXX"
  *  README FIRST AND FOLLOW INSTRUCTIONS!
  *
  *  This is a complex pipeline that requires a lot of variables/configurations, see below for requested files/variables:
- *
- *  DIRECTORY STRUCTURE REQUESTED TO LAUNCH THE REPORT:
  *  Here an example of directory structure and a description of each file:
  *  .
- *  ├── BAM
+ *  ├── BAM                <-- contains the FINAL BAM files of your analysis (ONE BAM FILE for SAMPLE!)
  *  │   ├── one.bam
  *  │   └── two.bam
  *  ├── SampleSheet.csv
- *  ├── VCF
+ *  ├── VCF                <-- contains the FINAL Tier files of your analysis (Tier0.vcf, Tier1.vcf and Tier2.vcf)
  *  │   ├── Tier0.vcf
  *  │   ├── Tier1.vcf
  *  │   └── Tier2.vcf
- *  ├── report_data
+ *  ├── report_data        <-- contains additional files used by the report
  *      ├── pedigree.ped
- *      ├── rationale.md    <-- GENERATED FROM TEMPLATE IF DOESN'T EXISTS
- *      ├── stats.groovy    <-- GENERATED FROM TEMPLATE IF DOESN'T EXISTS
+ *      ├── rationale.md
+ *      ├── stats.groovy    <-- AUTO-GENERATED FROM TEMPLATE IF DOESN'T EXISTS
  *
- *  DIRECTORIES:
- *  - BAM: contains the FINAL BAM files of your analysis (ONE BAM FILE for SAMPLE!)
- *  - VCF: contains the FINAL Tier files of your analysis (Tier0.vcf, Tier1.vcf and Tier2.vcf)
  *
- *  INPUT FILES in report_data:
- *  - rationale.md: An Abstract (short description) of the Project
+ * FILES in report_data:
+ *  - rationale.md: An Abstract (short description) of the Project, auto-generated from template if doesn't exists
+ *  - stats.groovy contains a list of variables/infos used by the pipelines, auto-generated from template if doesn't exists
  *  - pedigree.ped: A ped file
- *  - stats.groovy contains a list of variables/infos used by the pipelines
  *
  *  SAMPLESHEET:
- *  - SampleSheet.cvs: PreSampleSheet with list of samples (the one with design columns)
+ *  - SampleSheet.cvs: PreSampleSheet with list of samples (with design columns)
  *
  *  OUTPUTS:
- *  1. report.html file
+ *  1. report.html and report.Rmd file
  *  2. a script to rebuild the report with knitr on the server
  *  3. a ZIP package to rerun everything locally with RStudio
  *
  *********************************************************************************************************************************/
 
 // DATA FILE NAMES and REPORT DATA DIR NAME
+REPORT_DATA_DIR            = "report_data"
 RATIONALE                  = "rationale.md"
 STATS                      = "stats.groovy"
 PEDIGREE                   = "pedigree.ped"
-REPORT_DATA_DIR            = "report_data"
+
 
 // SAMPLESHEET (in working dir as usual)
 SAMPLESHEET                = "SampleSheet.csv"
