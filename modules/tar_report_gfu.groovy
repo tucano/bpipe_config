@@ -7,7 +7,7 @@ tar_report_gfu =
 
   doc title: "Make a flagstats report from a set of flagstat logs",
       desc: "...",
-      constraints: "Take BAM as input for pipeline consistency and forward them to the next stage",
+      constraints: "...",
       author: "davide.rambaldi@gmail.com"
 
   requires CUSTOM_CSS      : "Please define path of report.css"
@@ -21,7 +21,7 @@ tar_report_gfu =
       cp $README_TEMPLATE $output1;
       cp $CUSTOM_CSS $output2;
       cp $STYLE_TEMPLATE $output3;
-      tar -czvf $output4 $input.Rmd $REPORT_DATA_DIR $output1 $output2 $output3;
+      tar -czvf SampleSheet.csv $output4 $input.Rmd $REPORT_DATA_DIR $output1 $output2 $output3;
     """
 
     if (pretend)

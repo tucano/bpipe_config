@@ -1,3 +1,5 @@
+CUSTOM_CSS = "/lustre1/tools/libexec/bpipeconfig/templates/reports/report.css"
+
 reknit =
 {
   requires CUSTOM_CSS : "Please define path of report.css"
