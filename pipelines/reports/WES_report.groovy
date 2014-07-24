@@ -101,5 +101,5 @@ Bpipe.run {
     report_data_prefix : "all_samples",
     with_pedigree      : true,
     with_healty_exomes : true
-  ) + make_reknit_script_gfu + tar_report_gfu
+  ) + make_reknit_script_gfu + tar_wes_report_gfu
 }
