@@ -20,7 +20,7 @@ tar_report_gfu =
     def command = """
       cp $README_TEMPLATE $output1;
       cp $CUSTOM_CSS $output2;
-      cp $STYLE_TEMPLATE $output3
+      cp $STYLE_TEMPLATE $output3;
       tar -czvf $output4 $input.Rmd $REPORT_DATA_DIR $output1 $output2 $output3;
     """
 
