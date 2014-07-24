@@ -18,7 +18,7 @@ make_wgs_report_gfu =
   // check requires
   requires TEMPLATE        : "Please define a template for the report (WES_report.Rmd.template)"
   requires GENOME_NAMES    : "Please define a genomes version/names mapping file (genomes.txt)"
-  requires CUSTOM_CSS      : "Please define path of custom.css"
+  requires CUSTOM_CSS      : "Please define path of report.css"
   requires RATIONALE       : "Please define a rationale filename for the report (rationale.md)"
   requires STATS           : "Please define a stats filename for the report (stats.groovy)"
   requires SAMPLESHEET     : "Please define SampleSheet filename for the report (SampleSheet.csv)"
