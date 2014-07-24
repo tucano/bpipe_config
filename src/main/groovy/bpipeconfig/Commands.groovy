@@ -255,9 +255,8 @@ class Commands
 				{
 					BpipeConfig.project_name = samples[0]["SampleProject"]
 				}
-
 			}
-			// SAMPLE SCOPE
+			// SAMPLE SCOPE and REPORT PIPELINE
 			else
 			{
 				if ( sample_sheet.exists() )
@@ -296,6 +295,45 @@ class Commands
 
 			String pipeline_text = new File(pipeline["file_path"]).text
 			String pipeline_filename = "${pipeline["file_name"]}"
+
+			if (pipeline["report_pipeline"])
+			{
+				def pattern = /(?m)^REPORT_DATA_DIR\s*=\s*"(.*)"\s*/
+				def matcher = (pipeline_text =~ pattern)
+				def report_data_dir = matcher.hasGroup() ? matcher[0][1].trim() : 'report_data'
+				println Logger.message("""
+					Report pipeline, preparing intermediate files in directory: ${System.getProperty("user.dir")}/report_data.
+					Report Data Dir is: $report_data_dir.
+				""".stripIndent().trim())
+
+				def data_dir = new File(report_data_dir)
+				if (data_dir.isDirectory())
+				{
+					println Logger.message("Report data directory: ${data_dir.getAbsolutePath()} already exists")
+				}
+				else
+				{
+					println Logger.message("Creating report data directory: ${data_dir.getAbsolutePath()}")
+					data_dir.mkdir()
+				}
+
+				// STATS FILE
+				pattern = /(?m)\/{2}\s*STATS:(.*)/
+				matcher = (pipeline_text =~ pattern)
+				def stats_type = ''
+				stats_type = matcher.hasGroup() ? matcher[0][1].trim() : ''
+				println Logger.message("Stats file type is: $stats_type")
+				if (stats_type != '')
+				{
+					if ( ! createFile(new File("${BpipeConfig.bpipe_config_home}/templates/reports/${stats_type}/stats.groovy").text, "${report_data_dir}/stats.groovy", BpipeConfig.force) ) {
+						println Logger.error("Problems creating stats.groovy file!")
+					}
+				}
+				// RATIONALE FILE
+				if (! createFile(new File("${BpipeConfig.bpipe_config_home}/templates/reports/rationale.md").text, "${report_data_dir}/rationale.md", BpipeConfig.force)) {
+					println Logger.error("Problems creating rationale.md file!")
+				}
+			}
 
 			// GENERATE USAGE INFO
 			def pattern = /(?m)\/{2}\s*USAGE:(.*)/

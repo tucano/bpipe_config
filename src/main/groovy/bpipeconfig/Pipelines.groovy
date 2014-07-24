@@ -27,12 +27,14 @@ class Pipelines
 				if (! list.containsKey( dir.getName() ) ) { list[dir.getName()] = [] }
 				// return file_name, name of pipeline and description (about_title)
 				// if pipeline filename contains "project" is a project pipeline
+				// if pipeline filename contains "report" is a report pipeline
 				list[dir.getName()].push ([
 					file_name: file.name,
 					file_path: file.getPath(),
 					name: file.name.replaceFirst(~/\.[^\.]+$/, ''),
 					about_title: about_title,
-					project_pipeline: (file.name ==~ /.*project.*/)
+					project_pipeline: (file.name ==~ /.*project.*/),
+					report_pipeline: ((file.name ==~ /.*report.*/))
 				])
 			}
 		}
