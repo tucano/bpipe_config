@@ -52,7 +52,6 @@ about title: "Whole Exome Sequencing report: IOS XXX"
  *  OUTPUTS:
  *  1. report.html and report.Rmd file
  *  2. a script to rebuild the report with knitr on the server, run with: bpipe run reknit.groovy report.Rmd
- *  3. a TAR.GZ package to rerun everything locally with RStudio
  *
  *********************************************************************************************************************************/
 
@@ -101,5 +100,5 @@ Bpipe.run {
     report_data_prefix : "all_samples",
     with_pedigree      : true,
     with_healty_exomes : true
-  ) + make_reknit_script_gfu + tar_wes_report_gfu
+  ) + make_reknit_script_gfu
 }
