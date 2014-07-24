@@ -13,13 +13,15 @@ tar_report_gfu =
   requires CUSTOM_CSS      : "Please define path of report.css"
   requires README_TEMPLATE : "Please define path of README template"
   requires REPORT_DATA_DIR : "Please define path of REPORT_DATA_DIR"
+  requires STYLE_TEMPLATE  : "Please define path of STYLE_TEMPLATE"
 
-  produce("README","report.css","report.tar.gz")
+  produce("README","report.css","Style.R","report.tar.gz")
   {
     def command = """
-      cp $README_TEMPLATE README;
+      cp $README_TEMPLATE $output1;
       cp $CUSTOM_CSS $output2;
-      tar -czvf report.tar.gz $input.Rmd $REPORT_DATA_DIR $output1 $output2;
+      cp $STYLE_TEMPLATE $output3
+      tar -czvf $output4 $input.Rmd $REPORT_DATA_DIR $output1 $output2 $output3;
     """
 
     if (pretend)

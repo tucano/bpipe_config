@@ -74,6 +74,7 @@ VARIANTS_CALLING_SCHEMA    = "/lustre1/tools/libexec/bpipeconfig/templates/repor
 VARIANTS_ANNOTATION_SCHEMA = "/lustre1/tools/libexec/bpipeconfig/templates/reports/wes/WES_VARIANTS_ANNOTATION_SCHEMA.png"
 REKNIT_TEMPLATE            = "/lustre1/tools/libexec/bpipeconfig/templates/reknit.groovy"
 README_TEMPLATE            = "/lustre1/tools/libexec/bpipeconfig/templates/reports/README.md"
+STYLE_TEMPLATE             = "/lustre1/tools/libexec/bpipeconfig/templates/reports/Style.R"
 
 // IN ORDER TO RERUN QUALITY WE NEED THIS INFO FROM ALIGNMENT
 REFERENCE_GENOME_FASTA     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
