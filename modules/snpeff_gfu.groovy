@@ -19,7 +19,7 @@ snpeff_gfu =
     produce("Tier0.vcf")
     {
         def command = """
-            $SNPEFF eff -c $SNPEFF_CONFIG -canon -no-upstream -no-downstream -no-intergenic GRCh37.70 $input.vcf > $output
+            $SNPEFF eff -c $SNPEFF_CONFIG -canon -no-upstream -no-downstream -no-intergenic GRCh37.74 $input.vcf > $output
         """
 
         if (pretend)
