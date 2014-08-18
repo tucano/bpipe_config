@@ -36,5 +36,4 @@ set_stripe_gfu =
         }
         exec command
     }
-    forward input
 }

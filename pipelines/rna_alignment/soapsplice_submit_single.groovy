@@ -17,7 +17,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * Override sopasplice options with: align_soapsplice_gfu.using(paired: true, SSPLICEOPT_ALN : "<options>")
  */
 Bpipe.run {
-    set_stripe_gfu + "*" * [split_fastq_gfu.using(SPLIT_READS_SIZE:2000000,paired:false)] +
+    set_stripe_gfu + "L%_R*_%.fastq.gz" * [split_fastq_gfu.using(SPLIT_READS_SIZE:2000000,paired:false)] +
     "_%.fastq" * [soapsplice_prepare_headers_gfu + align_soapsplice_gfu.using(
       paired:false,
       compression:"gz",

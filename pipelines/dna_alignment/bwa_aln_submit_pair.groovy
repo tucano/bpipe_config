@@ -20,7 +20,7 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * remove/comment the mark_duplicates_gfu stage and uncomment the rmdup_gfu stage to use it
  */
 Bpipe.run {
-    set_stripe_gfu + "%_R*" * [split_fastq_gfu.using(SPLIT_READS_SIZE:2000000,paired:true)] +
+    set_stripe_gfu + "L%_R*_%.fastq.gz" * [split_fastq_gfu.using(SPLIT_READS_SIZE:2000000,paired:true)] +
     "read*_%.fastq" * [align_bwa_gfu.using(paired:true,compression:"",BWAOPT_ALN:"",BWAOPT_SE:"")] +
     "*.bam" * [merge_bam_gfu.using(rename:true)] + verify_bam_gfu + mark_duplicates_gfu +
     // rmdup_gfu.using(paired:true) +
