@@ -32,6 +32,11 @@ VCFQUERY="""
     /usr/local/cluster/bin/vcf-query
 """.stripIndent().trim()
 
+// GENOTYPE FREQUENCIES
+GENOTYPE_FREQUENCY = """
+    PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/calculate_genotype_frequency.py
+""".stripIndent().trim()
+
 // RSEQC PATHS (USED BY RSEQC ONLY)
 BAMSTAT="""
      export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
