@@ -24,12 +24,12 @@ VCF2XLS_ANNOTATION     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/vcf
  * for available options. The current Exome protocol is NEXTERA RAPID CAPTURE EXPANDED EXOME
  * HEALTY_EXOMES_DIR:
  * The pipeline is designed to remove the HealtyExomes samples from annotation
- * if you don't want to remove healty exomes remove the stage vcf_sumbsam_gfu
+ * if you don't want to remove healty exomes remove the stage vcf_genotype_frequency_and_subsam_gfu
  *
  */
 Bpipe.run {
     set_stripe_gfu + "%.vcf" * [
-        vcf_subsam_gfu + snpsift_annotate_gfu + snpsift_dbnsfp_gfu + bedtools_filter_intervals_gfu +
+        vcf_genotype_frequency_and_subsam_gfu + snpsift_annotate_gfu + snpsift_dbnsfp_gfu + bedtools_filter_intervals_gfu +
         snpeff_gfu + snpsift_filter_quality_gfu  + markvcf_gfu + snpsift_filter_impact_gfu +
         vcf_to_xls_gfu
     ]
