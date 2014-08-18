@@ -32,6 +32,8 @@ vcf_subsam_gfu =
 
         def command = """
             $VCFUTILS listsam $input.vcf | sort > all_samples.txt;
+            sort healty_samples.txt > tmp.healty_samples.txt;
+            mv tmp.healty_samples.txt healty_samples.txt;
             comm  -23 all_samples.txt healty_samples.txt > samples.txt;
             $VCFUTILS subsam $input.vcf `cat samples.txt | tr '\\n' ' '` | $SNPSIFT filter "countVariant()>0" > $output.vcf;
         """
@@ -49,6 +51,5 @@ vcf_subsam_gfu =
             """
         }
         exec command
-
     }
 }
