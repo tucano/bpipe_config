@@ -18,5 +18,5 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-    "%.bam" * [calculate_hsmetrics_gfu] + "*.hsmetrics" * [make_report_hsmetrics_gfu] + "%.tsv" * [make_html_hsmetrics_gfu]
+    "%.bam" * [calculate_hsmetrics_gfu] + "*.hsmetrics" * [make_report_hsmetrics_gfu] + "all_samples.hsmetrics" * [make_html_hsmetrics_gfu]
 }

@@ -4,14 +4,14 @@ source ../../testsupport.sh
 
 ./cleaner.sh
 
-OUTPUTS=(HsMetrics_Report.tsv)
+OUTPUTS=(all_samples.hsmetrics)
 run test.groovy *.hsmetrics
 checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
 OUTPUTS=(all_samples.hsmetrics.tsv)
-run test.groovy *.hsmetrics
+run test_rename.groovy *.hsmetrics
 checkTestOut
 exists $OUTPUTS
 ./cleaner.sh

@@ -41,5 +41,5 @@ Bpipe.run {
     ] +
     "*.bam" * [flagstat_merge_gfu.using(result_dir: "BAM")] +
     "%.bam" * [move_sample_output_gfu.using(result_dir:"BAM") + calculate_hsmetrics_gfu.using(output_dir:"HsMetrics") ] +
-    "*.hsmetrics" * [make_report_hsmetrics_gfu.using(output_dir:"doc")] + "%.tsv" * [make_html_hsmetrics_gfu.using(output_dir:"doc")]
+    "*.hsmetrics" * [make_report_hsmetrics_gfu.using(output_dir:"doc")] + "all_samples.hsmetrics" * [make_html_hsmetrics_gfu.using(output_dir:"doc")]
 }

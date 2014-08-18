@@ -4,7 +4,7 @@ source ../../testsupport.sh
 
 ./cleaner.sh
 
-OUTPUTS=(all_samples.bamstats.log)
+OUTPUTS=(all_samples.bamstats)
 run test.groovy *.bamstats
 checkTestOut
 exists $OUTPUTS
