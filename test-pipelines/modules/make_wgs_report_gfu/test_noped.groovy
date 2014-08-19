@@ -16,5 +16,5 @@ PROJECTNAME            = "Borghini_113_CAPS"
 REFERENCE              = "hg19"
 
 Bpipe.run {
-    make_wgs_report_gfu.using(pretend:false, with_pedigree:false)
+    make_wgs_report_gfu.using(pretend:true, with_pedigree:false)
 }
