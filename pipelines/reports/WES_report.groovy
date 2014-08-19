@@ -13,11 +13,12 @@ about title: "Whole Exome Sequencing report: IOS XXX"
  *
  *  STEP BY STEP INSTRUCTIONS:
  *  1. Copy SampleSheet.csv in your working dir
- *  2. create BAM directory and link/copy bam and bai files
- *  3. create VCF directory and link/copy Tier vcf files
- *  4. launch bpipe-config pipe WES_report
- *  5. Check files in directory: report_data
- *  6. launch bpipe: bpipe run WES_report.groovy BAM/*.bam VCF/*.vcf
+ *  2. bpipe-config pipe WES_report
+ *  3. create BAM directory and link/copy bam and bai files
+ *  4. create VCF directory and link/copy Tier vcf files
+ *  5. launch bpipe-config pipe WES_report
+ *  6. Check files in directory: report_data
+ *  7. launch bpipe: bpipe run WES_report.groovy BAM/*.bam VCF/*.vcf
  *
  *  PEDIGREE: if you have a pedigree, put it in REPORT_DATA_DIR directory
  *
