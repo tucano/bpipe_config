@@ -117,8 +117,10 @@ tot.aligned <- sum(bamstats_data[,2])
 ```
 ```{r hsmetricsLoad, results='hide', echo=FALSE}
 hsmetrics_data <- read.delim("$HSMETRICS", sep="\\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
-qc_data_summary <- cbind(formatC(bamstats_data[,1], format="e"),formatC(bamstats_data[,2], format="e"), round(bamstats_data[,3], digits=2), round(hsmetrics_data\$MEAN_TARGET_COVERAGE, digits=2))
+all_data <- merge(bamstats_data, hsmetrics_data, by=0, all=TRUE)
+qc_data_summary <- cbind(formatC(all_data[,2], format="e"),formatC(all_data[,3], format="e"), round(all_data[,4], digits=2), round(all_data\$MEAN_TARGET_COVERAGE, digits=2))
 colnames(qc_data_summary) <- c("TotalReads","MappedReads","MappedReads(%)","Coverage")
+rownames(qc_data_summary) <- all_data[,1]
 ```
 
 We have produced a total of  __`r formatC(tot.aligned, format="e")`__ aligned sequences.
