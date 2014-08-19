@@ -64,8 +64,7 @@ if (file.exists("$PEDIGREE")) {
 
 ```{r PlotPedigree, echo=FALSE, warning=FALSE}
 if (is.na(pedigree)) {
-  # no pedigree to plot, hide chunk
-  opts_chunk\$set(include=FALSE)
+  # no pedigree to plot
 } else if (length(unique(pedigree\$famid)) > 1) {
   par(mfrow=c(2,2))
   for (i in 1:length(pedigree))
