@@ -645,6 +645,7 @@ class Commands
 		}
 		// LOG
 		println Logger.printProjects(projects, pipeline_name)
+
 		// CREATE A RUNNER (EMPTY)
 		new File("${BpipeConfig.working_dir}/runner.sh").write(new File("${BpipeConfig.bpipe_config_home}/templates/multi_projects_runner.sh.template").text)
 
