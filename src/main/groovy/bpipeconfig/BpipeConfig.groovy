@@ -26,6 +26,7 @@ class BpipeConfig
 	final static String sample_sheet_name    = "SampleSheet.csv"
 	final static String version              = System.getProperty("bpipeconfig.version")
   final static String builddate            = System.getProperty("bpipeconfig.builddate")?:System.currentTimeMillis()
+  final static String[] extensions         = ['fastq','fastq.gz','fqz']
 
   public static String  user_email
   public static boolean verbose
@@ -207,6 +208,9 @@ class BpipeConfig
       break
       case "smerge":
           Commands.smerge(extraArguments)
+      break
+      case "json":
+          Commands.json(extraArguments)
       break
 		}
 	}

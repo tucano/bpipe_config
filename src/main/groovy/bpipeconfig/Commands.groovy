@@ -6,6 +6,7 @@ package bpipeconfig
  */
 
 import groovy.text.SimpleTemplateEngine
+import static groovy.json.JsonOutput.*
 import bpipeconfig.Logger
 
 class Commands
@@ -13,7 +14,7 @@ class Commands
 	final static String[] available_commands = [
 		"config","sheet","pipe","project",
 		"info","clean","report",
-		"recover","jvm","smerge"]
+		"recover","jvm","smerge", "json"]
 
 	public static def pipeline
 	public static def samples
@@ -785,6 +786,68 @@ class Commands
 			}
 		}
 	}
+
+	public static json(def args)
+	{
+		def branches = [:]
+
+		if (args.empty)
+		{
+			println Logger.error("json command require a list of files in subdirs. Example: Sample_*/*.fastq.gz")
+			System.exit(1)
+		}
+
+		if ( args && args.size > 0 )
+		{
+			args.each { a ->
+				def input_file = new File(a)
+				// IS FILE?
+			  if ( !input_file.isFile() )
+			  {
+			    println Logger.error("INPUT: $input_file is not a file.")
+			    println Logger.error("json command require a list of files in subdirs. Example: Sample_*/*.fastq.gz")
+			    System.exit(1)
+			  }
+			  def file_name = input_file.canonicalPath
+  			def check_extension = BpipeConfig.extensions.collect() { e -> file_name.endsWith(e) }
+
+  			// Iterates over the elements of a collection, and checks whether at least one element is true according to the Groovy Truth.
+  			if (!check_extension.any())
+			  {
+			    println Logger.error("Input file: ${input_file.absolutePath} don't have a known extension, avaliable extensions are: ${BpipeConfig.extensions.join(', ')}")
+			    System.exit(1)
+			  }
+
+			  // MAP KEY IS THE SAMPLE DIR
+  			def sample_dir = input_file.getParentFile().getName()
+
+  			if ( !branches.containsKey(sample_dir) )
+  			{
+  				// ADD SAMPLESHEET TO LIST AT FIRST ITERAION ONLY and check if exists
+    			def samplesheet = input_file.getParentFile().canonicalPath + '/SampleSheet.csv'
+    			if ( new File(samplesheet).exists() )
+			    {
+			      branches[sample_dir] = [samplesheet]
+			    }
+			    else
+			    {
+			      println Logger.error("Can't find SampleSheet.csv file for sample dir: $sample_dir")
+			    }
+			    branches[sample_dir].push file_name
+  			}
+  			else
+			  {
+			    branches[sample_dir].push file_name
+			  }
+			}
+
+			if ( ! createFile(prettyPrint(toJson(branches)), "input.json", BpipeConfig.force) )
+			{
+				println Logger.error("Problems creating json input file (input.json)")
+			}
+		}
+	}
+
 
 	// VALIDATORS
 	public static void checkDir(def args)
