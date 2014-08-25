@@ -25,20 +25,11 @@ fastqc_sample_gfu =
     requires FASTQC : "Please define path of FASTQC"
 
     // GET INPUT DIR (report dir) AND SET OUTPUT DIR()
-    output.dir = input
-    // GET DATA DIR and locate input files
-    def data_dir = input.replaceAll("_report","")
-    def input_files = []
-    def dir = new File(data_dir)
-    dir.eachFile { file ->
-        if (file.name.endsWith('fastq.gz')) {
-            input_files << file.name
-        }
-    }
+    output.dir = branch.sample + '_report'
+    //println "NAME: ${branch.name}, INPUTS: $inputs.gz"
 
-    // DEFINE OUTPUT PREFIX
-    // IDENTIFY FIRST LANES
-    def lane_groups = input_files*.replaceAll(".fastq.gz","").groupBy([{ it.replaceAll(/_R[12].*/,"")}])
+    // IDENTIFY LANE GROUPS
+    def lane_groups = inputs.gz*.replaceAll(".fastq.gz","")*.replaceAll(/.*\//,"").groupBy([{ it.replaceAll(/_R[12].*/,"").replaceAll(/.*\//,"")}])
 
     def output_prefix = []
     lane_groups.each { prefix, files ->
@@ -79,7 +70,7 @@ fastqc_sample_gfu =
         {
             def command = new StringBuffer()
             command << """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o ${input.dir} ${inputs.gz};
             """
             output_prefix.each { prefix ->
                 command << """
@@ -92,9 +83,9 @@ fastqc_sample_gfu =
             if (pretend)
             {
                 println """
-                    DATA_DIR: $data_dir
+                    DATA_DIR: ${branch.sample}
                     REPORT_DIR: $input
-                    INPUT FILES: $input_files
+                    INPUT FILES: ${inputs.gz}
                     OUTPUT PREFIX: ${output_prefix}
                     OUTPUTS: $outputs
                     COMMAND: $command
@@ -124,7 +115,7 @@ fastqc_sample_gfu =
         {
             def command = new StringBuffer()
             command << """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o $input ${data_dir}/*.fastq.gz;
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o ${input.dir} ${inputs.gz};
             """
             output_prefix.each { prefix ->
                 command << """
@@ -137,9 +128,9 @@ fastqc_sample_gfu =
             if (pretend)
             {
                 println """
-                    DATA_DIR: $data_dir
+                    DATA_DIR: ${branch.sample}
                     REPORT_DIR: $input
-                    INPUT FILES: $input_files
+                    INPUT FILES: ${inputs.gz}
                     OUTPUT PREFIX: ${output_prefix}
                     OUTPUT: $output
                 """

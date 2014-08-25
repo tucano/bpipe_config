@@ -10,13 +10,14 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 //--BPIPE_ENVIRONMENT_HERE--
 
 
+/*
+ * PIPELINE NOTES:
+ */
+
 // USE JSON INPUT FILE
 import groovy.json.JsonSlurper
 branches = new JsonSlurper().parseText(new File(args[0]).text)
 
-/*
- * PIPELINE NOTES:
- */
 Bpipe.run {
   branches * [
     sample_dir_gfu +

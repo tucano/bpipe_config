@@ -15,10 +15,6 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 //--BPIPE_ENVIRONMENT_HERE--
 
 
-// USE JSON INPUT FILE
-import groovy.json.JsonSlurper
-branches = new JsonSlurper().parseText(new File(args[0]).text)
-
 /*
  * PIPELINE NOTES:
  * We provide an alternatives to MarkDuplicates ro remove duplicates:
@@ -28,6 +24,11 @@ branches = new JsonSlurper().parseText(new File(args[0]).text)
  * remove/comment the mark_duplicates_gfu stage and uncomment the rmdup_gfu stage to use it
  * Accepted values for compression: gz, fqz
  */
+
+// USE JSON INPUT FILE
+import groovy.json.JsonSlurper
+branches = new JsonSlurper().parseText(new File(args[0]).text)
+
 Bpipe.run {
     branches * [
         sample_dir_gfu +

@@ -12,8 +12,13 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 /*
  * PIPELINE NOTES:
  */
+
+// USE JSON INPUT FILE
+import groovy.json.JsonSlurper
+branches = new JsonSlurper().parseText(new File(args[0]).text)
+
 Bpipe.run {
-    "%" * [
+    branches * [
         sample_dir_gfu + make_report_dir_gfu + fastqc_sample_gfu.using(paired:true)
     ] + "*" * [project_report_fastqc_gfu]
 }
