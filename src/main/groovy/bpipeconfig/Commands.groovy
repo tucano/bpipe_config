@@ -350,6 +350,7 @@ class Commands
 			def file_gfu_env = new File("${BpipeConfig.bpipe_config_home}/templates/gfu_environment.sh.template")
 			def binding_gfu_env
 			def template_gfu_env
+
 			if (pipeline["project_pipeline"])
 			{
 				// IF force and no sample continue anyway with NA
@@ -500,10 +501,15 @@ class Commands
 				// INPUT FILES CAN BE IN OUT DIRECTORY: USE CANONICAL PATHS
 				def sample_paths = args.collect { new File(it).canonicalPath }
 
+				println "SAMPLE PATHS: $sample_paths"
+
 				// MULTI PROJECTS
 				if (BpipeConfig.working_dir != System.getProperty("user.dir"))
 				{
 					// IS MULTI PROJECT PIPELINE WITH MULTIPLE WORKING DIR
+
+					// BUILD INPUT JSON USING BpipConfig.working_dir
+
 					// FILL THE RUNNER
 					File runner = new File("${System.getProperty("user.dir")}/runner.sh")
 					if (! runner.exists() )
@@ -525,6 +531,7 @@ class Commands
 				// SINGLE PROJECT
 				else
 				{
+					// BUILD INPUT JSON
 					if ( ! BpipeConfig.batch)
 					{
 						println Logger.info("To run the pipeline:")
@@ -793,52 +800,43 @@ class Commands
 
 		if (args.empty)
 		{
-			println Logger.error("json command require a list of files in subdirs. Example: Sample_*/*.fastq.gz")
+			println Logger.error("json command require a list directories. Example: Sample_*")
 			System.exit(1)
 		}
 
 		if ( args && args.size > 0 )
 		{
-			args.each { a ->
-				def input_file = new File(a)
-				// IS FILE?
-			  if ( !input_file.isFile() )
-			  {
-			    println Logger.error("INPUT: $input_file is not a file.")
-			    println Logger.error("json command require a list of files in subdirs. Example: Sample_*/*.fastq.gz")
-			    System.exit(1)
-			  }
-			  def file_name = input_file.canonicalPath
-  			def check_extension = BpipeConfig.extensions.collect() { e -> file_name.endsWith(e) }
+			// all directories?
+			checkDir(args)
 
-  			// Iterates over the elements of a collection, and checks whether at least one element is true according to the Groovy Truth.
-  			if (!check_extension.any())
-			  {
-			    println Logger.error("Input file: ${input_file.absolutePath} don't have a known extension, avaliable extensions are: ${BpipeConfig.extensions.join(', ')}")
-			    System.exit(1)
-			  }
-
-			  // MAP KEY IS THE SAMPLE DIR
-  			def sample_dir = input_file.getParentFile().getName()
-
-  			if ( !branches.containsKey(sample_dir) )
+			args.each { dir ->
+				def input_dir = new File(dir)
+				def files = [:]
+  			BpipeConfig.extensions.each { files[it] = [] }
+  			new File(dir).eachFile() { file ->
+  				BpipeConfig.extensions.each { extension ->
+  					if (file.canonicalPath.endsWith(extension)) {
+  						files[extension].push file.canonicalPath
+  					}
+  				}
+  			}
+  			// get longer array
+  			def entry = files.max { it.value.size }
+  			if (entry.getValue().size == 0) {
+  				println Logger.error("No known input files in directory: $dir. Known input file extensions: ${BpipeConfig.extensions.join(', ')}")
+  			}
+  			// MAP KEY IS THE SAMPLE DIR
+  			def sample_dir = input_dir.getName()
+  			// MAP VALUE: the files + SampleSheet.csv
+  			def samplesheet = input_dir.canonicalPath + '/SampleSheet.csv'
+  			if ( new File(samplesheet).exists() )
   			{
-  				// ADD SAMPLESHEET TO LIST AT FIRST ITERAION ONLY and check if exists
-    			def samplesheet = input_file.getParentFile().canonicalPath + '/SampleSheet.csv'
-    			if ( new File(samplesheet).exists() )
-			    {
-			      branches[sample_dir] = [samplesheet]
-			    }
-			    else
-			    {
-			      println Logger.error("Can't find SampleSheet.csv file for sample dir: $sample_dir")
-			    }
-			    branches[sample_dir].push file_name
+  				branches[sample_dir] = [samplesheet, entry.getValue()].flatten()
   			}
   			else
-			  {
-			    branches[sample_dir].push file_name
-			  }
+  			{
+  				println Logger.error("Can't find SampleSheet.csv file for sample dir: $sample_dir")
+  			}
 			}
 
 			if ( ! createFile(prettyPrint(toJson(branches)), "input.json", BpipeConfig.force) )
