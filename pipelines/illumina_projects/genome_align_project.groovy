@@ -20,10 +20,15 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * remove/comment the mark_duplicates_gfu stage and uncomment the rmdup_gfu stage to use it
  * Accepted values for compression: gz, fqz
  */
+
+// USE JSON INPUT FILE
+import groovy.json.JsonSlurper
+branches = new JsonSlurper().parseText(new File(args[0]).text)
+
 Bpipe.run {
-    "%" * [
+    branches * [
         sample_dir_gfu +
-        "L%_R*_%.fastq.gz" *  [mem_bwa_gfu.using(
+        "L%_R*_%." *  [mem_bwa_gfu.using(
           pretend:false,
           paired:true,
           bwa_threads:2,
@@ -31,7 +36,7 @@ Bpipe.run {
           use_shm:false,
           compression:"gz",
           phred_64: false
-        )] + "*.bam" * [merge_bam_gfu.using(rename:false,sample_dir:true)] + verify_bam_gfu.using(sample_dir:true) +
+        )] + "*.bam" * [merge_bam_gfu.using(rename:true,sample_dir:true)] + verify_bam_gfu.using(sample_dir:true) +
         mark_duplicates_gfu.using(sample_dir:true,remove_duplicates:false) +
         // rmdup_gfu.using(paired:true,sample_dir:true) +
         bam_flagstat_gfu.using(sample_dir:true)
