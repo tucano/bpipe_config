@@ -28,9 +28,8 @@ merge_bam_gfu =
     def sampleid
     if (sample_dir)
     {
-        def mdir = input.replaceFirst("/.*","")
-        output.dir = mdir
-        def samplesheet = new File("${mdir}/SampleSheet.csv")
+        output.dir = branch.sample
+        def samplesheet = new File("${branch.sample}/SampleSheet.csv")
         if (samplesheet.exists())
         {
             def sample = samplesheet.readLines()[1].split(",")
@@ -38,7 +37,7 @@ merge_bam_gfu =
         }
         else
         {
-            println "Can't find SampleSheet in directory ${mdir} ! Aborting ..."
+            println "Can't find SampleSheet in directory ${branch.sample} ! Aborting ..."
             System.exit(1)
         }
     }

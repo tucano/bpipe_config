@@ -71,11 +71,10 @@ mem_bwa_gfu =
 
     if (sample_dir)
     {
+        // TAKE SAMPLE DIR FROM BRANCH.SAMPLE
         // Parse input SampleSheet.csv to get SAMPLE INFO
-        // If there are no problems with SampleSheet.csv: should be a SampeSheet.csv with one line
-        def mdir = input.replaceFirst("/.*","")
-        output.dir = mdir
-        def samplesheet = new File("${mdir}/SampleSheet.csv")
+        output.dir = branch.sample
+        def samplesheet = new File("${branch.sample}/SampleSheet.csv")
         if (samplesheet.exists())
         {
             // get first line after headers
@@ -85,7 +84,7 @@ mem_bwa_gfu =
         }
         else
         {
-            println "Can't find SampleSheet in directory ${mdir} ! Aborting ..."
+            println "Can't find SampleSheet in directory ${branch.sample} ! Aborting ..."
             System.exit(1)
         }
     }
@@ -99,9 +98,9 @@ mem_bwa_gfu =
 
     if (paired)
     {
-        // the regexp replace first _R1_ with _ and then _R1 with empty
+        // the regexp replace first _R1_ with _ and then _R1 with empty, replace also original path
         def outputs = [
-            ("$input1".replaceFirst("_R[12]_","_").replaceFirst("_R[12]","") - input_extension + '.bam')
+            ("$input1".replaceAll(/.*\//,"").replaceFirst("_R[12]_","_").replaceFirst("_R[12]","") - input_extension + '.bam')
         ]
 
         produce(outputs)
@@ -189,7 +188,7 @@ mem_bwa_gfu =
     else
     {
         def outputs = [
-            "$input" - input_extension + '.bam'
+            "$input".replaceAll(/.*\//,"") - input_extension + '.bam'
         ]
 
         produce(outputs)

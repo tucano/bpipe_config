@@ -25,7 +25,7 @@ mark_duplicates_gfu =
 
     requires MARKDUP : "Please define MARKDUP path"
 
-    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
+    if (sample_dir) { output.dir = branch.sample }
 
     def outputs = [
         (input.prefix + ".dedup.bam"),

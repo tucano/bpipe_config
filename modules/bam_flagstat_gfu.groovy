@@ -20,7 +20,7 @@ bam_flagstat_gfu =
 
     requires SAMTOOLS: "Please define SAMTOOLS path"
 
-    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
+    if (sample_dir) { output.dir = branch.sample }
 
     transform("log")
     {

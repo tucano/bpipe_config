@@ -18,7 +18,7 @@ verify_bam_gfu =
 
     BGZF_EOF="1F8B08040000000000FF0600424302001B00030000000000*"
 
-    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
+    if (sample_dir) { output.dir = branch.sample }
 
     def command = """
         size=\$(stat -c "%s" $input);

@@ -15,39 +15,30 @@ sample_dir_gfu =
 
     requires LSF : "Please define path of LSF"
 
-    def outputs = []
-    def output_dir = input.dir.replaceFirst(/.*\//,"")
-    output.dir = output_dir
-    def dataDir = new File(input.dir)
+    // keep the sample name as a branch variable
+    branch.sample = branch.name
 
-    // make sample dir and copy SampleSheet.csv
-    new File(output_dir).mkdir()
-    ['cp', "${input.dir}/SampleSheet.csv", "$output_dir"].execute().waitFor()
+    // Output dir is the sample name
+    output.dir = branch.sample
 
-    // copy gfu_envrinoment.sh
-    if (new File("${input.dir}/gfu_envrinoment.sh").exists())
+    produce("SampleSheet.csv","setstripe.log")
     {
-        ['cp', "${input.dir}/gfu_envrinoment.sh", "$output_dir"].execute().waitFor()
-    }
-
-    // Link fastq.gz files
-    dataDir.eachFile { file ->
-        if (file.getName().endsWith(".fastq.gz"))
+        if (pretend)
         {
-            def targetLink = "${output_dir}/${file.getName()}"
-            ['ln', '-s', file.absolutePath, targetLink ].execute().waitFor()
-            outputs << file.getName()
+            println """
+                SAMPLE: ${branch.sample}
+                NAME:   ${branch.name}
+                INPUTS: $inputs
+                SAMPLESHEET: $input.csv
+                OUTPUTS: $outputs
+            """
         }
-    }
 
-    // ADD setstripe.log to outputs
-    outputs << "setstripe.log"
-
-    produce(outputs)
-    {
         exec """
-            $LSF setstripe -c -1 -i -1 -s 2M $output_dir 1>/dev/null 2>&1 || true;
-            $LSF getstripe -d $output_dir > ${output_dir}/setstripe.log 2>&1 || true;
+            mkdir -p ${branch.sample};
+            cp $input.csv $output;
+            $LSF setstripe -c -1 -i -1 -s 2M ${branch.sample} 1>/dev/null 2>&1 || true;
+            $LSF getstripe -d ${branch.sample} > ${branch.sample}/setstripe.log 2>&1 || true;
         """
     }
 }
