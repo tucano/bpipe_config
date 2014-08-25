@@ -123,7 +123,7 @@ trimmomatic_reads_gfu =
           COMMAND: $command
           OUTPUTS: $outputs
         """
-        command = "touch ${outputs.join(" ")}"
+        command = sample_dir ? "touch ${(outputs.collect { branch.sample + '/' + it}).join(" ")}" : "touch ${outputs.join(" ")}"
       }
 
       exec "$command"
@@ -170,7 +170,7 @@ trimmomatic_reads_gfu =
           COMMAND: $command
           OUTPUTS: $outputs
         """
-        command = "touch ${outputs.join(" ")}"
+        command = sample_dir ? "touch ${(outputs.collect { branch.sample + '/' + it}).join(" ")}" : "touch ${outputs.join(" ")}"
       }
 
       exec "$command"
