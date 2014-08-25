@@ -52,8 +52,7 @@ trimmomatic_reads_gfu =
 
   if (sample_dir)
   {
-    def mdir = input.replaceFirst("/.*","")
-    output.dir = mdir
+    output.dir = branch.sample
   }
 
   String input_extension = ""
@@ -81,19 +80,19 @@ trimmomatic_reads_gfu =
     if (compression == "gz")
     {
       outputs = [
-        ("$input1" - input_extension + '_paired.fastq.gz'),
-        ("$input1" - input_extension + '_unpaired.fastq.gz'),
-        ("$input2" - input_extension + '_paired.fastq.gz'),
-        ("$input2" - input_extension + '_unpaired.fastq.gz')
+        ("$input1".replaceAll(/.*\//,"") - input_extension + '_paired.fastq.gz'),
+        ("$input1".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq.gz'),
+        ("$input2".replaceAll(/.*\//,"") - input_extension + '_paired.fastq.gz'),
+        ("$input2".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq.gz')
       ]
     }
     else
     {
       outputs = [
-        ("$input1" - input_extension + '_paired.fastq'),
-        ("$input1" - input_extension + '_unpaired.fastq'),
-        ("$input2" - input_extension + '_paired.fastq'),
-        ("$input2" - input_extension + '_unpaired.fastq')
+        ("$input1".replaceAll(/.*\//,"") - input_extension + '_paired.fastq'),
+        ("$input1".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq'),
+        ("$input2".replaceAll(/.*\//,"") - input_extension + '_paired.fastq'),
+        ("$input2".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq')
       ]
     }
 
@@ -135,15 +134,15 @@ trimmomatic_reads_gfu =
     if (compression == "gz")
     {
       outputs = [
-        ("$input" - input_extension + '_paired.fastq.gz'),
-        ("$input" - input_extension + '_unpaired.fastq.gz')
+        ("$input".replaceAll(/.*\//,"") - input_extension + '_paired.fastq.gz'),
+        ("$input".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq.gz')
       ]
     }
     else
     {
       outputs = [
-        ("$input" - input_extension + '_paired.fastq'),
-        ("$input" - input_extension + '_unpaired.fastq')
+        ("$input".replaceAll(/.*\//,"") - input_extension + '_paired.fastq'),
+        ("$input".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq')
       ]
     }
 
