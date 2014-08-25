@@ -19,7 +19,7 @@ rmdup_gfu =
         constrains: "Remove duplicates (can't mark)",
         author: "davide.rambaldi@gmail.com"
 
-    if (sample_dir) { output.dir = input.replaceFirst("/.*","") }
+    if (sample_dir) { output.dir = branch.sample }
 
     requires SAMTOOLS: "Please define SAMTOOLS path"
 

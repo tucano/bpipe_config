@@ -21,11 +21,10 @@ soapsplice_prepare_headers_gfu =
 
     if (sample_dir)
     {
+        /// TAKE SAMPLE DIR FROM BRANCH.SAMPLE
         // Parse input SampleSheet.csv to get SAMPLE INFO
-        // If there are no problems with SampleSheet.csv: should be a SampeSheet.csv with one line
-        def mdir = input.replaceFirst("/.*","")
-        output.dir = mdir
-        def samplesheet = new File("${mdir}/SampleSheet.csv")
+        output.dir = branch.sample
+        def samplesheet = new File("${branch.sample}/SampleSheet.csv")
         if (samplesheet.exists())
         {
             // get first line after headers
@@ -35,7 +34,7 @@ soapsplice_prepare_headers_gfu =
         }
         else
         {
-            println "Can't find SampleSheet in directory ${mdir} ! Aborting ..."
+            println "Can't find SampleSheet in directory ${branch.sample} ! Aborting ..."
             System.exit(1)
         }
     }

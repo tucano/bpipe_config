@@ -49,13 +49,13 @@ align_soapsplice_gfu =
         input_extension = '.fastq'
     }
 
-    String header_file = "$input1.prefix" + '.header'
+    String header_file = "${input1.prefix.replaceAll(/.*\//,"")}" + '.header'
 
-    if (sample_dir) { output.dir = "$input1".replaceFirst("/.*","") }
+    if (sample_dir) { output.dir = branch.sample }
 
     if (paired)
     {
-        def custom_output = "$input1".replaceFirst("_R[12]_","_") - input_extension + ".bam"
+        def custom_output = "$input1".replaceAll(/.*\//,"").replaceFirst("_R[12]_","_") - input_extension + ".bam"
 
         from(input_extension,input_extension) produce(custom_output)
         {
@@ -120,7 +120,7 @@ align_soapsplice_gfu =
     }
     else
     {
-        def custom_output = "$input" - input_extension + ".bam"
+        def custom_output = "$input".replaceAll(/.*\//,"") - input_extension + ".bam"
 
         from(input_extension) produce(custom_output)
         {
