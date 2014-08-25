@@ -501,14 +501,13 @@ class Commands
 				// INPUT FILES CAN BE IN OUT DIRECTORY: USE CANONICAL PATHS
 				def sample_paths = args.collect { new File(it).canonicalPath }
 
-				println "SAMPLE PATHS: $sample_paths"
-
 				// MULTI PROJECTS
 				if (BpipeConfig.working_dir != System.getProperty("user.dir"))
 				{
 					// IS MULTI PROJECT PIPELINE WITH MULTIPLE WORKING DIR
 
 					// BUILD INPUT JSON USING BpipConfig.working_dir
+					json(sample_paths)
 
 					// FILL THE RUNNER
 					File runner = new File("${System.getProperty("user.dir")}/runner.sh")
@@ -520,7 +519,7 @@ class Commands
 					runner << """
 						echo "LAUNCHING bpipe in project dir: ${BpipeConfig.working_dir}"
 						cd ${BpipeConfig.working_dir}
-						${usage.toString().replaceFirst(/bpipe/,"bg-bpipe").replaceFirst(/<INPUT_DIRS>/,sample_paths.join(" "))}
+						${usage.toString().replaceFirst(/bpipe/,"bg-bpipe")}
 						sleep 5
 						cd ..
 					""".stripIndent()
@@ -532,10 +531,11 @@ class Commands
 				else
 				{
 					// BUILD INPUT JSON
+					json(sample_paths)
 					if ( ! BpipeConfig.batch)
 					{
 						println Logger.info("To run the pipeline:")
-						println Logger.message(usage.toString().replaceFirst(/<INPUT_DIRS>/,sample_paths.join(" ")))
+						println Logger.message(usage.toString())
 					}
 					else
 					{
@@ -839,7 +839,7 @@ class Commands
   			}
 			}
 
-			if ( ! createFile(prettyPrint(toJson(branches)), "input.json", BpipeConfig.force) )
+			if ( ! createFile(prettyPrint(toJson(branches)), "${BpipeConfig.working_dir}/input.json", BpipeConfig.force) )
 			{
 				println Logger.error("Problems creating json input file (input.json)")
 			}
