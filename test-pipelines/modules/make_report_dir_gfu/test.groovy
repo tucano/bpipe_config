@@ -9,24 +9,25 @@ SAMPLEID="S1"
 CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
-present_fastqgz =
-{
-    println "INPUT DIR $input.dir"
-    def dataDir = new File(input.dir)
-    def outputs = []
-    output.dir = input.dir
-    dataDir.eachFile { file ->
-        if (file.getName().endsWith(".fastq.gz"))
-        {
-            outputs << file.getName()
-        }
-    }
-    produce(outputs)
-    {
-        exec "echo 'FORWARDING fastq gz files'"
-    }
+branches = [
+    Sample_test_1:[
+    'Sample_test_1/SampleSheet.csv',
+    'Sample_test_1/Sample_test_1_testinput_R1_001.fastq.gz',
+    'Sample_test_1/Sample_test_1_testinput_R1_002.fastq.gz',
+    'Sample_test_1/Sample_test_1_testinput_R2_001.fastq.gz',
+    'Sample_test_1/Sample_test_1_testinput_R2_002.fastq.gz'],
+    Sample_test_2:[
+    'Sample_test_2/SampleSheet.csv',
+    'Sample_test_2/Sample_test_2_testinput_R1_001.fastq.gz',
+    'Sample_test_2/Sample_test_2_testinput_R1_002.fastq.gz',
+    'Sample_test_2/Sample_test_2_testinput_R2_001.fastq.gz',
+    'Sample_test_2/Sample_test_2_testinput_R2_002.fastq.gz']
+]
+
+prepare = {
+    branch.sample = branch.name
 }
 
 Bpipe.run {
-    "%" * [ present_fastqgz + make_report_dir_gfu ]
+    branches * [ prepare + make_report_dir_gfu ]
 }

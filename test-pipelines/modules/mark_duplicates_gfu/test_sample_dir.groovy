@@ -1,25 +1,17 @@
 load "../../../modules/mark_duplicates_gfu.groovy"
 
-// test support stage to forward correct outputs
-forward_bam =
-{
-    output.dir = input.dir
-    def outputs = []
-    def dataDir = new File(input.dir)
-    dataDir.eachFile { file ->
-        if (file.getName().endsWith(".bam"))
-        {
-            outputs << file.getName()
-        }
-    }
+branches = [
+    Sample_test_1:['Sample_test_1/testinput_one.merge.bam'],
+    Sample_test_2:['Sample_test_2/testinput_one.merge.bam']
+]
 
-    produce(outputs) {
-        println "Forwarding bam files: $outputs"
-    }
+prepare = {
+    branch.sample = branch.name
+    forward input.bam
 }
 
 Bpipe.run {
-    "%" * [
-        forward_bam + "*.bam" * [mark_duplicates_gfu.using(pretend:true,sample_dir:true)]
+    branches * [
+        prepare + "*.bam" * [mark_duplicates_gfu.using(pretend:true,sample_dir:true)]
     ]
 }

@@ -1,25 +1,23 @@
 load "../../../modules/rmdup_gfu.groovy"
 
-// test support stage to forward correct outputs
-forward_bam =
-{
-    output.dir = input.dir
-    def outputs = []
-    def dataDir = new File(input.dir)
-    dataDir.eachFile { file ->
-        if (file.getName().endsWith(".bam"))
-        {
-            outputs << file.getName()
-        }
-    }
+branches = [
+    Sample_test_1:[
+        'Sample_test_1/SampleSheet.csv',
+        'Sample_test_1/testinput.merge.bam'
+    ],
+    Sample_test_2:[
+        'Sample_test_2/SampleSheet.csv',
+        'Sample_test_2/testinput.merge.bam'
+    ]
+]
 
-    produce(outputs) {
-        println "Forwarding bam files: $outputs"
-    }
+prepare = {
+    branch.sample = branch.name
+    forward input.bam
 }
 
 Bpipe.run {
-	"%" * [
-        forward_bam + "*.bam" * [rmdup_gfu.using(pretend:true,paired:true,sample_dir:true)]
+	branches * [
+        prepare + "*.bam" * [rmdup_gfu.using(pretend:true,paired:true,sample_dir:true)]
     ]
 }

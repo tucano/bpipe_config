@@ -9,6 +9,10 @@ SAMPLEID="S1"
 CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
+// USE JSON INPUT FILE
+import groovy.json.JsonSlurper
+branches = new JsonSlurper().parseText(new File(args[0]).text)
+
 Bpipe.run {
-    "%" * [ sample_dir_gfu ]
+    branches * [ sample_dir_gfu ]
 }

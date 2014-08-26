@@ -10,9 +10,11 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 branches = [
-  Sample_single:[
-    'Sample_single/Sample_test_1_TAAGGCGA-TAGATCGC_L001_R1_001.fastq.gz',
-    'Sample_single/Sample_test_1_TAAGGCGA-TAGATCGC_L002_R1_001.fastq.gz'
+  Sample_test_2:[
+    'Sample_test_2/Sample_test_2_L001_R1_001.fastq.gz',
+    'Sample_test_2/Sample_test_2_L001_R2_001.fastq.gz',
+    'Sample_test_2/Sample_test_2_L001_R1_002.fastq.gz',
+    'Sample_test_2/Sample_test_2_L001_R2_002.fastq.gz'
   ]
 ]
 
@@ -22,6 +24,6 @@ prepare = {
 
 Bpipe.run {
   branches * [
-    prepare + fastqc_sample_gfu.using(pretend:true,paired:false)
+    prepare + fastqc_sample_gfu.using(pretend:true,paired:true)
   ]
 }

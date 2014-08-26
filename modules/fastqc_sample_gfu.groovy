@@ -25,7 +25,8 @@ fastqc_sample_gfu =
     requires FASTQC : "Please define path of FASTQC"
 
     // GET INPUT DIR (report dir) AND SET OUTPUT DIR()
-    output.dir = branch.sample + '_report'
+    def report_dir = branch.sample + '_report'
+    output.dir = report_dir
     //println "NAME: ${branch.name}, INPUTS: $inputs.gz"
 
     // IDENTIFY LANE GROUPS
@@ -70,13 +71,13 @@ fastqc_sample_gfu =
         {
             def command = new StringBuffer()
             command << """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o ${input.dir} ${inputs.gz};
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o ${branch.sample} ${inputs.gz};
             """
             output_prefix.each { prefix ->
                 command << """
-                    unzip -o ${input}/${prefix}_fastqc.zip -d ${input};
-                    rm ${input}/${prefix}_fastqc.zip;
-                    cp ${input}/${prefix}_fastqc/fastqc_data.txt ${input}/${prefix}_fastqc_data.txt;
+                    unzip -o ${report_dir}/${prefix}_fastqc.zip -d ${input};
+                    rm ${report_dir}/${prefix}_fastqc.zip;
+                    cp ${report_dir}/${prefix}_fastqc/fastqc_data.txt ${report_dir}/${prefix}_fastqc_data.txt;
                 """
             }
 
@@ -84,7 +85,7 @@ fastqc_sample_gfu =
             {
                 println """
                     DATA_DIR: ${branch.sample}
-                    REPORT_DIR: $input
+                    REPORT_DIR: ${report_dir}
                     INPUT FILES: ${inputs.gz}
                     OUTPUT PREFIX: ${output_prefix}
                     OUTPUTS: $outputs
@@ -94,10 +95,10 @@ fastqc_sample_gfu =
                 command = new StringBuffer()
                 output_prefix.each { prefix ->
                     command << """
-                        touch ${input}/${prefix}_zipdata.txt;
-                        zip -r ${input}/${prefix}_zipdata.zip ${input}/${prefix}_zipdata.txt;
-                        unzip -o ${input}/${prefix}_zipdata.zip;
-                        touch ${input}/${prefix}_fastqc_data.txt;
+                        touch ${report_dir}/${prefix}_zipdata.txt;
+                        zip -r ${report_dir}/${prefix}_zipdata.zip ${report_dir}/${prefix}_zipdata.txt;
+                        unzip -o ${report_dir}/${prefix}_zipdata.zip;
+                        touch ${report_dir}/${prefix}_fastqc_data.txt;
                     """
                 }
             }
@@ -115,13 +116,13 @@ fastqc_sample_gfu =
         {
             def command = new StringBuffer()
             command << """
-                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o ${input.dir} ${inputs.gz};
+                $FASTQC -f fastq --noextract --casava --nogroup -t 4 -o ${branch.sample} ${inputs.gz};
             """
             output_prefix.each { prefix ->
                 command << """
-                    unzip -o ${input}/${prefix}_fastqc.zip -d ${input};
-                    rm ${input}/${prefix}_fastqc.zip;
-                    cp ${input}/${prefix}_fastqc/fastqc_data.txt $output;
+                    unzip -o ${report_dir}/${prefix}_fastqc.zip -d ${report_dir};
+                    rm ${report_dir}/${prefix}_fastqc.zip;
+                    cp ${report_dir}/${prefix}_fastqc/fastqc_data.txt $output;
                 """
             }
 
@@ -129,7 +130,7 @@ fastqc_sample_gfu =
             {
                 println """
                     DATA_DIR: ${branch.sample}
-                    REPORT_DIR: $input
+                    REPORT_DIR: ${report_dir}
                     INPUT FILES: ${inputs.gz}
                     OUTPUT PREFIX: ${output_prefix}
                     OUTPUT: $output
@@ -137,10 +138,10 @@ fastqc_sample_gfu =
                 command = new StringBuffer()
                 output_prefix.each { prefix ->
                     command << """
-                        touch ${input}/${prefix}_zipdata.txt;
-                        zip -r ${input}/${prefix}_zipdata.zip ${input}/${prefix}_zipdata.txt;
-                        unzip -o ${input}/${prefix}_zipdata.zip;
-                        touch ${input}/${prefix}_fastqc_data.txt;
+                        touch ${report_dir}/${prefix}_zipdata.txt;
+                        zip -r ${report_dir}/${prefix}_zipdata.zip ${report_dir}/${prefix}_zipdata.txt;
+                        unzip -o ${report_dir}/${prefix}_zipdata.zip;
+                        touch ${report_dir}/${prefix}_fastqc_data.txt;
                     """
                 }
             }
