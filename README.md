@@ -417,30 +417,30 @@ bpipe-config pipe exome_align_project /lustre2/raw_data/131212_SN859_0138_AC2PGH
 #!json
 {
 "Sample_test_1": [
-    "/PATH/TO/RAW_DATA/Sample_test_1/SampleSheet.csv",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_002.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_002.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_002.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_002.fastq.gz"
-],
+        "/PATH/TO/RAW_DATA/Sample_test_1/SampleSheet.csv",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_002.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_002.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_002.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_002.fastq.gz"
+    ],
 "Sample_test_10": [
-    "/PATH/TO/RAW_DATA/Sample_test_10/SampleSheet.csv",
-    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_002.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_002.fastq.gz"
-],
+        "/PATH/TO/RAW_DATA/Sample_test_10/SampleSheet.csv",
+        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_002.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_002.fastq.gz"
+    ],
 "Sample_test_11": [
-    "/PATH/TO/RAW_DATA/Sample_test_11/SampleSheet.csv",
-    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_002.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_001.fastq.gz",
-    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_002.fastq.gz"
-]
+        "/PATH/TO/RAW_DATA/Sample_test_11/SampleSheet.csv",
+        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_002.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_001.fastq.gz",
+        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_002.fastq.gz"
+    ]
 }
 ```
 
