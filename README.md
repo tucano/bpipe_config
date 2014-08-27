@@ -148,6 +148,31 @@ Available options:
  -v,--verbose         Verbose mode
 ```
 
+## COMMANDS
+
+```
+Available Commands:
+config    [dir1] [dir2] ...                       Configure current directory or directories in list (add
+                                                  bpipe.config file).
+pipe      <pipeline name> [dir1] [dir2] ...       Generate pipeline file in current directory or directories
+                                                  in list (pipeline.groovy)
+project   <pipeline name> [dir1] [dir2] ...       Generate a project pipeline for each directory in list
+                                                  (pipeline.groovy)
+sheet     <INFO> [dir1] [dir2] ...                Generate a SampleSheet.csv file using the INFO string in
+                                                  current directory or directories in list. SampleProject
+                                                  format: <PI_name>_<ProjectID>_<ProjectName>
+info      <pipeline name> ...                     Get info on pipeline stages.
+clean     [dir1] [dir2] ...                       Clean .bpipe dir in current working directory or in
+                                                  directory list.
+jvm                                               Get info on the JVM configuration
+smerge    <Project1> <Project2> ...               Merge sample sheets from different Projects (for meta analysis)
+json      <dir1> <dir2> ...                       Build a input.json file for manual branches definition
+
+Use: bpipe-config info <pipeline name> to generate and html page with info for the pipeline.
+
+sheet command INFO argument format:
+    FCID=D2A8DACXX,Lane=3,SampleID=B1,SampleRef=hg19,Index=TTAGGC,Description=description,Control=N,Recipe=MeDIP,Operator=FG,SampleProject=PI_1A_name
+```
 
 ## TUTORIALS
 
