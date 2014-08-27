@@ -30,7 +30,7 @@ Bpipe.run
           compression:"gz",
           SSPLICEOPT_ALN:"-p 4 -f 2 -q 1 -j 0",
           use_shm: false)] +
-        "*.bam" * [merge_bam_gfu.using(rename:false,sample_dir:true)] +
+        "*.bam" * [merge_bam_gfu.using(rename:true,sample_dir:true)] +
         verify_bam_gfu.using(sample_dir:true) + bam_flagstat_gfu.using(sample_dir:true)
     ] +
     "*.bam" * [flagstat_merge_gfu.using(result_dir: "BAM")] +
