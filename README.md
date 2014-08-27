@@ -10,15 +10,15 @@ bpipe provides a platform for running big bioinformatics jobs that consist of a 
 ## Table of Contents
 
 * [INSTALL](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-install)
-* [USAGE](https://bitbucket.org/drambaldi/bpipe_config#usage)
-* [OPTIONS](https://bitbucket.org/drambaldi/bpipe_config#options)
-* [COMMANDS](https://bitbucket.org/drambaldi/bpipe_config#commands)
-* [TUTORIALS](https://bitbucket.org/drambaldi/bpipe_config#tutorial)
-	* [SINGLE DIR](https://bitbucket.org/drambaldi/bpipe_config#single)
-	* [ILLUMINA PROJECTS](https://bitbucket.org/drambaldi/bpipe_config#projects)
-	* [REPORTS](https://bitbucket.org/drambaldi/bpipe_config#reports)
-	* [MULTIPLE DIR](https://bitbucket.org/drambaldi/bpipe_config#multi) 
-* [DEVELOPERS NOTES](https://bitbucket.org/drambaldi/bpipe_config#dev)
+* [USAGE](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-usage)
+* [OPTIONS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-options)
+* [COMMANDS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-commands)
+* [TUTORIALS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-tutorial)
+	* [SINGLE DIR](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-single)
+	* [ILLUMINA PROJECTS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-projects)
+	* [REPORTS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-reports)
+	* [MULTIPLE DIR](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-multi) 
+* [DEVELOPERS NOTES](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-dev)
 
 --- 
 
@@ -42,6 +42,7 @@ This will add some environment vars to your __.bash_profile__ file
 You need this in your enviroment (automatically installed in your .bash_profile with the install.sh script):
 
 ```
+#!bash
 export BPIPE_HOME=/lustre1/tools/libexec/bpipe
 export BPIPE_CONFIG_HOME=/lustre1/tools/libexec/bpipeconfig
 export BPIPE_LIB=$BPIPE_CONFIG_HOME/modules
