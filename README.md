@@ -9,7 +9,7 @@ bpipe provides a platform for running big bioinformatics jobs that consist of a 
 
 ## Table of Contents
 
-* [INSTALL](https://bitbucket.org/drambaldi/bpipe_config#install)
+* [INSTALL](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-install)
 * [USAGE](https://bitbucket.org/drambaldi/bpipe_config#usage)
 * [OPTIONS](https://bitbucket.org/drambaldi/bpipe_config#options)
 * [COMMANDS](https://bitbucket.org/drambaldi/bpipe_config#commands)
@@ -22,7 +22,7 @@ bpipe provides a platform for running big bioinformatics jobs that consist of a 
 
 --- 
 
-## <a name="install"></a>INSTALL
+## INSTALL
 
 
 ##### AUTOMATIC
