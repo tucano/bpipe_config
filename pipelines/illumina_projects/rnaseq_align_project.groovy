@@ -14,9 +14,14 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
 /*
  * PIPELINE NOTES:
  */
+
+ // USE JSON INPUT FILE
+import groovy.json.JsonSlurper
+branches = new JsonSlurper().parseText(new File(args[0]).text)
+
 Bpipe.run
 {
-    "%" * [
+    branches * [
         sample_dir_gfu +
         "%.fastq.gz" * [ soapsplice_prepare_headers_gfu.using(sample_dir:true) ] +
         "L%_R*_%.fastq.gz" * [align_soapsplice_gfu.using(
