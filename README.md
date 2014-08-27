@@ -490,7 +490,7 @@ For **Variants Calling Projects**:
 **HEALTY EXOMES:** If you DON't USE the exomes in **HEALTY_EXOMES_DIR**, please set  *with_healty_exomes:false* and remove stage *healty_exomes_info_gfu*
 
 
-### <a name="multi"></a> MULTIPLE DIRS
+### MULTIPLE DIRS
 
 ![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) BE CAREFUL with this pipelines! For each sample you will create a new bpipe process!
 
