@@ -600,4 +600,3 @@ export BPIPE_CONFIG_HOME=../build/stage/bpipeconfig-0.1 && ../build/stage/bpipec
 * `/==` - Nice divider comment
 * `jdoc:c` - Java Doc style class comment
 * `jdoc:m` - Java Doc style method comment
-
