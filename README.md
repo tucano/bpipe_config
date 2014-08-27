@@ -286,70 +286,70 @@ Where the option **-r** generate a report in the subdirectory **doc**
 
 In this example we will create a pipeline for a single sample.
 
-1. **SINGLE SAMPLE, SINGLE DIR**
+#### SINGLE SAMPLE, SINGLE DIR
 
-	**Scenario:** You have a working directory with some input files:
-	
-	```
-    #!bash
-	B1_TTAGGC_L003_R1_002.fastq.gz  
-	B1_TTAGGC_L003_R2_002.fastq.gz
-	B1_TTAGGC_L003_R1_003.fastq.gz  
-	B1_TTAGGC_L003_R2_003.fastq.gz 
-	SampleSheet.csv
-	```
-	
-	To **align data with the rna_seq pipeline**: enter working directory (make sure that you have a __SampleSheet.csv__ in it) and generate the __pipeline.groovy__ file
-	
-	
-	```
-    #!bash
-	bpipe-config pipe rna_seq_lane
-	```
-	
-	You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
-	
-	```
-    #!bash
-	bpipe run -r rna_seq_lane.groovy *.fastq.gz
-	```
-	
-	Where the option -r produce an HTML report in the local sub-directory __doc/__
-	
-	![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
+**Scenario:** You have a working directory with some input files:
 
+```
+#!bash
+B1_TTAGGC_L003_R1_002.fastq.gz  
+B1_TTAGGC_L003_R2_002.fastq.gz
+B1_TTAGGC_L003_R1_003.fastq.gz  
+B1_TTAGGC_L003_R2_003.fastq.gz 
+SampleSheet.csv
+```
+	
 
-2. **MULTIPLE SAMPLES IN SINGLE DIR**
+To **align data with the rna_seq pipeline**: enter working directory (make sure that you have a __SampleSheet.csv__ in it) and generate the __pipeline.groovy__ file
+	
+	
+```
+#!bash
+bpipe-config pipe rna_seq_lane
+```
 
-	**Scenario:** You have already aligned your data and you have collected all the bam files and the **SampleSheet.csv** in a directory called **BAM**:
-	
-	```
-    #!bash
-	3781_GTGAAA_L005.merge.dedup.bam
-	3907_ATGTCA_L004.merge.dedup.bam
-	4002_TGACCA_L003.merge.dedup.bam
-	4183_GTTTCG_L001.merge.dedup.bam
-	4273_CATGGC_L004.merge.dedup.bam
-	4353_GTTTCG_L002.merge.dedup.bam
-	6112_TCGGCA_L002.merge.dedup.bam
-	8099_TAGCTT_L007.merge.dedup.bam
-	SampleSheet.csv
-	```
-	
-	To launch a **bam recalibration** on this samples:
-	
-	```
-    #!bash
-	bpipe-config pipe exome_bam_recalibration_multi
-	```
-	
-	You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
-	
-	```
-    #!bash
-	bpipe run -r exome_bam_recalibration_multi.groovy *.bam
-	```
-	![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
+You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
+
+```
+#!bash
+bpipe run -r rna_seq_lane.groovy *.fastq.gz
+```
+
+Where the option -r produce an HTML report in the local sub-directory __doc/__
+
+![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
+
+#### MULTIPLE SAMPLES IN SINGLE DIR
+
+**Scenario:** You have already aligned your data and you have collected all the bam files and the **SampleSheet.csv** in a directory called **BAM**:
+
+```
+#!bash
+3781_GTGAAA_L005.merge.dedup.bam
+3907_ATGTCA_L004.merge.dedup.bam
+4002_TGACCA_L003.merge.dedup.bam
+4183_GTTTCG_L001.merge.dedup.bam
+4273_CATGGC_L004.merge.dedup.bam
+4353_GTTTCG_L002.merge.dedup.bam
+6112_TCGGCA_L002.merge.dedup.bam
+8099_TAGCTT_L007.merge.dedup.bam
+SampleSheet.csv
+```
+
+To launch a **bam recalibration** on this samples:
+
+```
+#!bash
+bpipe-config pipe exome_bam_recalibration_multi
+```
+
+You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
+
+```
+#!bash
+bpipe run -r exome_bam_recalibration_multi.groovy *.bam
+```
+![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
 
 ### ILLUMINA PROJECTS
@@ -389,71 +389,71 @@ Project_113_CAPS
 
 Example:
 
-1. My raw data are in:
+My raw data are in:
  
-   ```
-   #!bash
-   /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription
-   ``` 
+```
+#!bash
+/lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription
+```
 
-2. I create a scratch dir to run the pipeline: 
+I create a scratch dir to run the pipeline: 
 
-   ```
-   #!bash
-   mkdir /lustre2/scratch/Kajaste/80_LV_Transcription
-   ```
+```
+#!bash
+mkdir /lustre2/scratch/Kajaste/80_LV_Transcription
+```
 
-3. Enter scratch dir and launch **bpipe-config** pointing to **samples in raw_data**
+Enter scratch dir and launch **bpipe-config** pointing to **samples in raw_data**
 
-   ```
-   #!bash
-   cd /lustre2/scratch/Kajaste/80_LV_Transcription
-   bpipe-config pipe exome_align_project /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription/Sample_*
-   ```
+```
+#!bash
+cd /lustre2/scratch/Kajaste/80_LV_Transcription
+bpipe-config pipe exome_align_project /lustre2/raw_data/131212_SN859_0138_AC2PGHACXX/Project_Kajaste_80_LVTranscription/Sample_*
+```
 
 4. You will find a file called **input.json** in your scratch dir, that file store a list of **SAMPLES** and **FILES RELATED** to each sample:
 
-   ```
-   #!json
-   {
-    "Sample_test_1": [
-        "/PATH/TO/RAW_DATA/Sample_test_1/SampleSheet.csv",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_002.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_002.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_002.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_002.fastq.gz"
-    ],
-    "Sample_test_10": [
-        "/PATH/TO/RAW_DATA/Sample_test_10/SampleSheet.csv",
-        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_002.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_002.fastq.gz"
-    ],
-    "Sample_test_11": [
-        "/PATH/TO/RAW_DATA/Sample_test_11/SampleSheet.csv",
-        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_002.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_001.fastq.gz",
-        "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_002.fastq.gz"
-    ]
-   }
-   ```
+```
+#!json
+{
+"Sample_test_1": [
+    "/PATH/TO/RAW_DATA/Sample_test_1/SampleSheet.csv",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R1_002.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L001_R2_002.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R1_002.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_1/Sample_test_1_L002_R2_002.fastq.gz"
+],
+"Sample_test_10": [
+    "/PATH/TO/RAW_DATA/Sample_test_10/SampleSheet.csv",
+    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R1_002.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_10/Sample_test_10_L001_R2_002.fastq.gz"
+],
+"Sample_test_11": [
+    "/PATH/TO/RAW_DATA/Sample_test_11/SampleSheet.csv",
+    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R1_002.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_001.fastq.gz",
+    "/PATH/TO/RAW_DATA/Sample_test_11/Sample_test_11_L001_R2_002.fastq.gz"
+]
+}
+```
 
-   This files will be used by bpipe to generate the first branches (sample branches) of the pipeline and ensure that each sample use ONLY the files in the correct directory. **To remove a sample just remove it from this file!**
+This files will be used by bpipe to generate the first branches (sample branches) of the pipeline and ensure that each sample use ONLY the files in the correct directory. **To remove a sample just remove it from this file!**
 
-5. Run the pipeline with:
+Run the pipeline with:
 
-	```
-    #!bash
-	bpipe run -r exome_align_project.groovy input.json
-	```
+```
+#!bash
+bpipe run -r exome_align_project.groovy input.json
+```
 
-    Note that we use the input.json as input file for our pipeline.
+Note that we use the input.json as input file for our pipeline.
 
 
 **behind the scenes:** 
@@ -466,12 +466,10 @@ the bpipe project pipelines make the following steps:
 4. Move the final output (generally bam files) in a result directory (default: "BAM")
 
 
-![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
+![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
-<br/>
-<br/>
 
-### <a name="reports"></a> REPORTS
+### REPORTS
 
 We have added a prototype reporting system in bpipe-config. To report a project you should collect some files/info:
 
@@ -492,12 +490,9 @@ For **Variants Calling Projects**:
 **HEALTY EXOMES:** If you DON't USE the exomes in **HEALTY_EXOMES_DIR**, please set  *with_healty_exomes:false* and remove stage *healty_exomes_info_gfu*
 
 
-<br/>
-<br/>
-
 ### <a name="multi"></a> MULTIPLE DIRS
 
-![image](misc/important.png) BE CAREFUL with this pipelines! For each sample you will create a new bpipe process!
+![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) BE CAREFUL with this pipelines! For each sample you will create a new bpipe process!
 
 
 **DON'T USE MUTIPLE DIRS FOR MORE THAN 10 SAMPLES (you should use illumina projects pipelines)**
@@ -519,36 +514,39 @@ Where each sample directory contains input files and a __SampleSheet.csv__
 **Example:**
 
 
-1. Configure and generate a pipeline for each directory:
+Configure and generate a pipeline for each directory:
+
+```
+#!bash
+bpipe-config pipe rna_seq_lane Sample_*
+```
+
+This command generate a separate pipeline file for each sample and a file **runner.sh** to launch the pipelines in a single command.
    
-   ```
-   bpipe-config pipe rna_seq_lane Sample_*
-   ```
 
-   This command generate a separate pipeline file for each sample and a file **runner.sh** to launch the pipelines in a single command.
+Run the pipelines:
+
+```
+#!bash
+./runner.sh
+```
    
+![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
-2. Run the pipelines:
+```
+#!bash
+for i in Sample_*
+do
+	cd $i
+	bpipe cleanup
+	cd ..
+done
+```
 
-   ```
-   ./runner.sh
-   ```
-   
-3. ![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
-
-   ```
-   for i in Sample_*
-   do
-   	cd $i
-   	bpipe cleanup
-   	cd ..
-   done
-   ```
 
 ---
-<br/>
 
-## <a name="dev"></a>DEV NOTES
+## DEV NOTES
 
 
 ### WHAT IS IN THE BOX
@@ -592,7 +590,7 @@ gradle dist
 ```
 
 
-### DEVELOPMENT NOTES
+### DEVELOPER NOTES
 
 * Gradle templates: https://github.com/townsfolk/gradle-templates
 * JANSI tutorial: http://jameswilliams.be/blog/entry/240
