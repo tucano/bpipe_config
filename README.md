@@ -13,12 +13,12 @@ bpipe provides a platform for running big bioinformatics jobs that consist of a 
 * [USAGE](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-usage)
 * [OPTIONS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-options)
 * [COMMANDS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-commands)
-* [TUTORIALS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-tutorial)
-	* [SINGLE DIR](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-single)
-	* [ILLUMINA PROJECTS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-projects)
+* [TUTORIALS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-tutorials)
+	* [SINGLE DIR](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-single-dir)
+	* [ILLUMINA PROJECTS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-illumina-projects)
 	* [REPORTS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-reports)
-	* [MULTIPLE DIR](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-multi) 
-* [DEVELOPERS NOTES](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-dev)
+	* [MULTIPLE DIRS](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-multiple-dirs) 
+* [DEVELOPER NOTES](https://bitbucket.org/drambaldi/bpipe_config#markdown-header-developer-notes)
 
 --- 
 
@@ -30,6 +30,7 @@ bpipe provides a platform for running big bioinformatics jobs that consist of a 
 How to install and use bpipe and bpipe-config:
 
 ```
+#!bash
 ./lustre1/tools/libexec/bpipeconfig/misc/install.sh
 source ~/.bash_profile
 ```
@@ -50,12 +51,13 @@ export PATH=$BPIPE_CONFIG_HOME/bin:$BPIPE_HOME/bin:$PATH
 ```
 
 
-## <a name="usage"></a> USAGE EXAMPLES
-<br/>
+## USAGE
+
 
 Usage:
 
 ```
+#!bash
 bpipe-config [options] [command] [pipeline_name] [sample_dirs|project_dirs]
 ```
 
@@ -64,6 +66,7 @@ bpipe-config [options] [command] [pipeline_name] [sample_dirs|project_dirs]
 Print a list of available pipelines:
 
 ```
+#!bash
 bpipe-config -p
 ```
 
@@ -72,6 +75,7 @@ bpipe-config -p
 Print a list of available commands:
 
 ```
+#!bash
 bpipe-config -c
 ```
 
@@ -80,6 +84,7 @@ bpipe-config -c
 Generate a pipeline in local directory:
 
 ```
+#!bash
 bpipe-config pipe <pipeline-name>
 ```
 
@@ -88,6 +93,7 @@ bpipe-config pipe <pipeline-name>
 Generate a multi-sample project pipeline that works with illumina files structure:
 
 ```
+#!bash
 bpipe-config pipe <project-pipeline-name> /lustre2/raw_data/Project/Sample_*
 ```
 
@@ -96,6 +102,7 @@ bpipe-config pipe <project-pipeline-name> /lustre2/raw_data/Project/Sample_*
 Generate a multi-sample project pipeline that works with illumina files structure for MULTIPLE PROJECTS:
 
 ```
+#!bash
 bpipe-config project <pipeline-name> <Project1> <Project2>
 ```
 
@@ -104,6 +111,7 @@ bpipe-config project <pipeline-name> <Project1> <Project2>
 Generate a pipeline and launch it with bpipe in a single command:
 
 ```
+#!bash
 bpipe-config -b pipe <pipeline-name>
 ```
 
@@ -112,20 +120,21 @@ bpipe-config -b pipe <pipeline-name>
 Generate a pipeline forcing overwrite of local files.
 
 ```
+#!bash
 bpipe-config -f pipe <pipeline-name>
 ```
 
 #### Merge samplesheets from different projects 
 
 ```
+#!bash
 bpipe-config smerge <Project1> <Project2> ...
 ```
-<br/>
-<br/>
 
-## <a name="options"></a> OPTIONS
+## OPTIONS
 
 ```
+#!bash
 Available options:
  -b,--batch           Automatically execute bpipe in background (bg-bpipe)
  -c,--commands        Print a list of available commands
@@ -139,10 +148,8 @@ Available options:
  -v,--verbose         Verbose mode
 ```
 
-<br/>
-<br/>
 
-## <a name="tutorial"></a> TUTORIALS
+## TUTORIALS
 
 Here we will explore some general uses of bpipe-config. 
 
@@ -155,6 +162,7 @@ bpipe-config -p
 That returns a list of pipelines names:
 
 ```
+#!bash
 bam_recalibration
 exome_bam_recalibration_multi ------------> BAM Recalibration for a multiple bams (exomes): IOS GFU 020
 exome_bam_recalibration_single -----------> BAM Recalibration for a single bam (exomes): IOS GFU 020
@@ -224,6 +232,7 @@ genome_variants_calling ------------------> Human variants calling for genomes: 
 To generate a **hello_world** pipeline in the currect directory you can use:
 
 ```
+#!bash
 bpipe-config -s pipe hello_world
 ```
 
@@ -237,15 +246,14 @@ bpipe-config will generate the following files:
 To launch this Hello World pipeline you use bpipe:
 
 ```
+#!bash
 bpipe run -r hello_world.groovy
 ```
 
 Where the option **-r** generate a report in the subdirectory **doc**
 
-![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
+![image](https://bytebucket.org/drambaldi/bpipe_config/raw/14b12fee5507720f3a1c61eb42610dc9a950aab5/misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
-<br/>
-<br/>
 
 ### <a name="single"></a> SINGLE DIR 
 
