@@ -1,11 +1,9 @@
 # bpipe-config version 1.0
 
 ---
-
 bpip-config is a configuration and reporting software for [bpipe](https://code.google.com/p/bpipe/).
 
 bpipe provides a platform for running big bioinformatics jobs that consist of a series of processing stages - known as 'pipelines', see also the [bpipe documentation](https://code.google.com/p/bpipe/wiki/Reference)
-
 
 ---
 
@@ -15,12 +13,18 @@ bpipe provides a platform for running big bioinformatics jobs that consist of a 
 * [USAGE](#usage)
 * [OPTIONS](#options)
 * [COMMANDS](#commands)
-* [TUTORIAL](#tutorial)
+* [TUTORIALS](#tutorial)
   * [SINGLE DIR](#single)
   * [ILLUMINA PROJECTS](#projects)
+  * [REPORTS](#reports)
   * [MULTIPLE DIR](#multi) 
 * [DEVELOPERS NOTES](#dev)
-  
+
+---
+
+<br/>
+<br/>
+<br/>  
 
 ## <a name="install"></a>INSTALL
 
@@ -50,6 +54,7 @@ export PATH=$BPIPE_CONFIG_HOME/bin:$BPIPE_HOME/bin:$PATH
 
 
 ## <a name="usage"></a> USAGE EXAMPLES
+<br/>
 
 Usage:
 
@@ -118,7 +123,8 @@ bpipe-config -f pipe <pipeline-name>
 ```
 bpipe-config smerge <Project1> <Project2> ...
 ```
-
+<br/>
+<br/>
 
 ## <a name="options"></a> OPTIONS
 
@@ -136,7 +142,10 @@ Available options:
  -v,--verbose         Verbose mode
 ```
 
-## <a name="tutorial"></a> TUTORIAL
+<br/>
+<br/>
+
+## <a name="tutorial"></a> TUTORIALS
 
 Here we will explore some general uses of bpipe-config. 
 
@@ -238,70 +247,75 @@ Where the option **-r** generate a report in the subdirectory **doc**
 
 ![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
+<br/>
+<br/>
 
 ### <a name="single"></a> SINGLE DIR 
 
 In this example we will create a pipeline for a single sample.
 
-#### SINGLE SAMPLE, SINGLE DIR
+1. **SINGLE SAMPLE, SINGLE DIR**
 
-**Scenario:** You have a working directory with some input files:
+	**Scenario:** You have a working directory with some input files:
+	
+	```
+	B1_TTAGGC_L003_R1_002.fastq.gz  
+	B1_TTAGGC_L003_R2_002.fastq.gz
+	B1_TTAGGC_L003_R1_003.fastq.gz  
+	B1_TTAGGC_L003_R2_003.fastq.gz 
+	SampleSheet.csv
+	```
+	
+	To **align data with the rna_seq pipeline**: enter working directory (make sure that you have a __SampleSheet.csv__ in it) and generate the __pipeline.groovy__ file
+	
+	
+	```
+	bpipe-config pipe rna_seq_lane
+	```
+	
+	You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
+	
+	```
+	bpipe run -r rna_seq_lane.groovy *.fastq.gz
+	```
+	
+	Where the option -r produce an HTML report in the local sub-directory __doc/__
+	
+	![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
-```
-B1_TTAGGC_L003_R1_002.fastq.gz  
-B1_TTAGGC_L003_R2_002.fastq.gz
-B1_TTAGGC_L003_R1_003.fastq.gz  
-B1_TTAGGC_L003_R2_003.fastq.gz 
-SampleSheet.csv
-```
+<br/>
 
-To **align data with the rna_seq pipeline**: enter working directory (make sure that you have a __SampleSheet.csv__ in it) and generate the __pipeline.groovy__ file
+2. **MULTIPLE SAMPLES IN SINGLE DIR**
 
+	**Scenario:** You have already aligned your data and you have collected all the bam files and the **SampleSheet.csv** in a directory called **BAM**:
+	
+	```
+	3781_GTGAAA_L005.merge.dedup.bam
+	3907_ATGTCA_L004.merge.dedup.bam
+	4002_TGACCA_L003.merge.dedup.bam
+	4183_GTTTCG_L001.merge.dedup.bam
+	4273_CATGGC_L004.merge.dedup.bam
+	4353_GTTTCG_L002.merge.dedup.bam
+	6112_TCGGCA_L002.merge.dedup.bam
+	8099_TAGCTT_L007.merge.dedup.bam
+	SampleSheet.csv
+	```
+	
+	To launch a **bam recalibration** on this samples:
+	
+	```
+	bpipe-config pipe exome_bam_recalibration_multi
+	```
+	
+	You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
+	
+	```
+	bpipe run -r exome_bam_recalibration_multi.groovy *.bam
+	```
+	![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
-```
-bpipe-config pipe rna_seq_lane
-```
-
-You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
-
-```
-bpipe run -r rna_seq_lane.groovy *.fastq.gz
-```
-
-Where the option -r produce an HTML report in the local sub-directory __doc/__
-
-![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
-
-
-#### MULTIPLE SAMPLES IN SINGLE DIR
-
-**Scenario:** You have already aligned your data and you have collected all the bam files and the **SampleSheet.csv** in a directory called **BAM**:
-
-```
-3781_GTGAAA_L005.merge.dedup.bam
-3907_ATGTCA_L004.merge.dedup.bam
-4002_TGACCA_L003.merge.dedup.bam
-4183_GTTTCG_L001.merge.dedup.bam
-4273_CATGGC_L004.merge.dedup.bam
-4353_GTTTCG_L002.merge.dedup.bam
-6112_TCGGCA_L002.merge.dedup.bam
-8099_TAGCTT_L007.merge.dedup.bam
-SampleSheet.csv
-```
-
-To launch a **bam recalibration** on this samples:
-
-```
-bpipe-config pipe exome_bam_recalibration_multi
-```
-
-You can now run the pipeline in interactive mode (use **bg-bpipe** to run it in background)
-
-```
-bpipe run -r exome_bam_recalibration_multi.groovy *.bam
-```
-![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
-
+<br/>
+<br/>
 
 ### <a name="projects"></a> ILLUMINA PROJECTS
 
@@ -413,7 +427,32 @@ the bpipe project pipelines make the following steps:
 
 ![image](misc/important.png) **AFTER PIPELINE EXECUTION USE** `bpipe cleanup` **to remove intermediate files**!
 
+<br/>
+<br/>
 
+### <a name="reports"></a> REPORTS
+
+We have added a prototype reporting system in bpipe-config. To report a project you should collect some files/info:
+
+For **Variants Calling Projects**:
+
+1. create a working dir for the report and copy the project **"PRE"** SampleSheet.csv to the directory, the SampleSheet.csv with additional columns (Design, Lab Code, etc...)
+2. create a BAM directory and link/copy bam and bai files
+3. create VCF directory and link/copy Tier vcf files
+4. `bpipe-config pipe WES_report`
+5. Modify the files autogenerated in the sub-directory **report_data**:
+   * rationale.md: an abstract (short description) for the Project
+   * stats.groovy contains a list of variables/infos used by the pipelines
+   * pedigree.ped: A ped file (optional)
+     
+
+**PEDIGREE:** If you have a pedigree (ped format), put it in the **REPORT_DATA_DIR** (report_data) directory
+
+**HEALTY EXOMES:** If you DON't USE the exomes in **HEALTY_EXOMES_DIR**, please set  *with_healty_exomes:false* and remove stage *healty_exomes_info_gfu*
+
+
+<br/>
+<br/>
 
 ### <a name="multi"></a> MULTIPLE DIRS
 
@@ -466,6 +505,7 @@ Where each sample directory contains input files and a __SampleSheet.csv__
    ```
 
 ---
+<br/>
 
 ## <a name="dev"></a>DEV NOTES
 
