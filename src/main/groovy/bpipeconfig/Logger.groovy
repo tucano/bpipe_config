@@ -55,7 +55,7 @@ class Logger
 		out << bold("pipe".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40)
 		out << green(wrap("Generate pipeline file in current directory or directories in list (pipeline.groovy)",60, 50)) << "\n"
 
-		out << bold("project".padRight(10)) << "<pipeline name> [dir1] [dir2] ... ".padLeft(15).padRight(40)
+		out << bold("project".padRight(10)) << "<pipeline name> <Project1> <Project2> ... ".padLeft(15).padRight(40)
 		out << green(wrap("Generate a project pipeline for each directory in list (pipeline.groovy)",60, 50)) << "\n"
 
 		out << bold("sheet".padRight(10)) << "<INFO> [dir1] [dir2] ... ".padLeft(15).padRight(40)
