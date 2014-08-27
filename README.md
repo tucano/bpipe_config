@@ -9,22 +9,18 @@ bpipe provides a platform for running big bioinformatics jobs that consist of a 
 
 ## Table of Contents
 
-* [INSTALL](#install)
-* [USAGE](#usage)
-* [OPTIONS](#options)
-* [COMMANDS](#commands)
-* [TUTORIALS](#tutorial)
-  * [SINGLE DIR](#single)
-  * [ILLUMINA PROJECTS](#projects)
-  * [REPORTS](#reports)
-  * [MULTIPLE DIR](#multi) 
-* [DEVELOPERS NOTES](#dev)
+* [INSTALL](https://bitbucket.org/drambaldi/bpipe_config#install)
+* [USAGE](https://bitbucket.org/drambaldi/bpipe_config#usage)
+* [OPTIONS](https://bitbucket.org/drambaldi/bpipe_config#options)
+* [COMMANDS](https://bitbucket.org/drambaldi/bpipe_config#commands)
+* [TUTORIALS](https://bitbucket.org/drambaldi/bpipe_config#tutorial)
+	* [SINGLE DIR](https://bitbucket.org/drambaldi/bpipe_config#single)
+	* [ILLUMINA PROJECTS](https://bitbucket.org/drambaldi/bpipe_config#projects)
+	* [REPORTS](https://bitbucket.org/drambaldi/bpipe_config#reports)
+	* [MULTIPLE DIR](https://bitbucket.org/drambaldi/bpipe_config#multi) 
+* [DEVELOPERS NOTES](https://bitbucket.org/drambaldi/bpipe_config#dev)
 
----
-
-<br/>
-<br/>
-<br/>  
+--- 
 
 ## <a name="install"></a>INSTALL
 
