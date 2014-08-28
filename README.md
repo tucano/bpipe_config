@@ -489,6 +489,12 @@ For **Variants Calling Projects**:
 
 **HEALTY EXOMES:** If you DON't USE the exomes in **HEALTY_EXOMES_DIR**, please set  *with_healty_exomes:false* and remove stage *healty_exomes_info_gfu*
 
+To launch the pipeline
+
+```
+#!bash
+bpipe -r run WES_report.groovy BAM/* VCF/*
+```
 
 ### MULTIPLE DIRS
 
