@@ -49,9 +49,17 @@ align_soapsplice_gfu =
         input_extension = '.fastq'
     }
 
-    String header_file = "${input1.prefix.replaceAll(/.*\//,"")}" + '.header'
+    String header_file = ""
 
-    if (sample_dir) { output.dir = branch.sample }
+    if (sample_dir)
+    {
+        output.dir = branch.sample
+        header_file = "${branch.sample}/${input1.prefix.replaceAll(/.*\//,"")}" + '.header'
+    }
+    else
+    {
+        header_file = "${input1.prefix.replaceAll(/.*\//,"")}" + '.header'
+    }
 
     if (paired)
     {
