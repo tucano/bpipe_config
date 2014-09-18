@@ -94,6 +94,7 @@ class BpipeConfig
 			f   longOpt: 'force'     , 'Force files overwrite when needed (default=FALSE).', required: false
 			h   longOpt: 'help'      , 'Usage Information', required: false
 			m   longOpt: 'email'     , 'User email address (Es: -m user@example.com)', args: 1, required: false
+      _   longOpt: 'no-email'  , 'Do not use email', required: false
 			p   longOpt: 'pipelines' , 'Print a list of available pipelines', required: false
 			'P' longOpt: 'project'   , 'Override the project name. If not provided will be extracted from SampleSheet in current directory. Format: <PI_name>_<ProjectID>_<ProjectName>', args: 1, required: false
 			v   longOpt: 'verbose'   , 'Verbose mode', required: false
@@ -134,7 +135,12 @@ class BpipeConfig
 		}
 
 		// GET OPTIONS: MAIL
-		if ( opt.m ) {
+    if (opt.'no-email')
+    {
+      print Logger.message("No email notifications")
+    }
+    else if ( opt.m )
+    {
 			if ( Commands.validateEmail(opt.m) ) {
 				user_email = opt.m
 			} else {

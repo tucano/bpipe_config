@@ -1,6 +1,6 @@
 load "../../../modules/align_bwa_gfu.groovy"
 
-REFERENCE_GENOME="/test/reference/pippo.fa"
+REFERENCE_GENOME="../../genome/chr22.fa"
 EXPERIMENT_NAME="test1"
 PLATFORM="test"
 FCID="1"
@@ -9,5 +9,5 @@ CENTER="GFU"
 PROJECTNAME="TEST_1_TEST"
 
 Bpipe.run {
-	"%" * [align_bwa_gfu.using(pretend:true,paired:false,compression:"")]
+	"%" * [align_bwa_gfu.using(paired:false,compression:"gz")]
 }

@@ -30,8 +30,7 @@ function runPipeLine() {
 
 # CONFIG
 function config() {
-    bpipe-config pipe $* > /dev/null
-    rm bpipe.config
+    BPIPE_CONFIG_HOME="../../../" ../../../bin/bpipe-config --no-email -f -P continous_1_integration config > /dev/null
 }
 
 # check test output

@@ -33,7 +33,19 @@ BUILDDATE=0
 #----------------------------------------------------------
 get_classpath() {
 	LIB=lib
+	if [ -e $BPIPE_CONFIG_HOME/local-lib ];
+  then
+    LIB="local-lib"
+  fi
+
 	CP="$BPIPE_CONFIG_HOME"/$LIB/bpipe_config-"$VERSION".jar:"$BPIPE_CONFIG_HOME"/$LIB/groovy-all-2.1.7.jar:"$BPIPE_CONFIG_HOME"/$LIB/jansi-1.11.jar:"$BPIPE_CONFIG_HOME"/$LIB/commons-cli-1.2.jar
+
+	# In case we are running in place in the bpipe project root, we pre-empt any other
+  # bpipe classes with those from the build directory and the eclipse compile path
+  if [ -e $BPIPE_CONFIG_HOME/build/classes/main ];
+  then
+  	CP="$BPIPE_CONFIG_HOME"build/classes/main:"$CP"
+  fi
 }
 
 # I need this ENV VARS:
@@ -42,10 +54,11 @@ if [[ -z "$BPIPE_CONFIG_HOME" ]]; then
 	exit 1
 fi
 
-if [[ -z "$BPIPE_HOME" ]]; then
-	echo -e "BPIPE_HOME is unset"
-	exit 1
-fi
+# bpipe home autoset
+# if [[ -z "$BPIPE_HOME" ]]; then
+# 	echo -e "BPIPE_HOME is unset"
+# 	exit 1
+# fi
 
 get_classpath
 

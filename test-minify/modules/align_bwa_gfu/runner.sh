@@ -2,41 +2,24 @@
 
 source ../../testsupport.sh
 
+config
+
 ./cleaner.sh
 
 # SINGLE
-OUTPUTS=(testinput_R1_001.sai testinput_R1_001.bam testinput_R2_001.bam testinput_R2_001.sai)
+OUTPUTS=(sample1_L001_R1_001.fastq.bam  sample1_L001_R1_002.fastq.sai  sample1_L001_R1_004.fastq.bam  sample1_L001_R2_001.fastq.sai  sample1_L001_R2_003.fastq.bam  sample1_L001_R2_004.fastq.sai sample1_L001_R1_001.fastq.sai  sample1_L001_R1_003.fastq.bam  sample1_L001_R1_004.fastq.sai  sample1_L001_R2_002.fastq.bam  sample1_L001_R2_003.fastq.sai sample1_L001_R1_002.fastq.bam  sample1_L001_R1_003.fastq.sai  sample1_L001_R2_001.fastq.bam  sample1_L001_R2_002.fastq.sai  sample1_L001_R2_004.fastq.bam)
 
-run test.groovy *.fastq
+run test.groovy ../../raw_data/sample1/*.gz
 checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
-OUTPUTS=(testinput_R1_001.fastq.sai testinput_R1_001.fastq.bam testinput_R2_001.fastq.bam testinput_R2_001.fastq.sai)
-
-run test_compressed.groovy *.fastq.gz
-checkTestOut
-exists $OUTPUTS
-./cleaner.sh
+config
 
 # PAIRED
-OUTPUTS=(testinput_R1_001.sai testinput_R2_001.sai testinput_001.bam)
+OUTPUTS=(sample1_L001_R1_001.fastq.bam  sample1_L001_R1_002.fastq.bam  sample1_L001_R1_003.fastq.bam  sample1_L001_R1_004.fastq.bam  sample1_L001_R2_001.fastq.sai  sample1_L001_R2_003.fastq.sai sample1_L001_R1_001.fastq.sai  sample1_L001_R1_002.fastq.sai sample1_L001_R1_003.fastq.sai  sample1_L001_R1_004.fastq.sai  sample1_L001_R2_002.fastq.sai  sample1_L001_R2_004.fastq.sai)
 
-run test_paired.groovy testinput_R*_001.fastq
-checkTestOut
-exists $OUTPUTS
-./cleaner.sh
-
-OUTPUTS=(testinput_R1_001.fastq.sai testinput_R2_001.fastq.sai testinput_001.fastq.bam)
-
-run test_compressed_paired.groovy testinput_R*_001.fastq.gz
-checkTestOut
-exists $OUTPUTS
-./cleaner.sh
-
-# FQZ
-OUTPUTS=(testinput_R1_001.sai testinput_R2_001.sai testinput_001.bam)
-run test_fqz.groovy testinput_R*_001.fqz
+run test_paired.groovy ../../raw_data/sample1/*.gz
 checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
