@@ -1,0 +1,3 @@
+@SQ	SN:chr22	LN:51304566
+@RG	ID:test1	PL:test	PU:1	LB:test1	SM:S1	CN:GFU
+@PG	ID:soapsplice	PN:soapsplice	VN:1.9
