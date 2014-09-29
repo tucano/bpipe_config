@@ -75,8 +75,8 @@ fastqc_sample_gfu =
             """
             output_prefix.each { prefix ->
                 command << """
-                    unzip -o ${report_dir}/${prefix}_fastqc.zip -d ${input};
-                    rm ${report_dir}/${prefix}_fastqc.zip;
+                    unzip -o ${branch.sample}/${prefix}_fastqc.zip -d ${input};
+                    rm ${branch.sample}/${prefix}_fastqc.zip;
                     cp ${report_dir}/${prefix}_fastqc/fastqc_data.txt ${report_dir}/${prefix}_fastqc_data.txt;
                 """
             }
@@ -120,9 +120,9 @@ fastqc_sample_gfu =
             """
             output_prefix.each { prefix ->
                 command << """
-                    unzip -o ${report_dir}/${prefix}_fastqc.zip -d ${report_dir};
-                    rm ${report_dir}/${prefix}_fastqc.zip;
-                    cp ${report_dir}/${prefix}_fastqc/fastqc_data.txt $output;
+                    unzip -o ${branch.sample}/${prefix}_fastqc.zip -d ${report_dir};
+                    rm ${branch.sample}/${prefix}_fastqc.zip;
+                    cp ${report_dir}/${prefix}_fastqc/fastqc_data.txt ${report_dir}/${prefix}_fastqc_data.txt;
                 """
             }
 
