@@ -66,4 +66,7 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+# clean bpipe dir
+rm -rf .bpipe
+
 success
