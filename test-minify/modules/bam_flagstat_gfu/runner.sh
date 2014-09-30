@@ -17,4 +17,6 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+cleanBpipeDir
+
 success
