@@ -154,7 +154,7 @@ trimmomatic_reads_gfu =
       }
       else
       {
-        r2 = "$input"
+        r1 = "$input"
       }
 
       command = """
