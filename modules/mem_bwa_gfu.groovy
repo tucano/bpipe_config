@@ -246,7 +246,7 @@ mem_bwa_gfu =
             else
             {
                 command = """
-                    $BWA mem -R \"$header\" -N -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $r1 | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
+                    $BWA mem -R \"$header\" -M -t $bwa_threads $BWAOPT_MEM $REFERENCE_GENOME $r1 | $SAMTOOLS view -Su - | $SAMTOOLS sort - ${output.prefix}
                 """
             }
 

@@ -40,6 +40,12 @@ function checkTestOut() {
 	[ $? == 0 ] && err "Pipeline failed!"
 }
 
+# clean .bpipe dir
+function cleanBpipeDir() {
+  sleep 2
+  rm -rf .bpipe
+}
+
 # FILE EXISTS
 function exists() {
   for i in $*;

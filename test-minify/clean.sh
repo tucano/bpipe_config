@@ -7,6 +7,7 @@ for t in $TESTS;
 do
         cd "$t/";
         ./cleaner.sh 1>/dev/null 2>&1
+        rm -rf .bpipe
         cd ..
 done
 
@@ -19,6 +20,7 @@ for t in $TESTS;
 do
         cd "$t/";
         ./cleaner.sh 1>/dev/null 2>&1
+        rm -rf .bpipe
         cd ..
 done
 
