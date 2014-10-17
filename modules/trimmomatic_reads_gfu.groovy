@@ -134,15 +134,13 @@ trimmomatic_reads_gfu =
     if (compression == "gz")
     {
       outputs = [
-        ("$input".replaceAll(/.*\//,"") - input_extension + '_paired.fastq.gz'),
-        ("$input".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq.gz')
+        ("$input".replaceAll(/.*\//,"") - input_extension + '_trimmed.fastq.gz'),
       ]
     }
     else
     {
       outputs = [
-        ("$input".replaceAll(/.*\//,"") - input_extension + '_paired.fastq'),
-        ("$input".replaceAll(/.*\//,"") - input_extension + '_unpaired.fastq')
+        ("$input".replaceAll(/.*\//,"") - input_extension + '_trimmed.fastq'),
       ]
     }
 
@@ -160,7 +158,7 @@ trimmomatic_reads_gfu =
       }
 
       command = """
-        $TRIMMOMATIC $mode $phred -trimlog trimming.log $r1 $output1 $output2 $conf_string
+        $TRIMMOMATIC $mode $phred -trimlog trimming.log $r1 $output1 $conf_string
       """
 
       if (pretend)
