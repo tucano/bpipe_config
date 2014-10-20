@@ -109,14 +109,14 @@ align_bwa_gfu =
                 {
                     exec """
                         gunzip -c $input.gz | $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME - > $output1;
-                        $BWA samse $BWAOPT_SE -r \"$header\" $REFERENCE_GENOME $output1 $input1 > $output2
+                        $BWA samse $BWAOPT_SE -r \"$header\" $REFERENCE_GENOME $output1 $input1 |  $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix;
                     """
                 }
                 else
                 {
                     exec """
                         $BWA aln -t $bwa_threads $BWAOPT_ALN $REFERENCE_GENOME $input.fastq > $output1;
-                        $BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME $output1 $input > $output2
+                        $BWA sampe $BWAOPT_PE -r \"$header\" $REFERENCE_GENOME $output1 $input |  $SAMTOOLS view -Su - | $SAMTOOLS sort - $output.bam.prefix;
                     """
                 }
             }
