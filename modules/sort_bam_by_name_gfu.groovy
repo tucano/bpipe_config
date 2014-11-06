@@ -31,6 +31,6 @@ sort_bam_by_name_gfu =
                 echo "INPUT: $input" > $output
             """
         }
-        exec command
+        exec command, "samtools"
     }
 }
