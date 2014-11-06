@@ -3,11 +3,12 @@
 @preserve
 htseq_count_gfu =
 {
-    var pretend         : false
+    var pretend      : false
     var stranded     : "no"
     var mode         : "union"
     var id_attribute : "gene_name"
     var feature_type : "exon"
+    var min_quality  : 10
 
     doc title: "Htseq-count on bam file with GTF annotation file",
         desc: """
@@ -21,6 +22,7 @@ htseq_count_gfu =
             mode             : $mode
             id_attribute     : $id_attribute
             feature_type     : $feature_type
+            min_quality      : $min_quality
         """,
         constraints: """
             Generate a SAM file without Headers.
@@ -38,7 +40,7 @@ htseq_count_gfu =
 
         def command = """
             export LD_LIBRARY_PATH=\$LD_LIBRARY_PATH/usr/local/cluster/python2.7/lib/;
-            $SAMTOOLS view $input | $HTSEQ_COUNT -m $mode -s $stranded -i $id_attribute -o $output.sam - $ANNOTATION_GFF_FILE > $output.txt;
+            $SAMTOOLS view $input | $HTSEQ_COUNT -m $mode -t $feature_type -s $stranded -i $id_attribute -o $output.sam -a $min_quality - $ANNOTATION_GFF_FILE > $output.txt;
             test \$(awk '{sum += \$2} END {print sum}' $output.txt) -gt 0;
         """
 

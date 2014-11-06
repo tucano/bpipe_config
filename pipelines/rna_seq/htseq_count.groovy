@@ -23,7 +23,8 @@ Bpipe.run {
             stranded: "no",
             mode: "union",
             id_attribute: "gene_name",
-            feature_type: "exon") +
+            feature_type: "exon",
+            min_quality: 10) +
         sort_and_convert_sam_gfu + verify_bam_gfu + samtools_index_gfu
     ]
 }
