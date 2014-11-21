@@ -24,11 +24,17 @@ samtools_index_gfu =
 
         if (output_dir)
         {
-            command << "ln -s ${input.prefix}.bam.bai ${output_dir}/${output};"
+            command << """
+                rm ${output_dir}/${output};
+                ln -s ${input.prefix}.bam.bai ${output_dir}/${output};
+            """
         }
         else
         {
-            command << "ln -s ${input.prefix}.bam.bai $output;"
+            command << """
+                rm ${output};
+                ln -s ${input.prefix}.bam.bai $output;
+            """
         }
 
         if (pretend)
