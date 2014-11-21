@@ -38,9 +38,10 @@ GENOTYPE_FREQUENCY = """
 """.stripIndent().trim()
 
 // RSEQC PATHS
-BAMSTAT      = "/usr/local/cluster/python2.7/bin/bam_stat.py"
-GENECOVERAGE = "/usr/local/cluster/python2.7/bin/geneBody_coverage.py"
-READGC       = "/usr/local/cluster/python2.7/bin/read_GC.py"
-READNVC      = "/usr/local/cluster/python2.7/bin/read_NVC.py"
-READQUALITY  = "/usr/local/cluster/python2.7/bin/read_quality.py"
+BAMSTAT            = "/usr/local/cluster/python2.7/bin/bam_stat.py"
+GENECOVERAGE       = "/usr/local/cluster/python2.7/bin/geneBody_coverage.py"
+READGC             = "/usr/local/cluster/python2.7/bin/read_GC.py"
+READNVC            = "/usr/local/cluster/python2.7/bin/read_NVC.py"
+READQUALITY        = "/usr/local/cluster/python2.7/bin/read_quality.py"
 READS_DISTRIBUTION = "/usr/local/cluster/python2.7/bin/read_distribution.py"
+
