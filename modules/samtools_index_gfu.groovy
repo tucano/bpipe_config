@@ -22,8 +22,7 @@ samtools_index_gfu =
 
         command << """
             $SAMTOOLS index $input.bam ${input.prefix}.bam.bai;
-            rm -f ${output};
-            ln -s ${input.prefix}.bam.bai $output;
+            ln -f -s ${input.prefix.replaceAll(/.*\./,"")}.bam.bai $output;
         """
 
         if (pretend)
