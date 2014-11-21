@@ -37,33 +37,10 @@ GENOTYPE_FREQUENCY = """
     PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/calculate_genotype_frequency.py
 """.stripIndent().trim()
 
-// RSEQC PATHS (USED BY RSEQC ONLY)
-BAMSTAT="""
-     export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-     /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/bam_stat.py
-""".stripIndent().trim()
-
-GENECOVERAGE="""
-    export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-    /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/geneBody_coverage.py
-""".stripIndent().trim()
-
-READGC = """
-    export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-    /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/read_GC.py
-""".stripIndent().trim()
-
-READNVC = """
-    export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-    /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/read_NVC.py
-""".stripIndent().trim()
-
-READQUALITY = """
-    export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-    /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/read_quality.py
-""".stripIndent().trim()
-
-READS_DISTRIBUTION = """
-    export PYTHONPATH=/usr/local/cluster/python/usr/lib64/python2.6/site-packages/:\$PYTHONPATH &&
-    /usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python/usr/bin/read_distribution.py
-""".stripIndent().trim()
+// RSEQC PATHS
+BAMSTAT      = "/usr/local/cluster/python2.7/bin/bam_stat.py"
+GENECOVERAGE = "/usr/local/cluster/python2.7/bin/geneBody_coverage.py"
+READGC       = "/usr/local/cluster/python2.7/bin/read_GC.py"
+READNVC      = "/usr/local/cluster/python2.7/bin/read_NVC.py"
+READQUALITY  = "/usr/local/cluster/python2.7/bin/read_quality.py"
+READS_DISTRIBUTION = "/usr/local/cluster/python2.7/bin/read_distribution.py"
