@@ -15,14 +15,14 @@ samtools_index_gfu =
 
     requires SAMTOOLS: "Please define SAMTOOLS path"
 
-    transform("bai")
+    produce("${input.prefix}.bai")
     {
         def command = new StringBuffer()
         if (output_dir) command << "mkdir -p $output.dir;"
 
         command << """
             $SAMTOOLS index $input.bam ${input.prefix}.bam.bai;
-            rm ${output};
+            rm -f ${output};
             ln -s ${input.prefix}.bam.bai $output;
         """
 
