@@ -4,6 +4,9 @@
 samtools_index_gfu =
 {
     var pretend : false
+    var output_dir : ""
+
+    if (output_dir != "") output.dir = output_dir
 
     doc title: "Create BAI index file from BAM file",
         desc: "Launch $SAMTOOLS index on $input.bam. Create link from bam.bai to .bai",
@@ -14,9 +17,12 @@ samtools_index_gfu =
 
     transform("bai")
     {
-        def command = """
-            $SAMTOOLS index $input.bam;
-            ln -s ${input}.bai $output;
+        def command = new StringBuffer()
+        if (output_dir) command << "mkdir -p $output.dir;"
+
+        command << """
+            $SAMTOOLS index $input.bam ${input.prefix}.bam.bai;
+            ln -s ${input.prefix}.bam.bai $output;
         """
 
         if (pretend)
