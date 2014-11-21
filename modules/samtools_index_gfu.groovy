@@ -20,10 +20,16 @@ samtools_index_gfu =
         def command = new StringBuffer()
         if (output_dir) command << "mkdir -p $output.dir;"
 
-        command << """
-            $SAMTOOLS index $input.bam ${input.prefix}.bam.bai;
-            ln -s ${input.prefix}.bam.bai $output;
-        """
+        command << "$SAMTOOLS index $input.bam ${input.prefix}.bam.bai;"
+
+        if (output_dir)
+        {
+            command << "ln -s ${input.prefix}.bam.bai ${output_dir}/${output};"
+        }
+        else
+        {
+            command << "ln -s ${input.prefix}.bam.bai $output;"
+        }
 
         if (pretend)
         {
