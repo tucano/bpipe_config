@@ -37,7 +37,7 @@ samtools_index_gfu =
                 echo "INPUT: $input" > $output
             """
         }
-        exec command
+        exec "$command"
     }
     forward input.bam
 }
