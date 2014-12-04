@@ -105,7 +105,7 @@ All libraries were tested for quality wth BioAnalyzer (Agilent) and QUBIT (Life 
 ### <a name="seq_methods"></a> Sequence Alignment Methodology
 
 The alignments were processed using the procedure described be 1000g consortium (Gil A McVean et al., Nature 2012) including the variant call.
-We __aligned__ the reads got from the Illumina run, against the reference __${GENOME}__ (release: __${RELEASE}__),
+We __aligned__ the reads obtained from the Illumina run, against the reference __${GENOME}__ (release: __${RELEASE}__),
 using the [BWA](http://bio-bwa.sourceforge.net) software (Li H. and Durbin R., 2009), version __${BWA_VERSION}__.
 
 ### <a name="seq_quality"></a> Quality Assessment of Sequencing
@@ -114,6 +114,7 @@ using the [BWA](http://bio-bwa.sourceforge.net) software (Li H. and Durbin R., 2
 bamstats_data <- read.delim("$BAMSTATS", sep="\\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
 tot.aligned <- sum(bamstats_data[,2])
 ```
+
 ```{r hsmetricsLoad, results='hide', echo=FALSE}
 hsmetrics_data <- read.delim("$HSMETRICS", sep="\\t", header=TRUE, row.names="SAMPLE_NAME", check.names=FALSE)
 all_data <- merge(bamstats_data, hsmetrics_data, by=0, all=TRUE)
