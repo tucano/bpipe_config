@@ -28,9 +28,8 @@ VCF2XLS_ANNOTATION     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/vcf
  *
  */
 Bpipe.run {
-    set_stripe_gfu + "%.vcf" * [
-        vcf_genotype_frequency_and_subsam_gfu + snpsift_annotate_gfu + snpsift_dbnsfp_gfu + bedtools_filter_intervals_gfu +
-        snpeff_gfu + snpsift_filter_quality_gfu  + markvcf_gfu + snpsift_filter_impact_gfu +
-        vcf_to_xls_gfu
-    ]
+    set_stripe_gfu + "%.vcf" * [vcf_genotype_frequency_and_subsam_gfu] +
+    "%.filtered.vcf" * [ snpsift_annotate_gfu + snpsift_dbnsfp_gfu + bedtools_filter_intervals_gfu +
+      snpeff_gfu + snpsift_filter_quality_gfu  + markvcf_gfu + snpsift_filter_impact_gfu +
+      vcf_to_xls_gfu ]
 }
