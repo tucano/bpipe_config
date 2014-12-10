@@ -5,7 +5,7 @@ bedtools_filter_intervals_gfu =
 {
   var pretend : false
 
-  doc title: "SnpSift extract variants taht map in the intervals from $INTERVALS_BED in the vcf file",
+  doc title: "SnpSift extract variants that map in the intervals from $INTERVALS_BED in the vcf file",
         desc: """
             SnpSift is a toolbox that allows you to filter and manipulate annotated files.
             Main options with value:
