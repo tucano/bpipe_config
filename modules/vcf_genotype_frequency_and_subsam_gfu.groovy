@@ -36,7 +36,7 @@ vcf_genotype_frequency_and_subsam_gfu =
       sort healty_samples.txt > tmp.healty_samples.txt;
       mv tmp.healty_samples.txt healty_samples.txt;
       comm  -23 all_samples.txt healty_samples.txt > samples.txt;
-      $GENOTYPE_FREQUENCY -i $input.vcf -o $output1.vcf -s healthy_samples.txt -p $prefix
+      $GENOTYPE_FREQUENCY -i $input.vcf -o $output1.vcf -s healthy_samples.txt -p ${output.prefix};
       $VCFUTILS subsam $output1.vcf `cat samples.txt | tr '\\n' ' '` | $SNPSIFT filter "countVariant()>0" > $output2.vcf;
     """
 
