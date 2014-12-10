@@ -3,7 +3,7 @@ about title: "Human variants annotation: IOS 005"
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename input.vcf
 
-// HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
+
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.4.txt.gz"
 SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
@@ -21,12 +21,19 @@ VCF2XLS_ANNOTATION     = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/vcf
  * PIPELINE NOTES:
  * HEALTY_EXOMES_DIR:
  * BY DEFAULT HEALTY EXOMES ARE NOT USED TO CALL VARIANTS FOR GENOME VARIANTS CALLING!
- * IF YOU WANT TO REMOVE THEM uncomment HEALTY_EXOMES_DIR and uncomment vcf_genotype_frequency_and_subsam_gfu stage
+ * IF YOU WANT TO REMOVE THEM uncomment HEALTY_EXOMES_DIR and uncomment the other pipeline
  */
 Bpipe.run {
     set_stripe_gfu + "%.vcf" * [
-        // vcf_genotype_frequency_and_subsam_gfu +
         snpsift_annotate_gfu + snpsift_dbnsfp_gfu + snpeff_gfu + snpsift_filter_quality_gfu +
         markvcf_gfu + snpsift_filter_impact_gfu + vcf_to_xls_gfu
     ]
 }
+
+// HEALTY_EXOMES_DIR      = "/lustre1/workspace/Stupka/HealthyExomes/"
+// Bpipe.run {
+//     set_stripe_gfu + "%.vcf" * [vcf_genotype_frequency_and_subsam_gfu] +
+//     "%.filtered.vcf" * [ snpsift_annotate_gfu + snpsift_dbnsfp_gfu + bedtools_filter_intervals_gfu +
+//       snpeff_gfu + snpsift_filter_quality_gfu  + markvcf_gfu + snpsift_filter_impact_gfu +
+//       vcf_to_xls_gfu ]
+// }
