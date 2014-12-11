@@ -117,8 +117,7 @@ class BpipeConfig
 		if ( opt.p ) {
       // GET MAP OF PIPELINES and MODULES
       pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
-      modules   = Pipelines.listModules(bpipe_config_home + "/modules")
-			println Logger.printPipelines(pipelines)
+      println Logger.printPipelines(pipelines)
 			help_mode = true
 		}
 
@@ -193,12 +192,10 @@ class BpipeConfig
 			break
 			case "pipe":
         pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
-        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.pipe(extraArguments)
 			break
 			case "project":
         pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
-        modules   = Pipelines.listModules(bpipe_config_home + "/modules")
 				Commands.project(extraArguments)
 			break
 			case "info":

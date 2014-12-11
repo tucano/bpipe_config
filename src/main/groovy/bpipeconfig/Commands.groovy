@@ -597,8 +597,6 @@ class Commands
 				println Logger.message(usage.toString())
 			}
 		}
-		// Generate pipeline info
-		info([pipeline_name])
 	}
 
 	public static project(def args)

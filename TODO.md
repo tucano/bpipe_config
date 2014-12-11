@@ -6,8 +6,6 @@
 - SPOSTARE LE "illumina projects" nelle rispettive categorie
 
 
-
-
 ### PIPELINE DA AGGIUNGERE
 
 - RNASEQ con Star
