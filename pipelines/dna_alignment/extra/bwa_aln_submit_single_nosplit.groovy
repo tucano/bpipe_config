@@ -1,4 +1,6 @@
-about title: "DNA alignment with bwa aln+samse (single file without splitting): IOS GFU 009 [deprecated]"
+about title: "DNA alignment with bwa aln+samse [deprecated]"
+// INFO_USAGE: bpipe-config pipe bwa_aln_submit_single_nosplit (CWD)
+// INFO_USAGE: bpipe-config pipe bwa_aln_submit_single_nosplit Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz
