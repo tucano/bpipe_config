@@ -17,7 +17,6 @@ import groovy.time.*
 @Log
 class Logger
 {
-
 	private static StringBuffer out
 
 	static String printVersionAndBuild(String version, String builddate)
@@ -28,15 +27,36 @@ class Logger
 		return out.toString()
 	}
 
-	static String printPipelines(def pipelines)
+	static String printPipelines(def pipelines, boolean verbose)
 	{
+		def print_pipe = { pipeline, out ->
+			out << "${ green(pipeline["name"]) } ".padRight(40, "-")
+			out << "--> ${ pipeline["about_title"] }\n"
+			if (pipeline["info_usage"]) {
+				pipeline["info_usage"].each { info ->
+					out << "".padRight(36)
+					out << green("usage: ${ info }\n")
+				}
+				out << "\n"
+			}
+		}
+
 		out = new StringBuffer()
 		out << "\n"
 		pipelines.each { category, list ->
 			out << "${bold(category)}" << "\n"
 			list.each { pipeline ->
-				out << "${ pipeline["name"] } ".padRight(40, "-")
-				out << "--> ${ green(pipeline["about_title"]) }\n"
+				if (pipeline["extra"])
+				{
+					if (verbose)
+					{
+						print_pipe(pipeline, out)
+					}
+				}
+				else
+				{
+					print_pipe(pipeline, out)
+				}
 			}
 			out << "\n"
 		}

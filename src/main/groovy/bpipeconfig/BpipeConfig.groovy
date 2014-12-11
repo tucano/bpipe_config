@@ -104,6 +104,12 @@ class BpipeConfig
 		def opt = cli.parse(args)
 		if ( !opt ) System.exit(1)
 
+    // SET OTHER OPTIONS
+    verbose = opt.v
+    force   = opt.f
+    batch   = opt.b
+    skip_sample_sheet = opt.s
+
 		// PRINT VERSION AND BUILD
 		if (verbose) println Logger.printVersionAndBuild(version, builddate)
 
@@ -117,7 +123,7 @@ class BpipeConfig
 		if ( opt.p ) {
       // GET MAP OF PIPELINES and MODULES
       pipelines = Pipelines.listPipelines(bpipe_config_home + "/pipelines")
-      println Logger.printPipelines(pipelines)
+      println Logger.printPipelines(pipelines, verbose)
 			help_mode = true
 		}
 
@@ -164,12 +170,6 @@ class BpipeConfig
 				)
 			}
 		}
-
-		// SET OTHER OPTIONS
-		verbose = opt.v
-		force   = opt.f
-		batch   = opt.b
-    skip_sample_sheet = opt.s
 
 		// GET command (first non options argument) and remove it from list
 		def extraArguments = opt.arguments()

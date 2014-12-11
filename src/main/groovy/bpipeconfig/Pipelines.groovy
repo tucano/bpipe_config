@@ -8,6 +8,13 @@ class Pipelines
 {
 	/**
 	 * LIST PIPELINES
+	 *
+	 * Directory: pipelines
+	 * Subdirectories are different categories of pipelines
+	 * All pipelines are loaded with this methods
+	 * printPipelines print pipelines with the option verbose (-v)
+	 * we print the pipeline in subdir extra
+	 *
 	 */
 	static def listPipelines(String pipelines_root)
 	{
@@ -15,27 +22,60 @@ class Pipelines
 		def pipelines_dir = new File(pipelines_root)
 		if (!pipelines_dir.exists()) return null
 
+		def push_pipeline = { file, extra, list, dir ->
+
+			def about_title = ""
+			def info_usage  = []
+			def pattern_title = /about title:\s?"(.*)"/
+			def pattern_usage = /.*INFO_USAGE:\s?(.*)\s?/
+
+			file.eachLine { line ->
+				def matcher = line =~ pattern_title
+				if (matcher.matches()) about_title = matcher[0][1]
+				matcher = line =~ pattern_usage
+				if (matcher.matches()) info_usage << matcher[0][1]
+			}
+
+			if (! list.containsKey( dir.getName() ) ) { list[dir.getName()] = [] }
+			// return file_name, name of pipeline and description (about_title)
+			// if pipeline filename contains "project" is a project pipeline
+			// if pipeline filename contains "report" is a report pipeline
+			list[dir.getName()].push ([
+				file_name: file.name,
+				file_path: file.getPath(),
+				name: file.name.replaceFirst(~/\.[^\.]+$/, ''),
+				about_title: about_title,
+				project_pipeline: (file.name ==~ /.*project.*/),
+				report_pipeline: ((file.name ==~ /.*report.*/)),
+				extra: extra,
+				info_usage: info_usage
+			])
+		}
+
+
 		def list = [:]
-		def pattern_title = /about title:\s?"(.*)"/
+
 		pipelines_dir.eachDir() { dir ->
 			dir.eachFileMatch( ~/.*.groovy/ ) { file ->
-				def about_title = ""
-				file.eachLine { line ->
-					def matcher = line =~ pattern_title
-					if (matcher.matches()) about_title = matcher[0][1]
+				push_pipeline(file, false, list, dir)
+			}
+
+			// EXTRA DIR
+			def extradir = new File(dir.absolutePath + "/extra")
+
+			if (extradir.exists())
+			{
+				if (extradir.isDirectory())
+				{
+					extradir.eachFileMatch( ~/.*.groovy/ ) { file ->
+						push_pipeline(file, true, list, dir)
+					}
 				}
-				if (! list.containsKey( dir.getName() ) ) { list[dir.getName()] = [] }
-				// return file_name, name of pipeline and description (about_title)
-				// if pipeline filename contains "project" is a project pipeline
-				// if pipeline filename contains "report" is a report pipeline
-				list[dir.getName()].push ([
-					file_name: file.name,
-					file_path: file.getPath(),
-					name: file.name.replaceFirst(~/\.[^\.]+$/, ''),
-					about_title: about_title,
-					project_pipeline: (file.name ==~ /.*project.*/),
-					report_pipeline: ((file.name ==~ /.*report.*/))
-				])
+				else
+				{
+					println Logger.error("Can't load pipelines in extra dir: $extradir ... Aborting")
+					System.exit(1)
+				}
 			}
 		}
 		return list
