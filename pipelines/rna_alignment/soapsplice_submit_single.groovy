@@ -1,4 +1,6 @@
 about title: "RNA single file alignment with soapsplice: IOS GFU 009."
+// INFO_USAGE: bpipe-config pipe soapsplice_submit_single (CWD)
+// INFO_USAGE: bpipe-config pipe soapsplice_submit_single Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz

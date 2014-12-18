@@ -1,4 +1,6 @@
 about title: "RNA lane alignment with soapsplice: IOS GFU 009."
+// INFO_USAGE: bpipe-config pipe soapsplice_submit_lane (CWD)
+// INFO_USAGE: bpipe-config pipe soapsplice_submit_lane Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz

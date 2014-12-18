@@ -1,4 +1,6 @@
 about title: "RNA-seq reads count with htseq-count: IOS GFU 007."
+// INFO_USAGE: bpipe-config pipe htseq_count (CWD)
+// INFO_USAGE: bpipe-config pipe htseq_count Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.merge.bam

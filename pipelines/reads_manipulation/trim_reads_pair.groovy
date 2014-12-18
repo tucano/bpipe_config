@@ -1,4 +1,6 @@
 about title: "Trimmomatic, trim reads in current directory: IOS GFU XXX."
+// INFO_USAGE: bpipe-config pipe trim_reads_pair (CWD)
+// INFO_USAGE: bpipe-config pipe trim_reads_pair Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz

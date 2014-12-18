@@ -1,4 +1,6 @@
 about title: "GATK: calculate Depth Of Coverage from BAM files - IOS XXX"
+// INFO_USAGE: bpipe-config pipe depth_of_coverage (CWD)
+// INFO_USAGE: bpipe-config pipe depth_of_coverage Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam

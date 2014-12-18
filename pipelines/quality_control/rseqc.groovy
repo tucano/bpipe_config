@@ -1,4 +1,6 @@
 about title: "RNA-seq quality control with rseqc: IOS GFU 009."
+// INFO_USAGE: bpipe-config pipe rseqc (CWD)
+// INFO_USAGE: bpipe-config pipe rseqc Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam

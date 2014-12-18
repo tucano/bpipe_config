@@ -1,4 +1,7 @@
 about title: "BAM Recalibration for a multiple bams (genomes): IOS GFU 020"
+// INFO_USAGE: bpipe-config pipe genome_bam_recalibration_multi (CWD)
+// INFO_USAGE: bpipe-config pipe genome_bam_recalibration_multi Sample_* (runner.sh)
+
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam

@@ -1,4 +1,6 @@
 about title: "CalculateHsMetrics, Quality control metrics for illumina exomes: IOS GFU XXX."
+// INFO_USAGE: bpipe-config pipe hsmetrics (CWD)
+// INFO_USAGE: bpipe-config pipe hsmetrics Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam

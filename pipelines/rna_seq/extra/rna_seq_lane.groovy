@@ -1,4 +1,6 @@
-about title: "RNA-seq complete pipeline for lane: IOS GFU 009 + IOS GFU 007."
+about title: "RNA-seq complete pipeline for lane: IOS GFU 009 + IOS GFU 007. [deprecated]"
+// INFO_USAGE: bpipe-config pipe rna_seq_lane (CWD)
+// INFO_USAGE: bpipe-config pipe rna_seq_lane Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz

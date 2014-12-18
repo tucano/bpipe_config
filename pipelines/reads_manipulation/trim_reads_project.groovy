@@ -1,4 +1,5 @@
 about title: "Trimmomatic, trim reads in current directory: IOS GFU XXX."
+// INFO_USAGE: bpipe-config pipe trim_reads_project /lustre2/raw_data/RUN/Project/Sample_*
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename input.json

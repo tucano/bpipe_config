@@ -1,4 +1,5 @@
 about title: "Whole Exome Sequencing report: IOS XXX"
+// INFO_USAGE: bpipe-config pipe WES_report
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename BAM/*.bam VCF/*.vcf

@@ -1,4 +1,6 @@
 about title: "meDIP pipeline: IOS GFU XXX."
+// INFO_USAGE: bpipe-config pipe medip (CWD)
+// INFO_USAGE: bpipe-config pipe medip Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.merge.dedup.bam

@@ -1,4 +1,6 @@
 about title: "Quality Control of VCF files: IOS GFU XXX."
+// INFO_USAGE: bpipe-config pipe vcf_metrics (CWD)
+// INFO_USAGE: bpipe-config pipe vcf_metrics Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.vcf
