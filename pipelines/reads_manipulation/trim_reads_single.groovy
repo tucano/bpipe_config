@@ -1,6 +1,6 @@
-about title: "Trimmomatic, trim read pairs in current directory: IOS GFU XXX."
-// INFO_USAGE: bpipe-config pipe trim_reads_pair (CWD)
-// INFO_USAGE: bpipe-config pipe trim_reads_pair Sample_* (runner.sh)
+about title: "Trimmomatic, trim single reads in current directory: IOS GFU XXX."
+// INFO_USAGE: bpipe-config pipe trim_reads_single (CWD)
+// INFO_USAGE: bpipe-config pipe trim_reads_single Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.fastq.gz
@@ -16,9 +16,9 @@ ENVIRONMENT_FILE = "gfu_environment.sh"
  * This single stage pipeline trim reads in current directory
  */
 Bpipe.run {
-  set_stripe_gfu + "L%_R*_%.fastq.gz" * [trimmomatic_reads_gfu.using(
+  set_stripe_gfu + "%.fastq.gz" * [trimmomatic_reads_gfu.using(
     sample_dir:false,
-    paired:true,
+    paired:false,
     leading:"LEADING:3",
     trailing:"TRAILING:3",
     slidingdown:"SLIDINGWINDOW:4:15",
