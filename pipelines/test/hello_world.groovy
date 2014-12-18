@@ -1,4 +1,5 @@
 about title: "A test pipeline"
+// INFO_USAGE: bpipe-config pipe hello_world (CWD)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename

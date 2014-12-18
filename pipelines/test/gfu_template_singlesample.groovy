@@ -1,4 +1,5 @@
 about title: "PIPELINE FOR SINGLE SAMPLE IN SAME DIR: IOS GFU #NUMBER."
+// INFO_USAGE: bpipe-config pipe gfu_template_singlesample (CWD)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.merge.bam

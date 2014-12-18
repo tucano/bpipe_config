@@ -1,4 +1,6 @@
 about title: "Human variants calling for exome: IOS 005"
+// INFO_USAGE: bpipe-config pipe exome_variants_calling (CWD)
+// INFO_USAGE: bpipe-config pipe exome_variants_calling Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam

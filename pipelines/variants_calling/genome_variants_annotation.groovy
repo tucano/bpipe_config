@@ -1,4 +1,6 @@
 about title: "Human variants annotation: IOS 005"
+// INFO_USAGE: bpipe-config pipe genome_variants_annotation (CWD)
+// INFO_USAGE: bpipe-config pipe genome_variants_annotation Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename input.vcf

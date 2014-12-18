@@ -1,4 +1,6 @@
 about title: "Human variants calling for alleles: IOS XXX"
+// INFO_USAGE: bpipe-config pipe alleles_variants_calling (CWD)
+// INFO_USAGE: bpipe-config pipe alleles_variants_calling Sample_* (runner.sh)
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename *.bam
