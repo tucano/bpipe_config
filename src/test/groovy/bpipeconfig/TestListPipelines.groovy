@@ -14,8 +14,10 @@ class TestListPipelines extends GroovyTestCase
 		file_path        : null,
 		name             : "dummy_pipeline",
 		about_title      : "Dummy",
+		extra            : false,
 		project_pipeline : false,
-		report_pipeline  : false
+		report_pipeline  : false,
+		info_usage       : []
 	]
 
 
