@@ -1,16 +1,8 @@
 # TODO LIST
 
-### PIPELINE DA RIMUOVERE
-
-- RIMUOVERE le submit_lane
-- SPOSTARE LE "illumina projects" nelle rispettive categorie
-
-
 ### PIPELINE DA AGGIUNGERE
 
 - RNASEQ con Star
-
-- Trimmomatic single read
 
 - Merge BAM pipeline (con check sui sample names, etc...)
    Esempio: bpipe run merge.groovy /Project1/BAM/*.bam /Project2/BAM/*.bam
