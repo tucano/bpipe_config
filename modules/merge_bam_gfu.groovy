@@ -37,8 +37,7 @@ merge_bam_gfu =
         }
         else
         {
-            println "Can't find SampleSheet in directory ${branch.sample} ! Aborting ..."
-            System.exit(1)
+            fail "Can't find SampleSheet in directory ${branch.sample} ! Aborting ..."
         }
     }
     else
