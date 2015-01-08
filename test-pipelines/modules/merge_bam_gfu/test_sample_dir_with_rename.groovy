@@ -12,6 +12,6 @@ prepare = {
 
 Bpipe.run {
     branches * [
-        prepare + "*.bam" * [merge_bam_gfu.using(pretend:true,rename:true,sample_dir:true)]
+        prepare + "*.bam" * [merge_bam_gfu.using(pretend:true,merge_mode:"samplesheet",sample_dir:true)]
     ]
 }
