@@ -1,6 +1,7 @@
 // MODULE MERGE BAM (rev1)
+import groovy.json.JsonSlurper
 
-merge_bam_by_headers =
+merge_bam_by_headers_gfu =
 {
   var pretend    : false
 
@@ -17,13 +18,13 @@ merge_bam_by_headers =
       outputs << "${sample}.bam"
 
       commands << """
-          java -jar $PICMERGE $input_strings
-          O=${sample}.bam
-          VALIDATION_STRINGENCY=SILENT
-          CREATE_INDEX=true
-          MSD=true
-          ASSUME_SORTED=true
-          USE_THREADING=true
+      java -jar $PICMERGE $input_strings
+      O=${sample}.bam
+      VALIDATION_STRINGENCY=SILENT
+      CREATE_INDEX=true
+      MSD=true
+      ASSUME_SORTED=true
+      USE_THREADING=true
       """
   }
 
@@ -32,9 +33,9 @@ merge_bam_by_headers =
       if (pretend)
       {
           println """
-              INPUTS: $inputs
-              OUTPUTS: $outputs
-              COMMANDS: $commands
+          INPUTS: $inputs
+          OUTPUTS: $outputs
+          COMMANDS: $commands
           """
           exec "touch ${outputs.join(" ")}"
       }
