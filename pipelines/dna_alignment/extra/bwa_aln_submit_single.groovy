@@ -29,7 +29,7 @@ Bpipe.run {
     set_stripe_gfu +
     "%_R*" * [split_fastq_gfu.using(SPLIT_READS_SIZE:2000000,paired:false)] +
     "_%.fastq" * [align_bwa_gfu.using(paired:false,compression:"",BWAOPT_ALN:"",BWAOPT_SE:"")] +
-    "*.bam" * [merge_bam_gfu.using(rename:true)] + verify_bam_gfu + mark_duplicates_gfu +
+    "*.bam" * [merge_bam_gfu.using(merge_mode:"sampleid")] + verify_bam_gfu + mark_duplicates_gfu +
     // rmdup_gfu.using(paired:false) +
     bam_flagstat_gfu
 }

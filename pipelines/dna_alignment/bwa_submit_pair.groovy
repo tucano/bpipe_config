@@ -32,7 +32,7 @@ Bpipe.run {
       use_shm:false,
       compression:"",
       phred_64: false
-    )] + "*.bam" * [merge_bam_gfu.using(rename:true)] + verify_bam_gfu + mark_duplicates_gfu +
+    )] + "*.bam" * [merge_bam_gfu.using(merge_mode:"sampleid")] + verify_bam_gfu + mark_duplicates_gfu +
     // rmdup_gfu.using(paired:true) +
     bam_flagstat_gfu
 }

@@ -37,7 +37,7 @@ Bpipe.run {
         use_shm: false,
         SSPLICEOPT_ALN:"-p 4 -f 2 -q 1 -j 0"
     )] +
-    merge_bam_gfu.using(rename: false) + merge_junc_gfu + verify_bam_gfu +
+    merge_bam_gfu + merge_junc_gfu + verify_bam_gfu +
     bam_flagstat_gfu + sort_bam_by_name_gfu + htseq_count_gfu.using(
         stranded: "no",
         mode: "union",
