@@ -15,5 +15,5 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
  * PIPELINE NOTES:
  */
 Bpipe.run {
-  "*.bam" * [merge_bam_by_header_prepare_gfu + merge_bam_by_headers_gfu]
+  "*.bam" * [merge_bam_by_header_prepare_gfu + merge_bam_by_header_json_gfu + merge_bam_by_headers_gfu]
 }
