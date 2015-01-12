@@ -21,15 +21,15 @@ verify_bam_gfu =
     if (sample_dir) { output.dir = branch.sample }
 
     def command = """
-        size=\$(stat -c "%s" $input);
+        size=\$(stat -c "%s" $input.bam);
         seek=\$(( $size - 28 ));
-        BAM_EOF=`hexdump -e  '4/1 "%02X"' -s $seek $input`;
+        BAM_EOF=`hexdump -e  '4/1 "%02X"' -s $seek $input.bam`;
         test $BAM_EOF == $BGZF_EOF
     """
 
     if (pretend)
     {
-        println "INPUT $input"
+        println "INPUT $input.bam"
         println "COMMAND: $command"
         command = "true"
     }

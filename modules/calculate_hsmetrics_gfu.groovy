@@ -6,6 +6,7 @@ calculate_hsmetrics_gfu =
 	var pretend    : false
 	var output_dir : ""
   var use_sample_name : ""
+  var validation_stringency : "SILENT"
 
 	doc title: "Calculates a set of HS metrics from a sam or bam file",
         desc: "...",
@@ -39,7 +40,7 @@ calculate_hsmetrics_gfu =
       else
       {
         command << """
-          $HSMETRICS BI=$BAITS TI=$TARGETS I=$input.bam O=$output REFERENCE_SEQUENCE=$REFERENCE_GENOME_FASTA
+          $HSMETRICS BI=$BAITS TI=$TARGETS I=$input.bam O=$output REFERENCE_SEQUENCE=$REFERENCE_GENOME_FASTA VALIDATION_STRINGENCY=$validation_stringency
         """
       }
 
