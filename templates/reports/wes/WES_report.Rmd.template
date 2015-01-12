@@ -87,7 +87,7 @@ Model used for interesting variant selection: __${VARIANT_SELECTION_MODEL}__.
 We received a total of __${RECEIVED_SAMPLES}__ samples and we sequenced __${SEQUENCED_SAMPLES}__ samples.
 
 ```{r phenotypes,  results='asis', echo=FALSE}
-phenotypes <- as.data.frame(unique(cbind(as.character(presamplesheet\$Name_sample), as.character(presamplesheet\$Design_Condizione))))
+phenotypes <- as.data.frame(unique(cbind(as.character(presamplesheet\$Sample_name), as.character(presamplesheet\$Design_Condizione))))
 colnames(phenotypes) <- c("SampleName","SampleInfo (design)")
 print(xtable(phenotypes, align=rep("c",ncol(phenotypes)+1)), type="html", include.rownames=F)
 ```
@@ -216,7 +216,7 @@ Average coverage of variant calling per genomic position of interest calculated 
 
 ```{r VcfCoverage, echo=FALSE, results='asis'}
 vcf.coverage.data <- read.table("$VCFCOVERAGE", header=T, stringsAsFactors=FALSE)
-sample.names <- levels(presamplesheet\$Name_sample)
+sample.names <- levels(presamplesheet\$Sample_name)
 vcf.coverage.data <- vcf.coverage.data[vcf.coverage.data\$SAMPLE %in% sample.names,]
 print(xtable(vcf.coverage.data, align=rep("c", ncol(vcf.coverage.data)+1)), type="html", include.rownames=F)
 ```

@@ -1,4 +1,4 @@
-FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,ID_Lab,Name_sample,Barcode_Pool_library,Design_Condizione,Design_Timepoint,Design_Altro
+FCID,Lane,SampleID,SampleRef,Index,Description,Control,Recipe,Operator,SampleProject,ID_Lab,Sample_name,Barcode_Pool_library,Design_Condizione,Design_Timepoint,Design_Altro
 H9A8FADXX,1,1079855403,hg19,TAAGGCGA_TAGATCGC,pool1,N,WES_Nextera,SS,Borghini_113,7,5A,1079854621,Proband,,
 H9A8FADXX,1,1079855402,hg19,CGTACTAG_CTCTCTAT,pool1,N,WES_Nextera,SS,Borghini_113,8,5P,1079854621,Father,,
 H9A8FADXX,1,1079855476,hg19,AGGCAGAA_TAGATCGC,pool1,N,WES_Nextera,SS,Borghini_113,9,5M,1079854621,Mother,,

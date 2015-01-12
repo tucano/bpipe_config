@@ -19,7 +19,7 @@ merge_bam_by_header_prepare_gfu =
         """
 
         def bams = [:]
-        new File("merge_rule.txt").eachLine { line ->
+        new File(output.txt).eachLine { line ->
             data = line.split("\t")
             if (bams[data[1]])
             {
