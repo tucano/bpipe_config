@@ -22,7 +22,7 @@ rseqc_gene_coverage_gfu =
     requires GENECOVERAGE : "Please define GENECOVERAGE path"
     requires BED12_ANNOTATION : "Please define BED12_ANNOTATION path"
 
-    transform("geneBodyCoverage.pdf","geneBodyCoverage_plot.r","geneBodyCoverage.txt")
+    transform("geneBodyCoverage.curves.pdf","geneBodyCoverage_plot.r","geneBodyCoverage.txt")
     {
         def command = """
             $GENECOVERAGE -r $BED12_ANNOTATION -i $input.bam  -o $input.prefix
