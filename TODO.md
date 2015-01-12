@@ -4,15 +4,6 @@
 
 - RNASEQ con Star
 
-- Merge BAM pipeline (con check sui sample names, etc...)
-   Esempio: bpipe run merge.groovy /Project1/BAM/*.bam /Project2/BAM/*.bam
-
-   1. Per ogni BAM, cerca altri bam con lo stesso nome NEGLI HEADER del bam (SM)
-   2. Costruisci un input.json con i gruppi di BAMs
-   3. Merge dei bams
-
-    Esempio: (/lustre1/tools/bin/mergebam.sh)
-
 - FlipFLop e alternative splicing (LONG TERM)
 
 

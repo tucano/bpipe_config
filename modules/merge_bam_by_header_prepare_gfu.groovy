@@ -9,7 +9,7 @@ merge_bam_by_header_prepare_gfu =
         constraints: "",
         author: "davide.rambaldi@gmail.com"
 
-    produce("merge_rule.json")
+    produce("merge_rule.txt","merge_rule.json")
     {
         exec """
             for i in ${inputs.bam};
@@ -31,7 +31,7 @@ merge_bam_by_header_prepare_gfu =
             }
         }
 
-        def w = new File(output1).newWriter()
+        def w = new File(output.json).newWriter()
         w << prettyPrint(toJson(bams))
         w.close()
     }

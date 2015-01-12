@@ -7,7 +7,7 @@ merge_bam_by_headers_gfu =
 
   def rules = new JsonSlurper().parseText(new File(input.json).text)
   println "INPUT BAMS: ${inputs.bam}"
-  // println "INPUT RULES: ${rules}"
+  println "INPUT RULES: ${rules}"
   def commands = []
   def outputs = []
 
