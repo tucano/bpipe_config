@@ -5,6 +5,11 @@ merge_bam_by_headers_gfu =
 {
   var pretend    : false
 
+  doc title: "Merge bam files with $PICMERGE using bam headers SM",
+        desc: "",
+        constraints: "",
+        author: "davide.rambaldi@gmail.com"
+
   def rules = new JsonSlurper().parseText(new File(input.json).text)
   println "INPUT BAMS: ${inputs.bam}"
   println "INPUT RULES: ${rules}"
