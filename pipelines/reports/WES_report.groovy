@@ -1,4 +1,4 @@
-about title: "Whole Exome Sequencing report: IOS XXX"
+about title: "Whole Exome Sequencing report: IOS CTGB005"
 // INFO_USAGE: bpipe-config pipe WES_report
 
 // Usage line will be used to infer the correct bpipe command

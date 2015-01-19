@@ -8,7 +8,7 @@ mark_duplicates_gfu =
     var validation_stringency : "SILENT"
     var sample_dir            : false
 
-    doc title: "Mark duplicates in bam files with $MARKDUP : IOS GFU 0019",
+    doc title: "Mark duplicates in bam files with $MARKDUP : IOS CTGB 0019",
         desc: """
             Mark duplicates in bam files with ${MARKDUP}.
             stage options:

@@ -1,4 +1,4 @@
-about title: "DNA paired ends alignment with bwa mem: IOS GFU 009"
+about title: "DNA paired ends alignment with bwa mem: IOS CTGB 009"
 // INFO_USAGE: bpipe-config pipe bwa_submit_pair (CWD)
 // INFO_USAGE: bpipe-config pipe bwa_submit_pair Sample_* (runner.sh)
 

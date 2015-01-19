@@ -1,4 +1,4 @@
-about title: "RNA-seq quality control with rseqc: IOS GFU 009."
+about title: "RNA-seq quality control with rseqc: IOS CTGB 009."
 // INFO_USAGE: bpipe-config pipe rseqc (CWD)
 // INFO_USAGE: bpipe-config pipe rseqc Sample_* (runner.sh)
 

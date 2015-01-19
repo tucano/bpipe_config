@@ -1,4 +1,4 @@
-about title: "DNA alignment with bwa mem (lane): IOS GFU 009"
+about title: "DNA alignment with bwa mem (lane): IOS CTGB 009"
 // INFO_USAGE: bpipe-config pipe bwa_submit_lane (CWD)
 // INFO_USAGE: bpipe-config pipe bwa_submit_lane Sample_* (runner.sh)
 

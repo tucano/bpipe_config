@@ -1,4 +1,4 @@
-about title: "DNA alignment with bwa mem (single file): IOS GFU 009"
+about title: "DNA alignment with bwa mem (single file): IOS CTGB 009"
 // INFO_USAGE: bpipe-config pipe bwa_submit_single_nosplit (CWD)
 // INFO_USAGE: bpipe-config pipe bwa_submit_single_nosplit Sample_* (runner.sh)
 

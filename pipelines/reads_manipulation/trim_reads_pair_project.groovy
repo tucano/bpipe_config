@@ -1,4 +1,4 @@
-about title: "Trimmomatic, trim paired reads in current directory: IOS GFU XXX."
+about title: "Trimmomatic, trim paired reads in current directory: IOS CTGB XXX."
 // INFO_USAGE: bpipe-config pipe trim_reads_pair_project /lustre2/raw_data/RUN/Project/Sample_*
 
 // Usage line will be used to infer the correct bpipe command

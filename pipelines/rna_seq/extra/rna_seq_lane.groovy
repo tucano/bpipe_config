@@ -1,4 +1,4 @@
-about title: "RNA-seq complete pipeline for lane: IOS GFU 009 + IOS GFU 007. [deprecated]"
+about title: "RNA-seq complete pipeline for lane: IOS CTGB 009 + IOS CTGB 007. [deprecated]"
 // INFO_USAGE: bpipe-config pipe rna_seq_lane (CWD)
 // INFO_USAGE: bpipe-config pipe rna_seq_lane Sample_* (runner.sh)
 

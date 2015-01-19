@@ -1,4 +1,4 @@
-about title: "RNA single file alignment with soapsplice: IOS GFU 009."
+about title: "RNA single file alignment with soapsplice: IOS CTGB 009."
 // INFO_USAGE: bpipe-config pipe soapsplice_submit_single (CWD)
 // INFO_USAGE: bpipe-config pipe soapsplice_submit_single Sample_* (runner.sh)
 

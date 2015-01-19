@@ -1,4 +1,4 @@
-about title: "PIPELINE FOR MULTIPLE SAMPLES IN SAME DIR: IOS GFU #NUMBER."
+about title: "PIPELINE FOR MULTIPLE SAMPLES IN SAME DIR: IOS CTGB #NUMBER."
 // INFO_USAGE: bpipe-config pipe gfu_template_multisample (CWD)
 
 // Usage line will be used to infer the correct bpipe command

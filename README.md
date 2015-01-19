@@ -191,61 +191,61 @@ That returns a list of pipelines names:
 ```
 #!bash
 bam_recalibration
-exome_bam_recalibration_multi ------------> BAM Recalibration for a multiple bams (exomes): IOS GFU 020
-exome_bam_recalibration_single -----------> BAM Recalibration for a single bam (exomes): IOS GFU 020
-genome_bam_recalibration_multi -----------> BAM Recalibration for a multiple bams (genomes): IOS GFU 020
-genome_bam_recalibration_single ----------> BAM Recalibration for a single bam (genomes): IOS GFU 020
+exome_bam_recalibration_multi ------------> BAM Recalibration for a multiple bams (exomes): IOS CTGB 020
+exome_bam_recalibration_single -----------> BAM Recalibration for a single bam (exomes): IOS CTGB 020
+genome_bam_recalibration_multi -----------> BAM Recalibration for a multiple bams (genomes): IOS CTGB 020
+genome_bam_recalibration_single ----------> BAM Recalibration for a single bam (genomes): IOS CTGB 020
 
 dna_alignment
-bwa_aln_submit_lane ----------------------> DNA alignment with bwa aln+sampe (lane): IOS GFU 009 [deprecated]
-bwa_aln_submit_pair ----------------------> DNA paired ends alignment with bwa aln+sampe: IOS GFU 009 [deprecated]
-bwa_aln_submit_pair_nosplit --------------> DNA paired ends alignment with bwa aln+sampe (no splitting): IOS GFU 009 [deprecated]
-bwa_aln_submit_single --------------------> DNA alignment with bwa aln+samse (single file): IOS GFU 009 [deprecated]
-bwa_aln_submit_single_nosplit ------------> DNA alignment with bwa aln+samse (single file without splitting): IOS GFU 009 [deprecated]
-bwa_submit_lane --------------------------> DNA alignment with bwa mem (lane): IOS GFU 009
-bwa_submit_pair --------------------------> DNA paired ends alignment with bwa mem: IOS GFU 009
-bwa_submit_pair_nosplit ------------------> DNA paired ends alignment with bwa mem without splitting input fastq: IOS GFU 009
-bwa_submit_single ------------------------> DNA alignment with bwa mem (single file): IOS GFU 009
-bwa_submit_single_nosplit ----------------> DNA alignment with bwa mem (single file): IOS GFU 009
+bwa_aln_submit_lane ----------------------> DNA alignment with bwa aln+sampe (lane): IOS CTGB 009 [deprecated]
+bwa_aln_submit_pair ----------------------> DNA paired ends alignment with bwa aln+sampe: IOS CTGB 009 [deprecated]
+bwa_aln_submit_pair_nosplit --------------> DNA paired ends alignment with bwa aln+sampe (no splitting): IOS CTGB 009 [deprecated]
+bwa_aln_submit_single --------------------> DNA alignment with bwa aln+samse (single file): IOS CTGB 009 [deprecated]
+bwa_aln_submit_single_nosplit ------------> DNA alignment with bwa aln+samse (single file without splitting): IOS CTGB 009 [deprecated]
+bwa_submit_lane --------------------------> DNA alignment with bwa mem (lane): IOS CTGB 009
+bwa_submit_pair --------------------------> DNA paired ends alignment with bwa mem: IOS CTGB 009
+bwa_submit_pair_nosplit ------------------> DNA paired ends alignment with bwa mem without splitting input fastq: IOS CTGB 009
+bwa_submit_single ------------------------> DNA alignment with bwa mem (single file): IOS CTGB 009
+bwa_submit_single_nosplit ----------------> DNA alignment with bwa mem (single file): IOS CTGB 009
 
 illumina_projects
-exome_align_project ----------------------> exome project alignment with bwa: IOS GFU 009
+exome_align_project ----------------------> exome project alignment with bwa: IOS CTGB 009
 fastqc_project ---------------------------> FASTQC: quality control of fastq files - IOS XXX
-genome_align_project ---------------------> genome project alignment with bwa: IOS GFU 009
-rnaseq_align_project ---------------------> RNA project alignment with soapsplice: IOS GFU 009.
+genome_align_project ---------------------> genome project alignment with bwa: IOS CTGB 009
+rnaseq_align_project ---------------------> RNA project alignment with soapsplice: IOS CTGB 009.
 
 medip
-medip ------------------------------------> meDIP pipeline: IOS GFU XXX.
+medip ------------------------------------> meDIP pipeline: IOS CTGB XXX.
 
 quality_control
 depth_of_coverage ------------------------> GATK: calculate Depth Of Coverage from BAM files - IOS XXX
 fastqc_lane ------------------------------> FASTQC: quality control of fastq files (lane) - IOS XXX
-hsmetrics --------------------------------> CalculateHsMetrics, Quality control metrics for illumina exomes: IOS GFU XXX.
-rseqc ------------------------------------> RNA-seq quality control with rseqc: IOS GFU 009.
-vcf_metrics ------------------------------> Quality Control of VCF files: IOS GFU XXX.
+hsmetrics --------------------------------> CalculateHsMetrics, Quality control metrics for illumina exomes: IOS CTGB XXX.
+rseqc ------------------------------------> RNA-seq quality control with rseqc: IOS CTGB 009.
+vcf_metrics ------------------------------> Quality Control of VCF files: IOS CTGB XXX.
 
 reads_manipulation
-trim_reads_pair --------------------------> Trimmomatic, trim reads in current directory: IOS GFU XXX.
-trim_reads_project -----------------------> Trimmomatic, trim reads in current directory: IOS GFU XXX.
+trim_reads_pair --------------------------> Trimmomatic, trim reads in current directory: IOS CTGB XXX.
+trim_reads_project -----------------------> Trimmomatic, trim reads in current directory: IOS CTGB XXX.
 
 reports
 WES_report -------------------------------> Whole Exome Sequencing report: IOS XXX
 
 rna_alignment
-soapsplice_submit_lane -------------------> RNA lane alignment with soapsplice: IOS GFU 009.
-soapsplice_submit_pair -------------------> RNA paired ends alignment with soapsplice: IOS GFU 009.
-soapsplice_submit_single -----------------> RNA single file alignment with soapsplice: IOS GFU 009.
+soapsplice_submit_lane -------------------> RNA lane alignment with soapsplice: IOS CTGB 009.
+soapsplice_submit_pair -------------------> RNA paired ends alignment with soapsplice: IOS CTGB 009.
+soapsplice_submit_single -----------------> RNA single file alignment with soapsplice: IOS CTGB 009.
 
 rna_seq
-htseq_count ------------------------------> RNA-seq reads count with htseq-count: IOS GFU 007.
-rna_seq_lane -----------------------------> RNA-seq complete pipeline for lane: IOS GFU 009 + IOS GFU 007.
+htseq_count ------------------------------> RNA-seq reads count with htseq-count: IOS CTGB 007.
+rna_seq_lane -----------------------------> RNA-seq complete pipeline for lane: IOS CTGB 009 + IOS CTGB 007.
 
 structural_variations
 xhmm_copy_number_variation ---------------> XHMM: copy number variation - IOS XXX
 
 test
-gfu_template_multisamples ----------------> PIPELINE FOR MULTIPLE SAMPLES IN SAME DIR: IOS GFU #NUMBER.
-gfu_template_singlesample ----------------> PIPELINE FOR SINGLE SAMPLE IN SAME DIR: IOS GFU #NUMBER.
+gfu_template_multisamples ----------------> PIPELINE FOR MULTIPLE SAMPLES IN SAME DIR: IOS CTGB #NUMBER.
+gfu_template_singlesample ----------------> PIPELINE FOR SINGLE SAMPLE IN SAME DIR: IOS CTGB #NUMBER.
 hello_world ------------------------------> A test pipeline
 
 variants_calling

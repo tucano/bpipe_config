@@ -1,4 +1,4 @@
-about title: "Quality Control of VCF files: IOS GFU XXX."
+about title: "Quality Control of VCF files: IOS CTGB XXX."
 // INFO_USAGE: bpipe-config pipe vcf_metrics (CWD)
 // INFO_USAGE: bpipe-config pipe vcf_metrics Sample_* (runner.sh)
 

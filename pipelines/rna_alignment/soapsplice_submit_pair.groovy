@@ -1,4 +1,4 @@
-about title: "RNA paired ends alignment with soapsplice: IOS GFU 009."
+about title: "RNA paired ends alignment with soapsplice: IOS CTGB 009."
 // INFO_USAGE: bpipe-config pipe soapsplice_submit_pair (CWD)
 // INFO_USAGE: bpipe-config pipe soapsplice_submit_pair Sample_* (runner.sh)
 

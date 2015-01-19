@@ -1,4 +1,4 @@
-about title: "meDIP pipeline: IOS GFU XXX."
+about title: "meDIP pipeline: IOS CTGB XXX."
 // INFO_USAGE: bpipe-config pipe medip (CWD)
 // INFO_USAGE: bpipe-config pipe medip Sample_* (runner.sh)
 

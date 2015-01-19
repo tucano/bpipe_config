@@ -1,4 +1,4 @@
-about title: "genome project alignment with bwa: IOS GFU 009"
+about title: "genome project alignment with bwa: IOS CTGB 009"
 // INFO_USAGE:  bpipe-config pipe genome_align_project /lustre2/raw_data/RUN/Project/Sample_*
 
 // Usage line will be used to infer the correct bpipe command

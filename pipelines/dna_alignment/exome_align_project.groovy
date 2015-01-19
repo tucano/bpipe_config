@@ -1,4 +1,4 @@
-about title: "exome project alignment with bwa: IOS GFU 009."
+about title: "exome project alignment with bwa: IOS CTGB 009."
 // INFO_USAGE:  bpipe-config pipe exome_align_project /lustre2/raw_data/RUN/Project/Sample_*
 
 // Usage line will be used to infer the correct bpipe command

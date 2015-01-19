@@ -1,4 +1,4 @@
-about title: "CalculateHsMetrics, Quality control metrics for illumina exomes: IOS GFU XXX."
+about title: "CalculateHsMetrics, Quality control metrics for illumina exomes: IOS CTGB XXX."
 // INFO_USAGE: bpipe-config pipe hsmetrics (CWD)
 // INFO_USAGE: bpipe-config pipe hsmetrics Sample_* (runner.sh)
 

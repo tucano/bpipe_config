@@ -1,4 +1,4 @@
-about title: "DNA paired ends alignment with bwa mem without splitting input fastq: IOS GFU 009"
+about title: "DNA paired ends alignment with bwa mem without splitting input fastq: IOS CTGB 009"
 // INFO_USAGE: bpipe-config pipe bwa_submit_pair_nosplit (CWD)
 // INFO_USAGE: bpipe-config pipe bwa_submit_pair_nosplit Sample_* (runner.sh)
 

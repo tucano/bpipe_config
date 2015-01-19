@@ -1,4 +1,4 @@
-about title: "RNA-seq reads count with htseq-count: IOS GFU 007."
+about title: "RNA-seq reads count with htseq-count: IOS CTGB 007."
 // INFO_USAGE: bpipe-config pipe htseq_count (CWD)
 // INFO_USAGE: bpipe-config pipe htseq_count Sample_* (runner.sh)
 

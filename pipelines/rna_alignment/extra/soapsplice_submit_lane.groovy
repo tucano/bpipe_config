@@ -1,4 +1,4 @@
-about title: "RNA lane alignment with soapsplice: IOS GFU 009."
+about title: "RNA lane alignment with soapsplice: IOS CTGB 009."
 // INFO_USAGE: bpipe-config pipe soapsplice_submit_lane (CWD)
 // INFO_USAGE: bpipe-config pipe soapsplice_submit_lane Sample_* (runner.sh)
 

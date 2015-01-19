@@ -1,4 +1,4 @@
-about title: "Trimmomatic, trim read pairs in current directory: IOS GFU XXX."
+about title: "Trimmomatic, trim read pairs in current directory: IOS CTGB XXX."
 // INFO_USAGE: bpipe-config pipe trim_reads_pair (CWD)
 // INFO_USAGE: bpipe-config pipe trim_reads_pair Sample_* (runner.sh)
 

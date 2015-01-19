@@ -1,4 +1,4 @@
-about title: "BAM Recalibration for a single bam (exomes): IOS GFU 020"
+about title: "BAM Recalibration for a single bam (exomes): IOS CTGB 020"
 // INFO_USAGE: bpipe-config pipe exome_bam_recalibration_single (CWD)
 // INFO_USAGE: bpipe-config pipe exome_bam_recalibration_single Sample_* (runner.sh)
 
