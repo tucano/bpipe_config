@@ -19,9 +19,8 @@ align_star_gfu =
                 star_threads : $star_threads
         """,
         constraints: """
-            Work with fastq and fastq.gz, single and paired files.
-            For paired files assume the presence of _R1_ and _R2_ tags.
-            Don't support MarkDuplicates stages.
+          Work with fastq and fastq.gz, single and paired files.
+          For paired files assume the presence of _R1_ and _R2_ tags.
         """,
         author: "davide.rambaldi@gmail.com"
 
@@ -53,7 +52,6 @@ align_star_gfu =
     def custom_output_prefix = "$input1".replaceAll(/.*\//,"").replaceFirst("_R[12]_","_") - input_extension
     def outputs = ["Aligned.out.sam","Log.final.out","Log.out","Log.progress.out"].collect() { custom_output_prefix + it }
 
-    println "EXT: $input_extension"
     from(input_extension, input_extension) produce(outputs)
     {
       command = """

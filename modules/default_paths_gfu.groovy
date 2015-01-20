@@ -20,12 +20,15 @@ VCFUTILS           = "/usr/local/cluster/bin/vcfutils.pl"
 VCF2XLS            = "PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/vcf2xls.py"
 XHMM               = "/lustre1/tools/bin/xhmm"
 XHMM_FIX_VCF       = "PYTHONPATH=/lustre1/tools/lib/python2.7/site-packages && /usr/local/cluster/python2.7/bin/python2.7 /lustre1/tools/bin/xhmm_fix_vcf.py"
-FQZ_COMP           = "/lustre1/tools/bin/fqz_comp"
-MAQ                = "/lustre1/tools/bin/maq"
-TRIMMOMATIC        = "java -jar /lustre1/tools/libexec/Trimmomatic-0.32/trimmomatic-0.32.jar"
-BAMTOOLS           = "/usr/local/cluster/bin/bamtools"
-BEDTOOLS           = "/lustre1/tools/bin/bedtools"
-STAR               = "/usr/local/cluster/bin/STAR"
+
+FQZ_COMP                   = "/lustre1/tools/bin/fqz_comp"
+MAQ                        = "/lustre1/tools/bin/maq"
+TRIMMOMATIC                = "java -jar /lustre1/tools/libexec/Trimmomatic-0.32/trimmomatic-0.32.jar"
+BAMTOOLS                   = "/usr/local/cluster/bin/bamtools"
+BEDTOOLS                   = "/lustre1/tools/bin/bedtools"
+STAR                       = "/usr/local/cluster/bin/STAR"
+ADD_OR_REPLACE_READ_GROUPS = "java -jar /usr/local/cluster/bin/AddOrReplaceReadGroups.jar"
+
 
 // VCF QUERY
 VCFQUERY="""
