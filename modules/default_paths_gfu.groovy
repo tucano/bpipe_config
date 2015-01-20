@@ -25,6 +25,7 @@ MAQ                = "/lustre1/tools/bin/maq"
 TRIMMOMATIC        = "java -jar /lustre1/tools/libexec/Trimmomatic-0.32/trimmomatic-0.32.jar"
 BAMTOOLS           = "/usr/local/cluster/bin/bamtools"
 BEDTOOLS           = "/lustre1/tools/bin/bedtools"
+STAR               = "/usr/local/cluster/bin/STAR"
 
 // VCF QUERY
 VCFQUERY="""

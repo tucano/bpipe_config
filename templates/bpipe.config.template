@@ -37,6 +37,9 @@ commands {
     soapsplice {
         select_statement="select=1:ncpus=4:mem=32g"
     }
+    star {
+        select_statement="select=1:ncpus=4:mem=32g"
+    }
     xhmm {
         select_statement="select=1:ncpus=4:mem=32g"
     }
