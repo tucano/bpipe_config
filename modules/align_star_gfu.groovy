@@ -2,12 +2,13 @@
 
 align_star_gfu =
 {
-  var compression : "gz"
-  var paired      : true
-  var pretend     : false
-  var star_threads     : 2
+  var compression       : "gz"
+  var paired            : true
+  var pretend           : false
+  var star_threads      : 2
   var outSAMstrandField : "intronMotif"
   var outSAMunmapped    : "Within"
+  var sample_dir        : false
 
   doc title: "Align RNA reads with star",
         desc: """
@@ -16,7 +17,8 @@ align_star_gfu =
                 pretend      : $pretend,
                 paired       : $paired,
                 compression  : $compression,
-                star_threads : $star_threads
+                star_threads : $star_threads,
+                sample_dir   : $sample_dir
         """,
         constraints: """
           Work with fastq and fastq.gz, single and paired files.
@@ -43,6 +45,11 @@ align_star_gfu =
   else
   {
     input_extension = 'fastq'
+  }
+
+  if (sample_dir)
+  {
+    output.dir = branch.sample
   }
 
   def command

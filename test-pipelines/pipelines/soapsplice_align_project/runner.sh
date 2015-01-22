@@ -5,8 +5,8 @@ source ../../testsupport.sh
 
 OUTPUTS=(BAM/Sample_test_10.merge.bam)
 
-config rnaseq_align_project ../../../data/RUNDIRECTORY/Project_1/Sample_test_*
-runPipeLine rnaseq_align_project.groovy input.json
+config soapsplice_align_project ../../../data/RUNDIRECTORY/Project_1/Sample_test_*
+runPipeLine soapsplice_align_project.groovy input.json
 
 checkTestOut
 exists $OUTPUTS

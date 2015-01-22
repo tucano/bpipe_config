@@ -3,15 +3,14 @@
 convert_sam_to_bam_gfu =
 {
   var pretend : false
+  var sample_dir : false
 
   doc title: "Convert SAM to BAM changing headers with $ADD_OR_REPLACE_READ_GROUPS",
       desc: """
           Align with soapsplice.
           Main options with value:
               pretend      : $pretend,
-              paired       : $paired,
-              compression  : $compression,
-              star_threads : $star_threads
+              sample_dir   : $sample_dir
       """,
       constraints: """
         Work with fastq and fastq.gz, single and paired files.
@@ -23,8 +22,18 @@ convert_sam_to_bam_gfu =
   requires CENTER: "Please define the CENTER variable"
   requires ADD_OR_REPLACE_READ_GROUPS: "Please dfine AddOrReplaceReadGroups path"
 
+  def samplesheet
+  if (sample_dir)
+  {
+    output.dir = branch.sample
+    samplesheet = new File("${branch.sample}/SampleSheet.csv")
+  }
+  else
+  {
+    samplesheet = new File("SampleSheet.csv")
+  }
+
   // THIS USE A SAMPLESHEET!
-  def samplesheet = new File("SampleSheet.csv")
   def header
   def sample
   def experiment_name
