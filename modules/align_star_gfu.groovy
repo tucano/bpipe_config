@@ -57,6 +57,12 @@ align_star_gfu =
   if (paired)
   {
     def custom_output_prefix = "$input1".replaceAll(/.*\//,"").replaceFirst("_R[12]_","_") - input_extension
+    // ADD output.dir is sample_dir
+    if (sample_dir)
+    {
+      custom_output_prefix = $output.dir + "/" + custom_output_prefix
+    }
+
     def outputs = ["Aligned.out.sam","Log.final.out","Log.out","Log.progress.out"].collect() { custom_output_prefix + it }
 
     from(input_extension, input_extension) produce(outputs)
@@ -92,6 +98,12 @@ align_star_gfu =
   else
   {
     def custom_output_prefix = "$input".replaceAll(/.*\//,"").replaceFirst("_R[12]_","_") - input_extension
+
+    if (sample_dir)
+    {
+      custom_output_prefix = $output.dir + "/" + custom_output_prefix
+    }
+
     def outputs = ["Aligned.out.sam","Log.final.out","Log.out","Log.progress.out"].collect() { custom_output_prefix + it }
 
     from(input_extension, input_extension) produce(outputs)

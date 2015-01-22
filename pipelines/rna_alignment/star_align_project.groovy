@@ -1,5 +1,5 @@
 about title: "RNA project alignment with star: IOS CTGB XXX."
-// INFO_USAGE:  bpipe-config pipe rnaseq_align_project /lustre2/raw_data/RUN/Project/Sample_*
+// INFO_USAGE:  bpipe-config pipe star_align_project /lustre2/raw_data/RUN/Project/Sample_*
 
 // Usage line will be used to infer the correct bpipe command
 // USAGE: bpipe run -r $pipeline_filename input.json
