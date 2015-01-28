@@ -11,7 +11,7 @@ merge_bam_by_header_json_gfu =
     produce("merge_rule.json")
     {
         def bams = [:]
-        new File(input.txt).eachLine { line ->
+        file(input.txt).eachLine { line ->
             data = line.split("\t")
             if (bams[data[1]])
             {
@@ -23,8 +23,8 @@ merge_bam_by_header_json_gfu =
             }
         }
 
-        def w = new File(output.json).newWriter()
-        w << prettyPrint(toJson(bams))
-        w.close()
+        def w = file(output.json).newWriter() { out ->
+            out.write prettyPrint(toJson(bams))
+        }
     }
 }

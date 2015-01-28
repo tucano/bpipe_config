@@ -1,8 +1,11 @@
 # TODO LIST
 
-### PIPELINE DA AGGIUNGERE
+### URGENTI
 
-- RNASEQ con Star
+- Identifica file di annotazione per BAITS e TARGETS a partire dal campo Recipe del samplesheet.
+
+
+### PIPELINE DA AGGIUNGERE
 
 - FlipFLop e alternative splicing (LONG TERM)
 
