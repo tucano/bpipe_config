@@ -2,6 +2,8 @@
 
 ### URGENTI
 
+- Ordina files pipelines per uso/importanza
+- Tolgiere pipeline di test
 - Identifica file di annotazione per BAITS e TARGETS a partire dal campo Recipe del samplesheet.
 
 
