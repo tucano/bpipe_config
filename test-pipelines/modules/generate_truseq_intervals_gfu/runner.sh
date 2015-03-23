@@ -9,4 +9,9 @@ checkTestOut
 exists $OUTPUTS
 ./cleaner.sh
 
+run test_no_chr.groovy *.bam
+checkTestOut
+exists $OUTPUTS
+./cleaner.sh
+
 success

@@ -4,7 +4,8 @@
 generate_truseq_intervals_gfu =
 {
     // stage vars
-    var pretend : false
+    var pretend   : false
+    var chr_names : true
 
     doc title: "Generate per chromosome intervals from Intervals file",
         desc: """
@@ -13,16 +14,18 @@ generate_truseq_intervals_gfu =
             Main options with value:
                 pretend   : $pretend
                 INTERVALS : $INTERVALS
+                chr_names : $chr_names   (chromosome names use 'chr' as prefix?)
         """,
-        constraints: "...",
+        constraints: "Note that for hs37d5 like genomes where chr are ONLY numbers (without chr), you should use ",
         author: "davide.rambaldi@gmail.com"
 
     requires INTERVALS: "Please define an INTERVALS file"
 
     produce ("${chr}.intervals")
     {
+        def grep_string = chr_names ? chr : chr.replaceAll("chr","")
         def command = """
-            grep "${chr}:" $INTERVALS > $output;
+            grep "${grep_string}:" $INTERVALS > $output;
         """
 
         if (pretend)
