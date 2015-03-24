@@ -73,7 +73,7 @@ project_report_fastqc_gfu =
             // MAKE AN INDEX.HTML PAGE
             def samples_html = new StringBuffer()
             unique_samples.each { sample ->
-                def reports_data = inputs.findAll{ inp -> inp ==~ /.*${sample}.*/ }
+                def reports_data = inputs.findAll{ inp -> inp ==~ /.*${sample}_.*/ }
                 def total_seq_html = new StringBuffer()
                 total_seq_html << "<table>"
                 reports_data.each { r ->
