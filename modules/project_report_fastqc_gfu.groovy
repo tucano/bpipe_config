@@ -83,7 +83,7 @@ project_report_fastqc_gfu =
                 }
                 total_seq_html << "</table>"
 
-                def reports = fastqc_html.findAll{ report -> report ==~ /.*${sample}.*/ }
+                def reports = fastqc_html.findAll{ report -> report ==~ /.*${sample}_.*/ }
                 def reports_html = new StringBuffer()
                 reports_html << "<table>"
                 reports.each { r ->
