@@ -66,11 +66,12 @@ if (file.exists("$PEDIGREE")) {
 if (is.na(pedigree)) {
   # no pedigree to plot
 } else if (length(unique(pedigree\$famid)) > 1) {
+  families <- unique(pedigree\$famid)
   par(mfrow=c(2,2))
-  for (i in 1:length(pedigree))
+  for (i in 1:length(families))
   {
-    plot(pedigree[i])
-    title(paste("FAMILY ID: ", unique(pedigree[i]\$famid)))
+    lot(pedigree[families[i]])
+    title(paste("FAMILY ID: ", families[i]))
   }
   par(mfrow=c(1,1))
 } else {
