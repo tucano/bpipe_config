@@ -820,8 +820,6 @@ class Commands
   			}
   			// get longer array
   			def entry = files.max { it.value.size }
-  			// Fix fot Stefania BUG R1 and R2 in incorrect order
-  			entry = entry.sort()
 
   			if (entry.getValue().size == 0) {
   				println Logger.error("No known input files in directory: $dir. Known input file extensions: ${BpipeConfig.extensions.join(', ')}")
@@ -832,7 +830,7 @@ class Commands
   			def samplesheet = input_dir.canonicalPath + '/SampleSheet.csv'
   			if ( new File(samplesheet).exists() )
   			{
-  				branches[sample_dir] = [samplesheet, entry.getValue()].flatten()
+  				branches[sample_dir] = [samplesheet, entry.getValue().sort()].flatten()
   			}
   			else
   			{
