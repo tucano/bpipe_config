@@ -821,7 +821,7 @@ class Commands
   			// get longer array
   			def entry = files.max { it.value.size }
   			// Fix fot Stefania BUG R1 and R2 in incorrect order
-  			entry = entr.sort()
+  			entry = entry.sort()
 
   			if (entry.getValue().size == 0) {
   				println Logger.error("No known input files in directory: $dir. Known input file extensions: ${BpipeConfig.extensions.join(', ')}")
