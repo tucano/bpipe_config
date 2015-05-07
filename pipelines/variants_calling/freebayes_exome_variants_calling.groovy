@@ -10,6 +10,8 @@ REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFER
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"
 ENVIRONMENT_FILE       = "gfu_environment.sh"
+INTERVALS_BED          = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/exomes_targets/nexterarapidcapture_expandedexome_targetedregions.bed"
+
 
 //--BPIPE_ENVIRONMENT_HERE--
 
@@ -22,5 +24,5 @@ ENVIRONMENT_FILE       = "gfu_environment.sh"
 run {
   "*.bam" * [make_input_list_ctgb] +
   chr(1..22,'X','Y') * [ generate_bed_intervals_ctgb + target_freebayes_ctgb.using(rename:"all_samples.vcf") ] +
-  "*.vcf" * [vcf_concat_gfu] +  [vcf_coverage_gfu.using(output_dir:"doc")]
+  "*.vcf" * [vcf_concat_gfu] +  [vcf_coverage_gfu.using(output_dir:"doc"), vcf_called_intervals_gfu.using(output_dir:"doc")]
 }
