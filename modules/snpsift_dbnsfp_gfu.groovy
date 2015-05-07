@@ -20,7 +20,7 @@ snpsift_dbnsfp_gfu =
     filter("dbnsfp")
     {
         def command = """
-            $SNPSIFT dbnsfp -f Ancestral_allele,Ensembl_geneid,Polyphen2_HVAR_pred,SIFT_score,GERP++_RS,ESP6500_AA_AF $DBNSFP $input.vcf > $output.vcf
+            $SNPSIFT dbnsfp -f Ancestral_allele,Ensembl_geneid,Polyphen2_HVAR_pred,SIFT_score,GERP++_RS,ESP6500_AA_AF -db $DBNSFP $input.vcf > $output.vcf
         """
 
         if (pretend)
