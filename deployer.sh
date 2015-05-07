@@ -1,6 +1,6 @@
 #!/bin/bash
 
-gradle clean && gradle test && gradle stage && gradle dist
+gradle clean && gradle dist
 CURRENT=`pwd -P`
 cd /lustre1/tools/libexec/
 rm -f bpipeconfig_SNAPSHOT.tar.gz
