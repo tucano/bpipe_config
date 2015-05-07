@@ -28,7 +28,7 @@ BAMTOOLS                   = "/usr/local/cluster/bin/bamtools"
 BEDTOOLS                   = "/lustre1/tools/bin/bedtools"
 STAR                       = "/usr/local/cluster/bin/STAR"
 ADD_OR_REPLACE_READ_GROUPS = "java -jar /usr/local/cluster/bin/AddOrReplaceReadGroups.jar"
-
+FREEBAYES                  = "/lustre1/tools/bin/freebayes"
 
 // VCF QUERY
 VCFQUERY="""
