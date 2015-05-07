@@ -15,7 +15,7 @@ snpsift_filter_quality_gfu =
     filter("quality")
     {
         def command = """
-            $SNPSIFT filter -f $input.vcf "FILTER = 'PASS' | FILTER = 'VQSRTrancheSNP99.00to99.90'" > $output.vcf
+            $SNPSIFT filter -f $input.vcf "(FILTER = 'PASS') | (FILTER = 'VQSRTrancheSNP99.00to99.90')" > $output.vcf
         """
 
         if (pretend)
