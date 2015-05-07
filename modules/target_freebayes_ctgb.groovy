@@ -8,6 +8,12 @@ target_freebayes_ctgb =
 
     var rename : ""
 
+    doc title: "freebaues for target sequencing",
+        desc: "",
+        constraints: "",
+        author: "davide.rambaldi@gmail.com"
+
+
     requires FREEBAYES: "Please define freebayes path"
     requires REFERENCE_GENOME_FASTA: "Please define reference genome fasta path"
 

@@ -1,6 +1,11 @@
 @intermediate
 make_input_list_ctgb =
 {
+    doc title: "Generate bed intervals",
+        desc: "",
+        constraints: "",
+        author: "davide.rambaldi@gmail.com"
+
     def input_files = []
 
     inputs.each() {
