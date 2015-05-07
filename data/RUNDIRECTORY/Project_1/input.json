@@ -1,0 +1,146 @@
+{
+    "Sample_test_1": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L001_R2_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L002_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L002_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L002_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_1/Sample_test_1_L002_R2_002.fastq.gz"
+    ],
+    "Sample_test_10": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_10/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_10/Sample_test_10_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_10/Sample_test_10_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_10/Sample_test_10_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_10/Sample_test_10_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_11": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_11/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_11/Sample_test_11_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_11/Sample_test_11_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_11/Sample_test_11_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_11/Sample_test_11_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_12": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_12/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_12/Sample_test_12_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_12/Sample_test_12_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_12/Sample_test_12_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_12/Sample_test_12_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_13": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_13/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_13/Sample_test_13_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_13/Sample_test_13_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_13/Sample_test_13_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_13/Sample_test_13_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_14": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_14/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_14/Sample_test_14_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_14/Sample_test_14_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_14/Sample_test_14_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_14/Sample_test_14_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_15": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_15/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_15/Sample_test_15_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_15/Sample_test_15_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_15/Sample_test_15_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_15/Sample_test_15_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_16": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_16/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_16/Sample_test_16_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_16/Sample_test_16_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_16/Sample_test_16_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_16/Sample_test_16_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_17": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_17/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_17/Sample_test_17_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_17/Sample_test_17_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_17/Sample_test_17_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_17/Sample_test_17_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_18": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_18/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_18/Sample_test_18_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_18/Sample_test_18_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_18/Sample_test_18_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_18/Sample_test_18_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_19": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_19/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_19/Sample_test_19_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_19/Sample_test_19_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_19/Sample_test_19_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_19/Sample_test_19_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_2": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_2/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_2/Sample_test_2_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_2/Sample_test_2_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_2/Sample_test_2_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_2/Sample_test_2_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_20": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_20/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_20/Sample_test_20_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_20/Sample_test_20_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_20/Sample_test_20_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_20/Sample_test_20_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_3": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_3/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_3/Sample_test_3_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_3/Sample_test_3_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_3/Sample_test_3_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_3/Sample_test_3_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_4": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_4/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_4/Sample_test_4_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_4/Sample_test_4_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_4/Sample_test_4_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_4/Sample_test_4_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_5": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_5/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_5/Sample_test_5_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_5/Sample_test_5_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_5/Sample_test_5_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_5/Sample_test_5_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_6": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_6/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_6/Sample_test_6_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_6/Sample_test_6_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_6/Sample_test_6_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_6/Sample_test_6_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_7": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_7/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_7/Sample_test_7_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_7/Sample_test_7_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_7/Sample_test_7_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_7/Sample_test_7_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_8": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_8/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_8/Sample_test_8_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_8/Sample_test_8_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_8/Sample_test_8_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_8/Sample_test_8_L001_R2_002.fastq.gz"
+    ],
+    "Sample_test_9": [
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_9/SampleSheet.csv",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_9/Sample_test_9_L001_R1_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_9/Sample_test_9_L001_R1_002.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_9/Sample_test_9_L001_R2_001.fastq.gz",
+        "/Users/Davide/Documents/Devel/Code/bpipe_config/data/RUNDIRECTORY/Project_1/Sample_test_9/Sample_test_9_L001_R2_002.fastq.gz"
+    ]
+}
