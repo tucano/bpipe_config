@@ -73,8 +73,8 @@ align_star_gfu =
               --runThreadN $star_threads
               --outSAMstrandField $outSAMstrandField
               --outFileNamePrefix $custom_output_prefix
-              $compression_string
-              --outSAMunmapped $outSAMunmapped;
+              --outSAMunmapped $outSAMunmapped
+              $compression_string;
       """
 
       if (pretend)
@@ -114,8 +114,8 @@ align_star_gfu =
               --runThreadN $star_threads
               --outSAMstrandField $outSAMstrandField
               --outFileNamePrefix $custom_output_prefix
-              $compression_string
-              --outSAMunmapped $outSAMunmapped;
+              --outSAMunmapped $outSAMunmapped
+              $compression_string;
       """
 
       if (pretend)
