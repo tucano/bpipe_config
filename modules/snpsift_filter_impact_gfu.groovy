@@ -15,7 +15,7 @@ snpsift_filter_impact_gfu =
     produce("Tier2.vcf")
     {
         def command = """
-            $SNPSIFT filter -f $input.vcf "ANN[*].IMPACT = 'HIGH' | ANN[*].IMPACT = 'MODERATE' | ANN[*].EFFECT = 'SPLICE_SITE_REGION'" > $output.vcf
+            $SNPSIFT filter -f $input.vcf "(ANN[*].IMPACT = 'HIGH') | (ANN[*].IMPACT = 'MODERATE') | (ANN[*].EFFECT = 'SPLICE_SITE_REGION')" > $output.vcf
         """
 
         if (pretend)
