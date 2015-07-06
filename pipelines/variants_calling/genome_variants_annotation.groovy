@@ -6,7 +6,7 @@ about title: "Human variants annotation: IOS 005"
 // USAGE: bpipe run -r $pipeline_filename input.vcf
 
 
-DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"
+DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-142.chr.vcf"
 DBNSFP                 = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbNSFP2.4.txt.gz"
 SNPEFF_CONFIG          = "/lustre1/tools/etc/snpEff.config"
 PLATFORM               = "illumina"
