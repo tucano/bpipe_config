@@ -1,5 +1,6 @@
 // MODULE ALIGN STAR
 
+@intermediate
 align_star_gfu =
 {
   var compression       : "gz"

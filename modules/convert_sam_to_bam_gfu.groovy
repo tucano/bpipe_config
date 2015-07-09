@@ -1,5 +1,6 @@
 // MODULE convert_sam_to_bam_gfu
 
+@intermediate
 convert_sam_to_bam_gfu =
 {
   var pretend : false
