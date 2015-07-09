@@ -23,8 +23,7 @@ merge_bam_by_header_json_gfu =
             }
         }
 
-        def w = file(output.json).newWriter() { out ->
-            out.write prettyPrint(toJson(bams))
-        }
+        def w = file(output.json).newWriter()
+        w.write prettyPrint(toJson(bams))
     }
 }
