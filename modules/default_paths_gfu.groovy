@@ -1,7 +1,7 @@
 // THIS MODULE STORE ALL THE SOFTWARE PATHS IN USE ON THE CLUSTER (rev1)
 
 BWA                = "/lustre1/tools/bin/bwa"
-FASTQC             = "/lustre1/tools/bin/fastqc"
+FASTQC             = "/usr/local/cluster/bin/fastqc"
 GATK               = "java -Djava.io.tmpdir=/lustre2/scratch/ -Xmx32g -jar /lustre1/tools/bin/GenomeAnalysisTK.jar"
 HTSEQ_COUNT        = "/usr/local/cluster/python2.7/bin/python2.7 /usr/local/cluster/python2.7/bin/htseq-count"
 HSMETRICS          = "java -jar /lustre1/tools/bin/CalculateHsMetrics.jar"
