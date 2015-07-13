@@ -1,4 +1,5 @@
 load "../../../modules/xhmm_pca_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 PLATFORM               = "illumina"
 CENTER                 = "CTGB"

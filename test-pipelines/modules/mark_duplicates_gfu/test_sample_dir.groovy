@@ -1,4 +1,5 @@
 load "../../../modules/mark_duplicates_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 branches = [
     Sample_test_1:['Sample_test_1/testinput_one.merge.bam'],

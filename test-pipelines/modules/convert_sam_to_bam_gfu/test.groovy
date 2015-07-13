@@ -1,4 +1,5 @@
 load "../../../modules/convert_sam_to_bam_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 PLATFORM="XXXX"
 CENTER="ctgb"

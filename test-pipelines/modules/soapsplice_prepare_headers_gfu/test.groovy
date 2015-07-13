@@ -1,4 +1,5 @@
 load "../../../modules/soapsplice_prepare_headers_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 CENTER          = "CTGB"
 PROJECTNAME     = "PI_1A_name"

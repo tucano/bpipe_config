@@ -1,4 +1,5 @@
 load "../../../modules/project_report_fastqc_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME="/test/reference/pippo.fa"
 EXPERIMENT_NAME="test"

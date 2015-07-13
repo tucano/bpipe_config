@@ -1,3 +1,4 @@
+load "../../../modules/default_paths_gfu.groovy"
 load "../../../modules/base_print_reads_gfu.groovy"
 
 REFERENCE_GENOME="/test/reference/pippo.fa"

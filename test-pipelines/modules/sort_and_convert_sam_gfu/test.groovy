@@ -1,4 +1,5 @@
 load "../../../modules/sort_and_convert_sam_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 EXPERIMENT_NAME="TEST"
 

@@ -1,4 +1,5 @@
 load "../../../modules/realiagner_target_creator_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "TESTfa/hg19.fa"
 INTERVALS              = "TESTannotation/TruSeq_10k.intervals"

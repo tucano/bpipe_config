@@ -1,4 +1,5 @@
 load "../../../modules/snp_variant_recalibrator_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "test"
 HAPMAP = "test"

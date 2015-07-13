@@ -1,4 +1,5 @@
 load "../../../modules/unified_genotyper_by_chromosome_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/fa/BPIPE_REFERENCE_GENOME.fa"
 DBSNP                  = "/lustre1/genomes/BPIPE_REFERENCE_GENOME/annotation/dbSNP-138.chr.vcf"

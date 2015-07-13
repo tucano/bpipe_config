@@ -1,4 +1,5 @@
 load "../../../modules/rmdup_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 branches = [
     Sample_test_1:[

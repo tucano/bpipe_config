@@ -1,4 +1,5 @@
 load "../../../modules/make_wgs_report_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 // TEMPLATE VARS
 TEMPLATE                   = "../../../templates/reports/wes/WES_report.Rmd.template"

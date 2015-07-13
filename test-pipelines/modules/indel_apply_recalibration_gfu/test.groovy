@@ -1,4 +1,5 @@
 load "../../../modules/indel_apply_recalibration_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "TESTfa/BPIPE_REFERENCE_GENOME.fa"
 TRUSEQ                 = "TESTannotation/TruSeq_10k.intervals"

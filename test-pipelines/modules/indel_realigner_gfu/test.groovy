@@ -1,4 +1,5 @@
 load "../../../modules/indel_realigner_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "TESTfa/hg19.fa"
 INTERVALS              = "TESTannotation/TruSeq_10k.intervals"

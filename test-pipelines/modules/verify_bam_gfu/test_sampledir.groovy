@@ -1,4 +1,5 @@
 load "../../../modules/verify_bam_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 // test support stage to forward correct outputs
 forward_bam =

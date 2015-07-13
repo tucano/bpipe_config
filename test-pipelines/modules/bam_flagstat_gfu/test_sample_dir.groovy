@@ -1,3 +1,4 @@
+load "../../../modules/default_paths_gfu.groovy"
 load "../../../modules/bam_flagstat_gfu.groovy"
 
 REFERENCE_GENOME="/test/reference/pippo.fa"

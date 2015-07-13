@@ -1,4 +1,5 @@
 load "../../../modules/merge_bam_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 branches = [
     Sample_test_1:['Sample_test_1/testinput_001.bam','Sample_test_1/testinput_002.bam'],

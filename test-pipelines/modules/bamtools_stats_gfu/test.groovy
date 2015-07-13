@@ -1,3 +1,4 @@
+load "../../../modules/default_paths_gfu.groovy"
 load "../../../modules/bamtools_stats_gfu.groovy"
 
 

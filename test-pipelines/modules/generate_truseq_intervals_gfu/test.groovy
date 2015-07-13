@@ -1,4 +1,5 @@
 load "../../../modules/generate_truseq_intervals_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 // INTERVALS CAPTURED BY THE EXOMES PROTOCOL
 // check the README file in /lustre1/genomes/hg19/annotation/exomes_targets/README

@@ -1,4 +1,5 @@
 load "../../../modules/unified_genotyper_by_truseq_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "/lustre1/genomes/hg19/fa/hg19.fa"
 DBSNP                  = "/lustre1/genomes/hg19/annotation/dbSNP-138.chr.vcf"

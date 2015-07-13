@@ -1,4 +1,5 @@
 load "../../../modules/htseq_count_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 ANNOTATION_GFF_FILE    = "/lustre1/genomes/hg19/annotation/hg19.ensGene_withGeneName.gtf"
 REFERENCE_GENOME="/test/reference/pippo.fa"

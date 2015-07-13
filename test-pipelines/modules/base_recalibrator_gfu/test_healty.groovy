@@ -1,4 +1,5 @@
 load "../../../modules/base_recalibrator_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 REFERENCE_GENOME_FASTA = "/test/reference/pippo.fa"
 INTERVALS              = "/test/nexterarapidcapture_expandedexome_targetedregions.intervals"

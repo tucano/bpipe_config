@@ -1,4 +1,5 @@
 load "../../../modules/macs_call_peaks_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 PLATFORM         = "illumina"
 CENTER           = "CTGB"

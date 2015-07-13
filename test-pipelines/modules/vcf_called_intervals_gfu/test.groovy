@@ -1,4 +1,5 @@
 load "../../../modules/vcf_called_intervals_gfu.groovy"
+load "../../../modules/default_paths_gfu.groovy"
 
 INTERVALS_BED = "test"
 
